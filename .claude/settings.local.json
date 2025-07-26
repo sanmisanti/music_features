@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "WebFetch(domain:lyricsgenius.readthedocs.io)",
+      "Bash(mkdir:*)",
+      "Bash(python test:*)",
+      "Bash(python3:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

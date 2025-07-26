@@ -1,0 +1,90 @@
+📊 REPORTING SYSTEM TEST
+======================================================================
+Testing the comprehensive reporting and integration system
+
+🔍 Testing Report Generator Initialization
+============================================================
+🔧 Testing default initialization...
+✅ Default output directory: outputs\reports
+🔧 Testing custom output directory...
+✅ Custom output directory: C:\Users\sanmi\AppData\Local\Temp\tmpso2bklke
+✅ Output directory created successfully
+🔧 Testing analyzer initialization...
+✅ All analyzers initialized successfully
+
+🔍 Testing Comprehensive Report Generation
+============================================================
+🔧 Using temporary directory: C:\Users\sanmi\AppData\Local\Temp\tmpm2xnw35r
+📊 Generating comprehensive report...
+✅ Report generation completed successfully
+   📄 Generated 2 report files:
+   ✅ MARKDOWN: comprehensive_analysis_report_20250726_172933.md (2.4 KB)
+   ✅ JSON: analysis_results_20250726_172933.json (31.0 KB)
+✅ Markdown report contains all required sections
+✅ JSON report contains all required keys
+
+🔍 Testing Executive Summary Generation
+============================================================
+📋 Generating executive summary...
+WARNING:exploratory_analysis.feature_analysis.dimensionality_reduction:Adjusted perplexity to 26.333333333333332 for dataset size
+✅ Executive summary generated successfully
+✅ Executive summary contains all required fields
+   🎯 Overall Assessment: EXCELLENT
+   📊 Key Findings: 3
+   💡 Recommendations: 4
+   🚀 Next Steps: 3
+   📈 Sample Key Finding:
+      - Dataset quality is excellent with minimal cleaning required
+
+🔍 Testing Visualization Integration
+============================================================
+🎨 Testing visualization integration...
+WARNING:exploratory_analysis.feature_analysis.dimensionality_reduction:Adjusted perplexity to 19.666666666666668 for dataset size
+✅ Visualizations generated: 4 PNG files
+✅ All expected visualizations created
+✅ All visualization files have valid sizes
+
+🔍 Testing Error Handling
+============================================================
+🔧 Testing invalid dataset handling...
+WARNING:exploratory_analysis.feature_analysis.dimensionality_reduction:Adjusted perplexity to 5.0 for dataset size
+✅ Invalid dataset handled gracefully (fallback to default dataset)
+🔧 Testing zero sample size...
+✅ Zero sample size handled gracefully
+
+🔍 Testing Convenience Functions
+============================================================
+⚡ Testing generate_quick_report function...
+WARNING:exploratory_analysis.feature_analysis.dimensionality_reduction:Adjusted perplexity to 16.333333333333332 for dataset size
+✅ Quick report generated: 2 files
+✅ All quick report files exist
+📋 Testing generate_executive_summary function...
+WARNING:exploratory_analysis.feature_analysis.dimensionality_reduction:Adjusted perplexity to 13.0 for dataset size
+✅ Executive summary function works
+
+🔍 Testing Report Content Quality
+============================================================
+📊 Generating full-featured report for content analysis...
+📝 Analyzing markdown report content...
+✅ Report has substantial content
+✅ Report contains technical insights (7/7 indicators)
+✅ Report contains quantitative results (18 numerical values)
+📊 Analyzing JSON report completeness...
+✅ JSON has good structural depth (depth: 6)
+✅ JSON contains key analysis results (3/3)
+
+📊 TEST RESULTS SUMMARY
+======================================================================
+✅ PASSED: Report Generator Initialization
+✅ PASSED: Comprehensive Report Generation
+✅ PASSED: Executive Summary Generation
+✅ PASSED: Visualization Integration
+✅ PASSED: Error Handling
+✅ PASSED: Convenience Functions
+✅ PASSED: Report Content Quality
+
+📊 Overall Results: 7/7 tests passed
+🎉 ALL TESTS PASSED!
+📊 Reporting system is working correctly
+🔗 All modules are properly integrated
+🚀 Ready for main executable scripts implementation

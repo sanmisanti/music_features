@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "report_generated": "2025-07-26T17:25:43.879606",
+    "dataset_info": {
+      "dataset_type": "nonexistent_dataset",
+      "sample_size": 10,
+      "features": [
+        "id",
+        "name",
+        "album",
+        "album_id",
+        "artists",
+        "artist_ids",
+        "track_number",
+        "disc_number",
+        "explicit",
+        "danceability",
+        "energy",
+        "key",
+        "loudness",
+        "mode",
+        "speechiness",
+        "acousticness",
+        "instrumentalness",
+        "liveness",
+        "valence",
+        "tempo",
+        "duration_ms",
+        "time_signature",
+        "year",
+        "release_date"
+      ],
+      "load_time": 0,
+      "memory_usage": 0,
+      "quality_score": 95,
+      "validation_issues": 0
+    },
+    "analysis_modules": [
+      "data_loading",
+      "statistical_analysis",
+      "visualization",
+      "feature_analysis"
+    ]
+  },
+  "data_quality": {
+    "load_success": true,
+    "sample_size": 10,
+    "quality_score": 95,
+    "validation_issues": []
+  },
+  "statistical_analysis": {
+    "dataset_overview": 

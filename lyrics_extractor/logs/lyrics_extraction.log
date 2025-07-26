@@ -1,0 +1,444 @@
+2025-07-24 17:55:57 - INFO - Starting batch extraction: songs 1 to 50
+2025-07-24 17:55:57 - INFO - Processing 1/500: Testify by Rage Against The Machine
+2025-07-24 17:56:03 - INFO - Found song: Testify by Rage Against the Machine
+2025-07-24 17:56:05 - INFO - Processing 2/500: Guerrilla Radio by Rage Against The Machine
+2025-07-24 17:56:11 - INFO - Found song: Guerrilla Radio by Rage Against the Machine
+2025-07-24 17:57:37 - INFO - Starting batch extraction: songs 1 to 50
+2025-07-24 17:57:37 - INFO - Processing 1/500: Testify by Rage Against The Machine
+2025-07-24 17:57:43 - INFO - Found song: Testify by Rage Against the Machine
+2025-07-24 17:57:43 - INFO - [SUCCESS] Successfully extracted lyrics for: Testify
+2025-07-24 17:57:44 - INFO - Processing 2/500: Guerrilla Radio by Rage Against The Machine
+2025-07-24 17:57:49 - INFO - Found song: Guerrilla Radio by Rage Against the Machine
+2025-07-24 17:57:49 - INFO - [SUCCESS] Successfully extracted lyrics for: Guerrilla Radio
+2025-07-24 17:57:50 - INFO - Processing 3/500: Calm Like a Bomb by Rage Against The Machine
+2025-07-24 17:57:57 - INFO - Found song: Calm Like a Bomb by Rage Against the Machine
+2025-07-24 17:57:57 - INFO - [SUCCESS] Successfully extracted lyrics for: Calm Like a Bomb
+2025-07-24 17:57:58 - INFO - Processing 4/500: Mic Check by Rage Against The Machine
+2025-07-24 17:58:04 - INFO - Found song: Mic Check by Rage Against the Machine
+2025-07-24 17:58:04 - INFO - [SUCCESS] Successfully extracted lyrics for: Mic Check
+2025-07-24 17:58:06 - INFO - Processing 5/500: Sleep Now In the Fire by Rage Against The Machine
+2025-07-24 17:58:13 - INFO - Found song: Sleep Now In the Fire by Rage Against the Machine
+2025-07-24 17:58:13 - INFO - [SUCCESS] Successfully extracted lyrics for: Sleep Now In the Fire
+2025-07-24 17:58:14 - INFO - Processing 6/500: Born of a Broken Man by Rage Against The Machine
+2025-07-24 17:58:20 - INFO - Found song: Born of a Broken Man by Rage Against the Machine
+2025-07-24 17:58:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Born of a Broken Man
+2025-07-24 17:58:22 - INFO - Processing 7/500: Born As Ghosts by Rage Against The Machine
+2025-07-24 17:58:26 - INFO - Found song: Born as Ghosts by Rage Against the Machine
+2025-07-24 17:58:26 - INFO - [SUCCESS] Successfully extracted lyrics for: Born As Ghosts
+2025-07-24 17:58:28 - INFO - Processing 8/500: Maria by Rage Against The Machine
+2025-07-24 17:58:34 - INFO - Found song: Maria by Rage Against the Machine
+2025-07-24 17:58:34 - INFO - [SUCCESS] Successfully extracted lyrics for: Maria
+2025-07-24 17:58:36 - INFO - Processing 9/500: Voice of the Voiceless by Rage Against The Machine
+2025-07-24 17:58:42 - INFO - Found song: Voice of the Voiceless by Rage Against the Machine
+2025-07-24 17:58:42 - INFO - [SUCCESS] Successfully extracted lyrics for: Voice of the Voiceless
+2025-07-24 17:58:43 - INFO - Processing 10/500: New Millennium Homes by Rage Against The Machine
+2025-07-24 17:58:54 - INFO - Found song: New Millennium Homes by Rage Against the Machine
+2025-07-24 17:58:54 - INFO - [SUCCESS] Successfully extracted lyrics for: New Millennium Homes
+2025-07-24 17:58:54 - INFO - Progress: 10/500 songs, Success rate: 100.0%
+2025-07-24 17:58:55 - INFO - Processing 11/500: Ashes In the Fall by Rage Against The Machine
+2025-07-24 17:59:01 - INFO - Found song: Ashes in the Fall by Rage Against the Machine
+2025-07-24 17:59:01 - INFO - [SUCCESS] Successfully extracted lyrics for: Ashes In the Fall
+2025-07-24 17:59:03 - INFO - Processing 12/500: War Within a Breath by Rage Against The Machine
+2025-07-24 17:59:10 - INFO - Found song: War Within a Breath by Rage Against the Machine
+2025-07-24 17:59:10 - INFO - [SUCCESS] Successfully extracted lyrics for: War Within a Breath
+2025-07-24 17:59:11 - INFO - Processing 13/500: Bombtrack by Rage Against The Machine
+2025-07-24 17:59:18 - INFO - Found song: Bombtrack by Rage Against the Machine
+2025-07-24 17:59:18 - INFO - [SUCCESS] Successfully extracted lyrics for: Bombtrack
+2025-07-24 17:59:20 - INFO - Processing 14/500: Killing In the Name by Rage Against The Machine
+2025-07-24 17:59:25 - INFO - Found song: Killing in the Name by Rage Against the Machine
+2025-07-24 17:59:25 - INFO - [SUCCESS] Successfully extracted lyrics for: Killing In the Name
+2025-07-24 17:59:27 - INFO - Processing 15/500: Take the Power Back by Rage Against The Machine
+2025-07-24 17:59:33 - INFO - Found song: Take the Power Back by Rage Against the Machine
+2025-07-24 17:59:33 - INFO - [SUCCESS] Successfully extracted lyrics for: Take the Power Back
+2025-07-24 17:59:34 - INFO - Processing 16/500: Settle for Nothing by Rage Against The Machine
+2025-07-24 17:59:39 - INFO - Found song: Settle for Nothing by Rage Against the Machine
+2025-07-24 17:59:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Settle for Nothing
+2025-07-24 17:59:40 - INFO - Processing 17/500: Bullet In the Head by Rage Against The Machine
+2025-07-24 17:59:45 - INFO - Found song: Bullet in the Head by Rage Against the Machine
+2025-07-24 17:59:45 - INFO - [SUCCESS] Successfully extracted lyrics for: Bullet In the Head
+2025-07-24 17:59:46 - INFO - Processing 18/500: Know Your Enemy by Rage Against The Machine
+2025-07-24 17:59:51 - INFO - Found song: Know Your Enemy by Rage Against the Machine
+2025-07-24 17:59:51 - INFO - [SUCCESS] Successfully extracted lyrics for: Know Your Enemy
+2025-07-24 17:59:52 - INFO - Processing 19/500: Wake Up by Rage Against The Machine
+2025-07-24 17:59:59 - INFO - Found song: Wake Up by Rage Against the Machine
+2025-07-24 17:59:59 - INFO - [SUCCESS] Successfully extracted lyrics for: Wake Up
+2025-07-24 18:00:00 - INFO - Processing 20/500: Fistful of Steel by Rage Against The Machine
+2025-07-24 18:00:05 - INFO - Found song: Fistful of Steel by Rage Against the Machine
+2025-07-24 18:00:05 - INFO - [SUCCESS] Successfully extracted lyrics for: Fistful of Steel
+2025-07-24 18:00:05 - INFO - Progress: 20/500 songs, Success rate: 100.0%
+2025-07-24 18:00:07 - INFO - Processing 21/500: Township Rebellion by Rage Against The Machine
+2025-07-24 18:00:13 - INFO - Found song: Township Rebellion by Rage Against the Machine
+2025-07-24 18:00:13 - INFO - [SUCCESS] Successfully extracted lyrics for: Township Rebellion
+2025-07-24 18:00:14 - INFO - Processing 22/500: Freedom by Rage Against The Machine
+2025-07-24 18:00:21 - INFO - Found song: Freedom by Rage Against the Machine
+2025-07-24 18:00:21 - INFO - [SUCCESS] Successfully extracted lyrics for: Freedom
+2025-07-24 18:00:22 - INFO - Processing 23/500: Man on a Mission by Daryl Hall & John Oates
+2025-07-24 18:00:27 - INFO - Found song: Man on a Mission by Daryl Hall & John Oates
+2025-07-24 18:00:27 - INFO - [SUCCESS] Successfully extracted lyrics for: Man on a Mission
+2025-07-24 18:00:29 - INFO - Processing 24/500: Do It for Love by Daryl Hall & John Oates
+2025-07-24 18:00:34 - INFO - Found song: Do It for Love by Daryl Hall & John Oates
+2025-07-24 18:00:34 - INFO - [SUCCESS] Successfully extracted lyrics for: Do It for Love
+2025-07-24 18:00:36 - INFO - Processing 25/500: Someday We'll Know by Daryl Hall & John Oates
+2025-07-24 18:00:41 - INFO - Found song: Someday We’ll Know by Daryl Hall & John Oates
+2025-07-24 18:00:41 - INFO - [SUCCESS] Successfully extracted lyrics for: Someday We'll Know
+2025-07-24 18:00:42 - INFO - Processing 26/500: Forever for You by Daryl Hall & John Oates
+2025-07-24 18:00:47 - INFO - Found song: Forever for You by Daryl Hall & John Oates
+2025-07-24 18:00:47 - INFO - [SUCCESS] Successfully extracted lyrics for: Forever for You
+2025-07-24 18:00:48 - INFO - Processing 27/500: Life's Too Short by Daryl Hall & John Oates
+2025-07-24 18:00:53 - INFO - Found song: Life’s Too Short by Daryl Hall & John Oates
+2025-07-24 18:00:53 - INFO - [SUCCESS] Successfully extracted lyrics for: Life's Too Short
+2025-07-24 18:00:54 - INFO - Processing 28/500: Getaway Car by Daryl Hall & John Oates
+2025-07-24 18:01:00 - INFO - Found song: Getaway Car by Daryl Hall & John Oates
+2025-07-24 18:01:00 - INFO - [SUCCESS] Successfully extracted lyrics for: Getaway Car
+2025-07-24 18:01:01 - INFO - Processing 29/500: Make You Stay by Daryl Hall & John Oates
+2025-07-24 18:01:06 - INFO - Found song: Make You Stay by Daryl Hall & John Oates
+2025-07-24 18:01:06 - INFO - [SUCCESS] Successfully extracted lyrics for: Make You Stay
+2025-07-24 18:01:07 - INFO - Processing 30/500: Miss DJ by Daryl Hall & John Oates
+2025-07-24 18:01:14 - INFO - Found song: Miss DJ by Daryl Hall & John Oates
+2025-07-24 18:01:14 - INFO - [SUCCESS] Successfully extracted lyrics for: Miss DJ
+2025-07-24 18:01:14 - INFO - Progress: 30/500 songs, Success rate: 100.0%
+2025-07-24 18:01:15 - INFO - Processing 31/500: She Got Me Bad by Daryl Hall & John Oates
+2025-07-24 18:01:19 - INFO - Found song: (She) Got Me Bad by Daryl Hall & John Oates
+2025-07-24 18:01:19 - INFO - [SUCCESS] Successfully extracted lyrics for: She Got Me Bad
+2025-07-24 18:01:21 - INFO - Processing 32/500: Breath of Your Life by Daryl Hall & John Oates
+2025-07-24 18:01:25 - INFO - Found song: Breath of Your Life by Daryl Hall & John Oates
+2025-07-24 18:01:25 - INFO - [SUCCESS] Successfully extracted lyrics for: Breath of Your Life
+2025-07-24 18:01:27 - INFO - Processing 33/500: Intuition by Daryl Hall & John Oates
+2025-07-24 18:01:32 - INFO - Found song: Intuition by Daryl Hall & John Oates
+2025-07-24 18:01:32 - INFO - [SUCCESS] Successfully extracted lyrics for: Intuition
+2025-07-24 18:01:33 - INFO - Processing 34/500: Heartbreak Time by Daryl Hall & John Oates
+2025-07-24 18:01:39 - INFO - Found song: Heartbreak Time by Daryl Hall & John Oates
+2025-07-24 18:01:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Heartbreak Time
+2025-07-24 18:01:40 - INFO - Processing 35/500: Something About You by Daryl Hall & John Oates
+2025-07-24 18:01:45 - INFO - Found song: Something About You by Daryl Hall & John Oates
+2025-07-24 18:01:45 - INFO - [SUCCESS] Successfully extracted lyrics for: Something About You
+2025-07-24 18:01:47 - INFO - Processing 36/500: Love in a Dangerous Time by Daryl Hall & John Oates
+2025-07-24 18:01:52 - INFO - Found song: Love in a Dangerous Time by Daryl Hall & John Oates
+2025-07-24 18:01:52 - INFO - [SUCCESS] Successfully extracted lyrics for: Love in a Dangerous Time
+2025-07-24 18:01:54 - INFO - Processing 37/500: Love The One You're With by Will Young
+2025-07-24 18:02:00 - INFO - Found song: Love The One You’re with by Will Young
+2025-07-24 18:02:00 - INFO - [SUCCESS] Successfully extracted lyrics for: Love The One You're With
+2025-07-24 18:02:01 - INFO - Processing 38/500: Your Game by Will Young
+2025-07-24 18:02:07 - INFO - Found song: Your Game by Will Young
+2025-07-24 18:02:07 - INFO - [SUCCESS] Successfully extracted lyrics for: Your Game
+2025-07-24 18:02:08 - INFO - Processing 39/500: Stronger by Will Young
+2025-07-24 18:02:14 - INFO - Found song: Stronger by Will Young
+2025-07-24 18:02:14 - INFO - [SUCCESS] Successfully extracted lyrics for: Stronger
+2025-07-24 18:02:15 - INFO - Processing 40/500: Leave Right Now by Will Young
+2025-07-24 18:02:20 - INFO - Found song: Leave Right Now by Will Young
+2025-07-24 18:02:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Leave Right Now
+2025-07-24 18:02:20 - INFO - Progress: 40/500 songs, Success rate: 100.0%
+2025-07-24 18:02:22 - INFO - Processing 41/500: Love Is A Matter Of Distance by Will Young
+2025-07-24 18:02:28 - INFO - Found song: Love Is a Matter of Distance by Will Young
+2025-07-24 18:02:28 - INFO - [SUCCESS] Successfully extracted lyrics for: Love Is A Matter Of Distance
+2025-07-24 18:02:29 - INFO - Processing 42/500: Dance The Night Away by Will Young
+2025-07-24 18:02:34 - INFO - Found song: Dance The Night Away by Will Young
+2025-07-24 18:02:34 - INFO - [SUCCESS] Successfully extracted lyrics for: Dance The Night Away
+2025-07-24 18:02:36 - INFO - Processing 43/500: Very Kind by Will Young
+2025-07-24 18:02:42 - INFO - Found song: Very Kind by Will Young
+2025-07-24 18:02:42 - INFO - [SUCCESS] Successfully extracted lyrics for: Very Kind
+2025-07-24 18:02:44 - INFO - Processing 44/500: Free by Will Young
+2025-07-24 18:02:50 - INFO - Found song: Free by Will Young
+2025-07-24 18:02:50 - INFO - [SUCCESS] Successfully extracted lyrics for: Free
+2025-07-24 18:02:52 - INFO - Processing 45/500: Going My Way by Will Young
+2025-07-24 18:02:57 - INFO - Found song: Going My Way by Will Young
+2025-07-24 18:02:57 - INFO - [SUCCESS] Successfully extracted lyrics for: Going My Way
+2025-07-24 18:02:58 - INFO - Processing 46/500: Out Of My Mind by Will Young
+2025-07-24 18:03:04 - INFO - Found song: Out of My Mind by Will Young
+2025-07-24 18:03:04 - INFO - [SUCCESS] Successfully extracted lyrics for: Out Of My Mind
+2025-07-24 18:03:06 - INFO - Processing 47/500: Friday's Child by Will Young
+2025-07-24 18:03:12 - INFO - Found song: Friday’s Child by Will Young
+2025-07-24 18:03:12 - INFO - [SUCCESS] Successfully extracted lyrics for: Friday's Child
+2025-07-24 18:03:13 - INFO - Processing 48/500: Listen For The Laugh by Bruce Cockburn
+2025-07-24 18:03:20 - INFO - Found song: Listen for the Laugh by Bruce Cockburn
+2025-07-24 18:03:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Listen For The Laugh
+2025-07-24 18:03:21 - INFO - Processing 49/500: All The Ways I Want You by Bruce Cockburn
+2025-07-24 18:03:28 - INFO - Found song: All the Ways I Want You by Bruce Cockburn
+2025-07-24 18:03:28 - INFO - [SUCCESS] Successfully extracted lyrics for: All The Ways I Want You
+2025-07-24 18:03:29 - INFO - Processing 50/500: Bone In My Ear by Bruce Cockburn
+2025-07-24 18:03:35 - INFO - Found song: Bone In My Ear by Bruce Cockburn
+2025-07-24 18:03:35 - INFO - [SUCCESS] Successfully extracted lyrics for: Bone In My Ear
+2025-07-24 18:03:35 - INFO - Progress: 50/500 songs, Success rate: 100.0%
+2025-07-24 18:03:37 - INFO - Results saved to: temp_lyrics_batch_0.csv
+2025-07-24 18:03:37 - INFO - Starting batch extraction: songs 51 to 100
+2025-07-24 18:03:37 - INFO - Processing 51/500: Burden Of The Angel/Beast by Bruce Cockburn
+2025-07-24 18:03:43 - INFO - Found song: Burden of the Angel/Beast by Bruce Cockburn
+2025-07-24 18:03:43 - INFO - [SUCCESS] Successfully extracted lyrics for: Burden Of The Angel/Beast
+2025-07-24 18:03:44 - INFO - Processing 52/500: Scanning These Crowds by Bruce Cockburn
+2025-07-24 18:03:49 - INFO - Found song: Scanning These Crowds by Bruce Cockburn
+2025-07-24 18:03:49 - INFO - [SUCCESS] Successfully extracted lyrics for: Scanning These Crowds
+2025-07-24 18:03:51 - INFO - Processing 53/500: Southland Of The Heart by Bruce Cockburn
+2025-07-24 18:03:55 - INFO - Found song: Southland of the Heart by Bruce Cockburn
+2025-07-24 18:03:55 - INFO - [SUCCESS] Successfully extracted lyrics for: Southland Of The Heart
+2025-07-24 18:03:57 - INFO - Processing 54/500: Train In The Rain by Bruce Cockburn
+2025-07-24 18:04:06 - WARNING - [NOT FOUND] Could not find lyrics for: Train In The Rain by Bruce Cockburn
+2025-07-24 18:04:08 - INFO - Processing 55/500: Someone I Used To Love by Bruce Cockburn
+2025-07-24 18:04:13 - INFO - Found song: Someone I Used to Love by Bruce Cockburn
+2025-07-24 18:04:13 - INFO - [SUCCESS] Successfully extracted lyrics for: Someone I Used To Love
+2025-07-24 18:04:15 - INFO - Processing 56/500: Love Loves You Too by Bruce Cockburn
+2025-07-24 18:04:19 - INFO - Found song: Love Loves You Too by Bruce Cockburn
+2025-07-24 18:04:19 - INFO - [SUCCESS] Successfully extracted lyrics for: Love Loves You Too
+2025-07-24 18:04:21 - INFO - Processing 57/500: Sunrise On The Mississippi by Bruce Cockburn
+2025-07-24 18:04:30 - WARNING - [NOT FOUND] Could not find lyrics for: Sunrise On The Mississippi by Bruce Cockburn
+2025-07-24 18:04:31 - INFO - Processing 58/500: Closer to the Light by Bruce Cockburn
+2025-07-24 18:04:37 - INFO - Found song: Closer to the Light by Bruce Cockburn
+2025-07-24 18:04:37 - INFO - [SUCCESS] Successfully extracted lyrics for: Closer to the Light
+2025-07-24 18:04:38 - INFO - Processing 59/500: Tie Me At The Crossroads by Bruce Cockburn
+2025-07-24 18:04:45 - INFO - Found song: Tie Me At the Crossroads by Bruce Cockburn
+2025-07-24 18:04:45 - INFO - [SUCCESS] Successfully extracted lyrics for: Tie Me At The Crossroads
+2025-07-24 18:04:46 - INFO - Processing 60/500: Amber Waves by Tori Amos
+2025-07-24 18:04:52 - INFO - Found song: Amber Waves by Tori Amos
+2025-07-24 18:04:52 - INFO - [SUCCESS] Successfully extracted lyrics for: Amber Waves
+2025-07-24 18:04:52 - INFO - Progress: 60/500 songs, Success rate: 96.7%
+2025-07-24 18:04:53 - INFO - Processing 61/500: A Sorta Fairytale by Tori Amos
+2025-07-24 18:04:59 - INFO - Found song: A Sorta Fairytale by Tori Amos
+2025-07-24 18:04:59 - INFO - [SUCCESS] Successfully extracted lyrics for: A Sorta Fairytale
+2025-07-24 18:05:01 - INFO - Processing 62/500: Wednesday by Tori Amos
+2025-07-24 18:05:06 - INFO - Found song: Wednesday by Tori Amos
+2025-07-24 18:05:06 - INFO - [SUCCESS] Successfully extracted lyrics for: Wednesday
+2025-07-24 18:05:07 - INFO - Processing 63/500: strange by Tori Amos
+2025-07-24 18:05:14 - INFO - Found song: Strange by Tori Amos
+2025-07-24 18:05:14 - INFO - [SUCCESS] Successfully extracted lyrics for: strange
+2025-07-24 18:05:15 - INFO - Processing 64/500: Carbon by Tori Amos
+2025-07-24 18:05:24 - INFO - Found song: Carbon by Tori Amos
+2025-07-24 18:05:24 - INFO - [SUCCESS] Successfully extracted lyrics for: Carbon
+2025-07-24 18:05:26 - INFO - Processing 65/500: Crazy by Tori Amos
+2025-07-24 18:05:31 - INFO - Found song: Crazy by Tori Amos
+2025-07-24 18:05:31 - INFO - [SUCCESS] Successfully extracted lyrics for: Crazy
+2025-07-24 18:05:32 - INFO - Processing 66/500: wampum prayer by Tori Amos
+2025-07-24 18:05:37 - INFO - Found song: Wampum Prayer by Tori Amos
+2025-07-24 18:05:37 - INFO - [SUCCESS] Successfully extracted lyrics for: wampum prayer
+2025-07-24 18:05:38 - INFO - Processing 67/500: don't make me come to Vegas by Tori Amos
+2025-07-24 18:05:43 - INFO - Found song: Don’t Make Me Come to Vegas by Tori Amos
+2025-07-24 18:05:43 - INFO - [SUCCESS] Successfully extracted lyrics for: don't make me come to Vegas
+2025-07-24 18:05:44 - INFO - Processing 68/500: Sweet Sangria by Tori Amos
+2025-07-24 18:05:50 - INFO - Found song: Sweet Sangria by Tori Amos
+2025-07-24 18:05:50 - INFO - [SUCCESS] Successfully extracted lyrics for: Sweet Sangria
+2025-07-24 18:05:51 - INFO - Processing 69/500: Your Cloud by Tori Amos
+2025-07-24 18:05:58 - INFO - Found song: Your Cloud by Tori Amos
+2025-07-24 18:05:58 - INFO - [SUCCESS] Successfully extracted lyrics for: Your Cloud
+2025-07-24 18:06:00 - INFO - Processing 70/500: Pancake by Tori Amos
+2025-07-24 18:06:09 - INFO - Found song: Pancake by Tori Amos
+2025-07-24 18:06:09 - INFO - [SUCCESS] Successfully extracted lyrics for: Pancake
+2025-07-24 18:06:09 - INFO - Progress: 70/500 songs, Success rate: 97.1%
+2025-07-24 18:06:11 - INFO - Processing 71/500: I Can't See New York by Tori Amos
+2025-07-24 18:06:16 - INFO - Found song: I Can’t See New York by Tori Amos
+2025-07-24 18:06:16 - INFO - [SUCCESS] Successfully extracted lyrics for: I Can't See New York
+2025-07-24 18:06:18 - INFO - Processing 72/500: mrs. jesus by Tori Amos
+2025-07-24 18:06:24 - INFO - Found song: Mrs. Jesus by Tori Amos
+2025-07-24 18:06:24 - INFO - [SUCCESS] Successfully extracted lyrics for: mrs. jesus
+2025-07-24 18:06:25 - INFO - Processing 73/500: Taxi Ride by Tori Amos
+2025-07-24 18:06:31 - INFO - Found song: Taxi Ride by Tori Amos
+2025-07-24 18:06:31 - INFO - [SUCCESS] Successfully extracted lyrics for: Taxi Ride
+2025-07-24 18:06:32 - INFO - Processing 74/500: Another Girl's Paradise by Tori Amos
+2025-07-24 18:06:39 - INFO - Found song: Another Girl’s Paradise by Tori Amos
+2025-07-24 18:06:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Another Girl's Paradise
+2025-07-24 18:06:41 - INFO - Processing 75/500: Scarlet's Walk by Tori Amos
+2025-07-24 18:06:46 - INFO - Found song: Scarlet’s Walk by Tori Amos
+2025-07-24 18:06:46 - INFO - [SUCCESS] Successfully extracted lyrics for: Scarlet's Walk
+2025-07-24 18:06:48 - INFO - Processing 76/500: Virginia by Tori Amos
+2025-07-24 18:06:53 - INFO - Found song: Virginia by Tori Amos
+2025-07-24 18:06:53 - INFO - [SUCCESS] Successfully extracted lyrics for: Virginia
+2025-07-24 18:06:54 - INFO - Processing 77/500: Gold Dust by Tori Amos
+2025-07-24 18:07:01 - INFO - Found song: Gold Dust by Tori Amos
+2025-07-24 18:07:01 - INFO - [SUCCESS] Successfully extracted lyrics for: Gold Dust
+2025-07-24 18:07:03 - INFO - Processing 78/500: Rosaryville by Kate Campbell
+2025-07-24 18:07:08 - INFO - Found song: Rosaryville by Kate Campbell
+2025-07-24 18:07:08 - INFO - [SUCCESS] Successfully extracted lyrics for: Rosaryville
+2025-07-24 18:07:09 - INFO - Processing 79/500: Porcelain Blue by Kate Campbell
+2025-07-24 18:07:15 - INFO - Found song: Porcelain Blue by Kate Campbell
+2025-07-24 18:07:15 - INFO - [SUCCESS] Successfully extracted lyrics for: Porcelain Blue
+2025-07-24 18:07:17 - INFO - Processing 80/500: Rosa's Coronas by Kate Campbell
+2025-07-24 18:07:23 - INFO - Found song: Rosa’s Coronas by Kate Campbell
+2025-07-24 18:07:23 - INFO - [SUCCESS] Successfully extracted lyrics for: Rosa's Coronas
+2025-07-24 18:07:23 - INFO - Progress: 80/500 songs, Success rate: 97.5%
+2025-07-24 18:07:24 - INFO - Processing 81/500: In My Mother's House by Kate Campbell
+2025-07-24 18:07:30 - INFO - Found song: In My Mother’s House by Kate Campbell
+2025-07-24 18:07:30 - INFO - [SUCCESS] Successfully extracted lyrics for: In My Mother's House
+2025-07-24 18:07:32 - INFO - Processing 82/500: Heart of Hearts by Kate Campbell
+2025-07-24 18:07:37 - INFO - Found song: Heart of Hearts by Kate Campbell
+2025-07-24 18:07:37 - INFO - [SUCCESS] Successfully extracted lyrics for: Heart of Hearts
+2025-07-24 18:07:38 - INFO - Processing 83/500: Fade to Blue by Kate Campbell
+2025-07-24 18:07:45 - INFO - Found song: Fade To Blue by Kate Campbell
+2025-07-24 18:07:45 - INFO - [SUCCESS] Successfully extracted lyrics for: Fade to Blue
+2025-07-24 18:07:46 - INFO - Processing 84/500: Who Will Pray For Junior by Kate Campbell
+2025-07-24 18:07:51 - INFO - Found song: Who Will Pray for Junior by Kate Campbell
+2025-07-24 18:07:51 - INFO - [SUCCESS] Successfully extracted lyrics for: Who Will Pray For Junior
+2025-07-24 18:07:53 - INFO - Processing 85/500: Rosemary by Kate Campbell
+2025-07-24 18:07:59 - INFO - Found song: Rosemary by Kate Campbell
+2025-07-24 18:07:59 - INFO - [SUCCESS] Successfully extracted lyrics for: Rosemary
+2025-07-24 18:08:00 - INFO - Processing 86/500: Look Away by Kate Campbell
+2025-07-24 18:08:06 - INFO - Found song: Look Away by Kate Campbell
+2025-07-24 18:08:06 - INFO - [SUCCESS] Successfully extracted lyrics for: Look Away
+2025-07-24 18:08:07 - INFO - Processing 87/500: Ave Maria Grotto by Kate Campbell
+2025-07-24 18:08:13 - INFO - Found song: Ave Maria Grotto by Kate Campbell
+2025-07-24 18:08:13 - INFO - [SUCCESS] Successfully extracted lyrics for: Ave Maria Grotto
+2025-07-24 18:08:14 - INFO - Processing 88/500: Hollywood by Death & Desire
+2025-07-24 18:08:39 - WARNING - [NOT FOUND] Could not find lyrics for: Hollywood by Death & Desire
+2025-07-24 18:08:40 - INFO - Processing 89/500: Tired of Waiting by Death & Desire
+2025-07-24 18:08:46 - INFO - Found song: Tired of Waiting by Death & Desire
+2025-07-24 18:08:46 - INFO - [SUCCESS] Successfully extracted lyrics for: Tired of Waiting
+2025-07-24 18:08:48 - INFO - Processing 90/500: America by Death & Desire
+2025-07-24 18:08:53 - INFO - Found song: America by Death & Desire
+2025-07-24 18:08:53 - INFO - [SUCCESS] Successfully extracted lyrics for: America
+2025-07-24 18:08:53 - INFO - Progress: 90/500 songs, Success rate: 96.7%
+2025-07-24 18:08:54 - INFO - Processing 91/500: Desperate by Death & Desire
+2025-07-24 18:09:00 - INFO - Found song: Desperate by Death & Desire
+2025-07-24 18:09:00 - INFO - [SUCCESS] Successfully extracted lyrics for: Desperate
+2025-07-24 18:09:01 - INFO - Processing 92/500: All I See by Death & Desire
+2025-07-24 18:09:07 - INFO - Found song: All I see by Death & Desire
+2025-07-24 18:09:07 - INFO - [SUCCESS] Successfully extracted lyrics for: All I See
+2025-07-24 18:09:08 - INFO - Processing 93/500: Give by Death & Desire
+2025-07-24 18:09:14 - INFO - Found song: Give by Death & Desire
+2025-07-24 18:09:14 - INFO - [SUCCESS] Successfully extracted lyrics for: Give
+2025-07-24 18:09:15 - INFO - Processing 94/500: Pain by Death & Desire
+2025-07-24 18:09:20 - INFO - Found song: Pain by Death & Desire
+2025-07-24 18:09:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Pain
+2025-07-24 18:09:22 - INFO - Processing 95/500: Check by zebrahead
+2025-07-24 18:09:27 - INFO - Found song: Check by Zebrahead
+2025-07-24 18:09:27 - INFO - [SUCCESS] Successfully extracted lyrics for: Check
+2025-07-24 18:09:28 - INFO - Processing 96/500: Get Back by zebrahead
+2025-07-24 18:09:34 - INFO - Found song: Get Back by Zebrahead
+2025-07-24 18:09:34 - INFO - [SUCCESS] Successfully extracted lyrics for: Get Back
+2025-07-24 18:09:36 - INFO - Processing 97/500: The Real Me by zebrahead
+2025-07-24 18:09:41 - INFO - Found song: The Real Me by Zebrahead
+2025-07-24 18:09:41 - INFO - [SUCCESS] Successfully extracted lyrics for: The Real Me
+2025-07-24 18:09:42 - INFO - Processing 98/500: Someday by zebrahead
+2025-07-24 18:09:47 - INFO - Found song: Someday by Zebrahead
+2025-07-24 18:09:47 - INFO - [SUCCESS] Successfully extracted lyrics for: Someday
+2025-07-24 18:09:48 - INFO - Processing 99/500: Waste of Mind by zebrahead
+2025-07-24 18:09:53 - INFO - Found song: Waste Of Mind by Zebrahead
+2025-07-24 18:09:53 - INFO - [SUCCESS] Successfully extracted lyrics for: Waste of Mind
+2025-07-24 18:09:55 - INFO - Processing 100/500: Feel This Way by zebrahead
+2025-07-24 18:09:59 - INFO - Found song: Feel This Way by Zebrahead
+2025-07-24 18:09:59 - INFO - [SUCCESS] Successfully extracted lyrics for: Feel This Way
+2025-07-24 18:09:59 - INFO - Progress: 100/500 songs, Success rate: 97.0%
+2025-07-24 18:10:01 - INFO - Results saved to: temp_lyrics_batch_50.csv
+2025-07-24 18:10:01 - INFO - Starting batch extraction: songs 101 to 150
+2025-07-24 18:10:01 - INFO - Processing 101/500: Walk Away by zebrahead
+2025-07-24 18:10:24 - WARNING - [NOT FOUND] Could not find lyrics for: Walk Away by zebrahead
+2025-07-24 18:10:26 - INFO - Processing 102/500: Big Shot by zebrahead
+2025-07-24 18:10:31 - INFO - Found song: Big Shot by Zebrahead
+2025-07-24 18:10:31 - INFO - [SUCCESS] Successfully extracted lyrics for: Big Shot
+2025-07-24 18:10:33 - INFO - Processing 103/500: Swing by zebrahead
+2025-07-24 18:10:37 - INFO - Found song: Swing by Zebrahead
+2025-07-24 18:10:37 - INFO - [SUCCESS] Successfully extracted lyrics for: Swing
+2025-07-24 18:10:39 - INFO - Processing 104/500: Jag Off by zebrahead
+2025-07-24 18:11:01 - WARNING - [NOT FOUND] Could not find lyrics for: Jag Off by zebrahead
+2025-07-24 18:11:03 - INFO - Processing 105/500: Time by zebrahead
+2025-07-24 18:11:09 - INFO - Found song: Out of Time by Zebrahead
+2025-07-24 18:11:09 - INFO - [SUCCESS] Successfully extracted lyrics for: Time
+2025-07-24 18:11:10 - INFO - Processing 106/500: Move On by zebrahead
+2025-07-24 18:11:15 - INFO - Found song: Move On by Zebrahead
+2025-07-24 18:11:15 - INFO - [SUCCESS] Successfully extracted lyrics for: Move On
+2025-07-24 18:11:17 - INFO - Processing 107/500: Fly Daze by zebrahead
+2025-07-24 18:11:23 - INFO - Found song: Fly Daze by Zebrahead
+2025-07-24 18:11:23 - INFO - [SUCCESS] Successfully extracted lyrics for: Fly Daze
+2025-07-24 18:11:24 - INFO - Processing 108/500: Bootylicious Vinyl by zebrahead
+2025-07-24 18:11:30 - INFO - Found song: Bootylicious Vinyl by Zebrahead
+2025-07-24 18:11:30 - INFO - [SUCCESS] Successfully extracted lyrics for: Bootylicious Vinyl
+2025-07-24 18:11:31 - INFO - Processing 109/500: Swing (Radio Edit) by Ani DiFranco
+2025-07-24 18:11:37 - INFO - Found song: Swing by Ani DiFranco
+2025-07-24 18:11:37 - INFO - [SUCCESS] Successfully extracted lyrics for: Swing (Radio Edit)
+2025-07-24 18:11:39 - INFO - Processing 110/500: Swing (Album Version) by Ani DiFranco
+2025-07-24 18:11:52 - WARNING - [NOT FOUND] Could not find lyrics for: Swing (Album Version) by Ani DiFranco
+2025-07-24 18:11:52 - INFO - Progress: 110/500 songs, Success rate: 94.5%
+2025-07-24 18:11:54 - INFO - Processing 111/500: To The Teeth (Shootout Remix) by Ani DiFranco
+2025-07-24 18:12:03 - WARNING - [NOT FOUND] Could not find lyrics for: To The Teeth (Shootout Remix) by Ani DiFranco
+2025-07-24 18:12:05 - INFO - Processing 112/500: Do Re Me (Live) by Ani DiFranco
+2025-07-24 18:12:11 - INFO - Found song: Do Re Me by Ani DiFranco
+2025-07-24 18:12:11 - INFO - [SUCCESS] Successfully extracted lyrics for: Do Re Me (Live)
+2025-07-24 18:12:12 - INFO - Processing 113/500: When I'm Gone by Ani DiFranco
+2025-07-24 18:12:18 - INFO - Found song: When I’m Gone by Ani DiFranco
+2025-07-24 18:12:18 - INFO - [SUCCESS] Successfully extracted lyrics for: When I'm Gone
+2025-07-24 18:12:19 - INFO - Processing 114/500: Hurricane by Ani DiFranco
+2025-07-24 18:12:25 - INFO - Found song: Hurricane by Ani DiFranco
+2025-07-24 18:12:25 - INFO - [SUCCESS] Successfully extracted lyrics for: Hurricane
+2025-07-24 18:12:26 - INFO - Processing 115/500: To the Teeth by Ani DiFranco
+2025-07-24 18:12:32 - INFO - Found song: To The Teeth by Ani DiFranco
+2025-07-24 18:12:32 - INFO - [SUCCESS] Successfully extracted lyrics for: To the Teeth
+2025-07-24 18:12:33 - INFO - Processing 116/500: Soft Shoulder by Ani DiFranco
+2025-07-24 18:12:38 - INFO - Found song: Soft Shoulder by Ani DiFranco
+2025-07-24 18:12:38 - INFO - [SUCCESS] Successfully extracted lyrics for: Soft Shoulder
+2025-07-24 18:12:40 - INFO - Processing 117/500: Wish I May by Ani DiFranco
+2025-07-24 18:12:46 - INFO - Found song: Wish I May by Ani DiFranco
+2025-07-24 18:12:46 - INFO - [SUCCESS] Successfully extracted lyrics for: Wish I May
+2025-07-24 18:12:47 - INFO - Processing 118/500: Freakshow by Ani DiFranco
+2025-07-24 18:12:52 - INFO - Found song: Freakshow by Ani DiFranco
+2025-07-24 18:12:52 - INFO - [SUCCESS] Successfully extracted lyrics for: Freakshow
+2025-07-24 18:12:54 - INFO - Processing 119/500: Going Once by Ani DiFranco
+2025-07-24 18:12:59 - INFO - Found song: Going Once by Ani DiFranco
+2025-07-24 18:12:59 - INFO - [SUCCESS] Successfully extracted lyrics for: Going Once
+2025-07-24 18:13:01 - INFO - Processing 120/500: Hello Birmingham by Ani DiFranco
+2025-07-24 18:13:12 - INFO - Found song: Hello, Birmingham by Ani DiFranco
+2025-07-24 18:13:12 - INFO - [SUCCESS] Successfully extracted lyrics for: Hello Birmingham
+2025-07-24 18:13:12 - INFO - Progress: 120/500 songs, Success rate: 94.2%
+2025-07-24 18:13:14 - INFO - Processing 121/500: Back Back Back by Ani DiFranco
+2025-07-24 18:13:20 - INFO - Found song: Back Back Back by Ani DiFranco
+2025-07-24 18:13:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Back Back Back
+2025-07-24 18:13:21 - INFO - Processing 122/500: Swing by Ani DiFranco
+2025-07-24 18:13:26 - INFO - Found song: Swing by Ani DiFranco
+2025-07-24 18:13:26 - INFO - [SUCCESS] Successfully extracted lyrics for: Swing
+2025-07-24 18:13:27 - INFO - Processing 123/500: Carry You Around by Ani DiFranco
+2025-07-24 18:13:32 - INFO - Found song: Carry You Around by Ani DiFranco
+2025-07-24 18:13:32 - INFO - [SUCCESS] Successfully extracted lyrics for: Carry You Around
+2025-07-24 18:13:34 - INFO - Processing 124/500: Cloud Blood by Ani DiFranco
+2025-07-24 18:13:40 - INFO - Found song: Cloud Blood by Ani DiFranco
+2025-07-24 18:13:40 - INFO - [SUCCESS] Successfully extracted lyrics for: Cloud Blood
+2025-07-24 18:13:41 - INFO - Processing 125/500: The Arrivals Gate by Ani DiFranco
+2025-07-24 18:13:49 - INFO - Found song: The Arrival’s Gate by Ani DiFranco
+2025-07-24 18:13:49 - INFO - [SUCCESS] Successfully extracted lyrics for: The Arrivals Gate
+2025-07-24 18:13:51 - INFO - Processing 126/500: Providence by Ani DiFranco
+2025-07-24 18:13:56 - INFO - Found song: Providence by Ani DiFranco
+2025-07-24 18:13:56 - INFO - [SUCCESS] Successfully extracted lyrics for: Providence
+2025-07-24 18:13:58 - INFO - Processing 127/500: I Know This Bar by Ani DiFranco
+2025-07-24 18:14:02 - INFO - Found song: I Know This Bar by Ani DiFranco
+2025-07-24 18:14:02 - INFO - [SUCCESS] Successfully extracted lyrics for: I Know This Bar
+2025-07-24 18:14:04 - INFO - Processing 128/500: Untouchable Face by Ani DiFranco
+2025-07-24 18:14:10 - INFO - Found song: Untouchable Face by Ani DiFranco
+2025-07-24 18:14:10 - INFO - [SUCCESS] Successfully extracted lyrics for: Untouchable Face
+2025-07-24 18:14:12 - INFO - Processing 129/500: Outta Me, Onto You by Ani DiFranco
+2025-07-24 18:14:17 - INFO - Found song: Outta Me, Onto You by Ani DiFranco
+2025-07-24 18:14:17 - INFO - [SUCCESS] Successfully extracted lyrics for: Outta Me, Onto You
+2025-07-24 18:14:19 - INFO - Processing 130/500: Superhero by Ani DiFranco
+2025-07-24 18:14:25 - INFO - Found song: Superhero by Ani DiFranco
+2025-07-24 18:14:25 - INFO - [SUCCESS] Successfully extracted lyrics for: Superhero
+2025-07-24 18:14:25 - INFO - Progress: 130/500 songs, Success rate: 94.6%
+2025-07-24 18:14:26 - INFO - Processing 131/500: Dilate by Ani DiFranco
+2025-07-24 18:14:32 - INFO - Found song: Dilate by Ani DiFranco
+2025-07-24 18:14:32 - INFO - [SUCCESS] Successfully extracted lyrics for: Dilate
+2025-07-24 18:14:34 - INFO - Processing 132/500: Amazing Grace by Ani DiFranco
+2025-07-24 18:14:39 - INFO - Found song: Amazing Grace by Ani DiFranco
+2025-07-24 18:14:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Amazing Grace
+2025-07-24 18:14:41 - INFO - Processing 133/500: Napoleon by Ani DiFranco
+2025-07-24 18:14:47 - INFO - Found song: Napoleon by Ani DiFranco
+2025-07-24 18:14:47 - INFO - [SUCCESS] Successfully extracted lyrics for: Napoleon
+2025-07-24 18:14:48 - INFO - Processing 134/500: Shameless by Ani DiFranco
+2025-07-24 18:14:53 - INFO - Found song: Shameless by Ani DiFranco
+2025-07-24 18:14:53 - INFO - [SUCCESS] Successfully extracted lyrics for: Shameless
+2025-07-24 18:14:55 - INFO - Processing 135/500: Done Wrong by Ani DiFranco
+2025-07-24 18:15:01 - INFO - Found song: Done Wrong by Ani DiFranco
+2025-07-24 18:15:01 - INFO - [SUCCESS] Successfully extracted lyrics for: Done Wrong
+2025-07-24 18:15:02 - INFO - Processing 136/500: Going Down by Ani DiFranco
+2025-07-24 18:15:08 - INFO - Found song: Going Down by Ani DiFranco
+2025-07-24 18:15:08 - INFO - [SUCCESS] Successfully extracted lyrics for: Going Down
+2025-07-24 18:15:10 - INFO - Processing 137/500: Adam and Eve by Ani DiFranco
+2025-07-24 18:15:16 - INFO - Found song: Adam and Eve by Ani DiFranco
+2025-07-24 18:15:16 - INFO - [SUCCESS] Successfully extracted lyrics for: Adam and Eve
+2025-07-24 18:15:17 - INFO - Processing 138/500: Joyful Girl by Ani DiFranco
+2025-07-24 18:15:24 - INFO - Found song: Joyful Girl by Ani DiFranco
+2025-07-24 18:15:24 - INFO - [SUCCESS] Successfully extracted lyrics for: Joyful Girl
+2025-07-24 18:15:26 - INFO - Processing 139/500: Joyful Girl (Danger and Uncertainty Mix) by Ani DiFranco
+2025-07-24 18:15:31 - INFO - Found song: Joyful Girl (Danger and Uncertainty mix) by Ani DiFranco
+2025-07-24 18:15:31 - INFO - [SUCCESS] Successfully extracted lyrics for: Joyful Girl (Danger and Uncertainty Mix)
+2025-07-24 18:15:32 - INFO - Processing 140/500: Joyful Girl (Peace and Love Mix) by Ani DiFranco
+2025-07-24 18:15:38 - INFO - Found song: Joyful Girl (Peace and Love Mix) by Ani DiFranco
+2025-07-24 18:15:38 - INFO - [SUCCESS] Successfully extracted lyrics for: Joyful Girl (Peace and Love Mix)
+2025-07-24 18:15:38 - INFO - Progress: 140/500 songs, Success rate: 95.0%
+2025-07-24 18:15:39 - INFO - Processing 141/500: Joyful Girl (Peace and Love Extended Mix) by Ani DiFranco
+2025-07-24 18:15:45 - INFO - Found song: Joyful Girl (Peace and Love extended mix) by Ani DiFranco
+2025-07-24 18:15:45 - INFO - [SUCCESS] Successfully extracted lyrics for: Joyful Girl (Peace and Love Extended Mix)
+2025-07-24 18:15:46 - INFO - Processing 142/500: Joyful Girl (Live with the Buffalo Philharmonic Orchestra) by Ani DiFranco
+2025-07-24 18:15:55 - WARNING - [NOT FOUND] Could not find lyrics for: Joyful Girl (Live with the Buffalo Philharmonic Orchestra) by Ani DiFranco
+2025-07-24 18:15:56 - INFO - Processing 143/500: Shameless (Bathtub Mix) by Ani DiFranco
+2025-07-24 18:16:01 - INFO - Results saved to: interrupted_lyrics_extraction_results.csv

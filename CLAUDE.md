@@ -2,9 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Important: Read Full Project Context
+## Important: Read Project Context Files
 
-**🔗 ALWAYS READ FULL_PROJECT.md FIRST** - This file contains the complete vision, architecture, and technical roadmap for the multimodal music recommendation system. The current repository focuses on the musical characteristics analysis module within this larger system.
+**🔗 ALWAYS READ THESE FILES FIRST**:
+1. **FULL_PROJECT.md** - Complete vision, architecture, and technical roadmap for the multimodal music recommendation system
+2. **ANALYSIS_RESULTS.md** - Comprehensive analysis results, test outcomes, technical interpretations, and progress tracking for all implemented modules
+3. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
+4. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
+
+The current repository focuses on the musical characteristics analysis module within the larger multimodal system. All development progress and test results are tracked in ANALYSIS_RESULTS.md, while theoretical foundations and academic explanations are maintained in DOCS.md.
 
 ## Project Overview
 
