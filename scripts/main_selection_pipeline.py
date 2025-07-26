@@ -108,16 +108,17 @@ class MainSelectionPipeline:
     def detect_dataset_path(self) -> str:
         """Auto-detect the path to the original dataset."""
         try:
-            # Try configured path first
-            config_path = self.config.get_data_path('original')
+            # Try configured path for cleaned dataset first
+            config_path = self.config.get_data_path('cleaned_full')
             if config_path.exists():
                 return str(config_path)
             
             # Try alternative paths
             alternative_paths = [
+                "data/cleaned_data/tracks_features_clean.csv",
                 "data/original_data/tracks_features.csv",
                 "data/tracks_features.csv",
-                "../data/original_data/tracks_features.csv"
+                "../data/cleaned_data/tracks_features_clean.csv"
             ]
             
             for alt_path in alternative_paths:
@@ -131,7 +132,7 @@ class MainSelectionPipeline:
             
         except Exception as e:
             logger.error(f"❌ Error detecting dataset path: {str(e)}")
-            return "data/original_data/tracks_features.csv"  # Default fallback
+            return "data/cleaned_data/tracks_features_clean.csv"  # Default fallback
     
     def stage_1_dataset_analysis(self, dataset_path: str) -> bool:
         """

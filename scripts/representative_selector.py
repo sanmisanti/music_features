@@ -119,24 +119,35 @@ class RepresentativeSelector:
         try:
             # Load without sampling to get full dataset
             load_result = self.data_loader.load_dataset(
-                file_path=dataset_path,
+                dataset_type='cleaned_full',  # Use cleaned dataset with proper separators
                 sample_size=None,  # Load full dataset
-                validation_level='BASIC'  # Quick validation for large dataset
+                validate=True  # Enable validation
             )
             
             if load_result.success:
                 logger.info(f"✅ Dataset loaded successfully")
                 logger.info(f"📊 Full dataset shape: {load_result.data.shape}")
-                logger.info(f"🎯 Quality Score: {load_result.quality_score:.1f}/100")
                 logger.info(f"💾 Memory Usage: {get_memory_usage():.1f} MB")
+                logger.info(f"⚠️  Warnings: {len(load_result.warnings)}")
+                logger.info(f"❌ Errors: {len(load_result.errors)}")
+                
+                # Calculate basic quality score
+                quality_score = 100.0
+                if load_result.errors:
+                    quality_score -= len(load_result.errors) * 10
+                if load_result.warnings:
+                    quality_score -= len(load_result.warnings) * 5
+                quality_score = max(0, quality_score)
+                
+                logger.info(f"🎯 Quality Score: {quality_score:.1f}/100")
                 
                 self.original_data = load_result.data
                 self.selection_metadata['original_size'] = len(load_result.data)
-                self.selection_metadata['original_quality'] = load_result.quality_score
+                self.selection_metadata['original_quality'] = quality_score
                 
                 return load_result.data
             else:
-                logger.error(f"❌ Dataset loading failed: {load_result.error}")
+                logger.error(f"❌ Dataset loading failed: {load_result.errors}")
                 return None
                 
         except Exception as e:
@@ -158,11 +169,12 @@ class RepresentativeSelector:
         start_time = time.time()
         
         try:
-            # Use max-min diversity sampling for good feature space coverage
-            sampled_data = self.sampling_strategies.maxmin_diversity_sample(
-                data=data,
+            # Use diversity sampling for good feature space coverage
+            sampled_data = self.sampling_strategies.diversity_sample(
+                df=data,
                 features=CLUSTERING_FEATURES,
                 sample_size=sample_size,
+                method='maxmin',
                 random_state=42
             )
             
@@ -211,12 +223,25 @@ class RepresentativeSelector:
         
         try:
             # Use balanced sampling to preserve distributions
-            sampled_data = self.sampling_strategies.balanced_sample(
-                data=data,
-                features=CLUSTERING_FEATURES,
-                sample_size=sample_size,
-                random_state=42
-            )
+            # Balance across key categorical features
+            balance_columns = ['key', 'mode', 'time_signature']  # Categorical features
+            available_balance_columns = [col for col in balance_columns if col in data.columns]
+            
+            if available_balance_columns:
+                sampled_data = self.sampling_strategies.balanced_sample(
+                    df=data,
+                    sample_size=sample_size,
+                    balance_columns=available_balance_columns,
+                    balance_method='proportional'
+                )
+            else:
+                # Fallback to stratified sampling
+                sampled_data = self.sampling_strategies.stratified_sample(
+                    df=data,
+                    sample_size=sample_size,
+                    strata_column='key',  # Use key as stratification
+                    random_state=42
+                )
             
             execution_time = time.time() - start_time
             
@@ -415,7 +440,11 @@ class RepresentativeSelector:
                     selected_indices.extend(cluster_indices[closest_indices])
             
             # Get final selection
-            final_selection = clustering_data.iloc[selected_indices].drop('cluster', axis=1)
+            final_selection = clustering_data.iloc[selected_indices]
+            
+            # Remove cluster column if it exists
+            if 'cluster' in final_selection.columns:
+                final_selection = final_selection.drop('cluster', axis=1)
             
             # Map back to original data indices
             original_indices = clustering_data.index[selected_indices]

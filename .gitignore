@@ -1,2 +1,12 @@
 data/cleaned_data/tracks_features_clean.csv
 data/original_data/tracks_features.csv
+
+# Ignorar archivos compilados de Python
+__pycache__/
+*.py[cod]
+
+# Ignorar archivos de log
+*.log
+
+*.pyc
+*.pyo

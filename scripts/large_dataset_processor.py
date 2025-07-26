@@ -154,31 +154,44 @@ class LargeDatasetProcessor:
         try:
             # Load with intelligent sampling if needed
             load_result = self.data_loader.load_dataset(
-                file_path=dataset_path,
+                dataset_type='cleaned_full',  # Use cleaned dataset with proper separators
                 sample_size=sample_size,
-                validation_level='STANDARD'  # Balance between thoroughness and speed
+                validate=True  # Enable validation
             )
             
             if load_result.success:
                 logger.info(f"✅ Dataset loaded successfully")
                 logger.info(f"📊 Shape: {load_result.data.shape}")
-                logger.info(f"🎯 Quality Score: {load_result.quality_score:.1f}/100")
-                logger.info(f"⏱️  Load Time: {load_result.metadata.get('load_time', 'N/A'):.2f}s")
+                logger.info(f"⏱️  Load Time: {load_result.metadata.get('load_time', 0):.2f}s")
                 logger.info(f"💾 Memory Usage: {get_memory_usage():.1f} MB")
+                logger.info(f"⚠️  Warnings: {len(load_result.warnings)}")
+                logger.info(f"❌ Errors: {len(load_result.errors)}")
+                
+                # Calculate basic quality score
+                quality_score = 100.0
+                if load_result.errors:
+                    quality_score -= len(load_result.errors) * 10
+                if load_result.warnings:
+                    quality_score -= len(load_result.warnings) * 5
+                quality_score = max(0, quality_score)
+                
+                logger.info(f"🎯 Quality Score: {quality_score:.1f}/100")
                 
                 # Store dataset info
                 self.dataset_info = {
                     'shape': load_result.data.shape,
-                    'quality_score': load_result.quality_score,
+                    'quality_score': quality_score,
                     'load_time': load_result.metadata.get('load_time', 0),
                     'memory_usage_mb': get_memory_usage(),
                     'sample_size': sample_size,
-                    'validation_level': 'STANDARD'
+                    'validation_level': 'STANDARD',
+                    'warnings': len(load_result.warnings),
+                    'errors': len(load_result.errors)
                 }
                 
                 return load_result.data
             else:
-                logger.error(f"❌ Dataset loading failed: {load_result.error}")
+                logger.error(f"❌ Dataset loading failed: {load_result.errors}")
                 return None
                 
         except Exception as e:
@@ -204,43 +217,54 @@ class LargeDatasetProcessor:
             logger.info("📊 Computing descriptive statistics...")
             stats_result = self.stats_analyzer.analyze_dataset(data)
             
-            if stats_result['success']:
+            if stats_result and 'feature_stats' in stats_result:
                 analysis_results['statistical_analysis'] = stats_result
                 logger.info(f"✅ Statistical analysis completed")
-                logger.info(f"📊 Features analyzed: {len(stats_result['feature_statistics'])}")
+                logger.info(f"📊 Features analyzed: {len(stats_result['feature_stats'])}")
                 
                 # Log key correlations
-                if 'correlation_analysis' in stats_result:
-                    high_corr = stats_result['correlation_analysis'].get('high_correlations', [])
+                if 'correlation_preview' in stats_result:
+                    high_corr = stats_result['correlation_preview'].get('high_correlations', [])
                     if high_corr:
                         logger.info(f"🔗 High correlations found: {len(high_corr)}")
                         for corr in high_corr[:3]:  # Show top 3
                             logger.info(f"   {corr['feature1']} ↔ {corr['feature2']}: {corr['correlation']:.3f}")
             else:
-                logger.warning(f"⚠️  Statistical analysis had issues: {stats_result.get('error', 'Unknown')}")
-                analysis_results['statistical_analysis'] = {'success': False, 'error': stats_result.get('error')}
+                logger.warning(f"⚠️  Statistical analysis had issues: empty result")
+                analysis_results['statistical_analysis'] = {'success': False, 'error': 'Empty analysis result'}
             
             # 2. Dimensionality Analysis
             logger.info("🔬 Performing dimensionality analysis...")
-            dim_results = self.dim_reducer.analyze_dimensionality(data)
-            
-            if dim_results.get('success', False):
+            try:
+                # Use clustering features for analysis
+                clustering_data = data[CLUSTERING_FEATURES].dropna()
+                
+                # Perform PCA analysis
+                pca_result = self.dim_reducer.fit_pca(clustering_data, features=CLUSTERING_FEATURES)
+                
+                # Perform feature selection
+                feature_selection_result = self.dim_reducer.perform_feature_selection(
+                    clustering_data, features=CLUSTERING_FEATURES
+                )
+                
+                dim_results = {
+                    'success': True,
+                    'pca_analysis': pca_result,
+                    'feature_selection': feature_selection_result,
+                    'features_analyzed': len(CLUSTERING_FEATURES)
+                }
+                
                 analysis_results['dimensionality_analysis'] = dim_results
                 logger.info(f"✅ Dimensionality analysis completed")
                 
                 # Log PCA results
-                if 'pca_analysis' in dim_results:
-                    pca_info = dim_results['pca_analysis']
-                    logger.info(f"🎯 PCA: {pca_info.get('n_components', 'N/A')} components explain {pca_info.get('total_variance_ratio', 0)*100:.1f}% variance")
+                if 'explained_variance_ratio' in pca_result:
+                    total_variance = sum(pca_result['explained_variance_ratio'][:10])  # Top 10 components
+                    logger.info(f"🎯 PCA: Top 10 components explain {total_variance*100:.1f}% variance")
                     
-                    # Show top components
-                    if 'component_importance' in pca_info:
-                        top_components = pca_info['component_importance'][:3]
-                        for i, comp in enumerate(top_components):
-                            logger.info(f"   PC{i+1}: {comp.get('variance_ratio', 0)*100:.1f}% - {comp.get('interpretation', 'Unknown')}")
-            else:
-                logger.warning(f"⚠️  Dimensionality analysis failed: {dim_results.get('error', 'Unknown')}")
-                analysis_results['dimensionality_analysis'] = {'success': False, 'error': dim_results.get('error')}
+            except Exception as e:
+                logger.warning(f"⚠️  Dimensionality analysis failed: {str(e)}")
+                analysis_results['dimensionality_analysis'] = {'success': False, 'error': str(e)}
             
             # 3. Feature Importance Analysis
             logger.info("🎯 Analyzing feature importance...")
@@ -346,7 +370,7 @@ class LargeDatasetProcessor:
         try:
             # Create comprehensive report using existing system
             report_paths = self.report_generator.generate_comprehensive_report(
-                dataset_type='original',  # Use original dataset
+                dataset_type='cleaned_full',  # Use cleaned dataset
                 include_visualizations=True,
                 formats=['markdown', 'json']
             )

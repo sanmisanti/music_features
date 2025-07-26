@@ -31,7 +31,7 @@ from dataclasses import dataclass
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from exploratory_analysis.config.analysis_config import get_config
-from exploratory_analysis.config.features_config import CLUSTERING_FEATURES, FEATURE_METADATA
+from exploratory_analysis.config.features_config import CLUSTERING_FEATURES, FEATURE_DEFINITIONS
 from exploratory_analysis.data_loading.data_loader import DataLoader
 from exploratory_analysis.statistical_analysis.descriptive_stats import DescriptiveStats
 from exploratory_analysis.visualization.distribution_plots import DistributionPlotter
@@ -113,9 +113,9 @@ class SelectionValidator:
             # Load original dataset
             logger.info(f"Loading original dataset: {original_path}")
             original_result = self.data_loader.load_dataset(
-                file_path=original_path,
+                dataset_type='cleaned_full',  # Use cleaned dataset with proper separators
                 sample_size=None,  # Load what we can
-                validation_level='BASIC'
+                validate=True
             )
             
             if not original_result.success:
@@ -125,13 +125,23 @@ class SelectionValidator:
             self.original_data = original_result.data
             logger.info(f"✅ Original dataset loaded: {self.original_data.shape}")
             
-            # Load selected dataset
+            # Load selected dataset (CSV file)
             logger.info(f"Loading selected dataset: {selected_path}")
-            selected_result = self.data_loader.load_dataset(
-                file_path=selected_path,
-                sample_size=None,
-                validation_level='BASIC'
-            )
+            try:
+                selected_df = pd.read_csv(selected_path, sep=';', decimal=',', encoding='utf-8')
+                selected_result = type('LoadResult', (), {
+                    'data': selected_df,
+                    'success': True,
+                    'error': None
+                })()
+            except Exception as e:
+                logger.error(f"❌ Failed to load selected dataset: {str(e)}")
+                selected_result = type('LoadResult', (), {
+                    'data': pd.DataFrame(),
+                    'success': False,
+                    'error': str(e)
+                })()
+                return False
             
             if not selected_result.success:
                 logger.error(f"❌ Failed to load selected dataset: {selected_result.error}")

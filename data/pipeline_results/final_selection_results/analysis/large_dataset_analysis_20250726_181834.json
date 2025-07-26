@@ -1,0 +1,618 @@
+{
+  "metadata": {
+    "timestamp": "2025-07-26 18:18:34",
+    "processor_version": "1.0",
+    "processing_config": {
+      "data": {
+        "separator": ";",
+        "decimal": ",",
+        "encoding": "utf-8",
+        "default_sample_size": 500,
+        "random_state": 42,
+        "chunk_size": 50000,
+        "low_memory": true,
+        "validate_on_load": true,
+        "handle_bad_lines": "skip",
+        "missing_value_threshold": 0.1,
+        "imputation_strategy": "median"
+      },
+      "stats": {
+        "alpha": 0.05,
+        "confidence_level": 0.95,
+        "normality_test": "shapiro",
+        "normality_sample_size": 10000,
+        "correlation_methods": [
+          "pearson",
+          "spearman",
+          "kendall"
+        ],
+        "correlation_threshold": 0.7,
+        "outlier_methods": [
+          "zscore",
+          "iqr",
+          "isolation_forest"
+        ],
+        "zscore_threshold": 3.0,
+        "iqr_multiplier": 1.5,
+        "isolation_contamination": 0.1
+      },
+      "plots": {
+        "figure_size": [
+          12,
+          8
+        ],
+        "dpi": 300,
+        "style": "seaborn-v0_8",
+        "color_palette": "Set2",
+        "primary_color": "#1f77b4",
+        "secondary_color": "#ff7f0e",
+        "histogram_bins": 30,
+        "scatter_alpha": 0.6,
+        "heatmap_cmap": "RdBu_r",
+        "plotly_theme": "plotly_white",
+        "show_plots": true,
+        "save_plots": true,
+        "image_format": "png",
+        "interactive_format": "html"
+      },
+      "features": {
+        "variance_threshold": 0.01,
+        "correlation_threshold": 0.95,
+        "pca_n_components": 0.95,
+        "umap_n_neighbors": 15,
+        "umap_min_dist": 0.1,
+        "umap_n_components": 2,
+        "importance_methods": [
+          "mutual_info",
+          "variance",
+          "correlation"
+        ],
+        "create_ratios": true,
+        "create_interactions": true,
+        "polynomial_degree": 2
+      },
+      "clustering": {
+        "k_range": [
+          2,
+          20
+        ],
+        "algorithms": [
+          "kmeans",
+          "gmm",
+          "dbscan"
+        ],
+        "metrics": [
+          "silhouette",
+          "calinski_harabasz",
+          "davies_bouldin"
+        ],
+        "scaling_method": "standard",
+        "handle_categorical": "onehot"
+      },
+      "reports": {
+        "formats": [
+          "html",
+          "pdf"
+        ],
+        "template_dir": "templates",
+        "include_raw_data": false,
+        "max_examples": 10,
+        "decimal_places": 4,
+        "css_theme": "default",
+        "logo_path": null
+      },
+      "performance": {
+        "n_jobs": -1,
+        "backend": "loky",
+        "max_memory_usage": "16GB",
+        "enable_caching": true,
+        "cache_dir": ".cache",
+        "show_progress": true,
+        "verbose": 2
+      }
+    }
+  },
+  "dataset_info": {
+    "shape": [
+      1204025,
+      24
+    ],
+    "quality_score": 90.0,
+    "load_time": 0,
+    "memory_usage_mb": 594.3046875,
+    "sample_size": null,
+    "validation_level": "STANDARD",
+    "warnings": 2,
+    "errors": 0
+  },
+  "analysis_results": {
+    "statistical_analysis": {
+      "dataset_stats": "DatasetStats(total_rows=1204025, total_features=13, memory_usage_mb=738.387228012085, missing_data_total=0, missing_data_pct=0.0, duplicate_rows=0, duplicate_pct=0.0, feature_counts={'audio': 7, 'rhythmic': 2, 'harmonic': 3, 'structural': 1, 'metadata': 0, 'derived': 0}, completeness_score=100.0, consistency_score=100.0, overall_quality='excellent')",
+      "feature_stats": {
+        "danceability": "FeatureStats(name='danceability', display_name='Danceability', count=1204025, missing=0, missing_pct=0.0, mean=0.49305652179149084, median=0.501, mode=0.0, std=0.1896694028575769, variance=0.0359744823803498, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.356, q3=0.633, iqr=0.277, skewness=-0.10153859558299758, kurtosis=-0.6084947700468439, unique_values=1362, outliers_iqr=0, outliers_zscore=0)",
+        "energy": "FeatureStats(name='energy', display_name='Energy', count=1204025, missing=0, missing_pct=0.0, mean=0.5095362861749549, median=0.524, mode=0.947, std=0.2946839129522141, variance=0.08683860855282809, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.252, q3=0.7659999999999999, iqr=0.5139999999999999, skewness=-0.08572299589997316, kurtosis=-1.2229058900936876, unique_values=3441, outliers_iqr=0, outliers_zscore=0)",
+        "key": "FeatureStats(name='key', display_name='Key', count=1204025, missing=0, missing_pct=0.0, mean=5.194151284234131, median=5.0, mode=7.0, std=3.5367307822911496, variance=12.508464626405768, min_val=0.0, max_val=11.0, range_val=11.0, q1=2.0, q3=8.0, iqr=6.0, skewness=0.016464131139555242, kurtosis=-1.289350503345684, unique_values=12, outliers_iqr=0, outliers_zscore=0)",
+        "loudness": "FeatureStats(name='loudness', display_name='Loudness (dB)', count=1204025, missing=0, missing_pct=0.0, mean=-11.808702928095348, median=-9.791, mode=-60.0, std=6.982131610979831, variance=48.75016183304381, min_val=-60.0, max_val=7.234, range_val=67.234, q1=-15.254, q3=-6.7170000000000005, iqr=8.536999999999999, skewness=-1.2787013556387588, kurtosis=1.7827010600267723, unique_values=39805, outliers_iqr=38727, outliers_zscore=13310)",
+        "mode": "FeatureStats(name='mode', display_name='Mode (Major/Minor)', count=1204025, missing=0, missing_pct=0.0, mean=0.6714594796619672, median=1.0, mode=1.0, std=0.4696826908183379, variance=0.22060183005435438, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.0, q3=1.0, iqr=1.0, skewness=-0.7301080249131531, kurtosis=-1.4669422719574134, unique_values=2, outliers_iqr=0, outliers_zscore=0)",
+        "speechiness": "FeatureStats(name='speechiness', display_name='Speechiness', count=1204025, missing=0, missing_pct=0.0, mean=0.08438219123357073, median=0.0446, mode=0.0333, std=0.11599137055178545, variance=0.0134539980424816, min_val=0.0, max_val=0.969, range_val=0.969, q1=0.0351, q3=0.0723, iqr=0.037200000000000004, skewness=4.243110777277673, kurtosis=22.347888385889956, unique_values=1653, outliers_iqr=167338, outliers_zscore=26268)",
+        "acousticness": "FeatureStats(name='acousticness', display_name='Acousticness', count=1204025, missing=0, missing_pct=0.0, mean=0.4467510981967652, median=0.389, mode=0.995, std=0.38520141880107606, variance=0.148380133046362, min_val=0.0, max_val=0.996, range_val=0.996, q1=0.0376, q3=0.861, iqr=0.8234, skewness=0.1627891176134124, kurtosis=-1.635655896423754, unique_values=5398, outliers_iqr=0, outliers_zscore=0)",
+        "instrumentalness": "FeatureStats(name='instrumentalness', display_name='Instrumentalness', count=1204025, missing=0, missing_pct=0.0, mean=0.28286054253861836, median=0.00808, mode=0.0, std=0.37628440055278595, variance=0.14158995009936948, min_val=0.0, max_val=1.0, range_val=1.0, q1=7.6e-06, q3=0.7190000000000001, iqr=0.7189924000000001, skewness=0.7969353468227263, kurtosis=-1.1753918053762344, unique_values=5402, outliers_iqr=0, outliers_zscore=0)",
+        "liveness": "FeatureStats(name='liveness', display_name='Liveness', count=1204025, missing=0, missing_pct=0.0, mean=0.20159939306908073, median=0.125, mode=0.111, std=0.1804590608711702, variance=0.03256547265050471, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.0968, q3=0.245, iqr=0.1482, skewness=2.266776542627987, kurtosis=5.245244045380165, unique_values=1799, outliers_iqr=95938, outliers_zscore=35350)",
+        "valence": "FeatureStats(name='valence', display_name='Valence (Positivity)', count=1204025, missing=0, missing_pct=0.0, mean=0.4279866225186355, median=0.4029999999999999, mode=0.0, std=0.270484553429326, variance=0.0731618936438619, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.191, q3=0.644, iqr=0.453, skewness=0.25496963936844136, kurtosis=-1.049935930486502, unique_values=1884, outliers_iqr=0, outliers_zscore=0)",
+        "tempo": "FeatureStats(name='tempo', display_name='Tempo (BPM)', count=1204025, missing=0, missing_pct=0.0, mean=117.6343518099708, median=116.726, mode=0.0, std=30.937046661114284, variance=957.1008561119625, min_val=0.0, max_val=248.93400000000003, range_val=248.93400000000003, q1=94.054, q3=137.046, iqr=42.99199999999999, skewness=0.2767002750609214, kurtosis=0.026132910258006348, unique_values=140472, outliers_iqr=8068, outliers_zscore=3528)",
+        "duration_ms": "FeatureStats(name='duration_ms', display_name='Duration (ms)', count=1204025, missing=0, missing_pct=0.0, mean=248839.86096218933, median=224339.0, mode=240000.0, std=162210.35723030427, variance=26312199992.78293, min_val=1000.0, max_val=6061090.0, range_val=6060090.0, q1=174090.0, q3=285840.0, iqr=111750.0, skewness=8.042138852941491, kurtosis=146.28209581676836, unique_values=210013, outliers_iqr=69379, outliers_zscore=14784)",
+        "time_signature": "FeatureStats(name='time_signature', display_name='Time Signature', count=1204025, missing=0, missing_pct=0.0, mean=3.8324943418948942, median=4.0, mode=4.0, std=0.5611825532708641, variance=0.3149258580956062, min_val=0.0, max_val=5.0, range_val=5.0, q1=4.0, q3=4.0, iqr=0.0, skewness=-3.0093906424530945, kurtosis=13.684232335132428, unique_values=5, outliers_iqr=215378, outliers_zscore=22240)"
+      },
+      "summary_by_type": {
+        "audio": {
+          "feature_count": 7,
+          "total_missing": "0",
+          "avg_missing_pct": 0.0,
+          "avg_skewness": 1.076759976032467,
+          "features": {
+            "danceability": "FeatureStats(name='danceability', display_name='Danceability', count=1204025, missing=0, missing_pct=0.0, mean=0.49305652179149084, median=0.501, mode=0.0, std=0.1896694028575769, variance=0.0359744823803498, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.356, q3=0.633, iqr=0.277, skewness=-0.10153859558299758, kurtosis=-0.6084947700468439, unique_values=1362, outliers_iqr=0, outliers_zscore=0)",
+            "energy": "FeatureStats(name='energy', display_name='Energy', count=1204025, missing=0, missing_pct=0.0, mean=0.5095362861749549, median=0.524, mode=0.947, std=0.2946839129522141, variance=0.08683860855282809, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.252, q3=0.7659999999999999, iqr=0.5139999999999999, skewness=-0.08572299589997316, kurtosis=-1.2229058900936876, unique_values=3441, outliers_iqr=0, outliers_zscore=0)",
+            "valence": "FeatureStats(name='valence', display_name='Valence (Positivity)', count=1204025, missing=0, missing_pct=0.0, mean=0.4279866225186355, median=0.4029999999999999, mode=0.0, std=0.270484553429326, variance=0.0731618936438619, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.191, q3=0.644, iqr=0.453, skewness=0.25496963936844136, kurtosis=-1.049935930486502, unique_values=1884, outliers_iqr=0, outliers_zscore=0)",
+            "acousticness": "FeatureStats(name='acousticness', display_name='Acousticness', count=1204025, missing=0, missing_pct=0.0, mean=0.4467510981967652, median=0.389, mode=0.995, std=0.38520141880107606, variance=0.148380133046362, min_val=0.0, max_val=0.996, range_val=0.996, q1=0.0376, q3=0.861, iqr=0.8234, skewness=0.1627891176134124, kurtosis=-1.635655896423754, unique_values=5398, outliers_iqr=0, outliers_zscore=0)",
+            "instrumentalness": "FeatureStats(name='instrumentalness', display_name='Instrumentalness', count=1204025, missing=0, missing_pct=0.0, mean=0.28286054253861836, median=0.00808, mode=0.0, std=0.37628440055278595, variance=0.14158995009936948, min_val=0.0, max_val=1.0, range_val=1.0, q1=7.6e-06, q3=0.7190000000000001, iqr=0.7189924000000001, skewness=0.7969353468227263, kurtosis=-1.1753918053762344, unique_values=5402, outliers_iqr=0, outliers_zscore=0)",
+            "liveness": "FeatureStats(name='liveness', display_name='Liveness', count=1204025, missing=0, missing_pct=0.0, mean=0.20159939306908073, median=0.125, mode=0.111, std=0.1804590608711702, variance=0.03256547265050471, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.0968, q3=0.245, iqr=0.1482, skewness=2.266776542627987, kurtosis=5.245244045380165, unique_values=1799, outliers_iqr=95938, outliers_zscore=35350)",
+            "speechiness": "FeatureStats(name='speechiness', display_name='Speechiness', count=1204025, missing=0, missing_pct=0.0, mean=0.08438219123357073, median=0.0446, mode=0.0333, std=0.11599137055178545, variance=0.0134539980424816, min_val=0.0, max_val=0.969, range_val=0.969, q1=0.0351, q3=0.0723, iqr=0.037200000000000004, skewness=4.243110777277673, kurtosis=22.347888385889956, unique_values=1653, outliers_iqr=167338, outliers_zscore=26268)"
+          }
+        },
+        "rhythmic": {
+          "feature_count": 2,
+          "total_missing": "0",
+          "avg_missing_pct": 0.0,
+          "avg_skewness": -1.3663451836960865,
+          "features": {
+            "tempo": "FeatureStats(name='tempo', display_name='Tempo (BPM)', count=1204025, missing=0, missing_pct=0.0, mean=117.6343518099708, median=116.726, mode=0.0, std=30.937046661114284, variance=957.1008561119625, min_val=0.0, max_val=248.93400000000003, range_val=248.93400000000003, q1=94.054, q3=137.046, iqr=42.99199999999999, skewness=0.2767002750609214, kurtosis=0.026132910258006348, unique_values=140472, outliers_iqr=8068, outliers_zscore=3528)",
+            "time_signature": "FeatureStats(name='time_signature', display_name='Time Signature', count=1204025, missing=0, missing_pct=0.0, mean=3.8324943418948942, median=4.0, mode=4.0, std=0.5611825532708641, variance=0.3149258580956062, min_val=0.0, max_val=5.0, range_val=5.0, q1=4.0, q3=4.0, iqr=0.0, skewness=-3.0093906424530945, kurtosis=13.684232335132428, unique_values=5, outliers_iqr=215378, outliers_zscore=22240)"
+          }
+        },
+        "harmonic": {
+          "feature_count": 3,
+          "total_missing": "0",
+          "avg_missing_pct": 0.0,
+          "avg_skewness": -0.6641150831374522,
+          "features": {
+            "key": "FeatureStats(name='key', display_name='Key', count=1204025, missing=0, missing_pct=0.0, mean=5.194151284234131, median=5.0, mode=7.0, std=3.5367307822911496, variance=12.508464626405768, min_val=0.0, max_val=11.0, range_val=11.0, q1=2.0, q3=8.0, iqr=6.0, skewness=0.016464131139555242, kurtosis=-1.289350503345684, unique_values=12, outliers_iqr=0, outliers_zscore=0)",
+            "mode": "FeatureStats(name='mode', display_name='Mode (Major/Minor)', count=1204025, missing=0, missing_pct=0.0, mean=0.6714594796619672, median=1.0, mode=1.0, std=0.4696826908183379, variance=0.22060183005435438, min_val=0.0, max_val=1.0, range_val=1.0, q1=0.0, q3=1.0, iqr=1.0, skewness=-0.7301080249131531, kurtosis=-1.4669422719574134, unique_values=2, outliers_iqr=0, outliers_zscore=0)",
+            "loudness": "FeatureStats(name='loudness', display_name='Loudness (dB)', count=1204025, missing=0, missing_pct=0.0, mean=-11.808702928095348, median=-9.791, mode=-60.0, std=6.982131610979831, variance=48.75016183304381, min_val=-60.0, max_val=7.234, range_val=67.234, q1=-15.254, q3=-6.7170000000000005, iqr=8.536999999999999, skewness=-1.2787013556387588, kurtosis=1.7827010600267723, unique_values=39805, outliers_iqr=38727, outliers_zscore=13310)"
+          }
+        },
+        "structural": {
+          "feature_count": 1,
+          "total_missing": "0",
+          "avg_missing_pct": 0.0,
+          "avg_skewness": 8.042138852941491,
+          "features": {
+            "duration_ms": "FeatureStats(name='duration_ms', display_name='Duration (ms)', count=1204025, missing=0, missing_pct=0.0, mean=248839.86096218933, median=224339.0, mode=240000.0, std=162210.35723030427, variance=26312199992.78293, min_val=1000.0, max_val=6061090.0, range_val=6060090.0, q1=174090.0, q3=285840.0, iqr=111750.0, skewness=8.042138852941491, kurtosis=146.28209581676836, unique_values=210013, outliers_iqr=69379, outliers_zscore=14784)"
+          }
+        }
+      },
+      "correlation_preview": {
+        "top_positive": [
+          {
+            "feature1": "energy",
+            "feature2": "loudness",
+            "correlation": 0.8179336802836291
+          },
+          {
+            "feature1": "danceability",
+            "feature2": "valence",
+            "correlation": 0.5634361003688678
+          },
+          {
+            "feature1": "energy",
+            "feature2": "valence",
+            "correlation": 0.3995307285429699
+          },
+          {
+            "feature1": "loudness",
+            "feature2": "valence",
+            "correlation": 0.3850047122141238
+          },
+          {
+            "feature1": "danceability",
+            "feature2": "loudness",
+            "correlation": 0.3781936664825495
+          }
+        ],
+        "top_negative": [
+          {
+            "feature1": "energy",
+            "feature2": "acousticness",
+            "correlation": -0.7962421439877332
+          },
+          {
+            "feature1": "loudness",
+            "feature2": "acousticness",
+            "correlation": -0.6715525585566086
+          },
+          {
+            "feature1": "loudness",
+            "feature2": "instrumentalness",
+            "correlation": -0.3930374327095103
+          },
+          {
+            "feature1": "danceability",
+            "feature2": "acousticness",
+            "correlation": -0.2857496957194613
+          },
+          {
+            "feature1": "danceability",
+            "feature2": "instrumentalness",
+            "correlation": -0.2853305165802689
+          }
+        ],
+        "high_correlations": [
+          {
+            "feature1": "energy",
+            "feature2": "loudness",
+            "correlation": 0.8179336802836291
+          },
+          {
+            "feature1": "energy",
+            "feature2": "acousticness",
+            "correlation": -0.7962421439877332
+          }
+        ],
+        "matrix_shape": [
+          13,
+          13
+        ]
+      },
+      "distribution_summary": {
+        "highly_skewed": [
+          "loudness",
+          "speechiness",
+          "liveness",
+          "duration_ms",
+          "time_signature"
+        ],
+        "moderately_skewed": [
+          "mode",
+          "instrumentalness"
+        ],
+        "approximately_normal": [
+          "danceability",
+          "energy",
+          "key",
+          "acousticness",
+          "valence",
+          "tempo"
+        ],
+        "high_kurtosis": [
+          "speechiness",
+          "liveness",
+          "duration_ms",
+          "time_signature"
+        ],
+        "many_outliers": [
+          "speechiness",
+          "liveness",
+          "duration_ms",
+          "time_signature"
+        ],
+        "low_variance": [],
+        "wide_range": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "speechiness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms",
+          "time_signature"
+        ]
+      },
+      "quality_assessment": {
+        "overall_score": 100.0,
+        "quality_rating": "excellent",
+        "issues": [],
+        "strengths": [
+          "Very low missing data",
+          "No significant duplicates",
+          "Most features have good quality"
+        ],
+        "recommendations": [
+          "Data quality is good - proceed with analysis"
+        ]
+      }
+    },
+    "dimensionality_analysis": {
+      "success": false,
+      "error": "name 'CLUSTERING_FEATURES' is not defined"
+    },
+    "feature_importance": {
+      "success": true,
+      "method": "variance_threshold",
+      "feature_variances": {
+        "danceability": 0.03597445250183201,
+        "energy": 0.08683853642923552,
+        "key": 11.0,
+        "loudness": 48.7501213437169,
+        "mode": 0.22060164683404745,
+        "speechiness": 0.013453986868296642,
+        "acousticness": 0.14838000980960775,
+        "instrumentalness": 0.14158983250218496,
+        "liveness": 0.032565445603331564,
+        "valence": 0.07316183287943122,
+        "tempo": 248.93400000000003,
+        "duration_ms": 6060090.0,
+        "time_signature": 0.31492559653471
+      },
+      "ranked_features": [
+        [
+          "duration_ms",
+          6060090.0
+        ],
+        [
+          "tempo",
+          248.93400000000003
+        ],
+        [
+          "loudness",
+          48.7501213437169
+        ],
+        [
+          "key",
+          11.0
+        ],
+        [
+          "time_signature",
+          0.31492559653471
+        ],
+        [
+          "mode",
+          0.22060164683404745
+        ],
+        [
+          "acousticness",
+          0.14838000980960775
+        ],
+        [
+          "instrumentalness",
+          0.14158983250218496
+        ],
+        [
+          "energy",
+          0.08683853642923552
+        ],
+        [
+          "valence",
+          0.07316183287943122
+        ],
+        [
+          "danceability",
+          0.03597445250183201
+        ],
+        [
+          "liveness",
+          0.032565445603331564
+        ],
+        [
+          "speechiness",
+          0.013453986868296642
+        ]
+      ],
+      "most_important": [
+        [
+          "duration_ms",
+          6060090.0
+        ],
+        [
+          "tempo",
+          248.93400000000003
+        ],
+        [
+          "loudness",
+          48.7501213437169
+        ],
+        [
+          "key",
+          11.0
+        ],
+        [
+          "time_signature",
+          0.31492559653471
+        ]
+      ],
+      "least_important": [
+        [
+          "danceability",
+          0.03597445250183201
+        ],
+        [
+          "liveness",
+          0.032565445603331564
+        ],
+        [
+          "speechiness",
+          0.013453986868296642
+        ]
+      ]
+    },
+    "distribution_analysis": {
+      "success": true,
+      "feature_distributions": {
+        "danceability": {
+          "mean": 0.49305652179149084,
+          "std": 0.1896694028575769,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": -0.10153859558299758,
+          "kurtosis": -0.6084947700468439,
+          "quartiles": {
+            "q25": 0.356,
+            "q50": 0.501,
+            "q75": 0.633
+          }
+        },
+        "energy": {
+          "mean": 0.5095362861749549,
+          "std": 0.2946839129522141,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": -0.08572299589997316,
+          "kurtosis": -1.2229058900936876,
+          "quartiles": {
+            "q25": 0.252,
+            "q50": 0.524,
+            "q75": 0.7659999999999999
+          }
+        },
+        "key": {
+          "mean": 5.194151284234131,
+          "std": 3.5367307822911496,
+          "min": 0.0,
+          "max": 11.0,
+          "skewness": 0.016464131139555242,
+          "kurtosis": -1.289350503345684,
+          "quartiles": {
+            "q25": 2.0,
+            "q50": 5.0,
+            "q75": 8.0
+          }
+        },
+        "loudness": {
+          "mean": -11.808702928095348,
+          "std": 6.982131610979831,
+          "min": -60.0,
+          "max": 7.234,
+          "skewness": -1.2787013556387588,
+          "kurtosis": 1.7827010600267723,
+          "quartiles": {
+            "q25": -15.254,
+            "q50": -9.791,
+            "q75": -6.7170000000000005
+          }
+        },
+        "mode": {
+          "mean": 0.6714594796619672,
+          "std": 0.4696826908183379,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": -0.7301080249131531,
+          "kurtosis": -1.4669422719574134,
+          "quartiles": {
+            "q25": 0.0,
+            "q50": 1.0,
+            "q75": 1.0
+          }
+        },
+        "speechiness": {
+          "mean": 0.08438219123357073,
+          "std": 0.11599137055178545,
+          "min": 0.0,
+          "max": 0.969,
+          "skewness": 4.243110777277673,
+          "kurtosis": 22.347888385889956,
+          "quartiles": {
+            "q25": 0.0351,
+            "q50": 0.0446,
+            "q75": 0.0723
+          }
+        },
+        "acousticness": {
+          "mean": 0.4467510981967652,
+          "std": 0.38520141880107606,
+          "min": 0.0,
+          "max": 0.996,
+          "skewness": 0.1627891176134124,
+          "kurtosis": -1.635655896423754,
+          "quartiles": {
+            "q25": 0.0376,
+            "q50": 0.389,
+            "q75": 0.861
+          }
+        },
+        "instrumentalness": {
+          "mean": 0.28286054253861836,
+          "std": 0.37628440055278595,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": 0.7969353468227263,
+          "kurtosis": -1.1753918053762344,
+          "quartiles": {
+            "q25": 7.6e-06,
+            "q50": 0.00808,
+            "q75": 0.7190000000000001
+          }
+        },
+        "liveness": {
+          "mean": 0.20159939306908073,
+          "std": 0.1804590608711702,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": 2.266776542627987,
+          "kurtosis": 5.245244045380165,
+          "quartiles": {
+            "q25": 0.0968,
+            "q50": 0.125,
+            "q75": 0.245
+          }
+        },
+        "valence": {
+          "mean": 0.4279866225186355,
+          "std": 0.270484553429326,
+          "min": 0.0,
+          "max": 1.0,
+          "skewness": 0.25496963936844136,
+          "kurtosis": -1.049935930486502,
+          "quartiles": {
+            "q25": 0.191,
+            "q50": 0.4029999999999999,
+            "q75": 0.644
+          }
+        },
+        "tempo": {
+          "mean": 117.6343518099708,
+          "std": 30.937046661114284,
+          "min": 0.0,
+          "max": 248.93400000000003,
+          "skewness": 0.2767002750609214,
+          "kurtosis": 0.026132910258006348,
+          "quartiles": {
+            "q25": 94.054,
+            "q50": 116.726,
+            "q75": 137.046
+          }
+        },
+        "duration_ms": {
+          "mean": 248839.86096218933,
+          "std": 162210.35723030427,
+          "min": 1000.0,
+          "max": 6061090.0,
+          "skewness": 8.042138852941491,
+          "kurtosis": 146.28209581676836,
+          "quartiles": {
+            "q25": 174090.0,
+            "q50": 224339.0,
+            "q75": 285840.0
+          }
+        },
+        "time_signature": {
+          "mean": 3.8324943418948942,
+          "std": 0.5611825532708641,
+          "min": 0.0,
+          "max": 5.0,
+          "skewness": -3.0093906424530945,
+          "kurtosis": 13.684232335132428,
+          "quartiles": {
+            "q25": 4.0,
+            "q50": 4.0,
+            "q75": 4.0
+          }
+        }
+      },
+      "summary": {
+        "most_skewed": "duration_ms",
+        "most_variable": "duration_ms",
+        "total_features": 13
+      }
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "target_size": 10000,
+    "skip_analysis": false,
+    "start_time": "2025-07-26 18:16:24",
+    "pipeline_version": "1.0"
+  },
+  "stages": {
+    "analysis": {
+      "success": true,
+      "execution_time": 130.0967574119568,
+      "dataset_path": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\data\\cleaned_data\\tracks_features_clean.csv",
+      "output_dir": "outputs\\selection_pipeline_20250726_181624\\analysis"
+    },
+    "selection": {
+      "success": true,
+      "execution_time": 79.81003642082214,
+      "selected_size": 9677,
+      "selection_quality": 92.00473156471595,
+      "selected_dataset_path": "outputs\\selection_pipeline_20250726_181624\\selection\\selected_songs_10000_20250726_181954.csv",
+      "output_dir": "outputs\\selection_pipeline_20250726_181624\\selection",
+      "validation_summary": {
+        "sample_size_ratio": 0.00803720852972322,
+        "feature_comparisons": {
+          "danceability": {
+            "original_mean": 0.49305652179149084,
+            "selected_mean": 0.4696113361579002,
+            "original_std": 0.1896694028575769,
+            "selected_std": 0.17043507081473508,
+            "mean_difference": 0.12361079478483776,
+            "std_ratio": 0.8985902219701459,
+            "ks_statistic": 0.06964401577699597,
+            "ks_pvalue": 6.22525295518641e-41,
+            "quality_score": 90.17784704694374
+          },
+          "energy": {
+            "original_mean": 0.5095362861749549,
+            "selected_mean": 0.4876356199545313,
+            "original_std": 0.2946839129522141,
+            "selected_std": 0.3013492239116961,
+            "mean_difference": 0.07431917813570993,
+            "std_ratio": 1.0226185097540865,
+            "ks_statistic": 0.056379037212720196,
+            "ks_pvalue": 5.780641085469515e-27,
+            "quality_score": 94.88944249658277
+          },
+          "key": {
+            "original_mean": 5.194151284234131,
+            "selected_mean": 5.780820502221763,
+            "original_std": 3.5367307822911496,
+            "selected_std": 3.232900452759839,
+            "mean_difference": 0.16587895830950936,
+            "std_ratio": 0.9140928874053329,
+            "ks_statistic": 0.12150648664000196,
+            "ks_pvalue": 5.674944824924121e-124,
+            "quality_score": 87.55691474852739
+          },
+          "loudness": {
+            "original_mean": -11.808702928095348,
+            "selected_mean": -12.29310850470187,
+            "original_std": 6.982131610979831,
+            "selected_std": 6.693094340835138,
+            "mean_difference": 0.06937789253997502,
+            "std_ratio": 0.9586032910508069,
+            "ks_statistic": 0.04198650475258131,
+            "ks_pvalue": 3.8358496658998555e-15,
+            "quality_score": 94.907963125275
+          },
+          "mode": {
+            "original_mean": 0.6714594796619672,
+            "selected_mean": 0.7039371706107265,
+            "original_std": 0.4696826908183379,
+            "selected_std": 0.4565426259005078,
+            "mean_difference": 0.069148153814595,
+            "std_ratio": 0.9720235274267062,
+            "ks_statistic": 0.0324776909487593,
+            "ks_pvalue": 3.1214747791478536e-09,
+            "quality_score": 95.67992275544505
+          },
+          "speechiness": {
+            "original_mean": 0.08438219123357073,
+            "selected_mean": 0.08038601839413043,
+            "original_std": 0.11599137055178545,
+            "selected_std": 0.13037008139529002,
+            "mean_difference": 0.03445232882782579,
+            "std_ratio": 1.12396362569994,
+            "ks_statistic": 0.06714346869982957,
+            "ks_pvalue": 4.4966180890588597e-38,
+            "quality_score": 92.48135255908016
+          },
+          "acousticness": {
+            "original_mean": 0.4467510981967652,
+            "selected_mean": 0.47590845052805625,
+            "original_std": 0.38520141880107606,
+            "selected_std": 0.4011288239134831,
+            "mean_difference": 0.0756937822867895,
+            "std_ratio": 1.0413482514212447,
+            "ks_statistic": 0.05915343393139061,
+            "ks_pvalue": 1.214804841431277e-29,
+            "quality_score": 94.12681774535251
+          },
+          "instrumentalness": {
+            "original_mean": 0.28286054253861836,
+            "selected_mean": 0.3411183499576315,
+            "original_std": 0.37628440055278595,
+            "selected_std": 0.39704422483710766,
+            "mean_difference": 0.15482387081002744,
+            "std_ratio": 1.0551705684684887,
+            "ks_statistic": 0.07887122178248374,
+            "ks_pvalue": 2.1709151946649366e-52,
+            "quality_score": 90.37114463130001
+          },
+          "liveness": {
+            "original_mean": 0.20159939306908073,
+            "selected_mean": 0.19597305983259275,
+            "original_std": 0.1804590608711702,
+            "selected_std": 0.18602038822487893,
+            "mean_difference": 0.03117789269946728,
+            "std_ratio": 1.0308176676020662,
+            "ks_statistic": 0.05085172952609607,
+            "ks_pvalue": 5.1521908874088375e-22,
+            "quality_score": 96.23842367241234
+          },
+          "valence": {
+            "original_mean": 0.4279866225186355,
+            "selected_mean": 0.39285184457993183,
+            "original_std": 0.270484553429326,
+            "selected_std": 0.2520357710737534,
+            "mean_difference": 0.12989569087494648,
+            "std_ratio": 0.9317935825847704,
+            "ks_statistic": 0.066864713274844,
+            "ks_pvalue": 9.227217680571226e-38,
+            "quality_score": 91.16777261449933
+          },
+          "tempo": {
+            "original_mean": 117.6343518099708,
+            "selected_mean": 118.69725906789296,
+            "original_std": 30.937046661114284,
+            "selected_std": 28.085151323640716,
+            "mean_difference": 0.03435710168347011,
+            "std_ratio": 0.9078161736408342,
+            "ks_statistic": 0.041248299303825064,
+            "ks_pvalue": 1.2497120185263335e-14,
+            "quality_score": 94.40702575511796
+          },
+          "duration_ms": {
+            "original_mean": 248839.86096218933,
+            "selected_mean": 266393.3491784644,
+            "original_std": 162210.35723030427,
+            "selected_std": 224129.1328283932,
+            "mean_difference": 0.10821434904648432,
+            "std_ratio": 1.3817190015195973,
+            "ks_statistic": 0.05146948232266743,
+            "ks_pvalue": 1.5280701815680798e-22,
+            "quality_score": 81.95323890370837
+          },
+          "time_signature": {
+            "original_mean": 3.8324943418948942,
+            "selected_mean": 3.7834039475043917,
+            "original_std": 0.5611825532708641,
+            "selected_std": 0.5083037913616723,
+            "mean_difference": 0.08747669382160614,
+            "std_ratio": 0.905772619620858,
+            "ks_statistic": 0.0551865971873641,
+            "ks_pvalue": 7.466956930609274e-26,
+            "quality_score": 92.10364428706293
+          }
+        },
+        "overall_quality": 92.00473156471595,
+        "quality_distribution": {
+          "mean": 92.00473156471595,
+          "std": 3.784735545881337,
+          "min": 81.95323890370837,
+          "max": 96.23842367241234
+        }
+      }
+    },
+    "validation": {
+      "success": true,
+      "execution_time": 35.240214824676514,
+      "validation_score": 88.59377097891267,
+      "tests_passed": 3,
+      "total_tests": 4,
+      "pass_rate": 0.75,
+      "output_dir": "outputs\\selection_pipeline_20250726_181624\\validation",
+      "detailed_results": {
+        "success": true,
+        "overall_score": 88.59377097891267,
+        "tests_passed": 3,
+        "total_tests": 4,
+        "pass_rate": 0.75,
+        "validation_time": 35.23921608924866,
+        "report_path": "outputs\\selection_pipeline_20250726_181624\\validation\\selection_validation_report_20250726_182030.md",
+        "original_size": 1204025,
+        "selected_size": 9677,
+        "selection_ratio": 0.00803720852972322
+      }
+    }
+  },
+  "final_results": {
+    "pipeline_success": true,
+    "total_execution_time": 245.14700865745544,
+    "selected_size": 9677,
+    "selection_quality": 92.00473156471595,
+    "validation_score": 88.59377097891267,
+    "successful_stages": 3,
+    "total_stages": 3
+  }
+}
