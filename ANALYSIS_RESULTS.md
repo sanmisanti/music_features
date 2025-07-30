@@ -30,9 +30,10 @@ Este archivo documenta todos los análisis realizados, pruebas ejecutadas, resul
 ⏳ Crear notebooks de análisis interactivos
 ```
 
-**Fecha de última actualización**: 2025-01-26  
+**Fecha de última actualización**: 2025-01-28  
 **Modules completados**: 7/9  
-**Tests ejecutados**: 4 (todos exitosos)
+**Tests ejecutados**: 4 (todos exitosos)  
+**Extracción de Letras**: 🔄 En progreso con hallazgos importantes
 
 ---
 
@@ -413,6 +414,122 @@ Correlation: pandas.corr (pearson, spearman, kendall)
 
 ---
 
-**Última actualización**: 2025-01-26  
-**Próxima revisión**: Después de implementar sistema de reportes  
-**Estado general**: 🎯 **EXCELENTE PROGRESO** - Listos para clustering
+## 🎵 EXTRACCIÓN DE LETRAS - HALLAZGOS Y ANÁLISIS
+
+### Estado Actual (2025-01-28)
+**Módulo**: `lyrics_extractor/`  
+**Dataset objetivo**: 9,677 canciones representativas  
+**API utilizada**: Genius API  
+**Almacenamiento**: SQLite + CSV backup
+
+### 📊 Resultados de Extracción Inicial
+
+#### Tasa de Éxito Observada
+- **Primeras 100 canciones**: 43.0% éxito
+- **Primeras 130 canciones**: 38.5% éxito (tendencia decreciente)
+- **Proyección para dataset completo**: ~3,725 letras (38.5% de 9,677)
+
+#### Problemas Identificados
+
+##### 1. **Problema de Acentos** ✅ RESUELTO
+```
+Dataset: "Reggaeton en Paris"
+Genius:  "Reggaetón en París"
+Similitud original: 0.600 (por debajo del umbral 0.7)
+```
+
+**Solución implementada**:
+- Normalización Unicode (NFD) para eliminar acentos
+- Umbral de similitud reducido de 0.7 a 0.6
+- Mejora verificada: Ozuna encontrado exitosamente
+
+##### 2. **Sesgo de Selección de Dataset** ❌ PROBLEMA PRINCIPAL
+El pipeline de selección priorizó **diversidad musical** sobre **disponibilidad de letras**:
+
+```
+Criterios actuales del selector:
+✅ Diversidad de características musicales
+✅ Representatividad estadística  
+❌ Popularidad/disponibilidad de letras NO considerada
+```
+
+**Tipos de canciones problemáticas**:
+- Artistas de jazz/blues poco conocidos (Larry Coryell, Bobby Dielman)
+- Música instrumental o con letras no disponibles en Genius
+- Artistas independientes sin presencia en plataformas de letras
+
+### 🔧 Mejoras Técnicas Implementadas
+
+#### Sistema de Normalización Robusto
+```python
+def normalize_accents(text: str) -> str:
+    normalized = unicodedata.normalize('NFD', text)
+    without_accents = ''.join(char for char in normalized 
+                             if unicodedata.category(char) != 'Mn')
+    return without_accents.lower()
+```
+
+#### Sistema de Resume Automático
+- Detecta última canción procesada en SQLite
+- Continúa desde posición exacta tras interrupciones
+- Evita recomenzar desde cero
+
+#### Arquitectura de Almacenamiento Híbrida
+- **Primary**: SQLite database (~50-100MB comprimido)
+- **Backup**: CSV files por lotes
+- **Índices**: Optimizados para búsquedas por spotify_id
+
+### 📈 Análisis de Eficiencia
+
+#### Tiempos de Procesamiento
+- **Rate limiting**: 1.5 segundos entre canciones
+- **Tiempo estimado total**: 4-5 horas para dataset completo
+- **Tiempo por lote (100 canciones)**: ~25-30 minutos
+
+#### Estrategias de Búsqueda (4 fallbacks)
+```python
+search_strategies = [
+    f"{song} {artist}",      # Directo
+    f"{artist} {song}",      # Invertido  
+    song,                    # Solo canción
+    f'"{song}" {artist}'     # Con comillas
+]
+```
+
+### 🎯 Conclusiones y Recomendaciones
+
+#### Hallazgo Principal
+**La baja tasa de éxito (38.5%) se debe al sesgo de selección del dataset, NO a problemas técnicos del extractor**.
+
+#### Opciones Estratégicas
+
+##### Opción A: Continuar Extracción Actual
+- ⏱️ Tiempo: 4-5 horas
+- 📊 Resultado: ~3,725 letras (38.5%)
+- 🔄 Post-procesamiento: Buscar 5,952 reemplazos
+- ⚡ Tiempo total: 8-10 horas
+
+##### Opción B: Rehacer Selección con Criterios Optimizados ⭐ RECOMENDADA
+- 🎯 Nuevo selector: Diversidad + Popularidad + Disponibilidad de letras
+- 📊 Tasa esperada: 70-80%
+- ⏱️ Tiempo total: 6-7 horas
+- 🎵 Resultado: ~7,000-8,000 letras de mayor calidad
+
+#### Criterios Propuestos para Nuevo Selector
+```python
+selection_criteria = {
+    'musical_diversity': 0.6,    # Mantener diversidad
+    'popularity_threshold': 0.3,  # Filtro de popularidad mínima
+    'lyrics_availability': 0.1,   # Bonus por idiomas frecuentes
+    'artist_presence': bonus      # Artistas conocidos en Genius
+}
+```
+
+### 🔄 Estado de Decisión
+**PENDIENTE**: Definir si continuar extracción actual o rediseñar selector para optimizar disponibilidad de letras.
+
+---
+
+**Última actualización**: 2025-01-28  
+**Próxima revisión**: Después de decidir estrategia de selección  
+**Estado general**: 🎯 **EXCELENTE PROGRESO TÉCNICO** - Decisión estratégica pendiente

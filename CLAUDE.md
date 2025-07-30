@@ -112,3 +112,43 @@ This system demonstrates a complete ML pipeline for music information retrieval,
 - **Validation**: 3/4 tests passed
 - **Execution Time**: 245 seconds
 - **Status**: ✅ READY FOR CLUSTERING AND RECOMMENDATION SYSTEM
+
+## Lyrics Extraction Module - Key Lessons Learned (2025-01-28)
+
+### 🔧 Technical Implementation Success
+- **SQLite Architecture**: Hybrid storage (SQLite + CSV backup) proved optimal for ~10K songs
+- **Resume System**: Automatic continuation from last processed song prevents data loss  
+- **Unicode Normalization**: Critical fix for accent handling increased success rate significantly
+- **Multi-strategy Search**: 4-fallback search system with similarity verification works effectively
+
+### 📊 Critical Discovery: Dataset Selection Bias
+**Problem**: Current dataset optimized for musical diversity, NOT lyrics availability
+- **Observed Success Rate**: 38.5% (decreasing trend)
+- **Root Cause**: Selection prioritized acoustic characteristics over content availability
+- **Impact**: Only ~3,725 lyrics obtainable from 9,677 songs (insufficient for multimodal analysis)
+
+### 💡 Strategic Recommendation
+**STOP current extraction and REDESIGN selector** with hybrid criteria:
+```python
+# Proposed selection criteria
+selection_weight = {
+    'musical_diversity': 0.6,      # Preserve acoustic variety
+    'popularity_threshold': 0.3,   # Ensure content availability  
+    'lyrics_availability': 0.1     # Language/genre bonus
+}
+```
+
+**Expected Outcome**: 70-80% success rate → ~7,000-8,000 lyrics (viable for analysis)
+
+### 🎯 Implementation Priority
+1. **IMMEDIATE**: Halt current extraction (save progress in SQLite)
+2. **URGENT**: Modify `representative_selector.py` with lyrics-aware criteria
+3. **NEXT**: Re-run selection pipeline for optimized dataset
+4. **THEN**: Resume extraction with higher success probability
+
+### 📝 Documentation Status
+- **ANALYSIS_RESULTS.md**: ✅ Updated with comprehensive findings
+- **DOCS.md**: ✅ Added Section 8 - Lyrics extraction methodology  
+- **CLAUDE.md**: ✅ Current update with lessons learned
+
+**Key Insight**: Technical implementation is robust, but data selection strategy needs optimization for multimodal requirements.

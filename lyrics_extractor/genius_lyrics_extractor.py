@@ -11,7 +11,7 @@ Author: Music Features Analysis Project
 # ============================================================================
 # CONFIGURACIÓN - Modifica tu token de Genius API aquí
 # ============================================================================
-GENIUS_ACCESS_TOKEN = "MKqYdGpnVmVIdVvy1zxmHk8AdTdQcWt6tX2aXmfPxsP-gcfqadIvMZ-EVsPClGEC"  # Reemplaza con tu token de Genius API
+GENIUS_ACCESS_TOKEN = "Kmryp8sRaJ6ZlwRdy_DaUTdR28OXGjEtJ29VikqhUO3eCnA_ovH5gLMajGIzv_qD"  # Reemplaza con tu token de Genius API
 # Obtén tu token gratuito en: https://genius.com/api-clients
 # ============================================================================
 
@@ -27,6 +27,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import re
+from lyrics_database import LyricsDatabase
 
 try:
     import lyricsgenius
@@ -82,6 +83,9 @@ class GeniusLyricsExtractor:
         
         # Cache for failed songs to avoid retry
         self.failed_songs = set()
+        
+        # Initialize SQLite database
+        self.db = LyricsDatabase()
         
     def setup_logging(self):
         """Configure logging for the extraction process."""
@@ -158,6 +162,24 @@ class GeniusLyricsExtractor:
         normalized_artist = artist_name.strip()
         
         return normalized_song, normalized_artist
+    
+    def normalize_accents(self, text: str) -> str:
+        """
+        Normalize accents and special characters for better matching.
+        
+        Args:
+            text: Text to normalize
+            
+        Returns:
+            Text with normalized accents
+        """
+        import unicodedata
+        # Normalize to NFD (decomposed) and remove combining characters (accents)
+        normalized = unicodedata.normalize('NFD', text)
+        # Remove combining characters (accents)
+        without_accents = ''.join(char for char in normalized 
+                                 if unicodedata.category(char) != 'Mn')
+        return without_accents.lower()
         
     def search_song_with_fallbacks(self, song_name: str, artist_name: str) -> Optional[Dict]:
         """
@@ -235,24 +257,24 @@ class GeniusLyricsExtractor:
         if not song or not hasattr(song, 'title') or not hasattr(song, 'primary_artist'):
             return False
         
-        # Normalize for comparison
-        found_title = song.title.lower().strip()
-        found_artist = song.primary_artist.name.lower().strip()
-        target_song_lower = target_song.lower().strip()
-        target_artist_lower = target_artist.lower().strip()
+        # Normalize for comparison (including accents)
+        found_title = self.normalize_accents(song.title.strip())
+        found_artist = self.normalize_accents(song.primary_artist.name.strip())
+        target_song_lower = self.normalize_accents(target_song.strip())
+        target_artist_lower = self.normalize_accents(target_artist.strip())
         
         # Check if song titles are similar (allowing for some differences)
         title_match = (
             target_song_lower in found_title or 
             found_title in target_song_lower or
-            self._calculate_similarity(found_title, target_song_lower) > 0.7
+            self._calculate_similarity(found_title, target_song_lower) > 0.6  # Lowered threshold
         )
         
         # Check if artists are similar
         artist_match = (
             target_artist_lower in found_artist or 
             found_artist in target_artist_lower or
-            self._calculate_similarity(found_artist, target_artist_lower) > 0.7
+            self._calculate_similarity(found_artist, target_artist_lower) > 0.6  # Lowered threshold
         )
         
         return title_match and artist_match
@@ -382,19 +404,30 @@ class GeniusLyricsExtractor:
         
     def save_results(self, results: List[Dict], output_path: str):
         """
-        Save extraction results to CSV file.
+        Save extraction results to both SQLite database and CSV backup.
         
         Args:
             results: List of extraction results
-            output_path: Path to save the results
+            output_path: Path to save CSV backup
         """
         if not results:
             self.logger.warning("No results to save")
             return
         
-        df_results = pd.DataFrame(results)
-        df_results.to_csv(output_path, index=False, encoding='utf-8')
-        self.logger.info(f"Results saved to: {output_path}")
+        # Save to SQLite database (primary storage)
+        try:
+            successful, failed = self.db.insert_lyrics_batch(results)
+            self.logger.info(f"Database insert: {successful} successful, {failed} failed")
+        except Exception as e:
+            self.logger.error(f"Database insert failed: {e}")
+        
+        # Save CSV backup
+        try:
+            df_results = pd.DataFrame(results)
+            df_results.to_csv(output_path, index=False, encoding='utf-8')
+            self.logger.info(f"CSV backup saved to: {output_path}")
+        except Exception as e:
+            self.logger.error(f"CSV backup failed: {e}")
         
     def print_statistics(self):
         """Print extraction statistics."""
@@ -415,21 +448,55 @@ class GeniusLyricsExtractor:
         print("="*50)
 
 
+def find_resume_position(df: pd.DataFrame, db: LyricsDatabase) -> int:
+    """
+    Find the position in the DataFrame to resume extraction from.
+    
+    Args:
+        df: DataFrame with song data
+        db: Database instance
+        
+    Returns:
+        Index position to start extraction from
+    """
+    # Check if there are any processed songs
+    processed_ids = db.get_processed_song_ids()
+    
+    if not processed_ids:
+        print("No previous extraction found. Starting from the beginning.")
+        return 0
+    
+    # Find the last unprocessed song
+    for idx, row in df.iterrows():
+        song_id = row['id']
+        if song_id not in processed_ids:
+            print(f"Resuming extraction from position {idx + 1}/{len(df)}")
+            print(f"Last processed songs: {len(processed_ids)}")
+            print(f"Remaining songs: {len(df) - idx}")
+            return idx
+    
+    # All songs have been processed
+    print("All songs have been processed!")
+    return len(df)
+
+
 def main():
     """Main execution function."""
     # Configuration
-    DATA_PATH = "../data/cleaned_data/tracks_features_500.csv"
+    DATA_PATH = "../data/picked_data_0.csv"
     
     # Try absolute path if relative doesn't work
     if not os.path.exists(DATA_PATH):
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        DATA_PATH = os.path.join(script_dir, "..", "data", "cleaned_data", "tracks_features_500.csv")
+        DATA_PATH = os.path.join(script_dir, "..", "data", "picked_data_0.csv")
     
     OUTPUT_PATH = "output/lyrics_extraction_results.csv"
-    BATCH_SIZE = 50
+    BATCH_SIZE = 100  # Increased for better performance with larger dataset
     
-    print("Genius Lyrics Extractor")
-    print("=" * 30)
+    print("Genius Lyrics Extractor - SQLite Edition")
+    print("=" * 45)
+    print("Processing 9,677 songs from selected dataset")
+    print("Results will be stored in SQLite database")
     
     # Load the dataset
     try:
@@ -449,12 +516,20 @@ def main():
         print("Get your token from: https://genius.com/api-clients")
         return
     
-    # Start extraction
+    # Find resume position
+    resume_idx = find_resume_position(df, extractor.db)
+    
+    if resume_idx >= len(df):
+        print("Extraction complete! All songs have been processed.")
+        extractor.db.print_statistics()
+        return
+    
+    # Start extraction from resume position
     all_results = []
     
     try:
-        # Process in batches to allow for interruption and resumption
-        for start_idx in range(0, len(df), BATCH_SIZE):
+        # Process in batches starting from resume position
+        for start_idx in range(resume_idx, len(df), BATCH_SIZE):
             batch_results = extractor.extract_lyrics_batch(df, start_idx, BATCH_SIZE)
             all_results.extend(batch_results)
             
@@ -464,10 +539,14 @@ def main():
                 extractor.save_results(batch_results, temp_output)
                 print(f"Intermediate results saved to: {temp_output}")
         
-        # Save final results
+        # Save final results and show database statistics
         if all_results:
             extractor.save_results(all_results, OUTPUT_PATH)
-            print(f"Final results saved to: {OUTPUT_PATH}")
+            print(f"Final CSV backup saved to: {OUTPUT_PATH}")
+            print(f"Primary data stored in SQLite database")
+            
+            # Show database statistics
+            extractor.db.print_statistics()
         
     except KeyboardInterrupt:
         print("\nExtraction interrupted by user")

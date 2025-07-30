@@ -1,6 +1,6 @@
 # Genius Lyrics Extractor
 
-Este módulo extrae letras de canciones desde Genius.com para el dataset `tracks_features_500.csv` del sistema de análisis de características musicales.
+Este módulo extrae letras de canciones desde Genius.com para el dataset final de 9,677 canciones representativas (`picked_data_0.csv`) del sistema de análisis de características musicales multimodal.
 
 ## Configuración
 
@@ -53,16 +53,42 @@ python genius_lyrics_extractor.py
 - **Estadísticas completas**: Contadores de éxito, errores, etc.
 - **Tasa de éxito**: Porcentaje de letras extraídas exitosamente
 
-## Archivos de Salida
+## Almacenamiento de Datos
 
-- `lyrics_extraction_results.csv`: Resultados finales con letras extraídas
-- `temp_lyrics_batch_*.csv`: Archivos temporales por lotes
+### Decisión de Arquitectura: SQLite Database
+
+Para optimizar el almacenamiento y acceso de ~10,000 letras de canciones, se utiliza **SQLite** como solución principal:
+
+**Ventajas:**
+- ✅ Archivo único comprimido (~50-100MB vs 500MB+ en CSV)
+- ✅ Índices automáticos para búsquedas rápidas por `spotify_id`
+- ✅ Consultas SQL para análisis semántico avanzado
+- ✅ Transacciones seguras durante extracción por lotes
+- ✅ Sin dependencias adicionales (SQLite incluido en Python)
+
+### Archivos de Salida
+
+- `../data/lyrics.db`: Base de datos SQLite principal con letras extraídas
+- `output/temp_lyrics_batch_*.csv`: Archivos de respaldo temporales por lotes
 - `logs/lyrics_extraction.log`: Log detallado del proceso
 
-## Estructura de Datos de Salida
+### Estructura de la Base de Datos
 
-```csv
-spotify_id,song_name,artist_name,genius_id,genius_title,genius_artist,lyrics,genius_url,extraction_status
+```sql
+CREATE TABLE lyrics (
+    spotify_id TEXT PRIMARY KEY,
+    song_name TEXT,
+    artist_name TEXT,
+    lyrics TEXT,
+    genius_id INTEGER,
+    genius_title TEXT,
+    genius_artist TEXT,
+    genius_url TEXT,
+    word_count INTEGER,
+    language TEXT,
+    extraction_status TEXT,
+    extraction_date TIMESTAMP
+);
 ```
 
 ## Optimizaciones Implementadas
@@ -75,10 +101,12 @@ spotify_id,song_name,artist_name,genius_id,genius_title,genius_artist,lyrics,gen
 
 ## Estadísticas Esperadas
 
-Basado en las mejores prácticas implementadas, se espera:
-- **Tasa de éxito**: 60-80% de las canciones del dataset
-- **Tiempo estimado**: ~15-20 minutos para 500 canciones
+Basado en las mejores prácticas implementadas para el dataset completo de 9,677 canciones:
+- **Tasa de éxito**: 60-80% de las canciones del dataset (~6,000-7,700 letras extraídas)
+- **Tiempo estimado**: ~4-5 horas para 9,677 canciones (con rate limiting)
+- **Procesamiento**: 100 canciones por lote para optimizar rendimiento
 - **Manejo de errores**: <5% de errores técnicos
+- **Tamaño de DB**: ~50-100MB comprimido en SQLite
 
 ## Troubleshooting
 
@@ -95,5 +123,35 @@ pip install lyricsgenius
 - Si necesitas ajustar, modifica `sleep_time` en la configuración del cliente
 
 ### Resultados parciales
-- Los archivos `temp_lyrics_batch_*.csv` contienen resultados intermedios
-- Pueden combinarse manualmente si es necesario
+- Los archivos `temp_lyrics_batch_*.csv` contienen resultados intermedios como respaldo
+- La base de datos SQLite se actualiza automáticamente por lotes
+- Para consultar datos: `sqlite3 ../data/lyrics.db "SELECT COUNT(*) FROM lyrics;"`
+
+## Uso del Sistema SQLite
+
+### Consultas Básicas
+```python
+import sqlite3
+import pandas as pd
+
+# Conectar a la base de datos
+conn = sqlite3.connect('data/lyrics.db')
+
+# Cargar letras de canciones específicas
+df = pd.read_sql("SELECT * FROM lyrics WHERE extraction_status='success'", conn)
+
+# Estadísticas rápidas
+stats = pd.read_sql("SELECT extraction_status, COUNT(*) as count FROM lyrics GROUP BY extraction_status", conn)
+```
+
+### Integración con Datos Musicales
+```python
+# Cargar datos musicales
+music_df = pd.read_csv('data/picked_data_0.csv', sep=';', decimal=',')
+
+# Cargar letras desde SQLite
+lyrics_df = pd.read_sql("SELECT spotify_id, lyrics, word_count FROM lyrics WHERE extraction_status='success'", conn)
+
+# Fusionar datasets
+complete_df = music_df.merge(lyrics_df, left_on='id', right_on='spotify_id', how='left')
+```

@@ -442,3 +442,370 @@
 2025-07-24 18:15:55 - WARNING - [NOT FOUND] Could not find lyrics for: Joyful Girl (Live with the Buffalo Philharmonic Orchestra) by Ani DiFranco
 2025-07-24 18:15:56 - INFO - Processing 143/500: Shameless (Bathtub Mix) by Ani DiFranco
 2025-07-24 18:16:01 - INFO - Results saved to: interrupted_lyrics_extraction_results.csv
+2025-07-28 19:33:15 - INFO - Starting batch extraction: songs 1 to 100
+2025-07-28 19:33:15 - INFO - Processing 1/9677: Never Never by Larry Coryell
+2025-07-28 19:33:29 - WARNING - [NOT FOUND] Could not find lyrics for: Never Never by Larry Coryell
+2025-07-28 19:33:31 - INFO - Processing 2/9677: Old Time's Sake by Bobby Dielman
+2025-07-28 19:33:45 - WARNING - [NOT FOUND] Could not find lyrics for: Old Time's Sake by Bobby Dielman
+2025-07-28 19:33:46 - INFO - Processing 3/9677: Reggaeton en Paris by Ozuna
+2025-07-28 19:34:08 - WARNING - [NOT FOUND] Could not find lyrics for: Reggaeton en Paris by Ozuna
+2025-07-28 19:34:10 - INFO - Processing 4/9677: Sky High by Lisa Shaw
+2025-07-28 19:34:24 - WARNING - [NOT FOUND] Could not find lyrics for: Sky High by Lisa Shaw
+2025-07-28 19:34:26 - INFO - Processing 5/9677: Joy Rider by Shy Luv
+2025-07-28 19:34:47 - WARNING - [NOT FOUND] Could not find lyrics for: Joy Rider by Shy Luv
+2025-07-28 19:34:49 - INFO - Processing 6/9677: Special by Dwele
+2025-07-28 19:35:08 - WARNING - [NOT FOUND] Could not find lyrics for: Special by Dwele
+2025-07-28 19:35:10 - INFO - Processing 7/9677: Sad Bell by Jim Lauderdale
+2025-07-28 19:35:22 - WARNING - [NOT FOUND] Could not find lyrics for: Sad Bell by Jim Lauderdale
+2025-07-28 19:35:24 - INFO - Processing 8/9677: So Deep by Oracle
+2025-07-28 19:35:36 - WARNING - [NOT FOUND] Could not find lyrics for: So Deep by Oracle
+2025-07-28 19:35:38 - INFO - Processing 9/9677: My Guitar by Johnny Rawls
+2025-07-28 19:36:21 - INFO - Starting batch extraction: songs 1 to 100
+2025-07-28 19:36:21 - INFO - Processing 1/9677: Never Never by Larry Coryell
+2025-07-28 19:36:32 - WARNING - [NOT FOUND] Could not find lyrics for: Never Never by Larry Coryell
+2025-07-28 19:36:34 - INFO - Processing 2/9677: Old Time's Sake by Bobby Dielman
+2025-07-28 19:36:44 - WARNING - [NOT FOUND] Could not find lyrics for: Old Time's Sake by Bobby Dielman
+2025-07-28 19:36:45 - INFO - Processing 3/9677: Reggaeton en Paris by Ozuna
+2025-07-28 19:37:04 - WARNING - [NOT FOUND] Could not find lyrics for: Reggaeton en Paris by Ozuna
+2025-07-28 19:37:06 - INFO - Processing 4/9677: Sky High by Lisa Shaw
+2025-07-28 19:43:28 - INFO - Found song: Reggaetón en París by Ozuna
+2025-07-28 19:45:14 - INFO - Starting batch extraction: songs 1 to 100
+2025-07-28 19:45:14 - INFO - Processing 1/9677: Never Never by Larry Coryell
+2025-07-28 19:45:26 - WARNING - [NOT FOUND] Could not find lyrics for: Never Never by Larry Coryell
+2025-07-28 19:45:27 - INFO - Processing 2/9677: Old Time's Sake by Bobby Dielman
+2025-07-28 19:45:38 - WARNING - [NOT FOUND] Could not find lyrics for: Old Time's Sake by Bobby Dielman
+2025-07-28 19:45:39 - INFO - Processing 3/9677: Reggaeton en Paris by Ozuna
+2025-07-28 19:45:43 - INFO - Found song: Reggaetón en París by Ozuna
+2025-07-28 19:45:43 - INFO - [SUCCESS] Successfully extracted lyrics for: Reggaeton en Paris
+2025-07-28 19:45:45 - INFO - Processing 4/9677: Sky High by Lisa Shaw
+2025-07-28 19:45:56 - WARNING - [NOT FOUND] Could not find lyrics for: Sky High by Lisa Shaw
+2025-07-28 19:45:57 - INFO - Processing 5/9677: Joy Rider by Shy Luv
+2025-07-28 19:46:01 - INFO - Found song: Joyrider by Shy Luv
+2025-07-28 19:46:01 - INFO - [SUCCESS] Successfully extracted lyrics for: Joy Rider
+2025-07-28 19:46:03 - INFO - Processing 6/9677: Special by Dwele
+2025-07-28 19:46:20 - WARNING - [NOT FOUND] Could not find lyrics for: Special by Dwele
+2025-07-28 19:46:21 - INFO - Processing 7/9677: Sad Bell by Jim Lauderdale
+2025-07-28 19:46:31 - WARNING - [NOT FOUND] Could not find lyrics for: Sad Bell by Jim Lauderdale
+2025-07-28 19:46:33 - INFO - Processing 8/9677: So Deep by Oracle
+2025-07-28 19:46:43 - WARNING - [NOT FOUND] Could not find lyrics for: So Deep by Oracle
+2025-07-28 19:46:44 - INFO - Processing 9/9677: My Guitar by Johnny Rawls
+2025-07-28 19:46:59 - WARNING - [NOT FOUND] Could not find lyrics for: My Guitar by Johnny Rawls
+2025-07-28 19:47:00 - INFO - Processing 10/9677: May Da Funk Be Wit 'Cha by Da Brat
+2025-07-28 19:47:06 - INFO - Found song: May Da Funk Be Wit ’Cha by Da Brat
+2025-07-28 19:47:06 - INFO - [SUCCESS] Successfully extracted lyrics for: May Da Funk Be Wit 'Cha
+2025-07-28 19:47:06 - INFO - Progress: 10/9677 songs, Success rate: 30.0%
+2025-07-28 19:47:08 - INFO - Processing 11/9677: Hotel Motel by K7
+2025-07-28 19:47:21 - WARNING - [NOT FOUND] Could not find lyrics for: Hotel Motel by K7
+2025-07-28 19:47:23 - INFO - Processing 12/9677: Urban Jungle by Super Pancho Combo
+2025-07-28 19:47:35 - WARNING - [NOT FOUND] Could not find lyrics for: Urban Jungle by Super Pancho Combo
+2025-07-28 19:47:37 - INFO - Processing 13/9677: 72 by Smokey Brights
+2025-07-28 19:47:49 - WARNING - [NOT FOUND] Could not find lyrics for: 72 by Smokey Brights
+2025-07-28 19:47:50 - INFO - Processing 14/9677: World Is Spinning by Cry On Cue
+2025-07-28 19:48:04 - WARNING - [NOT FOUND] Could not find lyrics for: World Is Spinning by Cry On Cue
+2025-07-28 19:48:05 - INFO - Processing 15/9677: I Knew You Were Waiting (For Me) - Percapella by George Michael
+2025-07-28 19:48:13 - WARNING - [NOT FOUND] Could not find lyrics for: I Knew You Were Waiting (For Me) - Percapella by George Michael
+2025-07-28 19:48:15 - INFO - Processing 16/9677: Purple Haze by Hugh Marsh
+2025-07-28 19:48:21 - INFO - Found song: Purple Haze by Hugh Marsh
+2025-07-28 19:48:21 - INFO - [SUCCESS] Successfully extracted lyrics for: Purple Haze
+2025-07-28 19:48:22 - INFO - Processing 17/9677: Talkin' to Myself by Barry Levenson
+2025-07-28 19:48:35 - WARNING - [NOT FOUND] Could not find lyrics for: Talkin' to Myself by Barry Levenson
+2025-07-28 19:48:37 - INFO - Processing 18/9677: Ain't Nobody by Chaka Khan
+2025-07-28 19:48:43 - INFO - Found song: Ain’t Nobody by Chaka Khan
+2025-07-28 19:48:43 - INFO - [SUCCESS] Successfully extracted lyrics for: Ain't Nobody
+2025-07-28 19:48:45 - INFO - Processing 19/9677: Never Mind Love by M People
+2025-07-28 19:48:50 - INFO - Found song: Never Mind Love by M People
+2025-07-28 19:48:50 - INFO - [SUCCESS] Successfully extracted lyrics for: Never Mind Love
+2025-07-28 19:48:52 - INFO - Processing 20/9677: Sparkle by Mflex Sounds
+2025-07-28 19:49:08 - WARNING - [NOT FOUND] Could not find lyrics for: Sparkle by Mflex Sounds
+2025-07-28 19:49:08 - INFO - Progress: 20/9677 songs, Success rate: 30.0%
+2025-07-28 19:49:10 - INFO - Processing 21/9677: Венок из васильков by Irina Saltykova
+2025-07-28 19:49:18 - WARNING - [NOT FOUND] Could not find lyrics for: Венок из васильков by Irina Saltykova
+2025-07-28 19:49:19 - INFO - Processing 22/9677: La Cicatriz by El Gran Combo De Puerto Rico
+2025-07-28 19:49:32 - WARNING - [NOT FOUND] Could not find lyrics for: La Cicatriz by El Gran Combo De Puerto Rico
+2025-07-28 19:49:34 - INFO - Processing 23/9677: Беспризорник (Remix) by Hi-Fi
+2025-07-28 19:49:39 - INFO - Found song: Беспризорник (Homeless) by Hi-Fi (RUS)
+2025-07-28 19:49:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Беспризорник (Remix)
+2025-07-28 19:49:40 - INFO - Processing 24/9677: Half Way Dead by Alex Arrowsmith
+2025-07-28 19:49:55 - WARNING - [NOT FOUND] Could not find lyrics for: Half Way Dead by Alex Arrowsmith
+2025-07-28 19:49:56 - INFO - Processing 25/9677: You're Not The 1 by Groove Theory
+2025-07-28 19:50:02 - INFO - Found song: You’re Not the 1 by Groove Theory
+2025-07-28 19:50:02 - INFO - [SUCCESS] Successfully extracted lyrics for: You're Not The 1
+2025-07-28 19:50:04 - INFO - Processing 26/9677: Missing by No Mercy
+2025-07-28 19:50:10 - INFO - Found song: Missing by No Mercy
+2025-07-28 19:50:10 - INFO - [SUCCESS] Successfully extracted lyrics for: Missing
+2025-07-28 19:50:11 - INFO - Processing 27/9677: Lovergirl - Single Version by Teena Marie
+2025-07-28 19:50:16 - INFO - Found song: Lovergirl (Single Version) by Teena Marie
+2025-07-28 19:50:16 - INFO - [SUCCESS] Successfully extracted lyrics for: Lovergirl - Single Version
+2025-07-28 19:50:18 - INFO - Processing 28/9677: 1000 und 1 Nacht (Zoom) by Wolfgang Petry
+2025-07-28 19:50:31 - WARNING - [NOT FOUND] Could not find lyrics for: 1000 und 1 Nacht (Zoom) by Wolfgang Petry
+2025-07-28 19:50:32 - INFO - Processing 29/9677: Yapa by Kizz Daniel
+2025-07-28 19:50:38 - INFO - Found song: Yapa by Kizz Daniel
+2025-07-28 19:50:38 - INFO - [SUCCESS] Successfully extracted lyrics for: Yapa
+2025-07-28 19:50:39 - INFO - Processing 30/9677: Nowhere (feat. Rita Ora & KYLE) by Clean Bandit
+2025-07-28 19:50:46 - INFO - Found song: Nowhere by Clean Bandit
+2025-07-28 19:50:46 - INFO - [SUCCESS] Successfully extracted lyrics for: Nowhere (feat. Rita Ora & KYLE)
+2025-07-28 19:50:46 - INFO - Progress: 30/9677 songs, Success rate: 40.0%
+2025-07-28 19:50:47 - INFO - Processing 31/9677: Rising To Set by Prospect
+2025-07-28 19:50:53 - INFO - Found song: Rising To Set by Prospect
+2025-07-28 19:50:53 - INFO - [SUCCESS] Successfully extracted lyrics for: Rising To Set
+2025-07-28 19:50:54 - INFO - Processing 32/9677: X-Girlfriend by Mariah Carey
+2025-07-28 19:51:00 - INFO - Found song: X-Girlfriend by Mariah Carey
+2025-07-28 19:51:00 - INFO - [SUCCESS] Successfully extracted lyrics for: X-Girlfriend
+2025-07-28 19:51:02 - INFO - Processing 33/9677: simple and clean by ITSOKTOCRY
+2025-07-28 19:51:07 - INFO - Found song: ​simple and clean by ITSOKTOCRY
+2025-07-28 19:51:07 - INFO - [SUCCESS] Successfully extracted lyrics for: simple and clean
+2025-07-28 19:51:09 - INFO - Processing 34/9677: Let It Go by Luis Oliart
+2025-07-28 19:51:30 - WARNING - [NOT FOUND] Could not find lyrics for: Let It Go by Luis Oliart
+2025-07-28 19:51:31 - INFO - Processing 35/9677: That's Not True by David Wax Museum
+2025-07-28 19:51:45 - WARNING - [NOT FOUND] Could not find lyrics for: That's Not True by David Wax Museum
+2025-07-28 19:51:46 - INFO - Processing 36/9677: Park Ave by Katzù Oso
+2025-07-28 19:51:51 - INFO - Found song: Park Ave by Katzù Oso
+2025-07-28 19:51:51 - INFO - [SUCCESS] Successfully extracted lyrics for: Park Ave
+2025-07-28 19:51:53 - INFO - Processing 37/9677: That's All I Got by Tommy Castro
+2025-07-28 19:52:12 - WARNING - [NOT FOUND] Could not find lyrics for: That's All I Got by Tommy Castro
+2025-07-28 19:52:13 - INFO - Processing 38/9677: Old Cheap Sneakers - Studio by Larry Donn & The Killer Possum Band
+2025-07-28 19:52:24 - WARNING - [NOT FOUND] Could not find lyrics for: Old Cheap Sneakers - Studio by Larry Donn & The Killer Possum Band
+2025-07-28 19:52:25 - INFO - Processing 39/9677: What You Said by The Suffers
+2025-07-28 19:52:32 - INFO - Found song: What You Said by The Suffers
+2025-07-28 19:52:32 - INFO - [SUCCESS] Successfully extracted lyrics for: What You Said
+2025-07-28 19:52:33 - INFO - Processing 40/9677: It's All About You - Remixed & Remastered by Marc Staggers
+2025-07-28 19:52:43 - WARNING - [NOT FOUND] Could not find lyrics for: It's All About You - Remixed & Remastered by Marc Staggers
+2025-07-28 19:52:43 - INFO - Progress: 40/9677 songs, Success rate: 42.5%
+2025-07-28 19:52:44 - INFO - Processing 41/9677: Abeja by Taina Asili y La Banda Rebelde
+2025-07-28 19:52:56 - WARNING - [NOT FOUND] Could not find lyrics for: Abeja by Taina Asili y La Banda Rebelde
+2025-07-28 19:52:58 - INFO - Processing 42/9677: Boomerang by Stone River Boys
+2025-07-28 19:53:11 - WARNING - [NOT FOUND] Could not find lyrics for: Boomerang by Stone River Boys
+2025-07-28 19:53:13 - INFO - Processing 43/9677: Tavalode Yek Seda by Kourosh Yaghmaei
+2025-07-28 19:53:18 - INFO - Found song: Tavalode Yek Seda by Kourosh Yaghmaei - کورش یغمایی
+2025-07-28 19:53:18 - INFO - [SUCCESS] Successfully extracted lyrics for: Tavalode Yek Seda
+2025-07-28 19:53:20 - INFO - Processing 44/9677: Trust in Your Love by Nick Michigan
+2025-07-28 19:53:33 - WARNING - [NOT FOUND] Could not find lyrics for: Trust in Your Love by Nick Michigan
+2025-07-28 19:53:34 - INFO - Processing 45/9677: Waitin' For The Light by Popa Chubby
+2025-07-28 19:53:54 - WARNING - [NOT FOUND] Could not find lyrics for: Waitin' For The Light by Popa Chubby
+2025-07-28 19:53:55 - INFO - Processing 46/9677: Better at Being Young by Meg & Dia
+2025-07-28 19:54:01 - INFO - Found song: Better At Being Young by Meg & Dia
+2025-07-28 19:54:01 - INFO - [SUCCESS] Successfully extracted lyrics for: Better at Being Young
+2025-07-28 19:54:02 - INFO - Processing 47/9677: I Just Wanna Be With You by *NSYNC
+2025-07-28 19:54:08 - INFO - Found song: I Just Wanna Be With You by *NSYNC
+2025-07-28 19:54:08 - INFO - [SUCCESS] Successfully extracted lyrics for: I Just Wanna Be With You
+2025-07-28 19:54:09 - INFO - Processing 48/9677: Reunion Of Two Hearts by Gloria Gaynor
+2025-07-28 19:54:18 - WARNING - [NOT FOUND] Could not find lyrics for: Reunion Of Two Hearts by Gloria Gaynor
+2025-07-28 19:54:20 - INFO - Processing 49/9677: When Will This Be Over by Alex Tyler
+2025-07-28 19:54:29 - WARNING - [NOT FOUND] Could not find lyrics for: When Will This Be Over by Alex Tyler
+2025-07-28 19:54:30 - INFO - Processing 50/9677: Forget by B! Machine
+2025-07-28 19:54:36 - INFO - Found song: Forget by B! Machine
+2025-07-28 19:54:36 - INFO - [SUCCESS] Successfully extracted lyrics for: Forget
+2025-07-28 19:54:36 - INFO - Progress: 50/9677 songs, Success rate: 42.0%
+2025-07-28 19:54:38 - INFO - Processing 51/9677: (Oh No) What You Got by Justin Timberlake
+2025-07-28 19:54:44 - INFO - Found song: (Oh No) What You Got by Justin Timberlake
+2025-07-28 19:54:44 - INFO - [SUCCESS] Successfully extracted lyrics for: (Oh No) What You Got
+2025-07-28 19:54:46 - INFO - Processing 52/9677: Anderson's Luck by Jackopierce
+2025-07-28 19:54:51 - INFO - Found song: Anderson’s Luck by Jackopierce
+2025-07-28 19:54:51 - INFO - [SUCCESS] Successfully extracted lyrics for: Anderson's Luck
+2025-07-28 19:54:52 - INFO - Processing 53/9677: Maybe The Next Time by Bananarama
+2025-07-28 19:54:58 - INFO - Found song: Maybe the Next Time by Bananarama
+2025-07-28 19:54:58 - INFO - [SUCCESS] Successfully extracted lyrics for: Maybe The Next Time
+2025-07-28 19:54:59 - INFO - Processing 54/9677: La Familia by Contagious
+2025-07-28 19:55:14 - WARNING - [NOT FOUND] Could not find lyrics for: La Familia by Contagious
+2025-07-28 19:55:16 - INFO - Processing 55/9677: Me Muero by Sidestepper
+2025-07-28 19:55:28 - WARNING - [NOT FOUND] Could not find lyrics for: Me Muero by Sidestepper
+2025-07-28 19:55:30 - INFO - Processing 56/9677: Rehab by The Jolly Boys
+2025-07-28 19:55:35 - INFO - Found song: Rehab by The Jolly Boys
+2025-07-28 19:55:35 - INFO - [SUCCESS] Successfully extracted lyrics for: Rehab
+2025-07-28 19:55:37 - INFO - Processing 57/9677: Savin' All My Time by Nu Shooz
+2025-07-28 19:55:45 - WARNING - [NOT FOUND] Could not find lyrics for: Savin' All My Time by Nu Shooz
+2025-07-28 19:55:47 - INFO - Processing 58/9677: Shadowdance (Awololo) by Brian Jasper Hull
+2025-07-28 19:55:55 - WARNING - [NOT FOUND] Could not find lyrics for: Shadowdance (Awololo) by Brian Jasper Hull
+2025-07-28 19:55:57 - INFO - Processing 59/9677: Bäba by Nullzweizwei
+2025-07-28 19:56:04 - INFO - Found song: Bäba by Nullzweizwei
+2025-07-28 19:56:04 - INFO - [SUCCESS] Successfully extracted lyrics for: Bäba
+2025-07-28 19:56:05 - INFO - Processing 60/9677: Misbehaving - The Misfit Version by Labrinth
+2025-07-28 19:56:11 - INFO - Found song: Misbehaving (The Misfit Version) by Labrinth
+2025-07-28 19:56:11 - INFO - [SUCCESS] Successfully extracted lyrics for: Misbehaving - The Misfit Version
+2025-07-28 19:56:11 - INFO - Progress: 60/9677 songs, Success rate: 45.0%
+2025-07-28 19:56:12 - INFO - Processing 61/9677: Something Sweet by Madison Beer
+2025-07-28 19:56:18 - INFO - Found song: Something Sweet by Madison Beer
+2025-07-28 19:56:18 - INFO - [SUCCESS] Successfully extracted lyrics for: Something Sweet
+2025-07-28 19:56:19 - INFO - Processing 62/9677: Gone by Magnolia Mountain
+2025-07-28 19:56:34 - WARNING - [NOT FOUND] Could not find lyrics for: Gone by Magnolia Mountain
+2025-07-28 19:56:36 - INFO - Processing 63/9677: What Have I Done Wrong by John Mayall
+2025-07-28 19:56:42 - INFO - Found song: What Have I Done Wrong? by John Mayall
+2025-07-28 19:56:42 - INFO - [SUCCESS] Successfully extracted lyrics for: What Have I Done Wrong
+2025-07-28 19:56:43 - INFO - Processing 64/9677: The Last Bandito by Tater Family Travelling Circus
+2025-07-28 19:56:56 - WARNING - [NOT FOUND] Could not find lyrics for: The Last Bandito by Tater Family Travelling Circus
+2025-07-28 19:56:58 - INFO - Processing 65/9677: Eppy Moray by Tempest
+2025-07-28 19:57:10 - WARNING - [NOT FOUND] Could not find lyrics for: Eppy Moray by Tempest
+2025-07-28 19:57:12 - INFO - Processing 66/9677: Belize by Work Drugs
+2025-07-28 19:57:25 - WARNING - [NOT FOUND] Could not find lyrics for: Belize by Work Drugs
+2025-07-28 19:57:27 - INFO - Processing 67/9677: Bye Bye By By Bye by Restless
+2025-07-28 19:57:51 - WARNING - [NOT FOUND] Could not find lyrics for: Bye Bye By By Bye by Restless
+2025-07-28 19:57:52 - INFO - Processing 68/9677: Mermaid Legs by Versus
+2025-07-28 19:57:58 - INFO - Found song: Mermaid Legs by Versus (NY)
+2025-07-28 19:57:58 - INFO - [SUCCESS] Successfully extracted lyrics for: Mermaid Legs
+2025-07-28 19:57:59 - INFO - Processing 69/9677: Старинные часы by Alla Pugacheva
+2025-07-28 19:58:05 - INFO - Found song: Старинные часы (Old Clock) by Алла Пугачёва (Alla Pugacheva)
+2025-07-28 19:58:05 - INFO - [SUCCESS] Successfully extracted lyrics for: Старинные часы
+2025-07-28 19:58:06 - INFO - Processing 70/9677: Candy Floss by Naomi
+2025-07-28 19:58:12 - INFO - Found song: Candy Floss by Naomi
+2025-07-28 19:58:12 - INFO - [SUCCESS] Successfully extracted lyrics for: Candy Floss
+2025-07-28 19:58:12 - INFO - Progress: 70/9677 songs, Success rate: 45.7%
+2025-07-28 19:58:13 - INFO - Processing 71/9677: Something In The Water by Jeff Jensen Band
+2025-07-28 19:58:29 - WARNING - [NOT FOUND] Could not find lyrics for: Something In The Water by Jeff Jensen Band
+2025-07-28 19:58:30 - INFO - Processing 72/9677: Lub Dub (For Megan) by Enjae
+2025-07-28 19:58:42 - WARNING - [NOT FOUND] Could not find lyrics for: Lub Dub (For Megan) by Enjae
+2025-07-28 19:58:43 - INFO - Processing 73/9677: Ride by Groove Theory
+2025-07-28 19:58:50 - INFO - Found song: Ride by Groove Theory
+2025-07-28 19:58:50 - INFO - [SUCCESS] Successfully extracted lyrics for: Ride
+2025-07-28 19:58:51 - INFO - Processing 74/9677: Cruel Destino (Bachata Version) by Randy Paris
+2025-07-28 19:59:00 - WARNING - [NOT FOUND] Could not find lyrics for: Cruel Destino (Bachata Version) by Randy Paris
+2025-07-28 19:59:02 - INFO - Processing 75/9677: The Dust Bowl by Blue Moon Rising
+2025-07-28 19:59:14 - WARNING - [NOT FOUND] Could not find lyrics for: The Dust Bowl by Blue Moon Rising
+2025-07-28 19:59:16 - INFO - Processing 76/9677: Where You Been so Long by Frank Bey
+2025-07-28 19:59:29 - WARNING - [NOT FOUND] Could not find lyrics for: Where You Been so Long by Frank Bey
+2025-07-28 19:59:31 - INFO - Processing 77/9677: Interesting Times by Mika
+2025-07-28 19:59:44 - WARNING - [NOT FOUND] Could not find lyrics for: Interesting Times by Mika
+2025-07-28 19:59:46 - INFO - Processing 78/9677: Bluegrass Shuffle by Marty Stuart
+2025-07-28 19:59:59 - WARNING - [NOT FOUND] Could not find lyrics for: Bluegrass Shuffle by Marty Stuart
+2025-07-28 20:00:00 - INFO - Processing 79/9677: Boom Boom by Sandy
+2025-07-28 20:00:24 - WARNING - [NOT FOUND] Could not find lyrics for: Boom Boom by Sandy
+2025-07-28 20:00:26 - INFO - Processing 80/9677: Alexandrie Alexandra by Various Artists
+2025-07-28 20:00:48 - WARNING - [NOT FOUND] Could not find lyrics for: Alexandrie Alexandra by Various Artists
+2025-07-28 20:00:48 - INFO - Progress: 80/9677 songs, Success rate: 41.2%
+2025-07-28 20:00:50 - INFO - Processing 81/9677: The Price You Pay by Molly Hatchet
+2025-07-28 20:00:56 - INFO - Found song: The Price You Pay by Molly Hatchet
+2025-07-28 20:00:56 - INFO - [SUCCESS] Successfully extracted lyrics for: The Price You Pay
+2025-07-28 20:00:58 - INFO - Processing 82/9677: Obnoxiously Sexual by GusGus
+2025-07-28 20:01:03 - INFO - Found song: Obnoxiously Sexual by GusGus
+2025-07-28 20:01:03 - INFO - [SUCCESS] Successfully extracted lyrics for: Obnoxiously Sexual
+2025-07-28 20:01:05 - INFO - Processing 83/9677: Diseases Of Yore by MC Frontalot
+2025-07-28 20:01:11 - INFO - Found song: Diseases of Yore by MC Frontalot
+2025-07-28 20:01:11 - INFO - [SUCCESS] Successfully extracted lyrics for: Diseases Of Yore
+2025-07-28 20:01:13 - INFO - Processing 84/9677: Smooth Operator - Remastered by Sade
+2025-07-28 20:01:22 - WARNING - [NOT FOUND] Could not find lyrics for: Smooth Operator - Remastered by Sade
+2025-07-28 20:01:23 - INFO - Processing 85/9677: Mission of Man by Low Moda
+2025-07-28 20:01:37 - WARNING - [NOT FOUND] Could not find lyrics for: Mission of Man by Low Moda
+2025-07-28 20:01:38 - INFO - Processing 86/9677: Fly Away by Voices of Theory
+2025-07-28 20:01:51 - WARNING - [NOT FOUND] Could not find lyrics for: Fly Away by Voices of Theory
+2025-07-28 20:01:53 - INFO - Processing 87/9677: Agua de Rosas by Lila Downs
+2025-07-28 20:01:58 - INFO - Found song: Agua de Rosas by Lila Downs
+2025-07-28 20:01:58 - INFO - [SUCCESS] Successfully extracted lyrics for: Agua de Rosas
+2025-07-28 20:02:00 - INFO - Processing 88/9677: Turn Me Up by José James
+2025-07-28 20:02:05 - INFO - Found song: Turn Me Up by José James
+2025-07-28 20:02:05 - INFO - [SUCCESS] Successfully extracted lyrics for: Turn Me Up
+2025-07-28 20:02:07 - INFO - Processing 89/9677: Sex & Consequences by Lisa McCormick
+2025-07-28 20:02:16 - WARNING - [NOT FOUND] Could not find lyrics for: Sex & Consequences by Lisa McCormick
+2025-07-28 20:02:17 - INFO - Processing 90/9677: Fallin’ Soldier by Tela
+2025-07-28 20:02:30 - WARNING - [NOT FOUND] Could not find lyrics for: Fallin’ Soldier by Tela
+2025-07-28 20:02:30 - INFO - Progress: 90/9677 songs, Success rate: 42.2%
+2025-07-28 20:02:32 - INFO - Processing 91/9677: I Get a Feeling by Paul Brown
+2025-07-28 20:02:45 - WARNING - [NOT FOUND] Could not find lyrics for: I Get a Feeling by Paul Brown
+2025-07-28 20:02:46 - INFO - Processing 92/9677: Underground by Eight Two
+2025-07-28 20:03:13 - WARNING - [NOT FOUND] Could not find lyrics for: Underground by Eight Two
+2025-07-28 20:03:15 - INFO - Processing 93/9677: Feel so Good by Pompeya
+2025-07-28 20:03:20 - INFO - Found song: Feel so Good by Pompeya
+2025-07-28 20:03:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Feel so Good
+2025-07-28 20:03:22 - INFO - Processing 94/9677: World Come 2 An End by H.A.W.K.
+2025-07-28 20:03:28 - INFO - Found song: World Come 2 an End by H.A.W.K.
+2025-07-28 20:03:28 - INFO - [SUCCESS] Successfully extracted lyrics for: World Come 2 An End
+2025-07-28 20:03:30 - INFO - Processing 95/9677: Jockey full of Bourbon by Fat Vinny & The Wiseguys
+2025-07-28 20:03:43 - WARNING - [NOT FOUND] Could not find lyrics for: Jockey full of Bourbon by Fat Vinny & The Wiseguys
+2025-07-28 20:03:44 - INFO - Processing 96/9677: Suru on by Happoradio
+2025-07-28 20:03:50 - INFO - Found song: Suru on by Happoradio
+2025-07-28 20:03:50 - INFO - [SUCCESS] Successfully extracted lyrics for: Suru on
+2025-07-28 20:03:51 - INFO - Processing 97/9677: Giving Up by Riki Michele
+2025-07-28 20:04:04 - WARNING - [NOT FOUND] Could not find lyrics for: Giving Up by Riki Michele
+2025-07-28 20:04:05 - INFO - Processing 98/9677: Night After Night by Phillip Sandifer
+2025-07-28 20:04:12 - INFO - Found song: Night After Night by Phillip Sandifer
+2025-07-28 20:04:12 - INFO - [SUCCESS] Successfully extracted lyrics for: Night After Night
+2025-07-28 20:04:13 - INFO - Processing 99/9677: Heartless by Aviary
+2025-07-28 20:04:39 - WARNING - [NOT FOUND] Could not find lyrics for: Heartless by Aviary
+2025-07-28 20:04:41 - INFO - Processing 100/9677: B & E by Blaze Ya Dead Homie
+2025-07-28 20:04:47 - INFO - Found song: B & E by Blaze Ya Dead Homie
+2025-07-28 20:04:47 - INFO - [SUCCESS] Successfully extracted lyrics for: B & E
+2025-07-28 20:04:47 - INFO - Progress: 100/9677 songs, Success rate: 43.0%
+2025-07-28 20:04:48 - INFO - Database insert: 100 successful, 0 failed
+2025-07-28 20:04:48 - INFO - CSV backup saved to: output/temp_lyrics_batch_0.csv
+2025-07-28 20:04:48 - INFO - Starting batch extraction: songs 101 to 200
+2025-07-28 20:04:48 - INFO - Processing 101/9677: Road To Columbia by James Alan Shelton
+2025-07-28 20:04:58 - WARNING - [NOT FOUND] Could not find lyrics for: Road To Columbia by James Alan Shelton
+2025-07-28 20:04:59 - INFO - Processing 102/9677: Tidsportal by Psilodump
+2025-07-28 20:05:11 - WARNING - [NOT FOUND] Could not find lyrics for: Tidsportal by Psilodump
+2025-07-28 20:05:13 - INFO - Processing 103/9677: Der Gute Kamerad by Nagamatzu
+2025-07-28 20:05:25 - WARNING - [NOT FOUND] Could not find lyrics for: Der Gute Kamerad by Nagamatzu
+2025-07-28 20:05:26 - INFO - Processing 104/9677: Lone Rider by The Supertones
+2025-07-28 20:05:40 - WARNING - [NOT FOUND] Could not find lyrics for: Lone Rider by The Supertones
+2025-07-28 20:05:42 - INFO - Processing 105/9677: Mambo Chimbo by Los Amigos Invisibles
+2025-07-28 20:05:54 - WARNING - [NOT FOUND] Could not find lyrics for: Mambo Chimbo by Los Amigos Invisibles
+2025-07-28 20:05:55 - INFO - Processing 106/9677: Hard as Nails by Ted Nugent
+2025-07-28 20:06:02 - INFO - Found song: Hard as Nails by Ted Nugent
+2025-07-28 20:06:02 - INFO - [SUCCESS] Successfully extracted lyrics for: Hard as Nails
+2025-07-28 20:06:03 - INFO - Processing 107/9677: Payday In the Army by Benny Martin
+2025-07-28 20:06:13 - WARNING - [NOT FOUND] Could not find lyrics for: Payday In the Army by Benny Martin
+2025-07-28 20:06:14 - INFO - Processing 108/9677: Honky Tonk Women by Pickin' On Series
+2025-07-28 20:06:32 - WARNING - [NOT FOUND] Could not find lyrics for: Honky Tonk Women by Pickin' On Series
+2025-07-28 20:06:33 - INFO - Processing 109/9677: Sleeping Bag by Brent Truitt
+2025-07-28 20:06:46 - WARNING - [NOT FOUND] Could not find lyrics for: Sleeping Bag by Brent Truitt
+2025-07-28 20:06:47 - INFO - Processing 110/9677: BRN Breakdown by Chris Jones & The Night Drivers
+2025-07-28 20:07:00 - WARNING - [NOT FOUND] Could not find lyrics for: BRN Breakdown by Chris Jones & The Night Drivers
+2025-07-28 20:07:00 - INFO - Progress: 110/9677 songs, Success rate: 40.0%
+2025-07-28 20:07:01 - INFO - Processing 111/9677: Billy Wilson by Billy Baker
+2025-07-28 20:07:25 - WARNING - [NOT FOUND] Could not find lyrics for: Billy Wilson by Billy Baker
+2025-07-28 20:07:26 - INFO - Processing 112/9677: Rivers by Butterglory
+2025-07-28 20:07:32 - INFO - Found song: Rivers by Butterglory
+2025-07-28 20:07:32 - INFO - [SUCCESS] Successfully extracted lyrics for: Rivers
+2025-07-28 20:07:34 - INFO - Processing 113/9677: Stoney Wylde by Treble Makers
+2025-07-28 20:07:47 - WARNING - [NOT FOUND] Could not find lyrics for: Stoney Wylde by Treble Makers
+2025-07-28 20:07:48 - INFO - Processing 114/9677: Ohaiv Hashem by Zalman Goldstein & Yaron Gershovsky
+2025-07-28 20:07:57 - WARNING - [NOT FOUND] Could not find lyrics for: Ohaiv Hashem by Zalman Goldstein & Yaron Gershovsky
+2025-07-28 20:07:58 - INFO - Processing 115/9677: Release Me by Sunscreem
+2025-07-28 20:08:03 - INFO - Found song: Release Me by Sunscreem
+2025-07-28 20:08:03 - INFO - [SUCCESS] Successfully extracted lyrics for: Release Me
+2025-07-28 20:08:05 - INFO - Processing 116/9677: Ano Ano Avdoh by Zalman Goldstein & Yaron Gershovsky
+2025-07-28 20:08:13 - WARNING - [NOT FOUND] Could not find lyrics for: Ano Ano Avdoh by Zalman Goldstein & Yaron Gershovsky
+2025-07-28 20:08:15 - INFO - Processing 117/9677: Grace by The Wood Floors
+2025-07-28 20:08:29 - WARNING - [NOT FOUND] Could not find lyrics for: Grace by The Wood Floors
+2025-07-28 20:08:30 - INFO - Processing 118/9677: More Than A Feeling by Pickin' On Series
+2025-07-28 20:08:43 - WARNING - [NOT FOUND] Could not find lyrics for: More Than A Feeling by Pickin' On Series
+2025-07-28 20:08:45 - INFO - Processing 119/9677: Left To Find by Ctrl
+2025-07-28 20:08:51 - INFO - Found song: Left to Find by CTRL
+2025-07-28 20:08:51 - INFO - [SUCCESS] Successfully extracted lyrics for: Left To Find
+2025-07-28 20:08:52 - INFO - Processing 120/9677: Harmonica Watusi by Bob Corritore
+2025-07-28 20:09:01 - WARNING - [NOT FOUND] Could not find lyrics for: Harmonica Watusi by Bob Corritore
+2025-07-28 20:09:01 - INFO - Progress: 120/9677 songs, Success rate: 39.2%
+2025-07-28 20:09:02 - INFO - Processing 121/9677: Rhythm And Booze by Jule Brown
+2025-07-28 20:09:15 - WARNING - [NOT FOUND] Could not find lyrics for: Rhythm And Booze by Jule Brown
+2025-07-28 20:09:16 - INFO - Processing 122/9677: A Fine Catch by Tristan Moore
+2025-07-28 20:09:31 - WARNING - [NOT FOUND] Could not find lyrics for: A Fine Catch by Tristan Moore
+2025-07-28 20:09:33 - INFO - Processing 123/9677: Infinite Paradise Station by Telepath
+2025-07-28 20:09:43 - WARNING - [NOT FOUND] Could not find lyrics for: Infinite Paradise Station by Telepath
+2025-07-28 20:09:44 - INFO - Processing 124/9677: Zygote by Phazer
+2025-07-28 20:09:56 - WARNING - [NOT FOUND] Could not find lyrics for: Zygote by Phazer
+2025-07-28 20:09:57 - INFO - Processing 125/9677: Nothing Left Behind by The Chains
+2025-07-28 20:10:12 - WARNING - [NOT FOUND] Could not find lyrics for: Nothing Left Behind by The Chains
+2025-07-28 20:10:14 - INFO - Processing 126/9677: Waterhole by The Outlaws
+2025-07-28 20:10:20 - INFO - Found song: Waterhole by The Outlaws (Southern Rock Band)
+2025-07-28 20:10:20 - INFO - [SUCCESS] Successfully extracted lyrics for: Waterhole
+2025-07-28 20:10:21 - INFO - Processing 127/9677: Feather Falling by Kelley Stoltz
+2025-07-28 20:10:30 - WARNING - [NOT FOUND] Could not find lyrics for: Feather Falling by Kelley Stoltz
+2025-07-28 20:10:32 - INFO - Processing 128/9677: Alone, Together by The Strokes
+2025-07-28 20:10:39 - INFO - Found song: Alone, Together by The Strokes
+2025-07-28 20:10:39 - INFO - [SUCCESS] Successfully extracted lyrics for: Alone, Together
+2025-07-28 20:10:41 - INFO - Processing 129/9677: Passing Time by Panther Ray
+2025-07-28 20:10:53 - WARNING - [NOT FOUND] Could not find lyrics for: Passing Time by Panther Ray
+2025-07-28 20:10:55 - INFO - Processing 130/9677: Gospel/Grace by Frankie Rose
+2025-07-28 20:11:00 - INFO - Found song: Gospel/Grace by Frankie Rose
+2025-07-28 20:11:00 - INFO - [SUCCESS] Successfully extracted lyrics for: Gospel/Grace
+2025-07-28 20:11:00 - INFO - Progress: 130/9677 songs, Success rate: 38.5%
+2025-07-28 20:11:02 - INFO - Processing 131/9677: Dipsy Doodle by Los Straitjackets
+2025-07-28 20:11:14 - WARNING - [NOT FOUND] Could not find lyrics for: Dipsy Doodle by Los Straitjackets
+2025-07-28 20:11:16 - INFO - Processing 132/9677: Banjo Boy Chimes by Ted Lundy
+2025-07-28 20:11:24 - WARNING - [NOT FOUND] Could not find lyrics for: Banjo Boy Chimes by Ted Lundy
+2025-07-28 20:11:26 - INFO - Processing 133/9677: Douglas The Dog by U.S. Navy Country Current
+2025-07-28 20:11:40 - WARNING - [NOT FOUND] Could not find lyrics for: Douglas The Dog by U.S. Navy Country Current
+2025-07-28 20:11:41 - INFO - Processing 134/9677: Little Rabbit by Richard Greene
+2025-07-28 20:11:54 - WARNING - [NOT FOUND] Could not find lyrics for: Little Rabbit by Richard Greene
+2025-07-28 20:11:55 - INFO - Processing 135/9677: Arcadia by Bart Graft
+2025-07-28 20:12:09 - WARNING - [NOT FOUND] Could not find lyrics for: Arcadia by Bart Graft
+2025-07-28 20:12:10 - INFO - Processing 136/9677: Buck's polka by Bobby Hachey
+2025-07-28 20:12:21 - INFO - Database insert: 100 successful, 0 failed
+2025-07-28 20:12:21 - INFO - CSV backup saved to: output/interrupted_lyrics_extraction_results.csv
