@@ -29,10 +29,11 @@ from dataclasses import dataclass
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'lyrics_extractor'))
 
-from exploratory_analysis.config.analysis_config import get_config, configure_for_large_dataset
+from data_selection.config.selection_config import get_selection_config, configure_for_large_dataset
+from data_selection.sampling.sampling_strategies import SamplingStrategies
+from exploratory_analysis.config.analysis_config import get_config
 from exploratory_analysis.config.features_config import CLUSTERING_FEATURES
 from exploratory_analysis.data_loading.data_loader import DataLoader
-from exploratory_analysis.data_loading.sampling_strategies import SamplingStrategies
 from exploratory_analysis.feature_analysis.dimensionality_reduction import DimensionalityReducer
 from exploratory_analysis.statistical_analysis.descriptive_stats import DescriptiveStats
 from exploratory_analysis.utils.file_utils import format_file_size, get_memory_usage

@@ -26,10 +26,11 @@ from typing import Dict, Any, Optional, List
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from exploratory_analysis.config.analysis_config import get_config, configure_for_large_dataset
-from exploratory_analysis.selection_pipeline.data_processor import LargeDatasetProcessor
-from exploratory_analysis.selection_pipeline.representative_selector import RepresentativeSelector
-from exploratory_analysis.selection_pipeline.selection_validator import SelectionValidator
+from data_selection.config.selection_config import get_selection_config, configure_for_large_dataset
+from data_selection.pipeline.data_processor import LargeDatasetProcessor
+from data_selection.pipeline.representative_selector import RepresentativeSelector
+from data_selection.pipeline.selection_validator import SelectionValidator
+from exploratory_analysis.config.analysis_config import get_config
 
 # Configure logging
 logging.basicConfig(

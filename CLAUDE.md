@@ -21,7 +21,8 @@ This repository implements the **Musical Characteristics Analysis Module** - one
 ### Core Data Pipeline
 - **Data Processing**: `clean.py` handles large dataset cleaning and creates standardized CSV formats
 - **Feature Analysis**: Uses 13 Spotify audio features (danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms, time_signature)
-- **🎵 Hybrid Selection Pipeline**: `exploratory_analysis/selection_pipeline/` implements advanced multi-stage selection with lyrics verification
+- **🎯 Data Selection Pipeline**: `data_selection/` implements advanced multi-stage selection with diversity sampling and lyrics verification
+- **📊 Exploratory Analysis**: `exploratory_analysis/` provides statistical analysis, visualization, and data quality assessment
 - **Lyrics Extraction**: `lyrics_extractor/` provides API integration with Genius.com for lyrics availability checking
 - **Clustering System**: `clustering/cluster.ipynb` implements K-Means clustering with optimization
 - **Recommendation Engine**: `pred.ipynb` provides cluster-based music recommendations
@@ -50,20 +51,28 @@ This repository implements the **Musical Characteristics Analysis Module** - one
 python clean.py  # Clean original dataset and create standardized versions
 ```
 
-### 🎵 Hybrid Selection Pipeline (UPDATED ARCHITECTURE)
+### 🎯 Data Selection Pipeline (REORGANIZED ARCHITECTURE)
 ```bash
-# Complete hybrid pipeline with lyrics verification (RECOMMENDED)
-python scripts/run_hybrid_selection_pipeline.py --target-size 10000
+# Complete selection from dataset with verified lyrics (RECOMMENDED)
+python scripts/select_from_lyrics_dataset.py --target-size 10000
 
-# Individual components (advanced usage)
-python -m exploratory_analysis.selection_pipeline.main_pipeline      # Full orchestration
-python -m exploratory_analysis.selection_pipeline.data_processor     # Dataset analysis  
-python -m exploratory_analysis.selection_pipeline.representative_selector  # Hybrid selection
-python -m exploratory_analysis.selection_pipeline.selection_validator      # Quality validation
+# Individual components (advanced usage) 
+python -m data_selection.pipeline.main_pipeline           # Full orchestration
+python -m data_selection.pipeline.data_processor          # Dataset analysis  
+python -m data_selection.pipeline.representative_selector # Hybrid selection
+python -m data_selection.pipeline.selection_validator     # Quality validation
 
 # Lyrics verification components
 python lyrics_extractor/lyrics_availability_checker.py    # Quick lyrics checking
 python lyrics_extractor/tests/test_lyrics_checker.py      # Test lyrics system
+```
+
+### 📊 Exploratory Data Analysis
+```bash
+# Statistical analysis and visualization (planned)
+python -m exploratory_analysis.statistical_analysis.descriptive_stats
+python -m exploratory_analysis.visualization.distribution_plots
+python -m exploratory_analysis.reporting.data_quality_report
 ```
 
 ### Jupyter Notebooks

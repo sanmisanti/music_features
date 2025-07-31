@@ -25,7 +25,7 @@ from typing import Dict, Any, Optional, Tuple
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from exploratory_analysis.config.analysis_config import get_config, configure_for_large_dataset
-from exploratory_analysis.data_loading.sampling_strategies import SamplingStrategies
+from data_selection.sampling.sampling_strategies import SamplingStrategies
 from exploratory_analysis.statistical_analysis.descriptive_stats import DescriptiveStats
 from exploratory_analysis.utils.file_utils import format_file_size, get_memory_usage
 

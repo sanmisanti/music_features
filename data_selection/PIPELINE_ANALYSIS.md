@@ -10,21 +10,27 @@ Este documento analiza en detalle el **Pipeline Híbrido de Selección con Verif
 
 ## 🏗️ ARQUITECTURA DEL PIPELINE
 
-### **Ubicación en el Proyecto**
+### **Ubicación en el Proyecto (ACTUALIZADA)**
 ```
 music_features/
-├── scripts/                          ← PIPELINE PRINCIPAL
-│   ├── main_selection_pipeline.py    ← Orchestración completa
-│   ├── representative_selector.py    ← Lógica de selección híbrida
-│   ├── large_dataset_processor.py    ← Análisis inicial
-│   └── selection_validator.py        ← Validación de calidad
+├── data_selection/                   ← PIPELINE PRINCIPAL (NUEVO)
+│   ├── pipeline/                     ← Orchestración y selección
+│   │   ├── main_pipeline.py          ← Orchestración completa
+│   │   ├── representative_selector.py ← Lógica de selección híbrida
+│   │   ├── data_processor.py         ← Análisis inicial
+│   │   └── selection_validator.py    ← Validación de calidad
+│   ├── sampling/                     ← Algoritmos de sampling
+│   │   └── sampling_strategies.py    ← Diversity, stratified, balanced
+│   └── config/                       ← Configuración de selección
+│       └── selection_config.py       ← Parámetros y settings
 ├── lyrics_extractor/                 ← COMPONENTES DE LETRAS
 │   ├── lyrics_availability_checker.py ← Verificación rápida
 │   └── hybrid_selection_criteria.py  ← Criterios progresivos
-└── exploratory_analysis/             ← ANÁLISIS Y CONFIGURACIÓN
-    ├── config/                       ← Configuraciones
-    ├── data_loading/                 ← Carga y muestreo
-    └── statistical_analysis/         ← Validación estadística
+└── exploratory_analysis/             ← ANÁLISIS Y VISUALIZACIÓN
+    ├── statistical_analysis/         ← Análisis estadístico
+    ├── feature_analysis/             ← Análisis de características
+    ├── visualization/                ← Visualización de datos
+    └── reporting/                    ← Reportes de calidad
 ```
 
 ---
@@ -58,7 +64,7 @@ music_features/
   - Distancia euclidiana entre puntos seleccionados
   - Cobertura uniforme del feature space
   - Evita clustering temprano
-- **Implementación**: `SamplingStrategies.diversity_sample(method='maxmin')`
+- **Implementación**: `data_selection.sampling.SamplingStrategies.diversity_sample()`
 - **Fallback**: Random sampling si falla el algoritmo principal
 
 ---
@@ -74,7 +80,7 @@ music_features/
   - Representación proporcional por tonalidad musical (0-11)
   - Balance entre modos mayor (1) y menor (0)
   - Distribución temporal equilibrada (3/4, 4/4, etc.)
-- **Implementación**: `SamplingStrategies.balanced_sample(balance_method='proportional')`
+- **Implementación**: `data_selection.sampling.SamplingStrategies.balanced_sample(balance_method='proportional')`
 - **Validación**: Comparación de distribuciones pre/post sampling
 
 ---
@@ -273,12 +279,17 @@ cache_enabled = True    # persistencia de resultados
 
 ## 🚀 EJECUCIÓN Y DEPLOYMENT
 
-### **Comando Principal**
+### **Comando Principal (ACTUALIZADO)**
 ```bash
-python scripts/main_selection_pipeline.py \
+# Pipeline completo (para dataset original 1.2M)
+python -m data_selection.pipeline.main_pipeline \
     --target-size 10000 \
     --output-dir data/pipeline_results \
     --skip-analysis  # opcional
+
+# Pipeline optimizado (para dataset con letras ya verificadas) 
+python scripts/select_from_lyrics_dataset.py \
+    --target-size 10000
 ```
 
 ### **Outputs Generados**
