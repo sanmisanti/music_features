@@ -1,0 +1,1081 @@
+{
+  "metadata": {
+    "report_generated": "2025-07-30T20:02:31.334266",
+    "dataset_info": {
+      "dataset_type": "cleaned_full",
+      "sample_size": 1204025,
+      "features": [
+        "id",
+        "name",
+        "album",
+        "album_id",
+        "artists",
+        "artist_ids",
+        "track_number",
+        "disc_number",
+        "explicit",
+        "danceability",
+        "energy",
+        "key",
+        "loudness",
+        "mode",
+        "speechiness",
+        "acousticness",
+        "instrumentalness",
+        "liveness",
+        "valence",
+        "tempo",
+        "duration_ms",
+        "time_signature",
+        "year",
+        "release_date"
+      ],
+      "load_time": 0,
+      "memory_usage": 0,
+      "quality_score": 95,
+      "validation_issues": 2
+    },
+    "analysis_modules": [
+      "data_loading",
+      "statistical_analysis",
+      "visualization",
+      "feature_analysis"
+    ]
+  },
+  "data_quality": {
+    "load_success": true,
+    "sample_size": 1204025,
+    "quality_score": 95,
+    "validation_issues": [
+      "Found 2777 outliers in tempo",
+      "Found 2128 outliers in duration_ms"
+    ]
+  },
+  "statistical_analysis": {
+    "dataset_overview": {
+      "total_rows": 1204025,
+      "total_features": 13,
+      "memory_usage_mb": 738.387228012085,
+      "missing_data_total": 0,
+      "missing_data_pct": 0.0,
+      "duplicate_rows": 0,
+      "duplicate_pct": 0.0,
+      "feature_counts": {
+        "audio": 7,
+        "rhythmic": 2,
+        "harmonic": 3,
+        "structural": 1,
+        "metadata": 0,
+        "derived": 0
+      },
+      "completeness_score": 100.0,
+      "consistency_score": 100.0,
+      "overall_quality": "excellent"
+    },
+    "feature_statistics": {
+      "danceability": {
+        "name": "danceability",
+        "display_name": "Danceability",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.49305652179149084,
+        "median": 0.501,
+        "mode": 0.0,
+        "std": 0.1896694028575769,
+        "variance": 0.0359744823803498,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 0.356,
+        "q3": 0.633,
+        "iqr": 0.277,
+        "skewness": -0.10153859558299758,
+        "kurtosis": -0.6084947700468439,
+        "unique_values": 1362,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "energy": {
+        "name": "energy",
+        "display_name": "Energy",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.5095362861749549,
+        "median": 0.524,
+        "mode": 0.947,
+        "std": 0.2946839129522141,
+        "variance": 0.08683860855282809,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 0.252,
+        "q3": 0.7659999999999999,
+        "iqr": 0.5139999999999999,
+        "skewness": -0.08572299589997316,
+        "kurtosis": -1.2229058900936876,
+        "unique_values": 3441,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "key": {
+        "name": "key",
+        "display_name": "Key",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 5.194151284234131,
+        "median": 5.0,
+        "mode": 7.0,
+        "std": 3.5367307822911496,
+        "variance": 12.508464626405768,
+        "min_val": 0.0,
+        "max_val": 11.0,
+        "range_val": 11.0,
+        "q1": 2.0,
+        "q3": 8.0,
+        "iqr": 6.0,
+        "skewness": 0.016464131139555242,
+        "kurtosis": -1.289350503345684,
+        "unique_values": 12,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "loudness": {
+        "name": "loudness",
+        "display_name": "Loudness (dB)",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": -11.808702928095348,
+        "median": -9.791,
+        "mode": -60.0,
+        "std": 6.982131610979831,
+        "variance": 48.75016183304381,
+        "min_val": -60.0,
+        "max_val": 7.234,
+        "range_val": 67.234,
+        "q1": -15.254,
+        "q3": -6.7170000000000005,
+        "iqr": 8.536999999999999,
+        "skewness": -1.2787013556387588,
+        "kurtosis": 1.7827010600267723,
+        "unique_values": 39805,
+        "outliers_iqr": 38727,
+        "outliers_zscore": 13310
+      },
+      "mode": {
+        "name": "mode",
+        "display_name": "Mode (Major/Minor)",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.6714594796619672,
+        "median": 1.0,
+        "mode": 1.0,
+        "std": 0.4696826908183379,
+        "variance": 0.22060183005435438,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 0.0,
+        "q3": 1.0,
+        "iqr": 1.0,
+        "skewness": -0.7301080249131531,
+        "kurtosis": -1.4669422719574134,
+        "unique_values": 2,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "speechiness": {
+        "name": "speechiness",
+        "display_name": "Speechiness",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.08438219123357073,
+        "median": 0.0446,
+        "mode": 0.0333,
+        "std": 0.11599137055178545,
+        "variance": 0.0134539980424816,
+        "min_val": 0.0,
+        "max_val": 0.969,
+        "range_val": 0.969,
+        "q1": 0.0351,
+        "q3": 0.0723,
+        "iqr": 0.037200000000000004,
+        "skewness": 4.243110777277673,
+        "kurtosis": 22.347888385889956,
+        "unique_values": 1653,
+        "outliers_iqr": 167338,
+        "outliers_zscore": 26268
+      },
+      "acousticness": {
+        "name": "acousticness",
+        "display_name": "Acousticness",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.4467510981967652,
+        "median": 0.389,
+        "mode": 0.995,
+        "std": 0.38520141880107606,
+        "variance": 0.148380133046362,
+        "min_val": 0.0,
+        "max_val": 0.996,
+        "range_val": 0.996,
+        "q1": 0.0376,
+        "q3": 0.861,
+        "iqr": 0.8234,
+        "skewness": 0.1627891176134124,
+        "kurtosis": -1.635655896423754,
+        "unique_values": 5398,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "instrumentalness": {
+        "name": "instrumentalness",
+        "display_name": "Instrumentalness",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.28286054253861836,
+        "median": 0.00808,
+        "mode": 0.0,
+        "std": 0.37628440055278595,
+        "variance": 0.14158995009936948,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 7.6e-06,
+        "q3": 0.7190000000000001,
+        "iqr": 0.7189924000000001,
+        "skewness": 0.7969353468227263,
+        "kurtosis": -1.1753918053762344,
+        "unique_values": 5402,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "liveness": {
+        "name": "liveness",
+        "display_name": "Liveness",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.20159939306908073,
+        "median": 0.125,
+        "mode": 0.111,
+        "std": 0.1804590608711702,
+        "variance": 0.03256547265050471,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 0.0968,
+        "q3": 0.245,
+        "iqr": 0.1482,
+        "skewness": 2.266776542627987,
+        "kurtosis": 5.245244045380165,
+        "unique_values": 1799,
+        "outliers_iqr": 95938,
+        "outliers_zscore": 35350
+      },
+      "valence": {
+        "name": "valence",
+        "display_name": "Valence (Positivity)",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 0.4279866225186355,
+        "median": 0.4029999999999999,
+        "mode": 0.0,
+        "std": 0.270484553429326,
+        "variance": 0.0731618936438619,
+        "min_val": 0.0,
+        "max_val": 1.0,
+        "range_val": 1.0,
+        "q1": 0.191,
+        "q3": 0.644,
+        "iqr": 0.453,
+        "skewness": 0.25496963936844136,
+        "kurtosis": -1.049935930486502,
+        "unique_values": 1884,
+        "outliers_iqr": 0,
+        "outliers_zscore": 0
+      },
+      "tempo": {
+        "name": "tempo",
+        "display_name": "Tempo (BPM)",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 117.6343518099708,
+        "median": 116.726,
+        "mode": 0.0,
+        "std": 30.937046661114284,
+        "variance": 957.1008561119625,
+        "min_val": 0.0,
+        "max_val": 248.93400000000003,
+        "range_val": 248.93400000000003,
+        "q1": 94.054,
+        "q3": 137.046,
+        "iqr": 42.99199999999999,
+        "skewness": 0.2767002750609214,
+        "kurtosis": 0.026132910258006348,
+        "unique_values": 140472,
+        "outliers_iqr": 8068,
+        "outliers_zscore": 3528
+      },
+      "duration_ms": {
+        "name": "duration_ms",
+        "display_name": "Duration (ms)",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 248839.86096218933,
+        "median": 224339.0,
+        "mode": 240000.0,
+        "std": 162210.35723030427,
+        "variance": 26312199992.78293,
+        "min_val": 1000.0,
+        "max_val": 6061090.0,
+        "range_val": 6060090.0,
+        "q1": 174090.0,
+        "q3": 285840.0,
+        "iqr": 111750.0,
+        "skewness": 8.042138852941491,
+        "kurtosis": 146.28209581676836,
+        "unique_values": 210013,
+        "outliers_iqr": 69379,
+        "outliers_zscore": 14784
+      },
+      "time_signature": {
+        "name": "time_signature",
+        "display_name": "Time Signature",
+        "count": 1204025,
+        "missing": 0,
+        "missing_pct": 0.0,
+        "mean": 3.8324943418948942,
+        "median": 4.0,
+        "mode": 4.0,
+        "std": 0.5611825532708641,
+        "variance": 0.3149258580956062,
+        "min_val": 0.0,
+        "max_val": 5.0,
+        "range_val": 5.0,
+        "q1": 4.0,
+        "q3": 4.0,
+        "iqr": 0.0,
+        "skewness": -3.0093906424530945,
+        "kurtosis": 13.684232335132428,
+        "unique_values": 5,
+        "outliers_iqr": 215378,
+        "outliers_zscore": 22240
+      }
+    },
+    "correlation_analysis": {
+      "top_positive": [
+        {
+          "feature1": "energy",
+          "feature2": "loudness",
+          "correlation": 0.8179336802836291
+        },
+        {
+          "feature1": "danceability",
+          "feature2": "valence",
+          "correlation": 0.5634361003688678
+        },
+        {
+          "feature1": "energy",
+          "feature2": "valence",
+          "correlation": 0.3995307285429699
+        },
+        {
+          "feature1": "loudness",
+          "feature2": "valence",
+          "correlation": 0.3850047122141238
+        },
+        {
+          "feature1": "danceability",
+          "feature2": "loudness",
+          "correlation": 0.3781936664825495
+        }
+      ],
+      "top_negative": [
+        {
+          "feature1": "energy",
+          "feature2": "acousticness",
+          "correlation": -0.7962421439877332
+        },
+        {
+          "feature1": "loudness",
+          "feature2": "acousticness",
+          "correlation": -0.6715525585566086
+        },
+        {
+          "feature1": "loudness",
+          "feature2": "instrumentalness",
+          "correlation": -0.3930374327095103
+        },
+        {
+          "feature1": "danceability",
+          "feature2": "acousticness",
+          "correlation": -0.2857496957194613
+        },
+        {
+          "feature1": "danceability",
+          "feature2": "instrumentalness",
+          "correlation": -0.2853305165802689
+        }
+      ],
+      "high_correlations": [
+        {
+          "feature1": "energy",
+          "feature2": "loudness",
+          "correlation": 0.8179336802836291
+        },
+        {
+          "feature1": "energy",
+          "feature2": "acousticness",
+          "correlation": -0.7962421439877332
+        }
+      ],
+      "matrix_shape": [
+        13,
+        13
+      ]
+    },
+    "distribution_summary": {
+      "highly_skewed": [
+        "loudness",
+        "speechiness",
+        "liveness",
+        "duration_ms",
+        "time_signature"
+      ],
+      "moderately_skewed": [
+        "mode",
+        "instrumentalness"
+      ],
+      "approximately_normal": [
+        "danceability",
+        "energy",
+        "key",
+        "acousticness",
+        "valence",
+        "tempo"
+      ],
+      "high_kurtosis": [
+        "speechiness",
+        "liveness",
+        "duration_ms",
+        "time_signature"
+      ],
+      "many_outliers": [
+        "speechiness",
+        "liveness",
+        "duration_ms",
+        "time_signature"
+      ],
+      "low_variance": [],
+      "wide_range": [
+        "danceability",
+        "energy",
+        "key",
+        "loudness",
+        "speechiness",
+        "liveness",
+        "valence",
+        "tempo",
+        "duration_ms",
+        "time_signature"
+      ]
+    },
+    "quality_assessment": {
+      "overall_score": 100.0,
+      "quality_rating": "excellent",
+      "issues": [],
+      "strengths": [
+        "Very low missing data",
+        "No significant duplicates",
+        "Most features have good quality"
+      ],
+      "recommendations": [
+        "Data quality is good - proceed with analysis"
+      ]
+    }
+  },
+  "visualizations": {
+    "success": true,
+    "visualization_paths": {
+      "distribution_histogram": "outputs\\selection_pipeline_20250730_200002\\analysis\\distributions_histogram.png",
+      "distribution_boxplot": "outputs\\selection_pipeline_20250730_200002\\analysis\\distributions_boxplot.png",
+      "correlation_heatmap": "outputs\\selection_pipeline_20250730_200002\\analysis\\correlation_heatmap.png",
+      "correlation_comparison": "outputs\\selection_pipeline_20250730_200002\\analysis\\correlation_comparison.png"
+    },
+    "plots_generated": 4
+  },
+  "feature_analysis": {
+    "pca": {
+      "n_components": 10,
+      "variance_explained": 0.9369685555897438,
+      "component_analysis": {
+        "PC1": {
+          "explained_variance": 3.4321540616383155,
+          "explained_variance_ratio": 0.26401163162086266,
+          "top_features": [
+            {
+              "feature": "energy",
+              "display_name": "Energy",
+              "contribution": 0.46737457249088166,
+              "abs_contribution": 0.46737457249088166
+            },
+            {
+              "feature": "loudness",
+              "display_name": "Loudness (dB)",
+              "contribution": 0.46393663882137776,
+              "abs_contribution": 0.46393663882137776
+            },
+            {
+              "feature": "acousticness",
+              "display_name": "Acousticness",
+              "contribution": -0.4228370992262229,
+              "abs_contribution": 0.4228370992262229
+            },
+            {
+              "feature": "valence",
+              "display_name": "Valence (Positivity)",
+              "contribution": 0.3401565489794008,
+              "abs_contribution": 0.3401565489794008
+            },
+            {
+              "feature": "danceability",
+              "display_name": "Danceability",
+              "contribution": 0.3178896323851785,
+              "abs_contribution": 0.3178896323851785
+            }
+          ],
+          "interpretation": "Primarily audio characteristics, led by Energy"
+        },
+        "PC2": {
+          "explained_variance": 1.3495248096729062,
+          "explained_variance_ratio": 0.10380951452526153,
+          "top_features": [
+            {
+              "feature": "duration_ms",
+              "display_name": "Duration (ms)",
+              "contribution": 0.47421765288812284,
+              "abs_contribution": 0.47421765288812284
+            },
+            {
+              "feature": "danceability",
+              "display_name": "Danceability",
+              "contribution": -0.436089103926328,
+              "abs_contribution": 0.436089103926328
+            },
+            {
+              "feature": "valence",
+              "display_name": "Valence (Positivity)",
+              "contribution": -0.3674154268013861,
+              "abs_contribution": 0.3674154268013861
+            },
+            {
+              "feature": "acousticness",
+              "display_name": "Acousticness",
+              "contribution": -0.3133003793151202,
+              "abs_contribution": 0.3133003793151202
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": -0.30485951611240647,
+              "abs_contribution": 0.30485951611240647
+            }
+          ],
+          "interpretation": "Primarily audio characteristics, led by Duration (ms)"
+        },
+        "PC3": {
+          "explained_variance": 1.1840843058118324,
+          "explained_variance_ratio": 0.09108333249027147,
+          "top_features": [
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.5154358298068259,
+              "abs_contribution": 0.5154358298068259
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": 0.4752538479013301,
+              "abs_contribution": 0.4752538479013301
+            },
+            {
+              "feature": "mode",
+              "display_name": "Mode (Major/Minor)",
+              "contribution": -0.4712766730298528,
+              "abs_contribution": 0.4712766730298528
+            },
+            {
+              "feature": "key",
+              "display_name": "Key",
+              "contribution": 0.4290970704113996,
+              "abs_contribution": 0.4290970704113996
+            },
+            {
+              "feature": "tempo",
+              "display_name": "Tempo (BPM)",
+              "contribution": -0.17888942006286804,
+              "abs_contribution": 0.17888942006286804
+            }
+          ],
+          "interpretation": "Primarily audio characteristics, led by Speechiness"
+        },
+        "PC4": {
+          "explained_variance": 1.1551852825018876,
+          "explained_variance_ratio": 0.08886033254350745,
+          "top_features": [
+            {
+              "feature": "mode",
+              "display_name": "Mode (Major/Minor)",
+              "contribution": 0.5219691783235797,
+              "abs_contribution": 0.5219691783235797
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": 0.5206803401862055,
+              "abs_contribution": 0.5206803401862055
+            },
+            {
+              "feature": "key",
+              "display_name": "Key",
+              "contribution": -0.49912375818265137,
+              "abs_contribution": 0.49912375818265137
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.23359161907138404,
+              "abs_contribution": 0.23359161907138404
+            },
+            {
+              "feature": "time_signature",
+              "display_name": "Time Signature",
+              "contribution": -0.23025819305238732,
+              "abs_contribution": 0.23025819305238732
+            }
+          ],
+          "interpretation": "Primarily harmonic characteristics, led by Mode (Major/Minor)"
+        },
+        "PC5": {
+          "explained_variance": 0.9907480975885298,
+          "explained_variance_ratio": 0.07621132882501061,
+          "top_features": [
+            {
+              "feature": "time_signature",
+              "display_name": "Time Signature",
+              "contribution": 0.667086557836292,
+              "abs_contribution": 0.667086557836292
+            },
+            {
+              "feature": "duration_ms",
+              "display_name": "Duration (ms)",
+              "contribution": 0.5135281194972839,
+              "abs_contribution": 0.5135281194972839
+            },
+            {
+              "feature": "tempo",
+              "display_name": "Tempo (BPM)",
+              "contribution": -0.33962309401686874,
+              "abs_contribution": 0.33962309401686874
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.23021296043080794,
+              "abs_contribution": 0.23021296043080794
+            },
+            {
+              "feature": "key",
+              "display_name": "Key",
+              "contribution": -0.2292441727168633,
+              "abs_contribution": 0.2292441727168633
+            }
+          ],
+          "interpretation": "Primarily rhythmic characteristics, led by Time Signature"
+        },
+        "PC6": {
+          "explained_variance": 0.8977030906856259,
+          "explained_variance_ratio": 0.06905402654619502,
+          "top_features": [
+            {
+              "feature": "tempo",
+              "display_name": "Tempo (BPM)",
+              "contribution": 0.726059615914825,
+              "abs_contribution": 0.726059615914825
+            },
+            {
+              "feature": "time_signature",
+              "display_name": "Time Signature",
+              "contribution": 0.41697123319274704,
+              "abs_contribution": 0.41697123319274704
+            },
+            {
+              "feature": "instrumentalness",
+              "display_name": "Instrumentalness",
+              "contribution": 0.25646503090695427,
+              "abs_contribution": 0.25646503090695427
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": 0.2251655707043202,
+              "abs_contribution": 0.2251655707043202
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.19277636848961535,
+              "abs_contribution": 0.19277636848961535
+            }
+          ],
+          "interpretation": "Primarily rhythmic characteristics, led by Tempo (BPM)"
+        },
+        "PC7": {
+          "explained_variance": 0.8657512362193391,
+          "explained_variance_ratio": 0.06659619362859866,
+          "top_features": [
+            {
+              "feature": "key",
+              "display_name": "Key",
+              "contribution": 0.6598737925828999,
+              "abs_contribution": 0.6598737925828999
+            },
+            {
+              "feature": "mode",
+              "display_name": "Mode (Major/Minor)",
+              "contribution": 0.5386276828229809,
+              "abs_contribution": 0.5386276828229809
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": -0.2951704170080722,
+              "abs_contribution": 0.2951704170080722
+            },
+            {
+              "feature": "instrumentalness",
+              "display_name": "Instrumentalness",
+              "contribution": -0.2327315089092734,
+              "abs_contribution": 0.2327315089092734
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": 0.19981247157839016,
+              "abs_contribution": 0.19981247157839016
+            }
+          ],
+          "interpretation": "Primarily harmonic characteristics, led by Key"
+        },
+        "PC8": {
+          "explained_variance": 0.8262589525821582,
+          "explained_variance_ratio": 0.06355832817960158,
+          "top_features": [
+            {
+              "feature": "duration_ms",
+              "display_name": "Duration (ms)",
+              "contribution": 0.645755860358598,
+              "abs_contribution": 0.645755860358598
+            },
+            {
+              "feature": "time_signature",
+              "display_name": "Time Signature",
+              "contribution": -0.38725185757262853,
+              "abs_contribution": 0.38725185757262853
+            },
+            {
+              "feature": "tempo",
+              "display_name": "Tempo (BPM)",
+              "contribution": 0.37371561613307974,
+              "abs_contribution": 0.37371561613307974
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.25991088575419913,
+              "abs_contribution": 0.25991088575419913
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": -0.23954162655494549,
+              "abs_contribution": 0.23954162655494549
+            }
+          ],
+          "interpretation": "Primarily rhythmic characteristics, led by Duration (ms)"
+        },
+        "PC9": {
+          "explained_variance": 0.7406277954745047,
+          "explained_variance_ratio": 0.05697132156522413,
+          "top_features": [
+            {
+              "feature": "instrumentalness",
+              "display_name": "Instrumentalness",
+              "contribution": 0.6916470269282462,
+              "abs_contribution": 0.6916470269282462
+            },
+            {
+              "feature": "mode",
+              "display_name": "Mode (Major/Minor)",
+              "contribution": 0.3824434614542074,
+              "abs_contribution": 0.3824434614542074
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": 0.37574005394325116,
+              "abs_contribution": 0.37574005394325116
+            },
+            {
+              "feature": "acousticness",
+              "display_name": "Acousticness",
+              "contribution": -0.21037598337577842,
+              "abs_contribution": 0.21037598337577842
+            },
+            {
+              "feature": "tempo",
+              "display_name": "Tempo (BPM)",
+              "contribution": -0.20851655146813552,
+              "abs_contribution": 0.20851655146813552
+            }
+          ],
+          "interpretation": "Primarily audio characteristics, led by Instrumentalness"
+        },
+        "PC10": {
+          "explained_variance": 0.7385637070600063,
+          "explained_variance_ratio": 0.05681254566521067,
+          "top_features": [
+            {
+              "feature": "valence",
+              "display_name": "Valence (Positivity)",
+              "contribution": 0.5164553036450119,
+              "abs_contribution": 0.5164553036450119
+            },
+            {
+              "feature": "liveness",
+              "display_name": "Liveness",
+              "contribution": 0.4918433597887423,
+              "abs_contribution": 0.4918433597887423
+            },
+            {
+              "feature": "speechiness",
+              "display_name": "Speechiness",
+              "contribution": -0.38173638494988477,
+              "abs_contribution": 0.38173638494988477
+            },
+            {
+              "feature": "instrumentalness",
+              "display_name": "Instrumentalness",
+              "contribution": 0.37427221089009066,
+              "abs_contribution": 0.37427221089009066
+            },
+            {
+              "feature": "time_signature",
+              "display_name": "Time Signature",
+              "contribution": -0.24898017708714512,
+              "abs_contribution": 0.24898017708714512
+            }
+          ],
+          "interpretation": "Primarily audio characteristics, led by Valence (Positivity)"
+        }
+      },
+      "feature_importance": {
+        "danceability": 0.08123424995587672,
+        "energy": 0.07235111083018672,
+        "key": 0.07015586229478009,
+        "loudness": 0.066210702515476,
+        "mode": 0.06988067819280892,
+        "speechiness": 0.09076651656532703,
+        "acousticness": 0.0717820310026036,
+        "instrumentalness": 0.08721533027605294,
+        "liveness": 0.08268437655651242,
+        "valence": 0.07407946539343574,
+        "tempo": 0.08104844584208751,
+        "duration_ms": 0.06969264058843776,
+        "time_signature": 0.08289858998641472
+      }
+    },
+    "tsne": {
+      "kl_divergence": 0.6178566217422485,
+      "n_iter": 999,
+      "perplexity": 30.0,
+      "sample_size": 200
+    },
+    "feature_selection": {
+      "original_features": [
+        "danceability",
+        "energy",
+        "key",
+        "loudness",
+        "mode",
+        "speechiness",
+        "acousticness",
+        "instrumentalness",
+        "liveness",
+        "valence",
+        "tempo",
+        "duration_ms",
+        "time_signature"
+      ],
+      "selection_results": {
+        "variance": {
+          "method": "Variance Threshold",
+          "selected_features": [
+            "danceability",
+            "energy",
+            "key",
+            "loudness",
+            "mode",
+            "speechiness",
+            "acousticness",
+            "instrumentalness",
+            "liveness",
+            "valence",
+            "tempo",
+            "duration_ms",
+            "time_signature"
+          ],
+          "n_selected": 13,
+          "selection_mask": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "variances": [
+            0.03597445250183201,
+            0.08683853642923552,
+            12.508454237531263,
+            48.7501213437169,
+            0.22060164683404745,
+            0.013453986868296642,
+            0.14838000980960775,
+            0.14158983250218496,
+            0.032565445603331564,
+            0.07316183287943122,
+            957.1000611942023,
+            26312178139.249992,
+            0.31492559653471
+          ]
+        }
+      },
+      "summary": {
+        "n_methods": 1,
+        "total_unique_features": 13,
+        "feature_selection_frequency": {
+          "danceability": 1,
+          "energy": 1,
+          "key": 1,
+          "loudness": 1,
+          "mode": 1,
+          "speechiness": 1,
+          "acousticness": 1,
+          "instrumentalness": 1,
+          "liveness": 1,
+          "valence": 1,
+          "tempo": 1,
+          "duration_ms": 1,
+          "time_signature": 1
+        },
+        "top_features": [
+          [
+            "danceability",
+            1
+          ],
+          [
+            "energy",
+            1
+          ],
+          [
+            "key",
+            1
+          ],
+          [
+            "loudness",
+            1
+          ],
+          [
+            "mode",
+            1
+          ],
+          [
+            "speechiness",
+            1
+          ],
+          [
+            "acousticness",
+            1
+          ],
+          [
+            "instrumentalness",
+            1
+          ],
+          [
+            "liveness",
+            1
+          ],
+          [
+            "valence",
+            1
+          ]
+        ],
+        "consensus_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms",
+          "time_signature"
+        ]
+      }
+    }
+  },
+  "executive_summary": {
+    "overall_assessment": "EXCELLENT",
+    "key_findings": [
+      "Dataset quality is excellent with minimal cleaning required",
+      "Identified 2 high correlations indicating potential feature redundancy",
+      "PCA analysis: 10 components explain 93.7% of variance"
+    ],
+    "recommendations": [
+      "Consider PCA for dimensionality reduction in clustering",
+      "Proceed with clustering analysis using current feature set",
+      "Monitor performance with larger datasets",
+      "Consider validation with cross-cultural music datasets"
+    ],
+    "next_steps": [
+      "Implement K-means clustering with optimized parameters",
+      "Develop cluster interpretation and profiling",
+      "Integrate with semantic lyrics analysis"
+    ],
+    "data_quality_score": 100.0
+  }
+}

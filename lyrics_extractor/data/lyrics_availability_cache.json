@@ -1,0 +1,47 @@
+{
+  "reggaeton en paris|ozuna": {
+    "has_lyrics": true,
+    "confidence": 1.0,
+    "found_title": "Reggaetón en París",
+    "found_artist": "Ozuna",
+    "genius_id": 5057952,
+    "verification_date": "2025-07-30 19:23:14",
+    "error_message": null
+  },
+  "bohemian rhapsody|queen": {
+    "has_lyrics": true,
+    "confidence": 1.0,
+    "found_title": "Bohemian Rhapsody",
+    "found_artist": "Queen",
+    "genius_id": 1063,
+    "verification_date": "2025-07-30 19:23:15",
+    "error_message": null
+  },
+  "nonexistentsong12345|unknownartist": {
+    "has_lyrics": false,
+    "confidence": 0.0,
+    "found_title": null,
+    "found_artist": null,
+    "genius_id": null,
+    "verification_date": "2025-07-30 19:23:16",
+    "error_message": null
+  },
+  "shape of you|ed sheeran": {
+    "has_lyrics": true,
+    "confidence": 1.0,
+    "found_title": "Shape of You",
+    "found_artist": "Ed Sheeran",
+    "genius_id": 2949128,
+    "verification_date": "2025-07-30 19:23:17",
+    "error_message": null
+  },
+  "despacito|luis fonsi": {
+    "has_lyrics": true,
+    "confidence": 1.0,
+    "found_title": "Despacito",
+    "found_artist": "Luis Fonsi",
+    "genius_id": 2955220,
+    "verification_date": "2025-07-30 19:23:18",
+    "error_message": null
+  }
+}

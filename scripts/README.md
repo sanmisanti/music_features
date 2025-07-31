@@ -1,31 +1,40 @@
-# 🎯 Scripts Directory - Music Selection Pipeline
+# 🎯 Scripts Directory - Executable Entry Points
 
-Este directorio contiene los scripts ejecutables principales para el pipeline completo de selección inteligente de canciones. El objetivo es procesar el dataset completo de 1.2M canciones y seleccionar inteligentemente 10,000 canciones representativas para el modelo final.
+Este directorio contiene los scripts ejecutables principales para acceder al **Pipeline Híbrido de Selección con Verificación de Letras**. 
+
+⚠️ **NOTA IMPORTANTE**: La implementación principal se ha reorganizado en `exploratory_analysis/selection_pipeline/` para mejor organización modular. Los scripts aquí sirven como puntos de entrada simplificados.
 
 ## 📋 Descripción General
 
-El pipeline implementa una estrategia multi-etapa para garantizar que el subset seleccionado mantenga todas las propiedades estadísticas y de diversidad del dataset original:
+El **Pipeline Híbrido** implementa una estrategia avanzada de 5 etapas que combina diversidad musical con verificación de letras:
 
 1. **Análisis Completo** (1.2M → análisis estadístico)
 2. **Muestreo Diverso** (1.2M → 100K por diversidad)  
-3. **Filtrado por Calidad** (100K → 50K por completitud)
-4. **Selección Final** (50K → 10K por representatividad)
+3. **Muestreo Estratificado** (100K → 50K preservando distribuciones)
+4. **Filtrado por Calidad** (50K → 25K por completitud)
+5. **🎵 SELECCIÓN HÍBRIDA** (25K → 10K con 80% letras verificadas)
 
 ## 🔧 Scripts Principales
 
-### 1. `large_dataset_processor.py`
-**Propósito**: Procesa y analiza el dataset completo de 1.2M canciones.
+### 1. `run_hybrid_selection_pipeline.py` ⭐ **NUEVO**
+**Propósito**: Punto de entrada principal para el pipeline híbrido completo con verificación de letras.
 
 ```bash
-# Uso básico
-python scripts/large_dataset_processor.py
+# Pipeline completo híbrido (recomendado)
+python scripts/run_hybrid_selection_pipeline.py
 
 # Con parámetros personalizados
-python scripts/large_dataset_processor.py --sample-size 50000 --output-dir outputs/analysis --verbose
+python scripts/run_hybrid_selection_pipeline.py --target-size 10000 --output-dir results
 
-# Especificar dataset
-python scripts/large_dataset_processor.py --dataset-path path/to/tracks_features.csv
+# Saltar análisis inicial (más rápido)
+python scripts/run_hybrid_selection_pipeline.py --skip-analysis
 ```
+
+**Características**:
+- 🎵 Selección híbrida: 80% canciones con letras, 20% sin letras
+- 🔍 Verificación automática via Genius API
+- 📊 Progressive constraints (70%→75%→78%→80%)
+- 🎯 Multi-criteria scoring (diversidad + letras + popularidad)
 
 **Funcionalidades**:
 - Análisis estadístico completo de las 13 características musicales
