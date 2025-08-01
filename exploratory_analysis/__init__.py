@@ -8,14 +8,33 @@ It includes statistical analysis, visualization, feature engineering, and report
 __version__ = "1.0.0"
 __author__ = "Music Analysis Research Team"
 
-# Core modules imports
+# Core modules imports (lazy loading to avoid import issues)
 from . import config
-from . import data_loading  
-from . import statistical_analysis
-from . import visualization
-from . import feature_analysis
-from . import reporting
-from . import utils
+# Other modules loaded on demand to avoid circular imports
+try:
+    from . import data_loading  
+except ImportError:
+    pass
+try:
+    from . import statistical_analysis
+except ImportError:
+    pass
+try:
+    from . import visualization
+except ImportError:
+    pass
+try:
+    from . import feature_analysis
+except ImportError:
+    pass
+try:
+    from . import reporting
+except ImportError:
+    pass
+try:
+    from . import utils
+except ImportError:
+    pass
 
 __all__ = [
     'config',

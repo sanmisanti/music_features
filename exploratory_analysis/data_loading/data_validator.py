@@ -52,8 +52,15 @@ class ValidationReport:
     issues: List[ValidationIssue]
     overall_score: float  # 0-100 score
     data_quality: str     # 'excellent', 'good', 'fair', 'poor'
+    data_quality_score: float  # Alias for overall_score for backward compatibility
+    feature_coverage: float  # Percentage of expected features present
     recommendations: List[str]
     summary: Dict[str, Any]
+    
+    def __post_init__(self):
+        """Set data_quality_score as alias for overall_score"""
+        if not hasattr(self, 'data_quality_score') or self.data_quality_score is None:
+            self.data_quality_score = self.overall_score
 
 class DataValidator:
     """
@@ -70,17 +77,20 @@ class DataValidator:
         self.validation_level = validation_level
         self.config = config
         
-    def validate_dataset(self, df: pd.DataFrame) -> ValidationReport:
+    def validate_dataset(self, df: pd.DataFrame, level: ValidationLevel = None) -> ValidationReport:
         """
         Perform comprehensive validation of dataset
         
         Args:
             df: DataFrame to validate
+            level: Override validation level for this call
             
         Returns:
             ValidationReport with all findings
         """
-        logger.info(f"Starting {self.validation_level.value} validation of dataset")
+        # Use provided level or default to instance level
+        validation_level = level if level is not None else self.validation_level
+        logger.info(f"Starting {validation_level.value} validation of dataset")
         
         issues = []
         
@@ -106,6 +116,9 @@ class DataValidator:
         data_quality = self._determine_quality_rating(overall_score)
         recommendations = self._generate_recommendations(issues)
         
+        # Calculate feature coverage
+        feature_coverage = self._calculate_feature_coverage(df)
+        
         # Create summary statistics
         summary = self._generate_summary(df, issues)
         
@@ -117,6 +130,8 @@ class DataValidator:
             issues=issues,
             overall_score=overall_score,
             data_quality=data_quality,
+            data_quality_score=overall_score,
+            feature_coverage=feature_coverage,
             recommendations=recommendations,
             summary=summary
         )
@@ -483,6 +498,25 @@ class DataValidator:
             return "fair"
         else:
             return "poor"
+    
+    def _calculate_feature_coverage(self, df: pd.DataFrame) -> float:
+        """Calculate percentage of expected clustering features present"""
+        expected_features = set(CLUSTERING_FEATURES)
+        present_features = set(df.columns)
+        
+        # Check for exact matches or partial matches
+        matched_features = 0
+        for expected in expected_features:
+            if expected in present_features:
+                matched_features += 1
+            else:
+                # Check for partial matches (e.g., column might have slight name variations)
+                partial_matches = [col for col in present_features if expected.lower() in col.lower()]
+                if partial_matches:
+                    matched_features += 1
+        
+        coverage = (matched_features / len(expected_features)) * 100
+        return coverage
     
     def _generate_recommendations(self, issues: List[ValidationIssue]) -> List[str]:
         """Generate overall recommendations based on issues"""

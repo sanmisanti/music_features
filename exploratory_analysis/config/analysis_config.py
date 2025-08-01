@@ -20,6 +20,7 @@ DATA_PATHS = {
     'original': DATA_DIR / "original_data" / "tracks_features.csv",
     'cleaned_full': DATA_DIR / "cleaned_data" / "tracks_features_clean.csv", 
     'sample_500': DATA_DIR / "cleaned_data" / "tracks_features_500.csv",
+    'lyrics_dataset': DATA_DIR / "final_data" / "picked_data_lyrics.csv",
     'clustering_results': PROJECT_ROOT / "clustering" / "clustering_results.csv"
 }
 
@@ -37,8 +38,8 @@ class DataConfig:
     """Configuration for data loading and processing"""
     
     # CSV parsing parameters
-    separator: str = ';'
-    decimal: str = ','
+    separator: str = '^'
+    decimal: str = '.'
     encoding: str = 'utf-8'
     
     # Sampling parameters
