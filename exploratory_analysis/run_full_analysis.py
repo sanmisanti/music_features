@@ -101,15 +101,20 @@ def perform_statistical_analysis(data):
         musical_features = ['danceability', 'energy', 'valence', 'speechiness', 'acousticness']
         for feature in musical_features:
             if feature in feature_stats:
-                stats = feature_stats[feature]
-                mean_val = stats.get('mean', 0)
-                std_val = stats.get('std', 0)
+                stats_obj = feature_stats[feature]
+                # FeatureStats es una dataclass, acceder a atributos directamente
+                mean_val = getattr(stats_obj, 'mean', 0)
+                std_val = getattr(stats_obj, 'std', 0)
                 print(f"   • {feature.capitalize()}: μ={mean_val:.3f}, σ={std_val:.3f}")
     
     # Información de correlaciones
     if 'correlation_preview' in stats_results:
         corr_info = stats_results['correlation_preview']
-        high_corr = len(corr_info.get('high_correlations', []))
+        # Manejar tanto dict como objeto
+        if hasattr(corr_info, 'high_correlations'):
+            high_corr = len(corr_info.high_correlations)
+        else:
+            high_corr = len(corr_info.get('high_correlations', []))
         print(f"\n🔗 Correlaciones altas detectadas: {high_corr}")
     
     return stats_results, analysis_time
@@ -192,8 +197,13 @@ def perform_dimensionality_analysis(data):
             comp_analysis = pca_results['component_analysis']
             print(f"\n🎯 Primeros Componentes Principales:")
             for i, (comp_name, comp_info) in enumerate(list(comp_analysis.items())[:3]):
-                var_ratio = comp_info.get('explained_variance_ratio', 0)
-                interpretation = comp_info.get('interpretation', 'N/A')
+                # Manejar tanto dict como objeto
+                if hasattr(comp_info, 'explained_variance_ratio'):
+                    var_ratio = comp_info.explained_variance_ratio
+                    interpretation = getattr(comp_info, 'interpretation', 'N/A')
+                else:
+                    var_ratio = comp_info.get('explained_variance_ratio', 0)
+                    interpretation = comp_info.get('interpretation', 'N/A')
                 print(f"   • {comp_name}: {var_ratio:.1%} - {interpretation}")
     else:
         print("⚠️  PCA no pudo completarse - posiblemente insuficientes características numéricas")
@@ -206,7 +216,11 @@ def perform_dimensionality_analysis(data):
         tsne_results = reducer.fit_tsne(sample_data, n_components=2)
         
         if tsne_results:
-            kl_div = tsne_results.get('kl_divergence', 0)
+            # Manejar tanto dict como objeto
+            if hasattr(tsne_results, 'kl_divergence'):
+                kl_div = tsne_results.kl_divergence
+            else:
+                kl_div = tsne_results.get('kl_divergence', 0)
             print(f"✅ t-SNE completado (KL divergence: {kl_div:.4f})")
     
     analysis_time = time.time() - start_time
