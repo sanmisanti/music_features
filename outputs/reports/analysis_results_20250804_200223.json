@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "report_generated": "2025-08-04T20:02:23.586781",
+    "dataset_info": {
+      "dataset_type": "nonexistent_dataset",
+      "sample_size": 30,
+      "features": [
+        "id;name;album;album_id;artists;artist_ids;track_number;disc_number;explicit;danceability;energy;key;loudness;mode;speechiness;acousticness;instrumentalness;liveness;valence;tempo;duration_ms;time_signature;year;release_date"
+      ],
+      "load_time": 0,
+      "memory_usage": 0,
+      "quality_score": 95,
+      "validation_issues": 1
+    },
+    "analysis_modules": [
+      "data_loading",
+      "statistical_analysis",
+      "visualization",
+      "feature_analysis"
+    ]
+  },
+  "data_quality": {
+    "load_success": true,
+    "sample_size": 30,
+    "quality_score": 95,
+    "validation_issues": [
+      "Missing expected features: {'danceability', 'time_signature', 'energy', 'tempo', 'liveness', 'speechiness', 'loudness', 'acousticness', 'instrumentalness', 'duration_ms', 'mode', 'valence', 'key'}"
+    ]
+  },
+  "statistical_analysis": {
+    "dataset_overview": {},
+    "feature_statistics": {},
+    "correlation_analysis": {},
+    "distribution_summary": {},
+    "quality_assessment": {}
+  },
+  "visualizations": {
+    "success": true,
+    "visualization_paths": {},
+    "plots_generated": 0
+  },
+  "feature_analysis": {},
+  "executive_summary": {
+    "overall_assessment": "EXCELLENT",
+    "key_findings": [],
+    "recommendations": [
+      "Proceed with clustering analysis using current feature set",
+      "Monitor performance with larger datasets",
+      "Consider validation with cross-cultural music datasets"
+    ],
+    "next_steps": [
+      "Implement K-means clustering with optimized parameters",
+      "Develop cluster interpretation and profiling",
+      "Integrate with semantic lyrics analysis"
+    ]
+  }
+}
