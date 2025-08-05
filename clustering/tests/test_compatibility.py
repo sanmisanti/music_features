@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script de prueba para validar compatibilidad con picked_data_0.csv
+Script de prueba para validar compatibilidad con picked_data_lyrics.csv
 """
 
 import sys
@@ -16,16 +16,17 @@ except ImportError as e:
     sys.exit(1)
 
 def test_dataset_loading():
-    """Probar carga del dataset picked_data_0.csv"""
-    dataset_path = "../data/picked_data_0.csv"
+    """Probar carga del dataset picked_data_lyrics.csv"""
+    dataset_path = "../../data/final_data/picked_data_lyrics.csv"
     
     if not Path(dataset_path).exists():
         print(f"❌ Dataset no encontrado: {dataset_path}")
+        print("💡 Verificar ruta: debe existir picked_data_lyrics.csv")
         return False
     
     try:
-        # Cargar dataset
-        df = pd.read_csv(dataset_path, sep=';', decimal=',', encoding='utf-8', on_bad_lines='skip')
+        # Cargar dataset con nuevo formato
+        df = pd.read_csv(dataset_path, sep='^', decimal='.', encoding='utf-8', on_bad_lines='skip')
         print(f"✅ Dataset cargado: {len(df):,} filas, {len(df.columns)} columnas")
         
         # Verificar features musicales

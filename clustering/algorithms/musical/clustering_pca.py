@@ -22,7 +22,7 @@ from datetime import datetime
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Clustering con PCA')
-    parser.add_argument('--dataset', type=str, default='../data/picked_data_0.csv')
+    parser.add_argument('--dataset', type=str, default='../../../data/final_data/picked_data_lyrics.csv')
     parser.add_argument('--k-range', type=int, nargs=2, default=[3, 8])
     parser.add_argument('--pca-components', type=int, default=8, help='Número de componentes PCA')
     parser.add_argument('--save-models', action='store_true')
@@ -46,8 +46,8 @@ def main():
     logger.info(f"🎵 CLUSTERING CON PCA - {args.pca_components} COMPONENTES")
     logger.info("=" * 60)
     
-    # Cargar datos
-    df = pd.read_csv(args.dataset, sep=';', decimal=',', encoding='utf-8', on_bad_lines='skip')
+    # Cargar datos con nuevo formato
+    df = pd.read_csv(args.dataset, sep='^', decimal='.', encoding='utf-8', on_bad_lines='skip')
     logger.info(f"✅ Dataset cargado: {len(df):,} canciones")
     
     # Preparar características

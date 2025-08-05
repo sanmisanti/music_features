@@ -82,8 +82,8 @@ Ejemplos de uso:
     
     # Argumentos principales
     parser.add_argument('--dataset', type=str, 
-                       default='../data/picked_data_0.csv',
-                       help='Ruta al dataset CSV (default: ../data/picked_data_0.csv)')
+                       default='../../../data/final_data/picked_data_lyrics.csv',
+                       help='Ruta al dataset CSV (default: ../../../data/final_data/picked_data_lyrics.csv)')
     
     parser.add_argument('--k-range', type=int, nargs=2, 
                        default=DEFAULT_CONFIG['k_range'],
@@ -168,11 +168,11 @@ def load_dataset(dataset_path, logger=None):
     start_time = time.time()
     
     try:
-        # Cargar con configuración optimizada
+        # Cargar con configuración optimizada para nuevo dataset
         df = pd.read_csv(
             dataset_path, 
-            sep=';', 
-            decimal=',', 
+            sep='^',  # CAMBIO: era ';' - nuevo formato con letras
+            decimal='.', # CAMBIO: era ',' - formato internacional
             encoding='utf-8', 
             on_bad_lines='skip',
             low_memory=False  # Evitar warnings de tipos mixtos

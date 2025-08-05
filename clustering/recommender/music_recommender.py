@@ -53,8 +53,8 @@ Ejemplos de uso:
                        help='Directorio con modelos entrenados (scaler, kmeans)')
     
     parser.add_argument('--dataset', type=str, 
-                       default='../data/picked_data_0.csv',
-                       help='Dataset con canciones clusterizadas (default: ../data/picked_data_0.csv)')
+                       default='../../data/final_data/picked_data_lyrics.csv',
+                       help='Dataset con canciones clusterizadas (default: ../../data/final_data/picked_data_lyrics.csv)')
     
     parser.add_argument('--clustered-data', type=str,
                        help='Archivo CSV con resultados de clustering (opcional)')
@@ -177,7 +177,7 @@ def load_clustered_dataset(dataset_path, clustered_data_path=None, logger=None):
                 logger.warning(f"⚠️  Directorio de resultados no encontrado, usando dataset original: {data_path}")
     
     try:
-        df = pd.read_csv(data_path, sep=';', decimal=',', encoding='utf-8', on_bad_lines='skip')
+        df = pd.read_csv(data_path, sep='^', decimal='.', encoding='utf-8', on_bad_lines='skip')
         
         # Verificar si tiene columna cluster
         has_clusters = 'cluster' in df.columns
