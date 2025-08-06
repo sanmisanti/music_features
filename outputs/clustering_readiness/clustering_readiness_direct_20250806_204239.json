@@ -1,0 +1,170 @@
+{
+  "timestamp": "20250806_204239",
+  "dataset_info": {
+    "path": "data/with_lyrics/spotify_songs_fixed.csv",
+    "shape": [
+      18454,
+      25
+    ],
+    "features_analyzed": [
+      "danceability",
+      "energy",
+      "key",
+      "loudness",
+      "mode",
+      "speechiness",
+      "acousticness",
+      "instrumentalness",
+      "liveness",
+      "valence",
+      "tempo",
+      "duration_ms"
+    ]
+  },
+  "hopkins_statistic": 0.8226537677944665,
+  "optimal_k": {
+    "recommended_k": 2,
+    "best_silhouette": 0.1559464377860363,
+    "all_metrics": {
+      "k_values": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "silhouette_scores": [
+        0.1559464377860363,
+        0.0946140631566967,
+        0.10421972253542044,
+        0.11286497637366574,
+        0.1015055085384616,
+        0.10588060039508988,
+        0.1054432300811909,
+        0.0963825228119665,
+        0.09903196850341565,
+        0.0908011206774014,
+        0.09929126909995069
+      ]
+    }
+  },
+  "separability_analysis": {
+    "separability_score": 0.34655027252998605,
+    "expected_silhouette_range": [
+      0.10793016351799162,
+      0.30793016351799163
+    ],
+    "distance_stats": {
+      "mean_distance": 4.65458434177914,
+      "std_distance": 1.3065511214432015,
+      "min_distance": 0.0,
+      "max_distance": 12.13516801309765
+    },
+    "avg_neighbor_distance": 1.9195438228715316
+  },
+  "feature_analysis": {
+    "feature_ranking": [
+      {
+        "feature": "instrumentalness",
+        "variance_score": 1.0,
+        "max_correlation": 0.10836549764815802,
+        "final_score": 0.9882569189194671
+      },
+      {
+        "feature": "liveness",
+        "variance_score": 1.0,
+        "max_correlation": 0.15693138481866578,
+        "final_score": 0.9753725404588959
+      },
+      {
+        "feature": "duration_ms",
+        "variance_score": 1.0,
+        "max_correlation": 0.15902569666707767,
+        "final_score": 0.9747108277995506
+      },
+      {
+        "feature": "key",
+        "variance_score": 0.9999999999999998,
+        "max_correlation": 0.1695890427551524,
+        "final_score": 0.9712395565773909
+      },
+      {
+        "feature": "mode",
+        "variance_score": 0.9999999999999996,
+        "max_correlation": 0.1695890427551524,
+        "final_score": 0.9712395565773907
+      },
+      {
+        "feature": "tempo",
+        "variance_score": 1.0,
+        "max_correlation": 0.20146461732911933,
+        "final_score": 0.9594120079644315
+      },
+      {
+        "feature": "speechiness",
+        "variance_score": 0.9999999999999996,
+        "max_correlation": 0.20404057070462084,
+        "final_score": 0.9583674455065322
+      },
+      {
+        "feature": "danceability",
+        "variance_score": 1.0,
+        "max_correlation": 0.34341943657192553,
+        "final_score": 0.8820630905846212
+      },
+      {
+        "feature": "valence",
+        "variance_score": 1.0,
+        "max_correlation": 0.34341943657192553,
+        "final_score": 0.8820630905846212
+      },
+      {
+        "feature": "acousticness",
+        "variance_score": 1.0,
+        "max_correlation": 0.5460327225042364,
+        "final_score": 0.7018482659546116
+      },
+      {
+        "feature": "loudness",
+        "variance_score": 1.0,
+        "max_correlation": 0.6747954290699657,
+        "final_score": 0.5446511289062809
+      },
+      {
+        "feature": "energy",
+        "variance_score": 0.9999999999999998,
+        "max_correlation": 0.6747954290699657,
+        "final_score": 0.5446511289062808
+      }
+    ],
+    "redundant_features": [],
+    "recommended_features": [
+      "instrumentalness",
+      "liveness",
+      "duration_ms",
+      "key",
+      "mode",
+      "tempo",
+      "speechiness",
+      "danceability"
+    ],
+    "n_features_analyzed": 12
+  },
+  "final_score": {
+    "readiness_score": 81.6,
+    "readiness_level": "excellent",
+    "score_breakdown": {
+      "clustering_tendency": 24.679613033833995,
+      "feature_quality": 25,
+      "separability": 6.931005450599721,
+      "distribution_compatibility": 15,
+      "preprocessing_simplicity": 10.0
+    }
+  }
+}
