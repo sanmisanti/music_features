@@ -17,6 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 3. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
 4. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
 5. **DATA_SELECTION_ANALYSIS.md** - Comprehensive analysis of data selection process, pipeline architectures, identified problems, and clustering performance issues
+6. **data_selection/PIPELINE.md** - Complete pipeline documentation for clustering-aware data selection, including strategies, advantages/disadvantages, and execution workflows
 
 The current repository focuses on the musical characteristics analysis module within the larger multimodal system. All development progress and test results are tracked in ANALYSIS_RESULTS.md, while theoretical foundations and academic explanations are maintained in DOCS.md.
 
@@ -352,3 +353,32 @@ python analyze_clustering_readiness_direct.py
 - 🎯 Recomendaciones mejoradas del sistema
 
 **IMPACTO**: Esta solución resuelve completamente la degradación de clustering performance identificada (-43.6% Silhouette Score).
+
+## 📝 **DIRECTIVA: AUTO-REFERENCIA DE DOCUMENTACIÓN**
+
+**MANDATORY**: Cada vez que se cree un nuevo archivo .md con información técnica del proyecto, se DEBE:
+
+1. **Agregar referencia** en la sección "🔗 ALWAYS READ THESE FILES FIRST" de este archivo
+2. **Incluir descripción breve** (1 línea) del propósito y contenido del archivo
+3. **Mantener orden lógico** de importancia y dependencias
+4. **Actualizar inmediatamente** tras la creación del archivo
+
+### **Archivos de Documentación del Proyecto**:
+
+#### **Documentación Principal**:
+- **FULL_PROJECT.md** - Visión completa y roadmap técnico del sistema multimodal
+- **ANALYSIS_RESULTS.md** - Resultados de análisis, tests, y tracking de progreso
+- **DOCS.md** - Documentación académica con fundamentos teóricos y metodologías
+- **DIRECTIVAS.md** - Guidelines de desarrollo y procedimientos obligatorios
+
+#### **Análisis Técnico Especializado**:
+- **DATA_SELECTION_ANALYSIS.md** - Análisis completo del proceso de selección de datos y problemas de clustering
+- **data_selection/PIPELINE.md** - Documentación completa del pipeline clustering-aware con estrategias y workflows
+- **CLUSTERING_READINESS_RECOMMENDATIONS.md** - Plan estratégico para selección optimizada basada en análisis Hopkins
+- **clustering/README.md** - Documentación del módulo clustering con workflows actualizados
+- **exploratory_analysis/CLAUDE.md** - Análisis del módulo exploratory_analysis y capacidades (82/82 tests)
+
+#### **Formato de Referencia**:
+```markdown
+N. **ruta/archivo.md** - Descripción concisa en 1 línea del propósito y contenido principal
+```

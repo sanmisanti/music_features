@@ -13,7 +13,7 @@ Estrategia:
 4. Preservación de distribuciones naturales
 
 Uso:
-    python select_optimal_10k_from_18k.py
+    python data_selection/clustering_aware/select_optimal_10k_from_18k.py
 """
 
 import pandas as pd
