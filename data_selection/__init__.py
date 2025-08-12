@@ -13,7 +13,7 @@ Components:
 - config/: Configuration for selection processes
 """
 
-from .pipeline import HybridSelectionPipeline
+from .pipeline import MainSelectionPipeline
 from .sampling import SamplingStrategies
 from .config import SelectionConfig
 
@@ -21,7 +21,7 @@ __version__ = "1.0.0"
 __author__ = "Music Features Analysis System"
 
 __all__ = [
-    "HybridSelectionPipeline",
+    "MainSelectionPipeline",
     "SamplingStrategies", 
     "SelectionConfig"
 ]

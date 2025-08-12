@@ -361,6 +361,12 @@ class OptimalSelector:
         # Reset validador para nueva sesión
         self.hopkins_validator.reset_validation_history()
         
+        # Inicializar características disponibles si no están definidas
+        if not hasattr(self, 'available_features'):
+            available_features = [f for f in self.musical_features if f in df.columns]
+            self.available_features = available_features
+            print(f"🎵 Inicializando características: {len(available_features)}/{len(self.musical_features)} disponibles")
+        
         # 1. Preparar datos para clustering
         print("\n🔧 1. PREPARANDO DATOS PARA CLUSTERING")
         print("-" * 40)
