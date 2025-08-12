@@ -111,13 +111,24 @@ def main():
     
     try:
         # La función maneja automáticamente target_size=10000 según su implementación
-        selected_indices, metadata = selector.select_optimal_10k_with_validation(source_data)
+        result = selector.select_optimal_10k_with_validation(source_data)
         
         execution_time = time.time() - start_time
         
+        # Verificar formato del resultado
+        if result is None:
+            print("❌ ERROR: Resultado de selección es None")
+            return False
+        
+        if isinstance(result, tuple) and len(result) == 2:
+            selected_data, metadata = result
+        else:
+            print(f"❌ ERROR: Formato de resultado inesperado: {type(result)}")
+            return False
+        
         print(f"\n✅ Selección completada en {execution_time:.1f} segundos")
         print(f"📊 Resultados de la selección:")
-        print(f"   - Canciones seleccionadas: {len(selected_indices):,}")
+        print(f"   - Canciones seleccionadas: {len(selected_data):,}")
         print(f"   - Hopkins inicial: {metadata.get('hopkins_initial', 'N/A')}")
         print(f"   - Hopkins final: {metadata.get('hopkins_final', 'N/A')}")
         print(f"   - Método utilizado: {metadata.get('selection_method', 'N/A')}")
@@ -133,7 +144,7 @@ def main():
     # Generar dataset optimizado
     try:
         print(f"\n💾 Generando dataset optimizado...")
-        selected_data = source_data.iloc[selected_indices].copy()
+        # selected_data ya es el DataFrame seleccionado, no necesitamos iloc
         
         # Verificar calidad del dataset seleccionado
         print(f"📊 Verificación de calidad del dataset seleccionado:")
@@ -164,8 +175,8 @@ def main():
         # Crear directorio de salida si no existe
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
-        # Guardar dataset optimizado
-        selected_data.to_csv(output_path, sep='@@', decimal='.', index=False, encoding='utf-8')
+        # Guardar dataset optimizado (usar separador compatible)
+        selected_data.to_csv(output_path, sep='^', decimal='.', index=False, encoding='utf-8')
         print(f"✅ Dataset optimizado guardado: {output_path}")
         
     except Exception as e:
@@ -188,9 +199,9 @@ def main():
             },
             'selection_process': {
                 'target_size': target_size,
-                'selected_size': len(selected_indices),
+                'selected_size': len(selected_data),
                 'execution_time_seconds': execution_time,
-                'selection_ratio': len(selected_indices) / len(source_data)
+                'selection_ratio': len(selected_data) / len(source_data)
             },
             'hopkins_analysis': {
                 'initial': metadata.get('hopkins_initial'),
@@ -206,7 +217,7 @@ def main():
             },
             'output_dataset': {
                 'path': output_path,
-                'format': 'CSV with @@ separator and . decimal',
+                'format': 'CSV with ^ separator and . decimal',
                 'encoding': 'UTF-8'
             },
             'next_steps': [
@@ -230,7 +241,7 @@ def main():
     print(f"\n🎉 FASE 1.4 COMPLETADA EXITOSAMENTE")
     print(f"=" * 50)
     print(f"✅ Dataset optimizado generado: picked_data_optimal.csv")
-    print(f"📊 Selección: {len(selected_indices):,}/{target_size:,} canciones")
+    print(f"📊 Selección: {len(selected_data):,}/{target_size:,} canciones")
     print(f"🧪 Hopkins final: {metadata.get('hopkins_final', 'N/A')}")
     print(f"⏱️  Tiempo ejecución: {execution_time:.1f}s")
     print(f"🎵 Diversidad musical: {avg_diversity:.3f}")

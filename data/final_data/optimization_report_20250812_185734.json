@@ -1,0 +1,86 @@
+{
+  "timestamp": "20250812_185734",
+  "phase": "FASE_1.4_Dataset_Generation",
+  "source_dataset": {
+    "path": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\data\\with_lyrics\\spotify_songs_fixed.csv",
+    "total_songs": 18454,
+    "columns": 25,
+    "hopkins_baseline": 0.7878130220587117
+  },
+  "selection_process": {
+    "target_size": 10000,
+    "selected_size": 10000,
+    "execution_time_seconds": 239.7312707901001,
+    "selection_ratio": 0.5418879375745096
+  },
+  "hopkins_analysis": {
+    "initial": null,
+    "final": null,
+    "degradation": 0
+  },
+  "quality_metrics": {
+    "selection_method": null,
+    "fallback_used": false,
+    "fallback_reason": null,
+    "average_musical_diversity": 1.1089847794372922,
+    "musical_features_stats": {
+      "danceability": {
+        "original_std": 0.1500710040580104,
+        "selected_std": 0.16590286800974505,
+        "diversity_ratio": 1.105495822135066
+      },
+      "energy": {
+        "original_std": 0.18063542729645488,
+        "selected_std": 0.19782405136596962,
+        "diversity_ratio": 1.0951564392809012
+      },
+      "loudness": {
+        "original_std": 2.9207568607981416,
+        "selected_std": 3.2017424155393743,
+        "diversity_ratio": 1.0962029939953473
+      },
+      "speechiness": {
+        "original_std": 0.10229106668320695,
+        "selected_std": 0.10516610434829646,
+        "diversity_ratio": 1.0281064393823698
+      },
+      "acousticness": {
+        "original_std": 0.21779478592030327,
+        "selected_std": 0.2385128100194454,
+        "diversity_ratio": 1.0951263548922765
+      },
+      "instrumentalness": {
+        "original_std": 0.16826305026718427,
+        "selected_std": 0.22339988253825982,
+        "diversity_ratio": 1.3276823532173223
+      },
+      "liveness": {
+        "original_std": 0.1537507593344604,
+        "selected_std": 0.18387598449221565,
+        "diversity_ratio": 1.1959354561119442
+      },
+      "valence": {
+        "original_std": 0.2287163336214831,
+        "selected_std": 0.23298449578997418,
+        "diversity_ratio": 1.0186613789269408
+      },
+      "tempo": {
+        "original_std": 27.586423767506012,
+        "selected_std": 28.096656109556974,
+        "diversity_ratio": 1.018495776993463
+      }
+    }
+  },
+  "output_dataset": {
+    "path": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\data\\final_data\\picked_data_optimal.csv",
+    "format": "CSV with ^ separator and . decimal",
+    "encoding": "UTF-8"
+  },
+  "next_steps": [
+    "Ejecutar tests comprehensivos con test_optimal_selector_improved.py",
+    "Realizar clustering comparativo (FASE 2)",
+    "Evaluar clustering readiness (FASE 3)",
+    "Implementar cluster purification (FASE 4)",
+    "Análisis final y documentación (FASE 5)"
+  ]
+}
