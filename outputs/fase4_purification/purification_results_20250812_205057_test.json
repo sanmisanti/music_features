@@ -1,0 +1,132 @@
+{
+  "comparison_config": {
+    "strategies": [
+      "remove_negative_silhouette",
+      "hybrid"
+    ],
+    "original_samples": 5000,
+    "original_features": 12,
+    "n_clusters": 3,
+    "timestamp": "2025-08-12T20:50:52.014709"
+  },
+  "strategy_results": {
+    "remove_negative_silhouette": {
+      "strategy": "remove_negative_silhouette",
+      "execution_time": 0.5573811531066895,
+      "quality_before": {
+        "global_metrics": {
+          "silhouette_score": 0.1578833734935021,
+          "calinski_harabasz_score": 403.501609575986,
+          "davies_bouldin_score": 1.943315391855327,
+          "n_samples": 5000,
+          "n_clusters": 3,
+          "n_features": 12
+        },
+        "sample_analysis": {
+          "silhouette_samples": "[ 0.1268605   0.16324233  0.21197055 ... -0.07846306  0.13285217\n  0.21400815]",
+          "negative_silhouette_count": "526",
+          "negative_silhouette_ratio": 0.1052,
+          "silhouette_mean": 0.1578833734935021,
+          "silhouette_std": 0.11089537859791807,
+          "silhouette_min": -0.2778093400441801,
+          "silhouette_max": 0.36154107531292096
+        }
+      },
+      "quality_after": {
+        "global_metrics": {
+          "silhouette_score": 0.21501984612280195,
+          "calinski_harabasz_score": 478.27528839366516,
+          "davies_bouldin_score": 1.6457142018194173,
+          "n_samples": 4474,
+          "n_clusters": 3,
+          "n_features": 12
+        },
+        "sample_analysis": {
+          "silhouette_samples": "[0.14080797 0.18765775 0.24361399 ... 0.26396843 0.15893502 0.23543434]",
+          "negative_silhouette_count": "16",
+          "negative_silhouette_ratio": 0.003576218149307108,
+          "silhouette_mean": 0.21501984612280195,
+          "silhouette_std": 0.08906828126773333,
+          "silhouette_min": -0.028896182389691265,
+          "silhouette_max": 0.4068450935769902
+        }
+      },
+      "improvements": {
+        "silhouette_absolute": 0.057136472629299856,
+        "silhouette_relative": 0.36189037113304007,
+        "calinski_harabasz_change": 74.77367881767918,
+        "davies_bouldin_change": -0.2976011900359097
+      },
+      "purification_info": {
+        "strategy": "remove_negative_silhouette",
+        "removed_count": "526",
+        "retention_ratio": 0.8948,
+        "original_size": 5000,
+        "purified_size": 4474
+      },
+      "timestamp": "2025-08-12T20:50:54.928219"
+    },
+    "hybrid": {
+      "strategy": "hybrid",
+      "execution_time": 0.5896844863891602,
+      "quality_before": {
+        "global_metrics": {
+          "silhouette_score": 0.1578833734935021,
+          "calinski_harabasz_score": 403.501609575986,
+          "davies_bouldin_score": 1.943315391855327,
+          "n_samples": 5000,
+          "n_clusters": 3,
+          "n_features": 12
+        },
+        "sample_analysis": {
+          "silhouette_samples": "[ 0.1268605   0.16324233  0.21197055 ... -0.07846306  0.13285217\n  0.21400815]",
+          "negative_silhouette_count": "526",
+          "negative_silhouette_ratio": 0.1052,
+          "silhouette_mean": 0.1578833734935021,
+          "silhouette_std": 0.11089537859791807,
+          "silhouette_min": -0.2778093400441801,
+          "silhouette_max": 0.36154107531292096
+        }
+      },
+      "quality_after": {
+        "global_metrics": {
+          "silhouette_score": 0.2893273678969736,
+          "calinski_harabasz_score": 698.7077238188211,
+          "davies_bouldin_score": 1.3556051915525298,
+          "n_samples": 4346,
+          "n_clusters": 3,
+          "n_features": 9
+        },
+        "sample_analysis": {
+          "silhouette_samples": "[0.21690743 0.34336341 0.37874382 ... 0.32169109 0.35479226 0.29644123]",
+          "negative_silhouette_count": "25",
+          "negative_silhouette_ratio": 0.005752416014726185,
+          "silhouette_mean": 0.2893273678969736,
+          "silhouette_std": 0.11133410799860703,
+          "silhouette_min": -0.06530204200322601,
+          "silhouette_max": 0.4819323906437689
+        }
+      },
+      "improvements": {
+        "silhouette_absolute": 0.13144399440347151,
+        "silhouette_relative": 0.8325385472516602,
+        "calinski_harabasz_change": 295.20611424283516,
+        "davies_bouldin_change": -0.5877102003027972
+      },
+      "purification_info": {
+        "strategy": "hybrid_purification",
+        "steps": [
+          {
+            "strategy": "remove_negative_silhouette",
+            "removed_count": "526",
+            "retention_ratio": 0.8948,
+            "original_size": 5000,
+            "purified_size": 4474
+          },
+          {
+            "strategy": "remove_cluster_outliers",
+            "threshold": 2.5,
+            "removed_count": 128,
+            "retention_ratio": 0.9713902548055431,
+            "outlier_counts_by_cluster": {
+              

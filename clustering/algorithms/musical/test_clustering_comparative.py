@@ -14,12 +14,13 @@ import os
 import sys
 from pathlib import Path
 
-# Añadir path para imports
+# Añadir path para imports - ir al directorio raíz del proyecto
 script_dir = Path(__file__).parent
-sys.path.append(str(script_dir.parent.parent.parent))
+project_root = script_dir.parent.parent.parent
+sys.path.insert(0, str(project_root))
 
-# Import del comparador
-from clustering.algorithms.musical.clustering_comparative import ClusteringComparator
+# Import directo del comparador en el mismo directorio
+from clustering_comparative import ClusteringComparator
 
 def test_dataset_loading():
     """Test carga de todos los datasets configurados."""

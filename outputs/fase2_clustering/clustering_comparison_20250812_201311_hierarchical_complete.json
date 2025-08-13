@@ -1,0 +1,6379 @@
+{
+  "comparison_config": {
+    "dataset_keys": [
+      "optimal",
+      "control",
+      "baseline"
+    ],
+    "algorithm": "hierarchical",
+    "test_mode": false,
+    "timestamp": "2025-08-12T19:35:44.825906"
+  },
+  "dataset_analyses": {
+    "optimal": {
+      "dataset_metadata": {
+        "dataset_key": "optimal",
+        "dataset_name": "Dataset Optimizado (10K)",
+        "original_size": 10000,
+        "cleaned_size": 10000,
+        "final_size": 10000,
+        "n_features": 12,
+        "available_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms"
+        ],
+        "missing_features": [],
+        "expected_hopkins": 0.933,
+        "description": "MaxMin optimizado con KD-Tree y validación Hopkins",
+        "load_timestamp": "2025-08-12T19:35:45.060598"
+      },
+      "algorithm": "hierarchical",
+      "analysis_config": {
+        "k_range": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "n_runs": 10,
+        "n_features": 12,
+        "n_samples": 10000
+      },
+      "results_by_k": {
+        "3": {
+          "k": 3,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08627076173412868,
+              "calinski_harabasz_score": 780.5100825750588,
+              "davies_bouldin_score": 2.941201519473084,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                4379,
+                1146,
+                4475
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08627076173412869,
+              "std": 1.3877787807814457e-17,
+              "min": 0.08627076173412868,
+              "max": 0.08627076173412868,
+              "median": 0.08627076173412868
+            },
+            "calinski_harabasz": {
+              "mean": 780.5100825750588,
+              "std": 0.0,
+              "min": 780.5100825750588,
+              "max": 780.5100825750588,
+              "median": 780.5100825750588
+            },
+            "davies_bouldin": {
+              "mean": 2.9412015194730836,
+              "std": 4.440892098500626e-16,
+              "min": 2.941201519473084,
+              "max": 2.941201519473084,
+              "median": 2.941201519473084
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08627076173412868,
+            "calinski_harabasz_score": 780.5100825750588,
+            "davies_bouldin_score": 2.941201519473084,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              4379,
+              1146,
+              4475
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08627076173412868,
+            "calinski_harabasz_score": 780.5100825750588,
+            "davies_bouldin_score": 2.941201519473084,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              4379,
+              1146,
+              4475
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "4": {
+          "k": 4,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08099285506844822,
+              "calinski_harabasz_score": 771.024568589727,
+              "davies_bouldin_score": 2.5269198249869915,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                4475,
+                1146,
+                3881,
+                498
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08099285506844822,
+              "std": 0.0,
+              "min": 0.08099285506844822,
+              "max": 0.08099285506844822,
+              "median": 0.08099285506844822
+            },
+            "calinski_harabasz": {
+              "mean": 771.024568589727,
+              "std": 0.0,
+              "min": 771.024568589727,
+              "max": 771.024568589727,
+              "median": 771.024568589727
+            },
+            "davies_bouldin": {
+              "mean": 2.526919824986991,
+              "std": 4.440892098500626e-16,
+              "min": 2.5269198249869915,
+              "max": 2.5269198249869915,
+              "median": 2.5269198249869915
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08099285506844822,
+            "calinski_harabasz_score": 771.024568589727,
+            "davies_bouldin_score": 2.5269198249869915,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              4475,
+              1146,
+              3881,
+              498
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08099285506844822,
+            "calinski_harabasz_score": 771.024568589727,
+            "davies_bouldin_score": 2.5269198249869915,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              4475,
+              1146,
+              3881,
+              498
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "5": {
+          "k": 5,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08828136568585553,
+              "calinski_harabasz_score": 766.6067598053023,
+              "davies_bouldin_score": 2.4016099588247113,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3037,
+                1146,
+                3881,
+                498,
+                1438
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08828136568585553,
+              "std": 0.0,
+              "min": 0.08828136568585553,
+              "max": 0.08828136568585553,
+              "median": 0.08828136568585553
+            },
+            "calinski_harabasz": {
+              "mean": 766.6067598053023,
+              "std": 0.0,
+              "min": 766.6067598053023,
+              "max": 766.6067598053023,
+              "median": 766.6067598053023
+            },
+            "davies_bouldin": {
+              "mean": 2.4016099588247113,
+              "std": 0.0,
+              "min": 2.4016099588247113,
+              "max": 2.4016099588247113,
+              "median": 2.4016099588247113
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08828136568585553,
+            "calinski_harabasz_score": 766.6067598053023,
+            "davies_bouldin_score": 2.4016099588247113,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3037,
+              1146,
+              3881,
+              498,
+              1438
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08828136568585553,
+            "calinski_harabasz_score": 766.6067598053023,
+            "davies_bouldin_score": 2.4016099588247113,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3037,
+              1146,
+              3881,
+              498,
+              1438
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "6": {
+          "k": 6,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08486091228011887,
+              "calinski_harabasz_score": 730.1460724340177,
+              "davies_bouldin_score": 2.2155918862120854,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                3881,
+                1146,
+                2276,
+                498,
+                1438,
+                761
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08486091228011886,
+              "std": 1.3877787807814457e-17,
+              "min": 0.08486091228011887,
+              "max": 0.08486091228011887,
+              "median": 0.08486091228011887
+            },
+            "calinski_harabasz": {
+              "mean": 730.1460724340177,
+              "std": 0.0,
+              "min": 730.1460724340177,
+              "max": 730.1460724340177,
+              "median": 730.1460724340177
+            },
+            "davies_bouldin": {
+              "mean": 2.2155918862120854,
+              "std": 0.0,
+              "min": 2.2155918862120854,
+              "max": 2.2155918862120854,
+              "median": 2.2155918862120854
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08486091228011887,
+            "calinski_harabasz_score": 730.1460724340177,
+            "davies_bouldin_score": 2.2155918862120854,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              3881,
+              1146,
+              2276,
+              498,
+              1438,
+              761
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08486091228011887,
+            "calinski_harabasz_score": 730.1460724340177,
+            "davies_bouldin_score": 2.2155918862120854,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              3881,
+              1146,
+              2276,
+              498,
+              1438,
+              761
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "7": {
+          "k": 7,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.07075673113972612,
+              "calinski_harabasz_score": 683.0778976508219,
+              "davies_bouldin_score": 2.3668705989125987,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1660,
+                1146,
+                2276,
+                498,
+                1438,
+                761,
+                2221
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.07075673113972612,
+              "std": 0.0,
+              "min": 0.07075673113972612,
+              "max": 0.07075673113972612,
+              "median": 0.07075673113972612
+            },
+            "calinski_harabasz": {
+              "mean": 683.0778976508219,
+              "std": 0.0,
+              "min": 683.0778976508219,
+              "max": 683.0778976508219,
+              "median": 683.0778976508219
+            },
+            "davies_bouldin": {
+              "mean": 2.3668705989125987,
+              "std": 0.0,
+              "min": 2.3668705989125987,
+              "max": 2.3668705989125987,
+              "median": 2.3668705989125987
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07075673113972612,
+            "calinski_harabasz_score": 683.0778976508219,
+            "davies_bouldin_score": 2.3668705989125987,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              1660,
+              1146,
+              2276,
+              498,
+              1438,
+              761,
+              2221
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07075673113972612,
+            "calinski_harabasz_score": 683.0778976508219,
+            "davies_bouldin_score": 2.3668705989125987,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              1660,
+              1146,
+              2276,
+              498,
+              1438,
+              761,
+              2221
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "8": {
+          "k": 8,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.05648829888890824,
+              "calinski_harabasz_score": 635.1897586558889,
+              "davies_bouldin_score": 2.28705064241296,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                1146,
+                1438,
+                2276,
+                609,
+                1051,
+                761,
+                2221,
+                498
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.05648829888890824,
+              "std": 0.0,
+              "min": 0.05648829888890824,
+              "max": 0.05648829888890824,
+              "median": 0.05648829888890824
+            },
+            "calinski_harabasz": {
+              "mean": 635.1897586558889,
+              "std": 0.0,
+              "min": 635.1897586558889,
+              "max": 635.1897586558889,
+              "median": 635.1897586558889
+            },
+            "davies_bouldin": {
+              "mean": 2.28705064241296,
+              "std": 0.0,
+              "min": 2.28705064241296,
+              "max": 2.28705064241296,
+              "median": 2.28705064241296
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.05648829888890824,
+            "calinski_harabasz_score": 635.1897586558889,
+            "davies_bouldin_score": 2.28705064241296,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              1146,
+              1438,
+              2276,
+              609,
+              1051,
+              761,
+              2221,
+              498
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.05648829888890824,
+            "calinski_harabasz_score": 635.1897586558889,
+            "davies_bouldin_score": 2.28705064241296,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              1146,
+              1438,
+              2276,
+              609,
+              1051,
+              761,
+              2221,
+              498
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "9": {
+          "k": 9,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06050166231290512,
+              "calinski_harabasz_score": 597.9316357101097,
+              "davies_bouldin_score": 2.281650894801342,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                2276,
+                1438,
+                2221,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06050166231290512,
+              "std": 0.0,
+              "min": 0.06050166231290512,
+              "max": 0.06050166231290512,
+              "median": 0.06050166231290512
+            },
+            "calinski_harabasz": {
+              "mean": 597.9316357101097,
+              "std": 0.0,
+              "min": 597.9316357101097,
+              "max": 597.9316357101097,
+              "median": 597.9316357101097
+            },
+            "davies_bouldin": {
+              "mean": 2.281650894801342,
+              "std": 0.0,
+              "min": 2.281650894801342,
+              "max": 2.281650894801342,
+              "median": 2.281650894801342
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06050166231290512,
+            "calinski_harabasz_score": 597.9316357101097,
+            "davies_bouldin_score": 2.281650894801342,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              2276,
+              1438,
+              2221,
+              609,
+              1051,
+              761,
+              865,
+              498,
+              281
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06050166231290512,
+            "calinski_harabasz_score": 597.9316357101097,
+            "davies_bouldin_score": 2.281650894801342,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              2276,
+              1438,
+              2221,
+              609,
+              1051,
+              761,
+              865,
+              498,
+              281
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "10": {
+          "k": 10,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.05313624311589715,
+              "calinski_harabasz_score": 568.7725447696487,
+              "davies_bouldin_score": 2.3661608960155767,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                2221,
+                1438,
+                1282,
+                609,
+                1051,
+                761,
+                865,
+                498,
+                281,
+                994
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.05313624311589715,
+              "std": 0.0,
+              "min": 0.05313624311589715,
+              "max": 0.05313624311589715,
+              "median": 0.05313624311589715
+            },
+            "calinski_harabasz": {
+              "mean": 568.7725447696487,
+              "std": 0.0,
+              "min": 568.7725447696487,
+              "max": 568.7725447696487,
+              "median": 568.7725447696487
+            },
+            "davies_bouldin": {
+              "mean": 2.366160896015576,
+              "std": 4.440892098500626e-16,
+              "min": 2.3661608960155767,
+              "max": 2.3661608960155767,
+              "median": 2.3661608960155767
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.05313624311589715,
+            "calinski_harabasz_score": 568.7725447696487,
+            "davies_bouldin_score": 2.3661608960155767,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              2221,
+              1438,
+              1282,
+              609,
+              1051,
+              761,
+              865,
+              498,
+              281,
+              994
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.05313624311589715,
+            "calinski_harabasz_score": 568.7725447696487,
+            "davies_bouldin_score": 2.3661608960155767,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              2221,
+              1438,
+              1282,
+              609,
+              1051,
+              761,
+              865,
+              498,
+              281,
+              994
+            ],
+            "algorithm": "hierarchical"
+          }
+        }
+      },
+      "analysis_timestamp": "2025-08-12T19:42:29.553121",
+      "best_k": {
+        "k": 5,
+        "silhouette_score": 0.08828136568585553
+      },
+      "summary_statistics": {
+        "total_runs": 80,
+        "overall_silhouette": {
+          "mean": 0.0726611037782485,
+          "std": 0.013424451723211607,
+          "min": 0.05313624311589715,
+          "max": 0.08828136568585553
+        },
+        "overall_calinski": {
+          "mean": 691.6574150238218,
+          "std": 77.81399296393089,
+          "min": 568.7725447696487,
+          "max": 780.5100825750588
+        },
+        "overall_davies_bouldin": {
+          "mean": 2.4233820277049185,
+          "std": 0.21437398033335203,
+          "min": 2.2155918862120854,
+          "max": 2.941201519473084
+        }
+      }
+    },
+    "control": {
+      "dataset_metadata": {
+        "dataset_key": "control",
+        "dataset_name": "Dataset Control (10K)",
+        "original_size": 9987,
+        "cleaned_size": 9987,
+        "final_size": 9987,
+        "n_features": 12,
+        "available_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms"
+        ],
+        "missing_features": [],
+        "expected_hopkins": 0.45,
+        "description": "Selección previa sin optimización Hopkins",
+        "load_timestamp": "2025-08-12T19:42:29.826591"
+      },
+      "algorithm": "hierarchical",
+      "analysis_config": {
+        "k_range": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "n_runs": 10,
+        "n_features": 12,
+        "n_samples": 9987
+      },
+      "results_by_k": {
+        "3": {
+          "k": 3,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.13340978564951803,
+              "calinski_harabasz_score": 824.6293441058983,
+              "davies_bouldin_score": 2.07667571393142,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                7886,
+                1352,
+                749
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.13340978564951803,
+              "std": 0.0,
+              "min": 0.13340978564951803,
+              "max": 0.13340978564951803,
+              "median": 0.13340978564951803
+            },
+            "calinski_harabasz": {
+              "mean": 824.6293441058984,
+              "std": 1.1368683772161603e-13,
+              "min": 824.6293441058983,
+              "max": 824.6293441058983,
+              "median": 824.6293441058983
+            },
+            "davies_bouldin": {
+              "mean": 2.0766757139314196,
+              "std": 4.440892098500626e-16,
+              "min": 2.07667571393142,
+              "max": 2.07667571393142,
+              "median": 2.07667571393142
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.13340978564951803,
+            "calinski_harabasz_score": 824.6293441058983,
+            "davies_bouldin_score": 2.07667571393142,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              7886,
+              1352,
+              749
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.13340978564951803,
+            "calinski_harabasz_score": 824.6293441058983,
+            "davies_bouldin_score": 2.07667571393142,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              7886,
+              1352,
+              749
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "4": {
+          "k": 4,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08902481199732354,
+              "calinski_harabasz_score": 771.5513793385351,
+              "davies_bouldin_score": 2.434381188780819,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                6307,
+                1352,
+                749,
+                1579
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08902481199732355,
+              "std": 1.3877787807814457e-17,
+              "min": 0.08902481199732354,
+              "max": 0.08902481199732354,
+              "median": 0.08902481199732354
+            },
+            "calinski_harabasz": {
+              "mean": 771.5513793385351,
+              "std": 0.0,
+              "min": 771.5513793385351,
+              "max": 771.5513793385351,
+              "median": 771.5513793385351
+            },
+            "davies_bouldin": {
+              "mean": 2.434381188780819,
+              "std": 0.0,
+              "min": 2.434381188780819,
+              "max": 2.434381188780819,
+              "median": 2.434381188780819
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08902481199732354,
+            "calinski_harabasz_score": 771.5513793385351,
+            "davies_bouldin_score": 2.434381188780819,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              6307,
+              1352,
+              749,
+              1579
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08902481199732354,
+            "calinski_harabasz_score": 771.5513793385351,
+            "davies_bouldin_score": 2.434381188780819,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              6307,
+              1352,
+              749,
+              1579
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "5": {
+          "k": 5,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.07346055354742693,
+              "calinski_harabasz_score": 736.4546646202184,
+              "davies_bouldin_score": 2.6691164146640056,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3337,
+                2970,
+                749,
+                1579,
+                1352
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.07346055354742695,
+              "std": 1.3877787807814457e-17,
+              "min": 0.07346055354742693,
+              "max": 0.07346055354742693,
+              "median": 0.07346055354742693
+            },
+            "calinski_harabasz": {
+              "mean": 736.4546646202183,
+              "std": 1.1368683772161603e-13,
+              "min": 736.4546646202184,
+              "max": 736.4546646202184,
+              "median": 736.4546646202184
+            },
+            "davies_bouldin": {
+              "mean": 2.669116414664006,
+              "std": 4.440892098500626e-16,
+              "min": 2.6691164146640056,
+              "max": 2.6691164146640056,
+              "median": 2.6691164146640056
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07346055354742693,
+            "calinski_harabasz_score": 736.4546646202184,
+            "davies_bouldin_score": 2.6691164146640056,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3337,
+              2970,
+              749,
+              1579,
+              1352
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07346055354742693,
+            "calinski_harabasz_score": 736.4546646202184,
+            "davies_bouldin_score": 2.6691164146640056,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3337,
+              2970,
+              749,
+              1579,
+              1352
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "6": {
+          "k": 6,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.07854890989053313,
+              "calinski_harabasz_score": 713.715351827223,
+              "davies_bouldin_score": 2.4129862753436613,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                2750,
+                2970,
+                749,
+                1579,
+                1352,
+                587
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.07854890989053312,
+              "std": 1.3877787807814457e-17,
+              "min": 0.07854890989053313,
+              "max": 0.07854890989053313,
+              "median": 0.07854890989053313
+            },
+            "calinski_harabasz": {
+              "mean": 713.7153518272229,
+              "std": 1.1368683772161603e-13,
+              "min": 713.715351827223,
+              "max": 713.715351827223,
+              "median": 713.715351827223
+            },
+            "davies_bouldin": {
+              "mean": 2.4129862753436617,
+              "std": 4.440892098500626e-16,
+              "min": 2.4129862753436613,
+              "max": 2.4129862753436613,
+              "median": 2.4129862753436613
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07854890989053313,
+            "calinski_harabasz_score": 713.715351827223,
+            "davies_bouldin_score": 2.4129862753436613,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              2750,
+              2970,
+              749,
+              1579,
+              1352,
+              587
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07854890989053313,
+            "calinski_harabasz_score": 713.715351827223,
+            "davies_bouldin_score": 2.4129862753436613,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              2750,
+              2970,
+              749,
+              1579,
+              1352,
+              587
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "7": {
+          "k": 7,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.07556438014531057,
+              "calinski_harabasz_score": 682.141466896398,
+              "davies_bouldin_score": 2.2597218307693,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                2970,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.07556438014531056,
+              "std": 1.3877787807814457e-17,
+              "min": 0.07556438014531057,
+              "max": 0.07556438014531057,
+              "median": 0.07556438014531057
+            },
+            "calinski_harabasz": {
+              "mean": 682.141466896398,
+              "std": 0.0,
+              "min": 682.141466896398,
+              "max": 682.141466896398,
+              "median": 682.141466896398
+            },
+            "davies_bouldin": {
+              "mean": 2.2597218307693003,
+              "std": 4.440892098500626e-16,
+              "min": 2.2597218307693,
+              "max": 2.2597218307693,
+              "median": 2.2597218307693
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07556438014531057,
+            "calinski_harabasz_score": 682.141466896398,
+            "davies_bouldin_score": 2.2597218307693,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              2970,
+              1950,
+              800,
+              1579,
+              1352,
+              587,
+              749
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.07556438014531057,
+            "calinski_harabasz_score": 682.141466896398,
+            "davies_bouldin_score": 2.2597218307693,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              2970,
+              1950,
+              800,
+              1579,
+              1352,
+              587,
+              749
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "8": {
+          "k": 8,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06384609803043038,
+              "calinski_harabasz_score": 630.4039852393387,
+              "davies_bouldin_score": 2.3592132235253755,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                2072,
+                1950,
+                800,
+                1579,
+                1352,
+                587,
+                749,
+                898
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06384609803043038,
+              "std": 0.0,
+              "min": 0.06384609803043038,
+              "max": 0.06384609803043038,
+              "median": 0.06384609803043038
+            },
+            "calinski_harabasz": {
+              "mean": 630.4039852393387,
+              "std": 0.0,
+              "min": 630.4039852393387,
+              "max": 630.4039852393387,
+              "median": 630.4039852393387
+            },
+            "davies_bouldin": {
+              "mean": 2.3592132235253755,
+              "std": 0.0,
+              "min": 2.3592132235253755,
+              "max": 2.3592132235253755,
+              "median": 2.3592132235253755
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06384609803043038,
+            "calinski_harabasz_score": 630.4039852393387,
+            "davies_bouldin_score": 2.3592132235253755,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              2072,
+              1950,
+              800,
+              1579,
+              1352,
+              587,
+              749,
+              898
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06384609803043038,
+            "calinski_harabasz_score": 630.4039852393387,
+            "davies_bouldin_score": 2.3592132235253755,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              2072,
+              1950,
+              800,
+              1579,
+              1352,
+              587,
+              749,
+              898
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "9": {
+          "k": 9,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.04480770548190206,
+              "calinski_harabasz_score": 587.3258640661275,
+              "davies_bouldin_score": 2.3548976965063564,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1950,
+                1352,
+                800,
+                1579,
+                1259,
+                587,
+                749,
+                898,
+                813
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.04480770548190206,
+              "std": 0.0,
+              "min": 0.04480770548190206,
+              "max": 0.04480770548190206,
+              "median": 0.04480770548190206
+            },
+            "calinski_harabasz": {
+              "mean": 587.3258640661276,
+              "std": 1.1368683772161603e-13,
+              "min": 587.3258640661275,
+              "max": 587.3258640661275,
+              "median": 587.3258640661275
+            },
+            "davies_bouldin": {
+              "mean": 2.3548976965063564,
+              "std": 0.0,
+              "min": 2.3548976965063564,
+              "max": 2.3548976965063564,
+              "median": 2.3548976965063564
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.04480770548190206,
+            "calinski_harabasz_score": 587.3258640661275,
+            "davies_bouldin_score": 2.3548976965063564,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              1950,
+              1352,
+              800,
+              1579,
+              1259,
+              587,
+              749,
+              898,
+              813
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.04480770548190206,
+            "calinski_harabasz_score": 587.3258640661275,
+            "davies_bouldin_score": 2.3548976965063564,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              1950,
+              1352,
+              800,
+              1579,
+              1259,
+              587,
+              749,
+              898,
+              813
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "10": {
+          "k": 10,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.03717369155542606,
+              "calinski_harabasz_score": 554.0332679923816,
+              "davies_bouldin_score": 2.419994343116158,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                1352,
+                1579,
+                800,
+                901,
+                1259,
+                587,
+                749,
+                898,
+                813,
+                1049
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.03717369155542606,
+              "std": 0.0,
+              "min": 0.03717369155542606,
+              "max": 0.03717369155542606,
+              "median": 0.03717369155542606
+            },
+            "calinski_harabasz": {
+              "mean": 554.0332679923815,
+              "std": 1.1368683772161603e-13,
+              "min": 554.0332679923816,
+              "max": 554.0332679923816,
+              "median": 554.0332679923816
+            },
+            "davies_bouldin": {
+              "mean": 2.419994343116158,
+              "std": 0.0,
+              "min": 2.419994343116158,
+              "max": 2.419994343116158,
+              "median": 2.419994343116158
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.03717369155542606,
+            "calinski_harabasz_score": 554.0332679923816,
+            "davies_bouldin_score": 2.419994343116158,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              1352,
+              1579,
+              800,
+              901,
+              1259,
+              587,
+              749,
+              898,
+              813,
+              1049
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.03717369155542606,
+            "calinski_harabasz_score": 554.0332679923816,
+            "davies_bouldin_score": 2.419994343116158,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              1352,
+              1579,
+              800,
+              901,
+              1259,
+              587,
+              749,
+              898,
+              813,
+              1049
+            ],
+            "algorithm": "hierarchical"
+          }
+        }
+      },
+      "analysis_timestamp": "2025-08-12T19:49:19.075779",
+      "best_k": {
+        "k": 3,
+        "silhouette_score": 0.13340978564951803
+      },
+      "summary_statistics": {
+        "total_runs": 80,
+        "overall_silhouette": {
+          "mean": 0.07447949203723384,
+          "std": 0.027586971455214947,
+          "min": 0.03717369155542606,
+          "max": 0.13340978564951803
+        },
+        "overall_calinski": {
+          "mean": 687.5319155107651,
+          "std": 86.66731068848289,
+          "min": 554.0332679923816,
+          "max": 824.6293441058983
+        },
+        "overall_davies_bouldin": {
+          "mean": 2.373373335829637,
+          "std": 0.15669103020311445,
+          "min": 2.07667571393142,
+          "max": 2.6691164146640056
+        }
+      }
+    },
+    "baseline": {
+      "dataset_metadata": {
+        "dataset_key": "baseline",
+        "dataset_name": "Dataset Original (18K)",
+        "original_size": 18454,
+        "cleaned_size": 18454,
+        "final_size": 18454,
+        "n_features": 12,
+        "available_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms"
+        ],
+        "missing_features": [],
+        "expected_hopkins": 0.787,
+        "description": "Dataset completo sin optimización",
+        "load_timestamp": "2025-08-12T19:49:19.685692"
+      },
+      "algorithm": "hierarchical",
+      "analysis_config": {
+        "k_range": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "n_runs": 10,
+        "n_features": 12,
+        "n_samples": 18454
+      },
+      "results_by_k": {
+        "3": {
+          "k": 3,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.15540781408330048,
+              "calinski_harabasz_score": 1506.6863664697978,
+              "davies_bouldin_score": 1.9507345167575305,
+              "inertia": null,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                15330,
+                1197,
+                1927
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.15540781408330046,
+              "std": 2.7755575615628914e-17,
+              "min": 0.15540781408330048,
+              "max": 0.15540781408330048,
+              "median": 0.15540781408330048
+            },
+            "calinski_harabasz": {
+              "mean": 1506.6863664697978,
+              "std": 0.0,
+              "min": 1506.6863664697978,
+              "max": 1506.6863664697978,
+              "median": 1506.6863664697978
+            },
+            "davies_bouldin": {
+              "mean": 1.9507345167575305,
+              "std": 0.0,
+              "min": 1.9507345167575305,
+              "max": 1.9507345167575305,
+              "median": 1.9507345167575305
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.15540781408330048,
+            "calinski_harabasz_score": 1506.6863664697978,
+            "davies_bouldin_score": 1.9507345167575305,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              15330,
+              1197,
+              1927
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.15540781408330048,
+            "calinski_harabasz_score": 1506.6863664697978,
+            "davies_bouldin_score": 1.9507345167575305,
+            "inertia": null,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              15330,
+              1197,
+              1927
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "4": {
+          "k": 4,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.1091549413565127,
+              "calinski_harabasz_score": 1428.1302218386213,
+              "davies_bouldin_score": 2.5343203089545083,
+              "inertia": null,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                11473,
+                3857,
+                1927,
+                1197
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10915494135651269,
+              "std": 1.3877787807814457e-17,
+              "min": 0.1091549413565127,
+              "max": 0.1091549413565127,
+              "median": 0.1091549413565127
+            },
+            "calinski_harabasz": {
+              "mean": 1428.1302218386213,
+              "std": 0.0,
+              "min": 1428.1302218386213,
+              "max": 1428.1302218386213,
+              "median": 1428.1302218386213
+            },
+            "davies_bouldin": {
+              "mean": 2.5343203089545083,
+              "std": 0.0,
+              "min": 2.5343203089545083,
+              "max": 2.5343203089545083,
+              "median": 2.5343203089545083
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.1091549413565127,
+            "calinski_harabasz_score": 1428.1302218386213,
+            "davies_bouldin_score": 2.5343203089545083,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              11473,
+              3857,
+              1927,
+              1197
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.1091549413565127,
+            "calinski_harabasz_score": 1428.1302218386213,
+            "davies_bouldin_score": 2.5343203089545083,
+            "inertia": null,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              11473,
+              3857,
+              1927,
+              1197
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "5": {
+          "k": 5,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06775994748164973,
+              "calinski_harabasz_score": 1349.0349307719193,
+              "davies_bouldin_score": 2.5311708642930446,
+              "inertia": null,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                3857,
+                7015,
+                1927,
+                1197,
+                4458
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06775994748164973,
+              "std": 0.0,
+              "min": 0.06775994748164973,
+              "max": 0.06775994748164973,
+              "median": 0.06775994748164973
+            },
+            "calinski_harabasz": {
+              "mean": 1349.0349307719193,
+              "std": 0.0,
+              "min": 1349.0349307719193,
+              "max": 1349.0349307719193,
+              "median": 1349.0349307719193
+            },
+            "davies_bouldin": {
+              "mean": 2.5311708642930446,
+              "std": 0.0,
+              "min": 2.5311708642930446,
+              "max": 2.5311708642930446,
+              "median": 2.5311708642930446
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06775994748164973,
+            "calinski_harabasz_score": 1349.0349307719193,
+            "davies_bouldin_score": 2.5311708642930446,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3857,
+              7015,
+              1927,
+              1197,
+              4458
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06775994748164973,
+            "calinski_harabasz_score": 1349.0349307719193,
+            "davies_bouldin_score": 2.5311708642930446,
+            "inertia": null,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              3857,
+              7015,
+              1927,
+              1197,
+              4458
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "6": {
+          "k": 6,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.08034851538369264,
+              "calinski_harabasz_score": 1310.9498416459726,
+              "davies_bouldin_score": 2.348358397693447,
+              "inertia": null,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                7015,
+                4458,
+                1927,
+                1197,
+                3031,
+                826
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.08034851538369266,
+              "std": 1.3877787807814457e-17,
+              "min": 0.08034851538369264,
+              "max": 0.08034851538369264,
+              "median": 0.08034851538369264
+            },
+            "calinski_harabasz": {
+              "mean": 1310.9498416459724,
+              "std": 2.2737367544323206e-13,
+              "min": 1310.9498416459726,
+              "max": 1310.9498416459726,
+              "median": 1310.9498416459726
+            },
+            "davies_bouldin": {
+              "mean": 2.3483583976934463,
+              "std": 4.440892098500626e-16,
+              "min": 2.348358397693447,
+              "max": 2.348358397693447,
+              "median": 2.348358397693447
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08034851538369264,
+            "calinski_harabasz_score": 1310.9498416459726,
+            "davies_bouldin_score": 2.348358397693447,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              7015,
+              4458,
+              1927,
+              1197,
+              3031,
+              826
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.08034851538369264,
+            "calinski_harabasz_score": 1310.9498416459726,
+            "davies_bouldin_score": 2.348358397693447,
+            "inertia": null,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              7015,
+              4458,
+              1927,
+              1197,
+              3031,
+              826
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "7": {
+          "k": 7,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06247313456890492,
+              "calinski_harabasz_score": 1264.1060537249903,
+              "davies_bouldin_score": 2.299363140585309,
+              "inertia": null,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                4458,
+                3031,
+                1927,
+                1197,
+                4427,
+                826,
+                2588
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06247313456890492,
+              "std": 0.0,
+              "min": 0.06247313456890492,
+              "max": 0.06247313456890492,
+              "median": 0.06247313456890492
+            },
+            "calinski_harabasz": {
+              "mean": 1264.1060537249903,
+              "std": 0.0,
+              "min": 1264.1060537249903,
+              "max": 1264.1060537249903,
+              "median": 1264.1060537249903
+            },
+            "davies_bouldin": {
+              "mean": 2.299363140585309,
+              "std": 0.0,
+              "min": 2.299363140585309,
+              "max": 2.299363140585309,
+              "median": 2.299363140585309
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06247313456890492,
+            "calinski_harabasz_score": 1264.1060537249903,
+            "davies_bouldin_score": 2.299363140585309,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              4458,
+              3031,
+              1927,
+              1197,
+              4427,
+              826,
+              2588
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06247313456890492,
+            "calinski_harabasz_score": 1264.1060537249903,
+            "davies_bouldin_score": 2.299363140585309,
+            "inertia": null,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              4458,
+              3031,
+              1927,
+              1197,
+              4427,
+              826,
+              2588
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "8": {
+          "k": 8,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.058168173496806475,
+              "calinski_harabasz_score": 1215.1934066958227,
+              "davies_bouldin_score": 2.2240762561366143,
+              "inertia": null,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                3031,
+                1712,
+                1927,
+                1197,
+                4427,
+                826,
+                2588,
+                2746
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.058168173496806475,
+              "std": 0.0,
+              "min": 0.058168173496806475,
+              "max": 0.058168173496806475,
+              "median": 0.058168173496806475
+            },
+            "calinski_harabasz": {
+              "mean": 1215.1934066958224,
+              "std": 2.2737367544323206e-13,
+              "min": 1215.1934066958227,
+              "max": 1215.1934066958227,
+              "median": 1215.1934066958227
+            },
+            "davies_bouldin": {
+              "mean": 2.224076256136614,
+              "std": 4.440892098500626e-16,
+              "min": 2.2240762561366143,
+              "max": 2.2240762561366143,
+              "median": 2.2240762561366143
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.058168173496806475,
+            "calinski_harabasz_score": 1215.1934066958227,
+            "davies_bouldin_score": 2.2240762561366143,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              3031,
+              1712,
+              1927,
+              1197,
+              4427,
+              826,
+              2588,
+              2746
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.058168173496806475,
+            "calinski_harabasz_score": 1215.1934066958227,
+            "davies_bouldin_score": 2.2240762561366143,
+            "inertia": null,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              3031,
+              1712,
+              1927,
+              1197,
+              4427,
+              826,
+              2588,
+              2746
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "9": {
+          "k": 9,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06433668481623452,
+              "calinski_harabasz_score": 1146.6799783831823,
+              "davies_bouldin_score": 2.2603215541670147,
+              "inertia": null,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                1712,
+                4427,
+                1927,
+                1197,
+                1955,
+                826,
+                2588,
+                2746,
+                1076
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06433668481623453,
+              "std": 1.3877787807814457e-17,
+              "min": 0.06433668481623452,
+              "max": 0.06433668481623452,
+              "median": 0.06433668481623452
+            },
+            "calinski_harabasz": {
+              "mean": 1146.6799783831825,
+              "std": 2.2737367544323206e-13,
+              "min": 1146.6799783831823,
+              "max": 1146.6799783831823,
+              "median": 1146.6799783831823
+            },
+            "davies_bouldin": {
+              "mean": 2.2603215541670147,
+              "std": 0.0,
+              "min": 2.2603215541670147,
+              "max": 2.2603215541670147,
+              "median": 2.2603215541670147
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06433668481623452,
+            "calinski_harabasz_score": 1146.6799783831823,
+            "davies_bouldin_score": 2.2603215541670147,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              1712,
+              4427,
+              1927,
+              1197,
+              1955,
+              826,
+              2588,
+              2746,
+              1076
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06433668481623452,
+            "calinski_harabasz_score": 1146.6799783831823,
+            "davies_bouldin_score": 2.2603215541670147,
+            "inertia": null,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              1712,
+              4427,
+              1927,
+              1197,
+              1955,
+              826,
+              2588,
+              2746,
+              1076
+            ],
+            "algorithm": "hierarchical"
+          }
+        },
+        "10": {
+          "k": 10,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.06379316840297994,
+              "calinski_harabasz_score": 1084.3697322993053,
+              "davies_bouldin_score": 2.1625613733024984,
+              "inertia": null,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                4427,
+                1197,
+                1927,
+                2746,
+                1955,
+                826,
+                2588,
+                971,
+                1076,
+                741
+              ],
+              "algorithm": "hierarchical"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.06379316840297995,
+              "std": 1.3877787807814457e-17,
+              "min": 0.06379316840297994,
+              "max": 0.06379316840297994,
+              "median": 0.06379316840297994
+            },
+            "calinski_harabasz": {
+              "mean": 1084.3697322993053,
+              "std": 0.0,
+              "min": 1084.3697322993053,
+              "max": 1084.3697322993053,
+              "median": 1084.3697322993053
+            },
+            "davies_bouldin": {
+              "mean": 2.1625613733024984,
+              "std": 0.0,
+              "min": 2.1625613733024984,
+              "max": 2.1625613733024984,
+              "median": 2.1625613733024984
+            }
+          },
+          "best_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06379316840297994,
+            "calinski_harabasz_score": 1084.3697322993053,
+            "davies_bouldin_score": 2.1625613733024984,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              4427,
+              1197,
+              1927,
+              2746,
+              1955,
+              826,
+              2588,
+              971,
+              1076,
+              741
+            ],
+            "algorithm": "hierarchical"
+          },
+          "worst_run": {
+            "run_idx": 0,
+            "random_state": 42,
+            "silhouette_score": 0.06379316840297994,
+            "calinski_harabasz_score": 1084.3697322993053,
+            "davies_bouldin_score": 2.1625613733024984,
+            "inertia": null,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              4427,
+              1197,
+              1927,
+              2746,
+              1955,
+              826,
+              2588,
+              971,
+              1076,
+              741
+            ],
+            "algorithm": "hierarchical"
+          }
+        }
+      },
+      "analysis_timestamp": "2025-08-12T20:13:11.324385",
+      "best_k": {
+        "k": 3,
+        "silhouette_score": 0.15540781408330046
+      },
+      "summary_statistics": {
+        "total_runs": 80,
+        "overall_silhouette": {
+          "mean": 0.08268029744876018,
+          "std": 0.03146553256521871,
+          "min": 0.058168173496806475,
+          "max": 0.15540781408330048
+        },
+        "overall_calinski": {
+          "mean": 1288.1438164787014,
+          "std": 131.82391362323222,
+          "min": 1084.3697322993053,
+          "max": 1506.6863664697978
+        },
+        "overall_davies_bouldin": {
+          "mean": 2.288863301486246,
+          "std": 0.1795505692390991,
+          "min": 1.9507345167575305,
+          "max": 2.5343203089545083
+        }
+      }
+    }
+  },
+  "comparative_metrics": {
+    "silhouette_comparison": {},
+    "best_k_comparison": {},
+    "improvement_analysis": {
+      "optimal_vs_control": {
+        "optimal_silhouette": 0.08828136568585553,
+        "control_silhouette": 0.13340978564951803,
+        "absolute_improvement": -0.0451284199636625,
+        "relative_improvement": -0.3382691887551619,
+        "improvement_percentage": -33.826918875516185
+      }
+    },
+    "dataset_metrics": {
+      "optimal": {
+        "name": "Dataset Optimizado (10K)",
+        "best_k": 5,
+        "best_silhouette": 0.08828136568585553,
+        "expected_hopkins": 0.933,
+        "sample_size": 10000
+      },
+      "control": {
+        "name": "Dataset Control (10K)",
+        "best_k": 3,
+        "best_silhouette": 0.13340978564951803,
+        "expected_hopkins": 0.45,
+        "sample_size": 9987
+      },
+      "baseline": {
+        "name": "Dataset Original (18K)",
+        "best_k": 3,
+        "best_silhouette": 0.15540781408330046,
+        "expected_hopkins": 0.787,
+        "sample_size": 18454
+      }
+    }
+  },
+  "statistical_tests": {
+    "control_vs_optimal": {
+      "datasets": [
+        "control",
+        "optimal"
+      ],
+      "sample_sizes": [
+        80,
+        80
+      ],
+      "means": [
+        0.07447949203723384,
+        0.0726611037782485
+      ],
+      "stds": [
+        0.027586971455214947,
+        0.013424451723211607
+      ],
+      "t_test": {
+        "statistic": 0.5268003783503027,
+        "p_value": 0.5990710349806325,
+        "significant": "False"
+      },
+      "wilcoxon_test": {
+        "statistic": 1420.0,
+        "p_value": 0.3365103489237309,
+        "significant": "False"
+      },
+      "effect_size": {
+        "cohens_d": 0.08381997566062278,
+        "interpretation": "small"
+      }
+    },
+    "baseline_vs_optimal": {
+      "datasets": [
+        "baseline",
+        "optimal"
+      ],
+      "sample_sizes": [
+        80,
+        80
+      ],
+      "means": [
+        0.08268029744876018,
+        0.0726611037782485
+      ],
+      "stds": [
+        0.03146553256521871,
+        0.013424451723211607
+      ],
+      "t_test": {
+        "statistic": 2.603145978368666,
+        "p_value": 0.010116931653842823,
+        "significant": "True"
+      },
+      "wilcoxon_test": {
+        "statistic": 1165.0,
+        "p_value": 0.02878165949878224,
+        "significant": "True"
+      },
+      "effect_size": {
+        "cohens_d": 0.41419034897279,
+        "interpretation": "medium"
+      }
+    },
+    "baseline_vs_control": {
+      "datasets": [
+        "baseline",
+        "control"
+      ],
+      "sample_sizes": [
+        80,
+        80
+      ],
+      "means": [
+        0.08268029744876018,
+        0.07447949203723384
+      ],
+      "stds": [
+        0.03146553256521871,
+        0.027586971455214947
+      ],
+      "t_test": {
+        "statistic": 1.7418550325691433,
+        "p_value": 0.08347990002521377,
+        "significant": "False"
+      },
+      "wilcoxon_test": {
+        "statistic": 765.0,
+        "p_value": 3.980121574679997e-05,
+        "significant": "True"
+      },
+      "effect_size": {
+        "cohens_d": 0.27714909182770714,
+        "interpretation": "medium"
+      }
+    }
+  },
+  "recommendations": {
+    "best_dataset": {
+      "dataset": "baseline",
+      "silhouette_score": 0.15540781408330046,
+      "k": 3
+    },
+    "best_k": null,
+    "silhouette_target_met": "False",
+    "statistical_significance": true,
+    "next_steps": [
+      "⚠️ Objetivo Silhouette >0.25 NO alcanzado - Revisar optimización",
+      "🔄 Considerar FASE 4 (Cluster Purification) para mejora adicional",
+      "📊 Diferencias estadísticamente significativas confirmadas"
+    ]
+  }
+}

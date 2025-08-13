@@ -1,0 +1,4347 @@
+{
+  "comparison_config": {
+    "dataset_keys": [
+      "optimal",
+      "control"
+    ],
+    "algorithm": "kmeans",
+    "test_mode": true,
+    "timestamp": "2025-08-12T19:16:49.232122"
+  },
+  "dataset_analyses": {
+    "optimal": {
+      "dataset_metadata": {
+        "dataset_key": "optimal",
+        "dataset_name": "Dataset Optimizado (10K)",
+        "original_size": 10000,
+        "cleaned_size": 10000,
+        "final_size": 5000,
+        "n_features": 12,
+        "available_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms"
+        ],
+        "missing_features": [],
+        "expected_hopkins": 0.933,
+        "description": "MaxMin optimizado con KD-Tree y validación Hopkins",
+        "load_timestamp": "2025-08-12T19:16:49.467347"
+      },
+      "algorithm": "kmeans",
+      "analysis_config": {
+        "k_range": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "n_runs": 10,
+        "n_features": 12,
+        "n_samples": 5000
+      },
+      "results_by_k": {
+        "3": {
+          "k": 3,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10522718115174103,
+              "calinski_harabasz_score": 594.4498900408893,
+              "davies_bouldin_score": 2.501996105881672,
+              "inertia": 48468.29251346784,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                983,
+                2108,
+                1909
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.1052521767743026,
+              "calinski_harabasz_score": 594.4411399493468,
+              "davies_bouldin_score": 2.502139111877199,
+              "inertia": 48468.42963279121,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1915,
+                2107,
+                978
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10519944231063248,
+              "calinski_harabasz_score": 594.4525584929099,
+              "davies_bouldin_score": 2.5010648324192326,
+              "inertia": 48468.29086752208,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                980,
+                2101,
+                1919
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10519617283274214,
+              "calinski_harabasz_score": 594.4526887156422,
+              "davies_bouldin_score": 2.501025233228103,
+              "inertia": 48468.26897854061,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2100,
+                980,
+                1920
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10518870438377907,
+              "calinski_harabasz_score": 594.4504603852469,
+              "davies_bouldin_score": 2.501227074381964,
+              "inertia": 48468.32482107819,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2099,
+                981,
+                1920
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10537632100955184,
+              "calinski_harabasz_score": 594.4531129283948,
+              "davies_bouldin_score": 2.502650553496193,
+              "inertia": 48468.264732022064,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                976,
+                2129,
+                1895
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10529629297392962,
+              "calinski_harabasz_score": 594.447105413179,
+              "davies_bouldin_score": 2.502989478335797,
+              "inertia": 48468.34567853813,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1910,
+                2114,
+                976
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10524237176245001,
+              "calinski_harabasz_score": 594.453545527013,
+              "davies_bouldin_score": 2.5030358945593734,
+              "inertia": 48468.235229978716,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1894,
+                985,
+                2121
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10524794365464639,
+              "calinski_harabasz_score": 594.4488428703296,
+              "davies_bouldin_score": 2.5021537381802,
+              "inertia": 48468.34274790583,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2109,
+                983,
+                1908
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10520387185868399,
+              "calinski_harabasz_score": 594.4407531997313,
+              "davies_bouldin_score": 2.5016149900468174,
+              "inertia": 48468.48417577616,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2102,
+                980,
+                1918
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10524304787124591,
+              "std": 5.435344935901918e-05,
+              "min": 0.10518870438377907,
+              "max": 0.10537632100955184,
+              "median": 0.10523477645709552
+            },
+            "calinski_harabasz": {
+              "mean": 594.4490097522682,
+              "std": 0.004474099880102032,
+              "min": 594.4407531997313,
+              "max": 594.453545527013,
+              "median": 594.4501752130681
+            },
+            "davies_bouldin": {
+              "mean": 2.5019897012406553,
+              "std": 0.0007132784987286185,
+              "min": 2.501025233228103,
+              "max": 2.5030358945593734,
+              "median": 2.5020676088794356
+            },
+            "inertia": {
+              "mean": 48468.32793776208,
+              "std": 0.07347853903284454,
+              "min": 48468.235229978716,
+              "max": 48468.48417577616,
+              "median": 48468.30866727301
+            }
+          },
+          "best_run": {
+            "run_idx": 5,
+            "random_state": 47,
+            "silhouette_score": 0.10537632100955184,
+            "calinski_harabasz_score": 594.4531129283948,
+            "davies_bouldin_score": 2.502650553496193,
+            "inertia": 48468.264732022064,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              976,
+              2129,
+              1895
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 4,
+            "random_state": 46,
+            "silhouette_score": 0.10518870438377907,
+            "calinski_harabasz_score": 594.4504603852469,
+            "davies_bouldin_score": 2.501227074381964,
+            "inertia": 48468.32482107819,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              2099,
+              981,
+              1920
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "4": {
+          "k": 4,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.1146116394515034,
+              "calinski_harabasz_score": 551.4611046716395,
+              "davies_bouldin_score": 2.265910273911587,
+              "inertia": 45074.18353690357,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                505,
+                1705,
+                1914,
+                876
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.11460006077319611,
+              "calinski_harabasz_score": 551.4871802653292,
+              "davies_bouldin_score": 2.2658466839379674,
+              "inertia": 45073.60759499912,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1700,
+                1922,
+                875,
+                503
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.11468161193702295,
+              "calinski_harabasz_score": 551.4860711138339,
+              "davies_bouldin_score": 2.267850004371041,
+              "inertia": 45073.606146207494,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                499,
+                1920,
+                1707,
+                874
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.11459773880534965,
+              "calinski_harabasz_score": 551.472972525389,
+              "davies_bouldin_score": 2.266736346978235,
+              "inertia": 45073.87936227135,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                501,
+                877,
+                1713,
+                1909
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.11764983519919182,
+              "calinski_harabasz_score": 537.5365883593421,
+              "davies_bouldin_score": 2.289755988462005,
+              "inertia": 45359.13417372393,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                488,
+                1515,
+                2050,
+                947
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.11460851173946274,
+              "calinski_harabasz_score": 551.484594812101,
+              "davies_bouldin_score": 2.2655561817077974,
+              "inertia": 45073.623632336916,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                873,
+                1926,
+                503,
+                1698
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.11465506366747918,
+              "calinski_harabasz_score": 551.4856546316033,
+              "davies_bouldin_score": 2.2660630300180307,
+              "inertia": 45073.60271512517,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1927,
+                871,
+                1699,
+                503
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.11465602702717956,
+              "calinski_harabasz_score": 551.4505308919735,
+              "davies_bouldin_score": 2.267499953187591,
+              "inertia": 45074.31453892694,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1909,
+                1714,
+                501,
+                876
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10330964017229788,
+              "calinski_harabasz_score": 531.6922576453721,
+              "davies_bouldin_score": 2.3620999760529195,
+              "inertia": 45479.721468022886,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                724,
+                1752,
+                1625,
+                899
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.11465171131094955,
+              "calinski_harabasz_score": 551.4909084891381,
+              "davies_bouldin_score": 2.266745878812716,
+              "inertia": 45073.54529548918,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1931,
+                499,
+                874,
+                1696
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.11380218400836328,
+              "std": 0.0036114309471805875,
+              "min": 0.10330964017229788,
+              "max": 0.11764983519919182,
+              "median": 0.11463167538122648
+            },
+            "calinski_harabasz": {
+              "mean": 548.1047863405721,
+              "std": 6.87062106763408,
+              "min": 531.6922576453721,
+              "max": 551.4909084891381,
+              "median": 551.478783668745
+            },
+            "davies_bouldin": {
+              "mean": 2.2784064317439894,
+              "std": 0.02875301779092932,
+              "min": 2.2655561817077974,
+              "max": 2.3620999760529195,
+              "median": 2.2667411128954758
+            },
+            "inertia": {
+              "mean": 45142.92184640066,
+              "std": 140.8581414216753,
+              "min": 45073.54529548918,
+              "max": 45479.721468022886,
+              "median": 45073.75149730413
+            }
+          },
+          "best_run": {
+            "run_idx": 4,
+            "random_state": 46,
+            "silhouette_score": 0.11764983519919182,
+            "calinski_harabasz_score": 537.5365883593421,
+            "davies_bouldin_score": 2.289755988462005,
+            "inertia": 45359.13417372393,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              488,
+              1515,
+              2050,
+              947
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 8,
+            "random_state": 50,
+            "silhouette_score": 0.10330964017229788,
+            "calinski_harabasz_score": 531.6922576453721,
+            "davies_bouldin_score": 2.3620999760529195,
+            "inertia": 45479.721468022886,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              724,
+              1752,
+              1625,
+              899
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "5": {
+          "k": 5,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.11315534807905706,
+              "calinski_harabasz_score": 524.0117423259481,
+              "davies_bouldin_score": 2.1550578029441154,
+              "inertia": 42264.599079159736,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                826,
+                683,
+                1385,
+                472,
+                1634
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.11304474900827456,
+              "calinski_harabasz_score": 524.0352176105313,
+              "davies_bouldin_score": 2.156004047939115,
+              "inertia": 42264.06608963893,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1632,
+                823,
+                1384,
+                688,
+                473
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.11272882786984019,
+              "calinski_harabasz_score": 524.0023531015518,
+              "davies_bouldin_score": 2.1571975905071885,
+              "inertia": 42264.81752990841,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                474,
+                1606,
+                688,
+                1415,
+                817
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.11309903171747387,
+              "calinski_harabasz_score": 524.0407540063002,
+              "davies_bouldin_score": 2.1549128837761513,
+              "inertia": 42263.87114817597,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1385,
+                685,
+                1637,
+                818,
+                475
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.11301242943368056,
+              "calinski_harabasz_score": 524.0252617530097,
+              "davies_bouldin_score": 2.154426066243075,
+              "inertia": 42264.31173545557,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                686,
+                826,
+                1631,
+                1382,
+                475
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.11327306457931179,
+              "calinski_harabasz_score": 524.0060581995291,
+              "davies_bouldin_score": 2.1547679043942556,
+              "inertia": 42264.78333523527,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                473,
+                827,
+                1371,
+                1646,
+                683
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.11318182282853088,
+              "calinski_harabasz_score": 524.0138149215926,
+              "davies_bouldin_score": 2.153746586162363,
+              "inertia": 42264.54222793959,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                684,
+                1374,
+                1640,
+                826,
+                476
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.113165938577739,
+              "calinski_harabasz_score": 524.0164579320389,
+              "davies_bouldin_score": 2.1551741878216206,
+              "inertia": 42264.55806937036,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1637,
+                1382,
+                826,
+                683,
+                472
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.1132887217138424,
+              "calinski_harabasz_score": 524.0035195946683,
+              "davies_bouldin_score": 2.154755523821062,
+              "inertia": 42264.79970170189,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1646,
+                827,
+                473,
+                683,
+                1371
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.11328039240299076,
+              "calinski_harabasz_score": 524.0084625181861,
+              "davies_bouldin_score": 2.1536655286787636,
+              "inertia": 42264.66801863695,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                683,
+                1373,
+                474,
+                1644,
+                826
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.11312303262107411,
+              "std": 0.0001598126658679592,
+              "min": 0.11272882786984019,
+              "max": 0.1132887217138424,
+              "median": 0.11316064332839804
+            },
+            "calinski_harabasz": {
+              "mean": 524.0163641963356,
+              "std": 0.012598787649899797,
+              "min": 524.0023531015518,
+              "max": 524.0407540063002,
+              "median": 524.0127786237704
+            },
+            "davies_bouldin": {
+              "mean": 2.1549708122287714,
+              "std": 0.0009831157480497757,
+              "min": 2.1536655286787636,
+              "max": 2.1571975905071885,
+              "median": 2.1548403940852037
+            },
+            "inertia": {
+              "mean": 42264.50169352227,
+              "std": 0.30549551189073026,
+              "min": 42263.87114817597,
+              "max": 42264.81752990841,
+              "median": 42264.57857426505
+            }
+          },
+          "best_run": {
+            "run_idx": 8,
+            "random_state": 50,
+            "silhouette_score": 0.1132887217138424,
+            "calinski_harabasz_score": 524.0035195946683,
+            "davies_bouldin_score": 2.154755523821062,
+            "inertia": 42264.79970170189,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              1646,
+              827,
+              473,
+              683,
+              1371
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 2,
+            "random_state": 44,
+            "silhouette_score": 0.11272882786984019,
+            "calinski_harabasz_score": 524.0023531015518,
+            "davies_bouldin_score": 2.1571975905071885,
+            "inertia": 42264.81752990841,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              474,
+              1606,
+              688,
+              1415,
+              817
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "6": {
+          "k": 6,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10823705594096096,
+              "calinski_harabasz_score": 494.12199738717004,
+              "davies_bouldin_score": 2.050614466318911,
+              "inertia": 40141.41402222131,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1219,
+                1041,
+                983,
+                463,
+                567,
+                727
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10817231343556091,
+              "calinski_harabasz_score": 494.1111161897264,
+              "davies_bouldin_score": 2.0491697397283377,
+              "inertia": 40141.72518328954,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                728,
+                570,
+                973,
+                464,
+                1040,
+                1225
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10811930886073978,
+              "calinski_harabasz_score": 494.12263536182644,
+              "davies_bouldin_score": 2.050286086469583,
+              "inertia": 40141.39686848259,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                569,
+                983,
+                1041,
+                463,
+                1216,
+                728
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10819521833127602,
+              "calinski_harabasz_score": 494.11899928788455,
+              "davies_bouldin_score": 2.0501050971290145,
+              "inertia": 40141.515717056034,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                727,
+                982,
+                1221,
+                1040,
+                462,
+                568
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10816104994932457,
+              "calinski_harabasz_score": 494.11586939066575,
+              "davies_bouldin_score": 2.0498845791518154,
+              "inertia": 40141.57879134854,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                464,
+                973,
+                729,
+                1226,
+                569,
+                1039
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10811930886073978,
+              "calinski_harabasz_score": 494.12263536182644,
+              "davies_bouldin_score": 2.0502860864695824,
+              "inertia": 40141.39686848259,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                728,
+                1041,
+                983,
+                569,
+                463,
+                1216
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10832491987633688,
+              "calinski_harabasz_score": 494.120391934533,
+              "davies_bouldin_score": 2.050648285129155,
+              "inertia": 40141.45718938508,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1217,
+                1045,
+                568,
+                726,
+                464,
+                980
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10817951884928557,
+              "calinski_harabasz_score": 494.12416686249486,
+              "davies_bouldin_score": 2.050128735082393,
+              "inertia": 40141.423958514766,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1218,
+                728,
+                568,
+                1041,
+                981,
+                464
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.1082800602844593,
+              "calinski_harabasz_score": 494.1224971235155,
+              "davies_bouldin_score": 2.0507905860482976,
+              "inertia": 40141.44521535628,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                567,
+                980,
+                1041,
+                727,
+                464,
+                1221
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.1082268743739578,
+              "calinski_harabasz_score": 494.12265632847834,
+              "davies_bouldin_score": 2.0494869176917985,
+              "inertia": 40141.39630473558,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1040,
+                976,
+                464,
+                728,
+                1225,
+                567
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10820156287626417,
+              "std": 6.311393480392119e-05,
+              "min": 0.10811930886073978,
+              "max": 0.10832491987633688,
+              "median": 0.1081873685902808
+            },
+            "calinski_harabasz": {
+              "mean": 494.12029652281205,
+              "std": 0.003805181564551569,
+              "min": 494.1111161897264,
+              "max": 494.12416686249486,
+              "median": 494.12224725534276
+            },
+            "davies_bouldin": {
+              "mean": 2.050140057921889,
+              "std": 0.00048825435591426554,
+              "min": 2.0491697397283377,
+              "max": 2.0507905860482976,
+              "median": 2.050207410775988
+            },
+            "inertia": {
+              "mean": 40141.47501188723,
+              "std": 0.10047491130580305,
+              "min": 40141.39630473558,
+              "max": 40141.72518328954,
+              "median": 40141.434586935524
+            }
+          },
+          "best_run": {
+            "run_idx": 6,
+            "random_state": 48,
+            "silhouette_score": 0.10832491987633688,
+            "calinski_harabasz_score": 494.120391934533,
+            "davies_bouldin_score": 2.050648285129155,
+            "inertia": 40141.45718938508,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              1217,
+              1045,
+              568,
+              726,
+              464,
+              980
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 2,
+            "random_state": 44,
+            "silhouette_score": 0.10811930886073978,
+            "calinski_harabasz_score": 494.12263536182644,
+            "davies_bouldin_score": 2.050286086469583,
+            "inertia": 40141.39686848259,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              569,
+              983,
+              1041,
+              463,
+              1216,
+              728
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "7": {
+          "k": 7,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.11091418239458271,
+              "calinski_harabasz_score": 471.0077131629722,
+              "davies_bouldin_score": 1.96006668182462,
+              "inertia": 38314.13567731993,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                548,
+                964,
+                683,
+                454,
+                376,
+                1106,
+                869
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.11085869624335559,
+              "calinski_harabasz_score": 471.0009819803936,
+              "davies_bouldin_score": 1.9604419399594757,
+              "inertia": 38314.41763409084,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                548,
+                963,
+                680,
+                375,
+                457,
+                872,
+                1105
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.11117786912685267,
+              "calinski_harabasz_score": 471.0145259406032,
+              "davies_bouldin_score": 1.9608883323210318,
+              "inertia": 38313.949646470144,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                863,
+                971,
+                374,
+                458,
+                548,
+                673,
+                1113
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.11112302704694707,
+              "calinski_harabasz_score": 471.01188676841065,
+              "davies_bouldin_score": 1.9610068341002955,
+              "inertia": 38314.01297112241,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                864,
+                968,
+                377,
+                1113,
+                459,
+                548,
+                671
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.11116469849991284,
+              "calinski_harabasz_score": 471.0172050891637,
+              "davies_bouldin_score": 1.9612762076922858,
+              "inertia": 38313.86688509718,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                548,
+                1114,
+                863,
+                374,
+                671,
+                971,
+                459
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.11089579853819896,
+              "calinski_harabasz_score": 471.00309892594197,
+              "davies_bouldin_score": 1.9602442873828654,
+              "inertia": 38314.34395397041,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                548,
+                870,
+                964,
+                680,
+                457,
+                1106,
+                375
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.11081906608967376,
+              "calinski_harabasz_score": 471.0038193082325,
+              "davies_bouldin_score": 1.9596161786663644,
+              "inertia": 38314.308687139266,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                548,
+                457,
+                687,
+                963,
+                1115,
+                856,
+                374
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.11121169351822068,
+              "calinski_harabasz_score": 471.013939018057,
+              "davies_bouldin_score": 1.9621876074603004,
+              "inertia": 38313.952634190406,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                373,
+                459,
+                668,
+                547,
+                1117,
+                972,
+                864
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.11087983576468789,
+              "calinski_harabasz_score": 471.00314846196125,
+              "davies_bouldin_score": 1.9599563532815782,
+              "inertia": 38314.299832051795,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                454,
+                375,
+                963,
+                867,
+                685,
+                548,
+                1108
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.11112113078437469,
+              "calinski_harabasz_score": 471.00448176508837,
+              "davies_bouldin_score": 1.960204777556319,
+              "inertia": 38314.27187669376,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                381,
+                458,
+                863,
+                543,
+                1112,
+                673,
+                970
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.11101659980068068,
+              "std": 0.00014696796801746105,
+              "min": 0.11081906608967376,
+              "max": 0.11121169351822068,
+              "median": 0.11101765658947871
+            },
+            "calinski_harabasz": {
+              "mean": 471.0080800420825,
+              "std": 0.005517113262993907,
+              "min": 471.0009819803936,
+              "max": 471.0172050891637,
+              "median": 471.0060974640303
+            },
+            "davies_bouldin": {
+              "mean": 1.9605889200245137,
+              "std": 0.000721075943176997,
+              "min": 1.9596161786663644,
+              "max": 1.9621876074603004,
+              "median": 1.9603431136711706
+            },
+            "inertia": {
+              "mean": 38314.15597981461,
+              "std": 0.18697717726085958,
+              "min": 38313.86688509718,
+              "max": 38314.41763409084,
+              "median": 38314.20377700684
+            }
+          },
+          "best_run": {
+            "run_idx": 7,
+            "random_state": 49,
+            "silhouette_score": 0.11121169351822068,
+            "calinski_harabasz_score": 471.013939018057,
+            "davies_bouldin_score": 1.9621876074603004,
+            "inertia": 38313.952634190406,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              373,
+              459,
+              668,
+              547,
+              1117,
+              972,
+              864
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 6,
+            "random_state": 48,
+            "silhouette_score": 0.11081906608967376,
+            "calinski_harabasz_score": 471.0038193082325,
+            "davies_bouldin_score": 1.9596161786663644,
+            "inertia": 38314.308687139266,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              548,
+              457,
+              687,
+              963,
+              1115,
+              856,
+              374
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "8": {
+          "k": 8,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10533226942711699,
+              "calinski_harabasz_score": 443.65216636239546,
+              "davies_bouldin_score": 1.9324166465555903,
+              "inertia": 36988.89652802626,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                845,
+                439,
+                581,
+                718,
+                954,
+                364,
+                559,
+                540
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10535768323337909,
+              "calinski_harabasz_score": 443.66092190653956,
+              "davies_bouldin_score": 1.932840772891494,
+              "inertia": 36988.629470992775,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                579,
+                559,
+                955,
+                719,
+                844,
+                368,
+                537,
+                439
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10516166321648097,
+              "calinski_harabasz_score": 443.6552511499929,
+              "davies_bouldin_score": 1.9306470035067718,
+              "inertia": 36988.79789120409,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                951,
+                440,
+                843,
+                558,
+                536,
+                714,
+                367,
+                591
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10503229213863934,
+              "calinski_harabasz_score": 443.63616068331453,
+              "davies_bouldin_score": 1.9317395133014792,
+              "inertia": 36989.408321893774,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                535,
+                951,
+                562,
+                439,
+                719,
+                589,
+                838,
+                367
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10519953533580899,
+              "calinski_harabasz_score": 443.6627353360574,
+              "davies_bouldin_score": 1.9323207507104116,
+              "inertia": 36988.55858474889,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                440,
+                716,
+                559,
+                582,
+                539,
+                368,
+                956,
+                840
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10530708792876763,
+              "calinski_harabasz_score": 443.6618865442171,
+              "davies_bouldin_score": 1.9325224201928135,
+              "inertia": 36988.61539491673,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                561,
+                955,
+                843,
+                536,
+                439,
+                369,
+                580,
+                717
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10535886002229834,
+              "calinski_harabasz_score": 443.6625741498034,
+              "davies_bouldin_score": 1.9323876489659937,
+              "inertia": 36988.58359531801,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                958,
+                843,
+                582,
+                439,
+                560,
+                367,
+                536,
+                715
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.1048631652485245,
+              "calinski_harabasz_score": 443.6473997174557,
+              "davies_bouldin_score": 1.9299177213249463,
+              "inertia": 36989.10255251336,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                592,
+                841,
+                560,
+                945,
+                440,
+                544,
+                715,
+                363
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10533357301145316,
+              "calinski_harabasz_score": 443.6602463864316,
+              "davies_bouldin_score": 1.931943623666363,
+              "inertia": 36988.63816843845,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                365,
+                558,
+                712,
+                582,
+                439,
+                957,
+                542,
+                845
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.1053184106799024,
+              "calinski_harabasz_score": 443.6544120573363,
+              "davies_bouldin_score": 1.932289607626168,
+              "inertia": 36988.82472134066,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                365,
+                439,
+                954,
+                579,
+                845,
+                542,
+                559,
+                717
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10522645402423714,
+              "std": 0.0001571565208887165,
+              "min": 0.1048631652485245,
+              "max": 0.10535886002229834,
+              "median": 0.10531274930433501
+            },
+            "calinski_harabasz": {
+              "mean": 443.65537542935436,
+              "std": 0.008043221611815766,
+              "min": 443.63616068331453,
+              "max": 443.6627353360574,
+              "median": 443.6577487682123
+            },
+            "davies_bouldin": {
+              "mean": 1.9319025708742033,
+              "std": 0.0008736722977325325,
+              "min": 1.9299177213249463,
+              "max": 1.932840772891494,
+              "median": 1.93230517916829
+            },
+            "inertia": {
+              "mean": 36988.80552293931,
+              "std": 0.2580082781624038,
+              "min": 36988.55858474889,
+              "max": 36989.408321893774,
+              "median": 36988.71802982127
+            }
+          },
+          "best_run": {
+            "run_idx": 6,
+            "random_state": 48,
+            "silhouette_score": 0.10535886002229834,
+            "calinski_harabasz_score": 443.6625741498034,
+            "davies_bouldin_score": 1.9323876489659937,
+            "inertia": 36988.58359531801,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              958,
+              843,
+              582,
+              439,
+              560,
+              367,
+              536,
+              715
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 7,
+            "random_state": 49,
+            "silhouette_score": 0.1048631652485245,
+            "calinski_harabasz_score": 443.6473997174557,
+            "davies_bouldin_score": 1.9299177213249463,
+            "inertia": 36989.10255251336,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              592,
+              841,
+              560,
+              945,
+              440,
+              544,
+              715,
+              363
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "9": {
+          "k": 9,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.09609754350207199,
+              "calinski_harabasz_score": 414.54769437184814,
+              "davies_bouldin_score": 1.9493190084845269,
+              "inertia": 36047.48783751547,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                581,
+                847,
+                629,
+                503,
+                431,
+                344,
+                565,
+                472,
+                628
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10387962170142942,
+              "calinski_harabasz_score": 414.9106327319766,
+              "davies_bouldin_score": 1.9117732240554561,
+              "inertia": 36034.86496203614,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                358,
+                811,
+                886,
+                447,
+                546,
+                519,
+                433,
+                470,
+                530
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10157108287772651,
+              "calinski_harabasz_score": 415.0472870758112,
+              "davies_bouldin_score": 1.9653907603903227,
+              "inertia": 36030.185185436036,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                549,
+                849,
+                518,
+                429,
+                625,
+                692,
+                336,
+                506,
+                496
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10123128976761106,
+              "calinski_harabasz_score": 415.0262120028156,
+              "davies_bouldin_score": 1.9646646985181286,
+              "inertia": 36030.95631267734,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                693,
+                831,
+                503,
+                425,
+                522,
+                505,
+                632,
+                335,
+                554
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10420771464583328,
+              "calinski_harabasz_score": 414.9497551473748,
+              "davies_bouldin_score": 1.917244472328788,
+              "inertia": 36033.50787947832,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                432,
+                475,
+                529,
+                884,
+                528,
+                476,
+                356,
+                516,
+                804
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10096973058763373,
+              "calinski_harabasz_score": 414.999239097633,
+              "davies_bouldin_score": 1.967369698642579,
+              "inertia": 36031.81556976728,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                511,
+                429,
+                503,
+                843,
+                336,
+                548,
+                649,
+                496,
+                685
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.09598688623275867,
+              "calinski_harabasz_score": 414.549721738295,
+              "davies_bouldin_score": 1.9501558948010442,
+              "inertia": 36047.38910427619,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                826,
+                624,
+                436,
+                510,
+                580,
+                490,
+                629,
+                560,
+                345
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.1009627392524536,
+              "calinski_harabasz_score": 414.93646129222094,
+              "davies_bouldin_score": 1.9620056246688635,
+              "inertia": 36033.96900669174,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                576,
+                336,
+                499,
+                429,
+                473,
+                834,
+                493,
+                684,
+                676
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10268163690536124,
+              "calinski_harabasz_score": 414.7083618058148,
+              "davies_bouldin_score": 1.9251141297224157,
+              "inertia": 36041.88298849221,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                353,
+                888,
+                496,
+                568,
+                520,
+                802,
+                420,
+                437,
+                516
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10416738107316091,
+              "calinski_harabasz_score": 414.9483010159393,
+              "davies_bouldin_score": 1.9178068122032021,
+              "inertia": 36033.55831871711,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                803,
+                478,
+                477,
+                883,
+                515,
+                529,
+                356,
+                527,
+                432
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10117556265460403,
+              "std": 0.002840439438668939,
+              "min": 0.09598688623275867,
+              "max": 0.10420771464583328,
+              "median": 0.10140118632266878
+            },
+            "calinski_harabasz": {
+              "mean": 414.8623666279729,
+              "std": 0.17974954835141677,
+              "min": 414.54769437184814,
+              "max": 415.0472870758112,
+              "median": 414.9423811540801
+            },
+            "davies_bouldin": {
+              "mean": 1.9430844323815328,
+              "std": 0.02147073942030714,
+              "min": 1.9117732240554561,
+              "max": 1.967369698642579,
+              "median": 1.9497374516427857
+            },
+            "inertia": {
+              "mean": 36036.56171650878,
+              "std": 6.2248086718137,
+              "min": 36030.185185436036,
+              "max": 36047.48783751547,
+              "median": 36033.76366270443
+            }
+          },
+          "best_run": {
+            "run_idx": 4,
+            "random_state": 46,
+            "silhouette_score": 0.10420771464583328,
+            "calinski_harabasz_score": 414.9497551473748,
+            "davies_bouldin_score": 1.917244472328788,
+            "inertia": 36033.50787947832,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              432,
+              475,
+              529,
+              884,
+              528,
+              476,
+              356,
+              516,
+              804
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 6,
+            "random_state": 48,
+            "silhouette_score": 0.09598688623275867,
+            "calinski_harabasz_score": 414.549721738295,
+            "davies_bouldin_score": 1.9501558948010442,
+            "inertia": 36047.38910427619,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              826,
+              624,
+              436,
+              510,
+              580,
+              490,
+              629,
+              560,
+              345
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "10": {
+          "k": 10,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.0975055119080649,
+              "calinski_harabasz_score": 391.9160010335955,
+              "davies_bouldin_score": 1.9242399296958492,
+              "inertia": 35152.21586618884,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                475,
+                805,
+                494,
+                519,
+                393,
+                390,
+                333,
+                567,
+                597,
+                427
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.09751121519596911,
+              "calinski_harabasz_score": 390.0395984142775,
+              "davies_bouldin_score": 1.886219237555426,
+              "inertia": 35222.077242445725,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                350,
+                555,
+                442,
+                759,
+                499,
+                706,
+                431,
+                317,
+                514,
+                427
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.09727731517969207,
+              "calinski_harabasz_score": 391.21162807598085,
+              "davies_bouldin_score": 1.949765944166242,
+              "inertia": 35178.622346341996,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                322,
+                712,
+                336,
+                500,
+                546,
+                667,
+                479,
+                529,
+                425,
+                484
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.09592937206143881,
+              "calinski_harabasz_score": 389.51992924491014,
+              "davies_bouldin_score": 2.0367930751189744,
+              "inertia": 35241.469257807126,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                751,
+                627,
+                486,
+                306,
+                491,
+                490,
+                463,
+                333,
+                424,
+                629
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.09822261893123443,
+              "calinski_harabasz_score": 391.290780574805,
+              "davies_bouldin_score": 1.9576434334426005,
+              "inertia": 35175.47485474178,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                376,
+                548,
+                467,
+                485,
+                323,
+                505,
+                697,
+                428,
+                570,
+                601
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.09692252579947393,
+              "calinski_harabasz_score": 390.0804764579249,
+              "davies_bouldin_score": 1.9278282036827505,
+              "inertia": 35220.528257618396,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                425,
+                536,
+                479,
+                328,
+                477,
+                666,
+                521,
+                689,
+                456,
+                423
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.0966001029932628,
+              "calinski_harabasz_score": 388.34732568210364,
+              "davies_bouldin_score": 1.9583111761975958,
+              "inertia": 35285.27477727282,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                519,
+                430,
+                734,
+                764,
+                433,
+                352,
+                492,
+                605,
+                346,
+                325
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.09759209692116487,
+              "calinski_harabasz_score": 391.8455141072488,
+              "davies_bouldin_score": 1.9639461039567763,
+              "inertia": 35154.89975212046,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                681,
+                495,
+                534,
+                444,
+                320,
+                528,
+                486,
+                425,
+                605,
+                482
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.09712358922144285,
+              "calinski_harabasz_score": 391.98906598183044,
+              "davies_bouldin_score": 1.9265971028441302,
+              "inertia": 35149.502104678606,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                334,
+                552,
+                477,
+                795,
+                431,
+                517,
+                585,
+                418,
+                411,
+                480
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.09719165984466015,
+              "calinski_harabasz_score": 391.7367314481681,
+              "davies_bouldin_score": 1.9672880622395241,
+              "inertia": 35158.964320491126,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                685,
+                447,
+                320,
+                502,
+                600,
+                519,
+                528,
+                425,
+                481,
+                493
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.09718760080564039,
+              "std": 0.0005874856601870058,
+              "min": 0.09592937206143881,
+              "max": 0.09822261893123443,
+              "median": 0.09723448751217612
+            },
+            "calinski_harabasz": {
+              "mean": 390.7977051020845,
+              "std": 1.1743197817216289,
+              "min": 388.34732568210364,
+              "max": 391.98906598183044,
+              "median": 391.2512043253929
+            },
+            "davies_bouldin": {
+              "mean": 1.9498632268899871,
+              "std": 0.037315714203754194,
+              "min": 1.886219237555426,
+              "max": 2.0367930751189744,
+              "median": 1.9537046888044212
+            },
+            "inertia": {
+              "mean": 35193.902877970686,
+              "std": 43.7474102774517,
+              "min": 35149.502104678606,
+              "max": 35285.27477727282,
+              "median": 35177.048600541886
+            }
+          },
+          "best_run": {
+            "run_idx": 4,
+            "random_state": 46,
+            "silhouette_score": 0.09822261893123443,
+            "calinski_harabasz_score": 391.290780574805,
+            "davies_bouldin_score": 1.9576434334426005,
+            "inertia": 35175.47485474178,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              376,
+              548,
+              467,
+              485,
+              323,
+              505,
+              697,
+              428,
+              570,
+              601
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 3,
+            "random_state": 45,
+            "silhouette_score": 0.09592937206143881,
+            "calinski_harabasz_score": 389.51992924491014,
+            "davies_bouldin_score": 2.0367930751189744,
+            "inertia": 35241.469257807126,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              751,
+              627,
+              486,
+              306,
+              491,
+              490,
+              463,
+              333,
+              424,
+              629
+            ],
+            "algorithm": "kmeans"
+          }
+        }
+      },
+      "analysis_timestamp": "2025-08-12T19:17:32.360760",
+      "best_k": {
+        "k": 4,
+        "silhouette_score": 0.11380218400836328
+      },
+      "summary_statistics": {
+        "total_runs": 80,
+        "overall_silhouette": {
+          "mean": 0.1068720055827637,
+          "std": 0.005691891618267799,
+          "min": 0.09592937206143881,
+          "max": 0.11764983519919182
+        },
+        "overall_calinski": {
+          "mean": 485.1267480016853,
+          "std": 64.53076456357991,
+          "min": 388.34732568210364,
+          "max": 594.453545527013
+        },
+        "overall_davies_bouldin": {
+          "mean": 2.0963682691631926,
+          "std": 0.19247265783081344,
+          "min": 1.886219237555426,
+          "max": 2.5030358945593734
+        }
+      }
+    },
+    "control": {
+      "dataset_metadata": {
+        "dataset_key": "control",
+        "dataset_name": "Dataset Control (10K)",
+        "original_size": 9987,
+        "cleaned_size": 9987,
+        "final_size": 5000,
+        "n_features": 12,
+        "available_features": [
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "duration_ms"
+        ],
+        "missing_features": [],
+        "expected_hopkins": 0.45,
+        "description": "Selección previa sin optimización Hopkins",
+        "load_timestamp": "2025-08-12T19:17:32.606157"
+      },
+      "algorithm": "kmeans",
+      "analysis_config": {
+        "k_range": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "n_runs": 10,
+        "n_features": 12,
+        "n_samples": 5000
+      },
+      "results_by_k": {
+        "3": {
+          "k": 3,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.09960975260645125,
+              "calinski_harabasz_score": 567.6125291586769,
+              "davies_bouldin_score": 2.5590568046099693,
+              "inertia": 48892.54077496449,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1066,
+                2158,
+                1776
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.09956705811714296,
+              "calinski_harabasz_score": 567.6129083909789,
+              "davies_bouldin_score": 2.5594448244619747,
+              "inertia": 48892.53305301928,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2156,
+                1066,
+                1778
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.09955871224746098,
+              "calinski_harabasz_score": 567.6111523853837,
+              "davies_bouldin_score": 2.5594155965868954,
+              "inertia": 48892.56680493317,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2156,
+                1065,
+                1779
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.09956317721603802,
+              "calinski_harabasz_score": 567.6126965035837,
+              "davies_bouldin_score": 2.559476272282611,
+              "inertia": 48892.527717897814,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2156,
+                1779,
+                1065
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.09966070629974925,
+              "calinski_harabasz_score": 567.6081660582461,
+              "davies_bouldin_score": 2.558498117869005,
+              "inertia": 48892.60742069301,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2160,
+                1060,
+                1780
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.09973065194921137,
+              "calinski_harabasz_score": 567.6113162185187,
+              "davies_bouldin_score": 2.5592939506893098,
+              "inertia": 48892.57988851555,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1767,
+                2167,
+                1066
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.09967052976803058,
+              "calinski_harabasz_score": 567.611940451784,
+              "davies_bouldin_score": 2.559893452743218,
+              "inertia": 48892.55774095483,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1770,
+                1067,
+                2163
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.09955871224746098,
+              "calinski_harabasz_score": 567.6111523853837,
+              "davies_bouldin_score": 2.5594155965868954,
+              "inertia": 48892.566804933165,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1779,
+                2156,
+                1065
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.09956431035437739,
+              "calinski_harabasz_score": 567.6090516392708,
+              "davies_bouldin_score": 2.559938341187874,
+              "inertia": 48892.59850791172,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                1776,
+                2157,
+                1067
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.09964775478896909,
+              "calinski_harabasz_score": 567.607695603077,
+              "davies_bouldin_score": 2.5585052878910504,
+              "inertia": 48892.61492555222,
+              "n_clusters_found": 3,
+              "cluster_sizes": [
+                2159,
+                1780,
+                1061
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.09961313655948918,
+              "std": 5.788244032464472e-05,
+              "min": 0.09955871224746098,
+              "max": 0.09973065194921137,
+              "median": 0.09958840536179711
+            },
+            "calinski_harabasz": {
+              "mean": 567.6108608794905,
+              "std": 0.0018011696859398323,
+              "min": 567.607695603077,
+              "max": 567.6129083909789,
+              "median": 567.6112343019512
+            },
+            "davies_bouldin": {
+              "mean": 2.5592938244908803,
+              "std": 0.00046602771652116227,
+              "min": 2.558498117869005,
+              "max": 2.559938341187874,
+              "median": 2.5594155965868954
+            },
+            "inertia": {
+              "mean": 48892.569363937524,
+              "std": 0.029159408201387613,
+              "min": 48892.527717897814,
+              "max": 48892.61492555222,
+              "median": 48892.56680493317
+            }
+          },
+          "best_run": {
+            "run_idx": 5,
+            "random_state": 47,
+            "silhouette_score": 0.09973065194921137,
+            "calinski_harabasz_score": 567.6113162185187,
+            "davies_bouldin_score": 2.5592939506893098,
+            "inertia": 48892.57988851555,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              1767,
+              2167,
+              1066
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 2,
+            "random_state": 44,
+            "silhouette_score": 0.09955871224746098,
+            "calinski_harabasz_score": 567.6111523853837,
+            "davies_bouldin_score": 2.5594155965868954,
+            "inertia": 48892.56680493317,
+            "n_clusters_found": 3,
+            "cluster_sizes": [
+              2156,
+              1065,
+              1779
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "4": {
+          "k": 4,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.1075555199466613,
+              "calinski_harabasz_score": 535.2749760506656,
+              "davies_bouldin_score": 2.2829466607852296,
+              "inertia": 45405.7106114976,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                998,
+                1986,
+                1655,
+                361
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10773780354467112,
+              "calinski_harabasz_score": 535.2847733300274,
+              "davies_bouldin_score": 2.28301664984767,
+              "inertia": 45405.42482016637,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1996,
+                1655,
+                359,
+                990
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10774626742274614,
+              "calinski_harabasz_score": 535.2845446072464,
+              "davies_bouldin_score": 2.282562066645168,
+              "inertia": 45405.48213713665,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                988,
+                1999,
+                1655,
+                358
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10784294314476188,
+              "calinski_harabasz_score": 535.27934053334,
+              "davies_bouldin_score": 2.2811064250246518,
+              "inertia": 45405.570374749484,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                985,
+                2008,
+                358,
+                1649
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10789110782672895,
+              "calinski_harabasz_score": 535.2719330323993,
+              "davies_bouldin_score": 2.2803051507387453,
+              "inertia": 45405.71677974239,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                2015,
+                358,
+                987,
+                1640
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10784271448557552,
+              "calinski_harabasz_score": 535.2855839451582,
+              "davies_bouldin_score": 2.2813378093905197,
+              "inertia": 45405.40809472417,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                358,
+                1646,
+                987,
+                2009
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10775501963749948,
+              "calinski_harabasz_score": 535.2836395665074,
+              "davies_bouldin_score": 2.282342540250845,
+              "inertia": 45405.53251736103,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                2000,
+                358,
+                1654,
+                988
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10801767518963186,
+              "calinski_harabasz_score": 535.2454985984981,
+              "davies_bouldin_score": 2.2778738619428682,
+              "inertia": 45406.293163900205,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                987,
+                2033,
+                358,
+                1622
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10752716122873462,
+              "calinski_harabasz_score": 535.2714000356046,
+              "davies_bouldin_score": 2.2838283940550763,
+              "inertia": 45405.7096096132,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                1977,
+                360,
+                1664,
+                999
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10762036951603293,
+              "calinski_harabasz_score": 535.2724649689236,
+              "davies_bouldin_score": 2.282291729648262,
+              "inertia": 45405.73288927424,
+              "n_clusters_found": 4,
+              "cluster_sizes": [
+                358,
+                1654,
+                998,
+                1990
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10775365819430438,
+              "std": 0.00014599094491169303,
+              "min": 0.10752716122873462,
+              "max": 0.10801767518963186,
+              "median": 0.10775064353012281
+            },
+            "calinski_harabasz": {
+              "mean": 535.2754154668371,
+              "std": 0.011355700309655272,
+              "min": 535.2454985984981,
+              "max": 535.2855839451582,
+              "median": 535.2771582920028
+            },
+            "davies_bouldin": {
+              "mean": 2.281761128832904,
+              "std": 0.0016234233853333066,
+              "min": 2.2778738619428682,
+              "max": 2.2838283940550763,
+              "median": 2.2823171349495537
+            },
+            "inertia": {
+              "mean": 45405.658099816545,
+              "std": 0.24271492938672196,
+              "min": 45405.40809472417,
+              "max": 45406.293163900205,
+              "median": 45405.63999218134
+            }
+          },
+          "best_run": {
+            "run_idx": 7,
+            "random_state": 49,
+            "silhouette_score": 0.10801767518963186,
+            "calinski_harabasz_score": 535.2454985984981,
+            "davies_bouldin_score": 2.2778738619428682,
+            "inertia": 45406.293163900205,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              987,
+              2033,
+              358,
+              1622
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 8,
+            "random_state": 50,
+            "silhouette_score": 0.10752716122873462,
+            "calinski_harabasz_score": 535.2714000356046,
+            "davies_bouldin_score": 2.2838283940550763,
+            "inertia": 45405.7096096132,
+            "n_clusters_found": 4,
+            "cluster_sizes": [
+              1977,
+              360,
+              1664,
+              999
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "5": {
+          "k": 5,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10568038159044481,
+              "calinski_harabasz_score": 500.6514049921803,
+              "davies_bouldin_score": 2.208077280582575,
+              "inertia": 42829.094478078645,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1378,
+                1368,
+                343,
+                774,
+                1137
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10300081284123716,
+              "calinski_harabasz_score": 500.51319339728246,
+              "davies_bouldin_score": 2.2143071301245323,
+              "inertia": 42832.330723966035,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                950,
+                1508,
+                1291,
+                908,
+                343
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10576214084720359,
+              "calinski_harabasz_score": 500.7400498763925,
+              "davies_bouldin_score": 2.2073723128397207,
+              "inertia": 42826.78390232127,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1081,
+                1396,
+                807,
+                344,
+                1372
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10570800578366764,
+              "calinski_harabasz_score": 500.74091731988034,
+              "davies_bouldin_score": 2.205455946596564,
+              "inertia": 42826.744202125185,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1395,
+                343,
+                809,
+                1371,
+                1082
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10586067285306151,
+              "calinski_harabasz_score": 500.7374349170398,
+              "davies_bouldin_score": 2.2072213069761317,
+              "inertia": 42826.8729662818,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                342,
+                1375,
+                1400,
+                800,
+                1083
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10571491694709338,
+              "calinski_harabasz_score": 500.7298940401645,
+              "davies_bouldin_score": 2.207424301610533,
+              "inertia": 42827.179600347954,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1373,
+                1398,
+                345,
+                807,
+                1077
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10569626426941946,
+              "calinski_harabasz_score": 500.7360873990892,
+              "davies_bouldin_score": 2.207455727340503,
+              "inertia": 42826.93412331445,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1083,
+                1372,
+                806,
+                1394,
+                345
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10575166625706216,
+              "calinski_harabasz_score": 500.7395897388139,
+              "davies_bouldin_score": 2.207268210152038,
+              "inertia": 42826.7877453015,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                806,
+                1082,
+                344,
+                1395,
+                1373
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.1058987930560103,
+              "calinski_harabasz_score": 500.6881267778611,
+              "davies_bouldin_score": 2.20756667775978,
+              "inertia": 42828.05837063286,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1401,
+                1378,
+                1109,
+                768,
+                344
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10576878263345511,
+              "calinski_harabasz_score": 500.66059057360144,
+              "davies_bouldin_score": 2.2085800880073663,
+              "inertia": 42828.838174921824,
+              "n_clusters_found": 5,
+              "cluster_sizes": [
+                1369,
+                766,
+                1389,
+                344,
+                1132
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.1054842437078655,
+              "std": 0.0008305049891564171,
+              "min": 0.10300081284123716,
+              "max": 0.1058987930560103,
+              "median": 0.10573329160207777
+            },
+            "calinski_harabasz": {
+              "mean": 500.69372890323046,
+              "std": 0.06855792110232206,
+              "min": 500.51319339728246,
+              "max": 500.74091731988034,
+              "median": 500.73299071962686
+            },
+            "davies_bouldin": {
+              "mean": 2.2080728981989743,
+              "std": 0.002211170073591676,
+              "min": 2.205455946596564,
+              "max": 2.2143071301245323,
+              "median": 2.2074400144755177
+            },
+            "inertia": {
+              "mean": 42827.96242872915,
+              "std": 1.6807652329076122,
+              "min": 42826.744202125185,
+              "max": 42832.330723966035,
+              "median": 42827.0568618312
+            }
+          },
+          "best_run": {
+            "run_idx": 8,
+            "random_state": 50,
+            "silhouette_score": 0.1058987930560103,
+            "calinski_harabasz_score": 500.6881267778611,
+            "davies_bouldin_score": 2.20756667775978,
+            "inertia": 42828.05837063286,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              1401,
+              1378,
+              1109,
+              768,
+              344
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 1,
+            "random_state": 43,
+            "silhouette_score": 0.10300081284123716,
+            "calinski_harabasz_score": 500.51319339728246,
+            "davies_bouldin_score": 2.2143071301245323,
+            "inertia": 42832.330723966035,
+            "n_clusters_found": 5,
+            "cluster_sizes": [
+              950,
+              1508,
+              1291,
+              908,
+              343
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "6": {
+          "k": 6,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.1068196356082664,
+              "calinski_harabasz_score": 472.139059592926,
+              "davies_bouldin_score": 2.098660717172746,
+              "inertia": 40741.32072921141,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1418,
+                874,
+                833,
+                400,
+                1135,
+                340
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10996030891237672,
+              "calinski_harabasz_score": 470.9790065369317,
+              "davies_bouldin_score": 2.0987103676353387,
+              "inertia": 40773.564467436125,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                335,
+                363,
+                1022,
+                1293,
+                1276,
+                711
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10632873730632532,
+              "calinski_harabasz_score": 472.0727439306539,
+              "davies_bouldin_score": 2.1017949926228687,
+              "inertia": 40743.23654959437,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                411,
+                829,
+                1393,
+                338,
+                1153,
+                876
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10673305791384301,
+              "calinski_harabasz_score": 472.13651041312806,
+              "davies_bouldin_score": 2.0994914770473234,
+              "inertia": 40741.42940296981,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1413,
+                878,
+                400,
+                1136,
+                340,
+                833
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10676956787532153,
+              "calinski_harabasz_score": 472.13744331458275,
+              "davies_bouldin_score": 2.0993335917495153,
+              "inertia": 40741.43369055526,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                876,
+                1417,
+                1133,
+                340,
+                832,
+                402
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10649802730438122,
+              "calinski_harabasz_score": 472.11951815951875,
+              "davies_bouldin_score": 2.1022041697757037,
+              "inertia": 40741.875401985104,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1414,
+                829,
+                339,
+                411,
+                878,
+                1129
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10664503048245906,
+              "calinski_harabasz_score": 472.12290668770976,
+              "davies_bouldin_score": 2.1000492280850316,
+              "inertia": 40741.85737173931,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                1416,
+                874,
+                1132,
+                834,
+                405,
+                339
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10683904883209593,
+              "calinski_harabasz_score": 472.1380958498267,
+              "davies_bouldin_score": 2.0996383728347783,
+              "inertia": 40741.36332866998,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                400,
+                1136,
+                876,
+                831,
+                1415,
+                342
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.1067716539396065,
+              "calinski_harabasz_score": 472.139767583664,
+              "davies_bouldin_score": 2.0996000219925883,
+              "inertia": 40741.35396258205,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                402,
+                339,
+                832,
+                1133,
+                877,
+                1417
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10672876869415236,
+              "calinski_harabasz_score": 472.1327422301609,
+              "davies_bouldin_score": 2.0988394191454045,
+              "inertia": 40741.49570505849,
+              "n_clusters_found": 6,
+              "cluster_sizes": [
+                835,
+                339,
+                1130,
+                1417,
+                403,
+                876
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10700938368688281,
+              "std": 0.0009949685346090683,
+              "min": 0.10632873730632532,
+              "max": 0.10996030891237672,
+              "median": 0.10675131289458227
+            },
+            "calinski_harabasz": {
+              "mean": 472.01177942991023,
+              "std": 0.3447914869272377,
+              "min": 470.9790065369317,
+              "max": 472.139767583664,
+              "median": 472.1346263216445
+            },
+            "davies_bouldin": {
+              "mean": 2.0998322358061303,
+              "std": 0.0011661289930085504,
+              "min": 2.098660717172746,
+              "max": 2.1022041697757037,
+              "median": 2.099545749519956
+            },
+            "inertia": {
+              "mean": 40744.8930609802,
+              "std": 9.572707207675263,
+              "min": 40741.32072921141,
+              "max": 40773.564467436125,
+              "median": 40741.46469780688
+            }
+          },
+          "best_run": {
+            "run_idx": 1,
+            "random_state": 43,
+            "silhouette_score": 0.10996030891237672,
+            "calinski_harabasz_score": 470.9790065369317,
+            "davies_bouldin_score": 2.0987103676353387,
+            "inertia": 40773.564467436125,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              335,
+              363,
+              1022,
+              1293,
+              1276,
+              711
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 2,
+            "random_state": 44,
+            "silhouette_score": 0.10632873730632532,
+            "calinski_harabasz_score": 472.0727439306539,
+            "davies_bouldin_score": 2.1017949926228687,
+            "inertia": 40743.23654959437,
+            "n_clusters_found": 6,
+            "cluster_sizes": [
+              411,
+              829,
+              1393,
+              338,
+              1153,
+              876
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "7": {
+          "k": 7,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10448680098103705,
+              "calinski_harabasz_score": 451.4238173003428,
+              "davies_bouldin_score": 2.015777934674905,
+              "inertia": 38898.75647563772,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                646,
+                840,
+                687,
+                340,
+                329,
+                1107,
+                1051
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10463960767228087,
+              "calinski_harabasz_score": 451.43542003173263,
+              "davies_bouldin_score": 2.0164394830655157,
+              "inertia": 38898.347484325765,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1100,
+                341,
+                328,
+                676,
+                850,
+                1050,
+                655
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10445126212967411,
+              "calinski_harabasz_score": 451.42648375159075,
+              "davies_bouldin_score": 2.015194907675386,
+              "inertia": 38898.61829173073,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                330,
+                653,
+                847,
+                1044,
+                683,
+                338,
+                1105
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.1041821183742447,
+              "calinski_harabasz_score": 451.4178071387981,
+              "davies_bouldin_score": 2.016431254991371,
+              "inertia": 38898.88123371552,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                338,
+                853,
+                671,
+                1055,
+                330,
+                675,
+                1078
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10427440802948208,
+              "calinski_harabasz_score": 451.4267114612056,
+              "davies_bouldin_score": 2.0156132853844695,
+              "inertia": 38898.61139111135,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                669,
+                848,
+                1092,
+                1045,
+                678,
+                337,
+                331
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10449386230557241,
+              "calinski_harabasz_score": 451.4270999054948,
+              "davies_bouldin_score": 2.0146742758873333,
+              "inertia": 38898.63822786753,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                337,
+                330,
+                660,
+                1100,
+                845,
+                678,
+                1050
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10463499695706073,
+              "calinski_harabasz_score": 451.41883713421487,
+              "davies_bouldin_score": 2.016027398150876,
+              "inertia": 38898.90367691371,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                676,
+                339,
+                854,
+                650,
+                1058,
+                1094,
+                329
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10493043028419752,
+              "calinski_harabasz_score": 451.428658690698,
+              "davies_bouldin_score": 2.016238413331737,
+              "inertia": 38898.55238145167,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                676,
+                330,
+                1054,
+                1105,
+                640,
+                857,
+                338
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10452204925969948,
+              "calinski_harabasz_score": 451.3816588915572,
+              "davies_bouldin_score": 2.0165526345528595,
+              "inertia": 38900.05609360846,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                1085,
+                655,
+                1056,
+                675,
+                342,
+                857,
+                330
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.1044850168286951,
+              "calinski_harabasz_score": 451.3836335593265,
+              "davies_bouldin_score": 2.0156857019832874,
+              "inertia": 38899.916887720596,
+              "n_clusters_found": 7,
+              "cluster_sizes": [
+                858,
+                679,
+                340,
+                655,
+                1055,
+                1084,
+                329
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.1045100552821944,
+              "std": 0.0001942194683749849,
+              "min": 0.1041821183742447,
+              "max": 0.10493043028419752,
+              "median": 0.10449033164330473
+            },
+            "calinski_harabasz": {
+              "mean": 451.4170127864962,
+              "std": 0.017816561242778743,
+              "min": 451.3816588915572,
+              "max": 451.43542003173263,
+              "median": 451.4251505259668
+            },
+            "davies_bouldin": {
+              "mean": 2.015863528969774,
+              "std": 0.0005708977015040128,
+              "min": 2.0146742758873333,
+              "max": 2.0165526345528595,
+              "median": 2.0159026664128907
+            },
+            "inertia": {
+              "mean": 38898.9282144083,
+              "std": 0.5514443752086082,
+              "min": 38898.347484325765,
+              "max": 38900.05609360846,
+              "median": 38898.69735175262
+            }
+          },
+          "best_run": {
+            "run_idx": 7,
+            "random_state": 49,
+            "silhouette_score": 0.10493043028419752,
+            "calinski_harabasz_score": 451.428658690698,
+            "davies_bouldin_score": 2.016238413331737,
+            "inertia": 38898.55238145167,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              676,
+              330,
+              1054,
+              1105,
+              640,
+              857,
+              338
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 3,
+            "random_state": 45,
+            "silhouette_score": 0.1041821183742447,
+            "calinski_harabasz_score": 451.4178071387981,
+            "davies_bouldin_score": 2.016431254991371,
+            "inertia": 38898.88123371552,
+            "n_clusters_found": 7,
+            "cluster_sizes": [
+              338,
+              853,
+              671,
+              1055,
+              330,
+              675,
+              1078
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "8": {
+          "k": 8,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.10049302094915126,
+              "calinski_harabasz_score": 425.61938168350764,
+              "davies_bouldin_score": 2.007090038175716,
+              "inertia": 37574.631446042964,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                600,
+                915,
+                604,
+                324,
+                547,
+                321,
+                973,
+                716
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.10032205725904093,
+              "calinski_harabasz_score": 425.63235485124477,
+              "davies_bouldin_score": 2.007514451970226,
+              "inertia": 37574.20338790533,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                598,
+                917,
+                606,
+                962,
+                318,
+                326,
+                722,
+                551
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.10073314177274187,
+              "calinski_harabasz_score": 425.6120453763002,
+              "davies_bouldin_score": 2.0060085155061107,
+              "inertia": 37574.87351660516,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                921,
+                569,
+                740,
+                563,
+                327,
+                596,
+                318,
+                966
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.10108785912661913,
+              "calinski_harabasz_score": 425.6513968607035,
+              "davies_bouldin_score": 2.005085310648234,
+              "inertia": 37573.575102037365,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                917,
+                586,
+                997,
+                327,
+                558,
+                316,
+                699,
+                600
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10073632531822999,
+              "calinski_harabasz_score": 425.6565657262267,
+              "davies_bouldin_score": 2.0058770525561256,
+              "inertia": 37573.40456036603,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                730,
+                581,
+                603,
+                325,
+                555,
+                980,
+                317,
+                909
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.10135811890950247,
+              "calinski_harabasz_score": 425.6134926687312,
+              "davies_bouldin_score": 2.005036437227523,
+              "inertia": 37574.82576114805,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                561,
+                328,
+                995,
+                565,
+                701,
+                602,
+                314,
+                934
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10023099149990923,
+              "calinski_harabasz_score": 425.59881891233897,
+              "davies_bouldin_score": 2.0072118817261124,
+              "inertia": 37575.582233328205,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                964,
+                605,
+                707,
+                916,
+                319,
+                323,
+                550,
+                616
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.10014887778378552,
+              "calinski_harabasz_score": 425.6244966146384,
+              "davies_bouldin_score": 2.00755209892124,
+              "inertia": 37574.484347649464,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                915,
+                957,
+                720,
+                326,
+                608,
+                551,
+                605,
+                318
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.10067355696951114,
+              "calinski_harabasz_score": 425.65534655508804,
+              "davies_bouldin_score": 2.0015344489705815,
+              "inertia": 37573.444785587904,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                723,
+                324,
+                965,
+                922,
+                574,
+                316,
+                567,
+                609
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.10110693274188691,
+              "calinski_harabasz_score": 425.62089991749946,
+              "davies_bouldin_score": 2.0064851590296966,
+              "inertia": 37574.58135041747,
+              "n_clusters_found": 8,
+              "cluster_sizes": [
+                567,
+                560,
+                930,
+                977,
+                317,
+                326,
+                597,
+                726
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.10068908823303786,
+              "std": 0.0003821598675929462,
+              "min": 0.10014887778378552,
+              "max": 0.10135811890950247,
+              "median": 0.1007033493711265
+            },
+            "calinski_harabasz": {
+              "mean": 425.62847991662795,
+              "std": 0.01892463533382276,
+              "min": 425.59881891233897,
+              "max": 425.6565657262267,
+              "median": 425.62269826606894
+            },
+            "davies_bouldin": {
+              "mean": 2.0059395394731565,
+              "std": 0.0017111307757138893,
+              "min": 2.0015344489705815,
+              "max": 2.00755209892124,
+              "median": 2.006246837267904
+            },
+            "inertia": {
+              "mean": 37574.360649108785,
+              "std": 0.6710960154604807,
+              "min": 37573.40456036603,
+              "max": 37575.582233328205,
+              "median": 37574.532849033465
+            }
+          },
+          "best_run": {
+            "run_idx": 5,
+            "random_state": 47,
+            "silhouette_score": 0.10135811890950247,
+            "calinski_harabasz_score": 425.6134926687312,
+            "davies_bouldin_score": 2.005036437227523,
+            "inertia": 37574.82576114805,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              561,
+              328,
+              995,
+              565,
+              701,
+              602,
+              314,
+              934
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 7,
+            "random_state": 49,
+            "silhouette_score": 0.10014887778378552,
+            "calinski_harabasz_score": 425.6244966146384,
+            "davies_bouldin_score": 2.00755209892124,
+            "inertia": 37574.484347649464,
+            "n_clusters_found": 8,
+            "cluster_sizes": [
+              915,
+              957,
+              720,
+              326,
+              608,
+              551,
+              605,
+              318
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "9": {
+          "k": 9,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.09602817537725965,
+              "calinski_harabasz_score": 399.4600690120578,
+              "davies_bouldin_score": 2.007246007755024,
+              "inertia": 36579.08789745845,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                446,
+                627,
+                642,
+                541,
+                533,
+                640,
+                313,
+                944,
+                314
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.09461220387976989,
+              "calinski_harabasz_score": 399.36896853045863,
+              "davies_bouldin_score": 1.9920965456929116,
+              "inertia": 36582.18484664903,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                538,
+                315,
+                892,
+                314,
+                640,
+                618,
+                545,
+                606,
+                532
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.09578669967188722,
+              "calinski_harabasz_score": 399.5522918249936,
+              "davies_bouldin_score": 2.0060696212340066,
+              "inertia": 36575.63199555648,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                314,
+                538,
+                598,
+                549,
+                315,
+                622,
+                478,
+                935,
+                651
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.09350601103318906,
+              "calinski_harabasz_score": 399.15634537428645,
+              "davies_bouldin_score": 1.9952941211248718,
+              "inertia": 36589.78795640412,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                315,
+                552,
+                884,
+                565,
+                316,
+                518,
+                614,
+                595,
+                641
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.10145198698641816,
+              "calinski_harabasz_score": 398.67659886774925,
+              "davies_bouldin_score": 1.9881080272058513,
+              "inertia": 36606.95464311847,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                331,
+                875,
+                549,
+                687,
+                317,
+                880,
+                318,
+                533,
+                510
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.09634987674657332,
+              "calinski_harabasz_score": 399.45380529029245,
+              "davies_bouldin_score": 1.9973493074295527,
+              "inertia": 36579.16708989314,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                554,
+                943,
+                429,
+                540,
+                312,
+                637,
+                637,
+                317,
+                631
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.10098214341451062,
+              "calinski_harabasz_score": 398.69014839741135,
+              "davies_bouldin_score": 1.9876238581424113,
+              "inertia": 36606.49116854957,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                324,
+                547,
+                319,
+                522,
+                542,
+                316,
+                881,
+                855,
+                694
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.09571564657298504,
+              "calinski_harabasz_score": 399.5264707810849,
+              "davies_bouldin_score": 2.0066256263131472,
+              "inertia": 36576.61055613183,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                452,
+                537,
+                628,
+                542,
+                936,
+                648,
+                314,
+                313,
+                630
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.09468534800476934,
+              "calinski_harabasz_score": 399.38189700514977,
+              "davies_bouldin_score": 1.992619042642651,
+              "inertia": 36581.72264419301,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                913,
+                543,
+                315,
+                540,
+                636,
+                625,
+                316,
+                506,
+                606
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.09469791281928534,
+              "calinski_harabasz_score": 399.4396001969998,
+              "davies_bouldin_score": 2.0026478212432965,
+              "inertia": 36579.710474843,
+              "n_clusters_found": 9,
+              "cluster_sizes": [
+                611,
+                597,
+                509,
+                642,
+                918,
+                543,
+                550,
+                317,
+                313
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.09638160045066477,
+              "std": 0.0025477242293289806,
+              "min": 0.09350601103318906,
+              "max": 0.10145198698641816,
+              "median": 0.09575117312243613
+            },
+            "calinski_harabasz": {
+              "mean": 399.2706195280484,
+              "std": 0.31108243397446533,
+              "min": 398.67659886774925,
+              "max": 399.5522918249936,
+              "median": 399.4107486010748
+            },
+            "davies_bouldin": {
+              "mean": 1.9975679978783725,
+              "std": 0.007223648394638637,
+              "min": 1.9876238581424113,
+              "max": 2.007246007755024,
+              "median": 1.9963217142772123
+            },
+            "inertia": {
+              "mean": 36585.73492727971,
+              "std": 11.113790189928899,
+              "min": 36575.63199555648,
+              "max": 36606.95464311847,
+              "median": 36580.716559518005
+            }
+          },
+          "best_run": {
+            "run_idx": 4,
+            "random_state": 46,
+            "silhouette_score": 0.10145198698641816,
+            "calinski_harabasz_score": 398.67659886774925,
+            "davies_bouldin_score": 1.9881080272058513,
+            "inertia": 36606.95464311847,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              331,
+              875,
+              549,
+              687,
+              317,
+              880,
+              318,
+              533,
+              510
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 3,
+            "random_state": 45,
+            "silhouette_score": 0.09350601103318906,
+            "calinski_harabasz_score": 399.15634537428645,
+            "davies_bouldin_score": 1.9952941211248718,
+            "inertia": 36589.78795640412,
+            "n_clusters_found": 9,
+            "cluster_sizes": [
+              315,
+              552,
+              884,
+              565,
+              316,
+              518,
+              614,
+              595,
+              641
+            ],
+            "algorithm": "kmeans"
+          }
+        },
+        "10": {
+          "k": 10,
+          "runs": [
+            {
+              "run_idx": 0,
+              "random_state": 42,
+              "silhouette_score": 0.09619999310036362,
+              "calinski_harabasz_score": 377.7434995649828,
+              "davies_bouldin_score": 1.9723176146160064,
+              "inertia": 35686.69206844771,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                555,
+                516,
+                305,
+                617,
+                309,
+                499,
+                480,
+                827,
+                317,
+                575
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 1,
+              "random_state": 43,
+              "silhouette_score": 0.09628977683285626,
+              "calinski_harabasz_score": 377.8288411954115,
+              "davies_bouldin_score": 1.9773334024374152,
+              "inertia": 35683.385096500344,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                299,
+                618,
+                838,
+                311,
+                570,
+                316,
+                496,
+                557,
+                524,
+                471
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 2,
+              "random_state": 44,
+              "silhouette_score": 0.09467065021937908,
+              "calinski_harabasz_score": 376.9052960913659,
+              "davies_bouldin_score": 1.9865854042777353,
+              "inertia": 35718.79736085261,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                681,
+                591,
+                304,
+                577,
+                502,
+                530,
+                740,
+                304,
+                459,
+                312
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 3,
+              "random_state": 45,
+              "silhouette_score": 0.09476572145108773,
+              "calinski_harabasz_score": 377.24567134874457,
+              "davies_bouldin_score": 2.0270174036075472,
+              "inertia": 35705.76183887468,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                528,
+                515,
+                442,
+                553,
+                531,
+                761,
+                301,
+                569,
+                485,
+                315
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 4,
+              "random_state": 46,
+              "silhouette_score": 0.0946280195861412,
+              "calinski_harabasz_score": 376.9939209280283,
+              "davies_bouldin_score": 1.9858311908603234,
+              "inertia": 35715.388679130265,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                692,
+                535,
+                312,
+                307,
+                313,
+                481,
+                741,
+                466,
+                591,
+                562
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 5,
+              "random_state": 47,
+              "silhouette_score": 0.09453718889228264,
+              "calinski_harabasz_score": 377.17697819589745,
+              "davies_bouldin_score": 2.0443503643044356,
+              "inertia": 35708.35304794128,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                296,
+                571,
+                756,
+                570,
+                543,
+                509,
+                481,
+                485,
+                313,
+                476
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 6,
+              "random_state": 48,
+              "silhouette_score": 0.09520792515303281,
+              "calinski_harabasz_score": 377.20564491451603,
+              "davies_bouldin_score": 2.0204183845016828,
+              "inertia": 35707.254307844734,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                349,
+                636,
+                615,
+                308,
+                464,
+                521,
+                540,
+                313,
+                564,
+                690
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 7,
+              "random_state": 49,
+              "silhouette_score": 0.09580444820735816,
+              "calinski_harabasz_score": 377.35084233260693,
+              "davies_bouldin_score": 2.013850053911207,
+              "inertia": 35701.690208942084,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                621,
+                650,
+                311,
+                450,
+                514,
+                529,
+                313,
+                712,
+                557,
+                343
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 8,
+              "random_state": 50,
+              "silhouette_score": 0.09583820735456584,
+              "calinski_harabasz_score": 376.2180285996492,
+              "davies_bouldin_score": 1.9859666798039435,
+              "inertia": 35745.16242438758,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                603,
+                815,
+                707,
+                302,
+                313,
+                497,
+                465,
+                510,
+                312,
+                476
+              ],
+              "algorithm": "kmeans"
+            },
+            {
+              "run_idx": 9,
+              "random_state": 51,
+              "silhouette_score": 0.09588951430514657,
+              "calinski_harabasz_score": 377.4055351481431,
+              "davies_bouldin_score": 2.011488245230237,
+              "inertia": 35699.65410548152,
+              "n_clusters_found": 10,
+              "cluster_sizes": [
+                522,
+                313,
+                592,
+                454,
+                520,
+                324,
+                707,
+                634,
+                625,
+                309
+              ],
+              "algorithm": "kmeans"
+            }
+          ],
+          "metrics_summary": {
+            "silhouette": {
+              "mean": 0.09538314451022138,
+              "std": 0.0006584549251433892,
+              "min": 0.09453718889228264,
+              "max": 0.09628977683285626,
+              "median": 0.09550618668019548
+            },
+            "calinski_harabasz": {
+              "mean": 377.20742583193453,
+              "std": 0.4302922555901266,
+              "min": 376.2180285996492,
+              "max": 377.8288411954115,
+              "median": 377.2256581316303
+            },
+            "davies_bouldin": {
+              "mean": 2.0025158743550535,
+              "std": 0.022873658613266543,
+              "min": 1.9723176146160064,
+              "max": 2.0443503643044356,
+              "median": 1.9990368247539863
+            },
+            "inertia": {
+              "mean": 35707.21391384028,
+              "std": 16.495820553199948,
+              "min": 35683.385096500344,
+              "max": 35745.16242438758,
+              "median": 35706.508073359706
+            }
+          },
+          "best_run": {
+            "run_idx": 1,
+            "random_state": 43,
+            "silhouette_score": 0.09628977683285626,
+            "calinski_harabasz_score": 377.8288411954115,
+            "davies_bouldin_score": 1.9773334024374152,
+            "inertia": 35683.385096500344,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              299,
+              618,
+              838,
+              311,
+              570,
+              316,
+              496,
+              557,
+              524,
+              471
+            ],
+            "algorithm": "kmeans"
+          },
+          "worst_run": {
+            "run_idx": 5,
+            "random_state": 47,
+            "silhouette_score": 0.09453718889228264,
+            "calinski_harabasz_score": 377.17697819589745,
+            "davies_bouldin_score": 2.0443503643044356,
+            "inertia": 35708.35304794128,
+            "n_clusters_found": 10,
+            "cluster_sizes": [
+              296,
+              571,
+              756,
+              570,
+              543,
+              509,
+              481,
+              485,
+              313,
+              476
+            ],
+            "algorithm": "kmeans"
+          }
+        }
+      },
+      "analysis_timestamp": "2025-08-12T19:18:15.579486",
+      "best_k": {
+        "k": 4,
+        "silhouette_score": 0.10775365819430438
+      },
+      "summary_statistics": {
+        "total_runs": 80,
+        "overall_silhouette": {
+          "mean": 0.10210303882808254,
+          "std": 0.004584366010492013,
+          "min": 0.09350601103318906,
+          "max": 0.10996030891237672
+        },
+        "overall_calinski": {
+          "mean": 466.13941534282185,
+          "std": 61.78931134215412,
+          "min": 376.2180285996492,
+          "max": 567.6129083909789
+        },
+        "overall_davies_bouldin": {
+          "mean": 2.1463558785006556,
+          "std": 0.18540034106403164,
+          "min": 1.9723176146160064,
+          "max": 2.559938341187874
+        }
+      }
+    }
+  },
+  "comparative_metrics": {
+    "silhouette_comparison": {},
+    "best_k_comparison": {},
+    "improvement_analysis": {
+      "optimal_vs_control": {
+        "optimal_silhouette": 0.11380218400836328,
+        "control_silhouette": 0.10775365819430438,
+        "absolute_improvement": 0.006048525814058903,
+        "relative_improvement": 0.05613290458456671,
+        "improvement_percentage": 5.613290458456671
+      }
+    },
+    "dataset_metrics": {
+      "optimal": {
+        "name": "Dataset Optimizado (10K)",
+        "best_k": 4,
+        "best_silhouette": 0.11380218400836328,
+        "expected_hopkins": 0.933,
+        "sample_size": 5000
+      },
+      "control": {
+        "name": "Dataset Control (10K)",
+        "best_k": 4,
+        "best_silhouette": 0.10775365819430438,
+        "expected_hopkins": 0.45,
+        "sample_size": 5000
+      }
+    }
+  },
+  "statistical_tests": {
+    "control_vs_optimal": {
+      "datasets": [
+        "control",
+        "optimal"
+      ],
+      "sample_sizes": [
+        80,
+        80
+      ],
+      "means": [
+        0.10210303882808254,
+        0.1068720055827637
+      ],
+      "stds": [
+        0.004584366010492013,
+        0.005691891618267799
+      ],
+      "t_test": {
+        "statistic": -5.799761291784919,
+        "p_value": 3.514117015301023e-08,
+        "significant": "True"
+      },
+      "wilcoxon_test": {
+        "statistic": 76.0,
+        "p_value": 1.3068931812648533e-13,
+        "significant": "True"
+      },
+      "effect_size": {
+        "cohens_d": -0.9228084684319869,
+        "interpretation": "very_large"
+      }
+    }
+  },
+  "recommendations": {
+    "best_dataset": {
+      "dataset": "optimal",
+      "silhouette_score": 0.11380218400836328,
+      "k": 4
+    },
+    "best_k": null,
+    "silhouette_target_met": "False",
+    "statistical_significance": true,
+    "next_steps": [
+      "⚠️ Objetivo Silhouette >0.25 NO alcanzado - Revisar optimización",
+      "🔄 Considerar FASE 4 (Cluster Purification) para mejora adicional",
+      "📊 Diferencias estadísticamente significativas confirmadas"
+    ]
+  }
+}
