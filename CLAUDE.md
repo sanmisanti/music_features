@@ -440,33 +440,68 @@ python analyze_clustering_readiness_direct.py
 N. **ruta/archivo.md** - Descripción concisa en 1 línea del propósito y contenido principal
 ```
 
-## 📝 **DIRECTIVA CRÍTICA: MANTENIMIENTO FULL_PROJECT.md**
+## 🎓 **DIRECTIVA CRÍTICA ACADÉMICA: FULL_PROJECT.md - DOCUMENTO BASE PARA TESIS**
 
-**🎯 MANDATORY**: FULL_PROJECT.md es el **DOCUMENTO MAESTRO** del proyecto que debe contener **ABSOLUTAMENTE TODO**:
+### **🚨 IMPORTANCIA SUPREMA PARA APROBACIÓN DE TESIS**
 
-### **CONTENIDO OBLIGATORIO**:
-- ✅ **Pasos completos**: Cada iteración, experimento, decisión técnica
-- ✅ **Metodología científica**: Hipótesis, experimentos, validaciones
-- ✅ **Resultados detallados**: Métricas, comparaciones, benchmarks
-- ✅ **Scripts y artefactos**: Código creado, archivos generados
-- ✅ **Pensamientos y análisis**: Razonamiento detrás de cada decisión
-- ✅ **Evolución temporal**: Cronología completa del desarrollo
+**FULL_PROJECT.md ES EL DOCUMENTO QUE DEFINE LA APROBACIÓN O RECHAZO DEL PROYECTO DE TESIS DE INGENIERÍA INFORMÁTICA**
 
-### **ACTUALIZACIÓN AUTOMÁTICA**:
-**Cada vez que se**:
-- Cree un nuevo script o artefacto
-- Obtenga un resultado experimental
-- Tome una decisión técnica importante
-- Complete una fase del proyecto
-- Descubra un insight relevante
+#### **📋 CONTEXTO ACADÉMICO CRÍTICO**:
+- **Base principal** para el informe final de tesis
+- **Documento académico formal** que demuestra metodología científica
+- **Justificación técnica completa** de cada decisión tomada
+- **Evidencia de investigación rigurosa** y proceso ingenieril
+- **MÁS IMPORTANTE QUE EL CÓDIGO**: Las justificaciones y metodología son prioritarias
 
-**SE DEBE actualizar inmediatamente** la sección correspondiente en FULL_PROJECT.md
+#### **🎯 ESTÁNDAR ACADÉMICO REQUERIDO**:
 
-### **OBJETIVO**:
-FULL_PROJECT.md debe ser **LA REFERENCIA ÚNICA** que permita:
-1. **Reproducir** completamente el proceso
-2. **Entender** la evolución del proyecto  
-3. **Validar** decisiones técnicas tomadas
-4. **Continuar** el desarrollo desde cualquier punto
+**CONTENIDO OBLIGATORIO PARA NIVEL ACADÉMICO**:
+- ✅ **Justificación completa** de cada decisión técnica con alternativas evaluadas
+- ✅ **Metodología científica rigurosa** con hipótesis, experimentos, y validaciones
+- ✅ **Comparación sistemática** de enfoques y algoritmos con pros/contras
+- ✅ **Análisis crítico** de resultados con interpretación de mejoras obtenidas
+- ✅ **Contexto teórico** y referencias académicas apropiadas
+- ✅ **Proceso evolutivo** documentando iteraciones, pivots, y aprendizajes
+- ✅ **Contribuciones originales** claramente identificadas y justificadas
+- ✅ **Limitaciones y trabajo futuro** honestamente evaluados
 
-**Estado actual**: ✅ FULL_PROJECT.md actualizado con proceso completo FASE 1-4 clustering optimization
+#### **🔬 RIGOR CIENTÍFICO OBLIGATORIO**:
+
+**Cada sección DEBE incluir**:
+- **¿POR QUÉ?** Justificación teórica y práctica
+- **¿QUÉ ALTERNATIVAS?** Opciones evaluadas y descartadas
+- **¿CÓMO SE DECIDIÓ?** Criterios de evaluación y proceso de decisión
+- **¿QUÉ RESULTADOS?** Métricas objetivas y análisis de significancia
+- **¿QUÉ SIGNIFICA?** Interpretación e implicaciones de los hallazgos
+
+#### **📚 ESTRUCTURA ACADÉMICA ESPERADA**:
+1. **Problemática y Estado del Arte** - Contextualización académica
+2. **Metodología de Investigación** - Enfoque científico aplicado
+3. **Desarrollo Experimental** - Proceso iterativo documentado
+4. **Análisis de Resultados** - Interpretación crítica y estadística
+5. **Contribuciones e Innovaciones** - Aportes originales al campo
+6. **Validación y Reproducibilidad** - Verificación científica
+7. **Conclusiones y Trabajo Futuro** - Síntesis e implicaciones
+
+### **⚡ ACTUALIZACIÓN INMEDIATA OBLIGATORIA**:
+
+**CADA ACCIÓN TÉCNICA REQUIERE DOCUMENTACIÓN ACADÉMICA INMEDIATA**:
+- Nuevo experimento → Hipótesis + Metodología + Resultados + Interpretación
+- Decisión técnica → Alternativas evaluadas + Criterios + Justificación
+- Resultado obtenido → Análisis estadístico + Significancia + Implicaciones
+- Problema encontrado → Análisis de causas + Soluciones evaluadas + Validación
+
+### **🎯 OBJETIVO ACADÉMICO FINAL**:
+FULL_PROJECT.md debe ser un documento que:
+1. **Demuestre dominio técnico** a nivel de Ingeniería Informática
+2. **Evidencie pensamiento crítico** y metodología científica
+3. **Justifique cada decisión** con rigor académico
+4. **Presente contribuciones claras** al campo de estudio
+5. **Sea reproducible** por otros investigadores
+6. **Sustente la obtención del título** de Ingeniero Informático
+
+### **🏆 ESTÁNDAR DE EXCELENCIA**:
+El documento debe ser de calidad **publicable** en conferencias académicas como base para el informe final de tesis.
+
+**Estado actual**: ✅ FULL_PROJECT.md contiene proceso técnico completo
+**Próximo paso**: 🔄 ELEVAR A ESTÁNDAR ACADÉMICO PARA TESIS
