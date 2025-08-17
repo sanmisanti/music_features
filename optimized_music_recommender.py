@@ -104,8 +104,7 @@ class OptimizedMusicRecommender:
         # Configuración clustering optimizado
         self.n_clusters = 3  # Valor óptimo validado
         self.clustering_algorithm = AgglomerativeClustering(
-            n_clusters=self.n_clusters,
-            random_state=random_state
+            n_clusters=self.n_clusters
         )
         
         # Sistema de evaluación
@@ -215,8 +214,7 @@ class OptimizedMusicRecommender:
             
             # Clustering baseline
             clustering_alg = AgglomerativeClustering(
-                n_clusters=self.n_clusters,
-                random_state=self.random_state
+                n_clusters=self.n_clusters
             )
             initial_labels = clustering_alg.fit_predict(features_normalized)
             
@@ -260,8 +258,23 @@ class OptimizedMusicRecommender:
         
         from sklearn.metrics.pairwise import euclidean_distances
         
+        # Verificar compatibilidad dimensional antes del cálculo
+        if purified_data.shape[1] != normalized_features.shape[1]:
+            print(f"   ⚠️  Dimensión mismatch: purified={purified_data.shape[1]} vs original={normalized_features.shape[1]}")
+            print(f"   🔧 Ajustando características para compatibilidad...")
+            
+            # Tomar subset común de características
+            min_features = min(purified_data.shape[1], normalized_features.shape[1])
+            purified_data_adj = purified_data[:, :min_features]
+            normalized_features_adj = normalized_features[:, :min_features]
+            
+            print(f"   ✅ Usando {min_features} características comunes")
+        else:
+            purified_data_adj = purified_data
+            normalized_features_adj = normalized_features
+        
         # Calcular distancias entre datos purificados y normalizados originales
-        distances = euclidean_distances(purified_data, normalized_features)
+        distances = euclidean_distances(purified_data_adj, normalized_features_adj)
         
         # Para cada dato purificado, encontrar su match más cercano en datos originales
         purified_to_original_mapping = []

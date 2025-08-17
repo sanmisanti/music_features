@@ -458,9 +458,9 @@ class ClusterPurifier:
         step2_data, step2_labels, step2_info = self._remove_cluster_outliers(step1_data, step1_labels, threshold=2.5)
         hybrid_log.append(step2_info)
         
-        # Paso 3: Feature selection (mantener 9 de 12 características)
+        # Paso 3: Feature selection (mantener todas las características para compatibilidad)
         print(f"\n   🔄 Paso 3: Feature Selection")
-        k_features = max(6, min(9, step2_data.shape[1] - 2))  # Conservador
+        k_features = step2_data.shape[1]  # Mantener todas las características para compatibilidad OptimizedMusicRecommender
         step3_data, step3_labels, step3_info = self._select_discriminative_features(step2_data, step2_labels, k_features)
         hybrid_log.append(step3_info)
         
