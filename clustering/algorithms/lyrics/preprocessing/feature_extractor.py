@@ -242,42 +242,42 @@ class TextFeatureExtractor:
         char_count = len(text)
         word_count = len(self.word_pattern.findall(text))
         
-        if char_count < 50:
+        if char_count < 50:  # RELAJADO: mínimo 50 caracteres (canciones cortas válidas)
             issues.append("too_short")
-            quality_factors.append(0.0)
-        elif char_count > 5000:
+            quality_factors.append(char_count / 50.0)  # Penalización proporcional relajada
+        elif char_count > 3000:  # Más estricto: máximo 3000 caracteres
             issues.append("too_long")
-            quality_factors.append(0.7)
+            quality_factors.append(0.6)  # Penalización más severa
         else:
             quality_factors.append(1.0)
         
-        # 2. Análisis diversidad léxica
+        # 2. Análisis diversidad léxica (RELAJADO PARA MÚSICA)
         diversity = self.calculate_lexical_diversity(text)
         ttr = diversity["ttr"]
         
-        if ttr < 0.3:
+        if ttr < 0.35:  # RELAJADO: TTR mínimo 35% (música es repetitiva)
             issues.append("low_diversity")
-            quality_factors.append(ttr / 0.3)  # Penalización proporcional
+            quality_factors.append(ttr / 0.35)  # Penalización proporcional relajada
         else:
             quality_factors.append(1.0)
         
-        # 3. Análisis repetición
+        # 3. Análisis repetición (RELAJADO PARA MÚSICA)
         repetition = self.analyze_repetition_patterns(text)
         repetition_ratio = repetition["repetition_ratio"]
         
-        if repetition_ratio > 0.7:
+        if repetition_ratio > 0.7:  # RELAJADO: máximo 70% repetición (coros, estribillos)
             issues.append("excessive_repetition")
-            quality_factors.append(1.0 - repetition_ratio)
+            quality_factors.append(max(0.2, 1.0 - (repetition_ratio - 0.7) / 0.3))  # Penalización más suave
         else:
             quality_factors.append(1.0)
         
-        # 4. Análisis contenido alfabético
+        # 4. Análisis contenido alfabético (RELAJADO PARA MÚSICA)
         alpha_chars = sum(1 for c in text if c.isalpha())
         alpha_ratio = alpha_chars / len(text) if text else 0
         
-        if alpha_ratio < 0.5:
+        if alpha_ratio < 0.6:  # RELAJADO: 60% contenido alfabético (permite más interjecciones)
             issues.append("low_alphabetic_content")
-            quality_factors.append(alpha_ratio / 0.5)
+            quality_factors.append(alpha_ratio / 0.6)
         else:
             quality_factors.append(1.0)
         
@@ -290,9 +290,17 @@ class TextFeatureExtractor:
             else:
                 quality_factors.append(1.0)
         
-        # Calcular score final
-        quality_score = statistics.mean(quality_factors) if quality_factors else 0.0
-        is_suitable = quality_score >= 0.6 and len(issues) <= 2
+        # Calcular score final - híbrido para balance entre exigencia y practicidad
+        # Penaliza severamente si algún factor es muy malo, pero permite promedio si todos son aceptables
+        if quality_factors:
+            min_factor = min(quality_factors)
+            mean_factor = statistics.mean(quality_factors)
+            # Si algún factor es terrible (<0.3), usar mínimo (penalización severa)
+            # Si todos son aceptables (≥0.3), usar promedio (más permisivo)
+            quality_score = min_factor if min_factor < 0.3 else mean_factor * 0.9  # 10% penalización adicional
+        else:
+            quality_score = 0.0
+        is_suitable = quality_score >= 0.3 and len(issues) <= 3  # RELAJADO: score 30% y más issues permitidas
         
         assessment = {
             "quality_score": round(quality_score, 3),

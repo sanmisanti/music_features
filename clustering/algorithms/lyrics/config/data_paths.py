@@ -145,3 +145,39 @@ def get_cache_path(cache_type: str) -> Path:
         raise ValueError(f"Cache type '{cache_type}' no reconocido. Opciones: {list(cache_mapping.keys())}")
     
     return cache_mapping[cache_type]
+
+def get_models_path() -> Path:
+    """
+    Obtiene la ruta base de los modelos.
+    
+    Returns:
+        Path al directorio de modelos
+    """
+    models_path = LYRICS_MODULE_ROOT / "models"
+    models_path.mkdir(parents=True, exist_ok=True)
+    return models_path
+
+def get_stopwords_path(language: str = None) -> Path:
+    """
+    Obtiene la ruta de stopwords para el idioma especificado.
+    
+    Args:
+        language: "english", "spanish", "german", "portuguese" o None para directorio
+        
+    Returns:
+        Path al archivo de stopwords o directorio
+    """
+    if language is None:
+        return DATA_PATHS["stopwords_dir"]
+    
+    language_mapping = {
+        "english": DATA_PATHS["stopwords_english"],
+        "spanish": DATA_PATHS["stopwords_spanish"], 
+        "german": DATA_PATHS["stopwords_german"],
+        "portuguese": DATA_PATHS["stopwords_portuguese"]
+    }
+    
+    if language not in language_mapping:
+        raise ValueError(f"Idioma '{language}' no reconocido. Opciones: {list(language_mapping.keys())}")
+    
+    return language_mapping[language]

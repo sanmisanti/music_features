@@ -307,6 +307,19 @@ class MultilingualNormalizer:
         logger.info(f"Batch normalización completada: {language_counts}")
         return results
     
+    def normalize_auto_detect(self, text: str) -> str:
+        """
+        Detecta idioma automáticamente y normaliza (solo retorna texto).
+        
+        Args:
+            text: Texto a procesar
+            
+        Returns:
+            Texto normalizado
+        """
+        normalized_text, _ = self.detect_and_normalize(text)
+        return normalized_text
+    
     def detect_and_normalize(self, text: str) -> Tuple[str, str]:
         """
         Detecta idioma automáticamente y normaliza.
