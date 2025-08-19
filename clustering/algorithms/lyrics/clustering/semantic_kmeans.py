@@ -203,6 +203,9 @@ class SemanticKMeans:
         
         if max_k <= min_k:
             logger.warning(f"Dataset muy pequeño, usando K=2")
+            # Inicializar historia vacía para datasets pequeños
+            self.inertia_history = [(2, 0.0)]
+            self.silhouette_history = [(2, 0.0)]
             return 2
         
         k_range = range(min_k, max_k + 1)

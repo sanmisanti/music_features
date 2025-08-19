@@ -249,3 +249,19 @@ DEFAULT_CONFIG = {
     "performance_optimization": True,
     "detailed_logging": True
 }
+
+def get_clustering_config() -> Dict[str, Any]:
+    """
+    Obtiene configuración completa para clustering semántico.
+    
+    Returns:
+        Dict con toda la configuración de clustering
+    """
+    return {
+        "algorithms": CLUSTERING_ALGORITHMS,
+        "k_optimization": K_OPTIMIZATION_CONFIG,
+        "preprocessing": TEXT_PREPROCESSING_CONFIG,
+        "cross_lingual": CROSS_LINGUAL_CONFIG,
+        "performance": PERFORMANCE_CONFIG,
+        "default": DEFAULT_CONFIG
+    }
