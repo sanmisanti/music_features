@@ -1,0 +1,40 @@
+{
+  "timestamp": "20250819_194820",
+  "dataset_info": {
+    "dataset_path": "data\\final_data\\picked_data_optimal.csv",
+    "total_songs": 10000,
+    "valid_lyrics": 9753
+  },
+  "processing_stats": {
+    "total_songs": 10000,
+    "valid_lyrics": 9753,
+    "processed": 9753,
+    "successful": 8567,
+    "failed": 1186,
+    "cache_hits": 2107,
+    "processing_time": 1198.6522064208984,
+    "embeddings_size_mb": 28.5732421875
+  },
+  "embeddings_info": {
+    "shape": [
+      9753,
+      384
+    ],
+    "dtype": "float64",
+    "size_mb": 28.5732421875,
+    "non_zero_count": 8567
+  },
+  "similarity_index_info": {
+    "n_samples": 9753,
+    "n_features": 384,
+    "algorithm": "brute",
+    "metric": "cosine",
+    "max_neighbors": 50
+  },
+  "files_generated": {
+    "embeddings": "embeddings_complete_20250819_194820.npy",
+    "track_ids": "track_ids_complete_20250819_194820.npy",
+    "similarity_index": "similarity_index_20250819_194820.pkl",
+    "metadata": "vectorization_metadata_20250819_194820.json"
+  }
+}

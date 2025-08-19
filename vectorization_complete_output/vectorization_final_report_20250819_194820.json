@@ -1,0 +1,47 @@
+{
+  "vectorization_summary": {
+    "timestamp": "20250819_194820",
+    "success": true,
+    "total_time": 1200.6599900722504,
+    "dataset_songs": 10000,
+    "valid_lyrics": 9753,
+    "embeddings_generated": 8567,
+    "success_rate": 0.8783963908540962,
+    "cache_hit_rate": 0.21603609145903824,
+    "throughput_songs_per_second": 8.136638757894467
+  },
+  "embeddings_analysis": {
+    "shape": [
+      9753,
+      384
+    ],
+    "size_mb": 28.5732421875,
+    "non_zero_embeddings": 8567,
+    "embedding_stats": {
+      "mean_value": -0.00011311137460538203,
+      "std_value": 0.04782758416308693,
+      "min_value": -0.2527388036251068,
+      "max_value": 0.2516041398048401
+    }
+  },
+  "similarity_index": {
+    "algorithm": "brute",
+    "metric": "cosine",
+    "n_samples": 9753,
+    "max_neighbors": 50,
+    "ready_for_recommendations": true
+  },
+  "quality_metrics": {
+    "embedding_coverage": 0.8783963908540962,
+    "cache_efficiency": 0.21603609145903824,
+    "processing_speed": 8.136638757894467,
+    "data_integrity": "validated",
+    "similarity_index_status": "functional"
+  },
+  "next_steps": [
+    "Integrar con sistema musical existente",
+    "Implementar recomendaciones h\u00edbridas m\u00fasica + letras",
+    "Validar calidad recomendaciones en test set",
+    "Optimizar sistema para producci\u00f3n"
+  ]
+}
