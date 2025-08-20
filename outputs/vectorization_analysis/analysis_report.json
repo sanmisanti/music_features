@@ -1,0 +1,106 @@
+{
+  "timestamp": "20250819_194820",
+  "dataset_analysis": {
+    "total_songs": 10000,
+    "valid_lyrics": 9753,
+    "embeddings_generated": 8567,
+    "success_rate": 0.8783963908540962,
+    "processing_time_minutes": 19.977536773681642
+  },
+  "embedding_quality": {
+    "total_embeddings": 9753,
+    "valid_embeddings": 8567,
+    "dimensions": 384,
+    "validity_rate": 0.8783963908540962
+  },
+  "clustering_evaluation": {
+    "algorithms_tested": [
+      "kmeans",
+      "hierarchical"
+    ],
+    "k_range_tested": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10
+    ],
+    "best_kmeans_k": 2,
+    "best_hierarchical_k": 2,
+    "max_silhouette_kmeans": 0.11130325971144528,
+    "max_silhouette_hierarchical": 0.6733029602735562,
+    "detailed_results": [
+      {
+        "k": 2,
+        "kmeans_silhouette": 0.11130325971144528,
+        "kmeans_calinski_harabasz": 531.272122680958,
+        "kmeans_davies_bouldin": 3.878340863364696,
+        "hierarchical_silhouette": 0.6733029602735562,
+        "hierarchical_calinski_harabasz": 7.51760715533894,
+        "hierarchical_davies_bouldin": 1.104053765068519
+      },
+      {
+        "k": 3,
+        "kmeans_silhouette": 0.10047519183250635,
+        "kmeans_calinski_harabasz": 419.6545581430711,
+        "kmeans_davies_bouldin": 3.6312320241335594,
+        "hierarchical_silhouette": 0.6590877407523863,
+        "hierarchical_calinski_harabasz": 6.240400051731413,
+        "hierarchical_davies_bouldin": 0.907627393938751
+      },
+      {
+        "k": 4,
+        "kmeans_silhouette": 0.10491604271146507,
+        "kmeans_calinski_harabasz": 384.9923172826375,
+        "kmeans_davies_bouldin": 3.309803630309129,
+        "hierarchical_silhouette": 0.642331896945284,
+        "hierarchical_calinski_harabasz": 9.703204285964746,
+        "hierarchical_davies_bouldin": 1.024948257785523
+      },
+      {
+        "k": 5,
+        "kmeans_silhouette": 0.07832515394838328,
+        "kmeans_calinski_harabasz": 343.6253895669157,
+        "kmeans_davies_bouldin": 3.5047788252667926,
+        "hierarchical_silhouette": 0.6339424393189013,
+        "hierarchical_calinski_harabasz": 9.68142858631926,
+        "hierarchical_davies_bouldin": 1.085338056452046
+      },
+      {
+        "k": 6,
+        "kmeans_silhouette": 0.06150181769595692,
+        "kmeans_calinski_harabasz": 301.959722797224,
+        "kmeans_davies_bouldin": 3.7841116400471653,
+        "hierarchical_silhouette": 0.6245922118655658,
+        "hierarchical_calinski_harabasz": 8.669004291194044,
+        "hierarchical_davies_bouldin": 0.9865195823746862
+      },
+      {
+        "k": 8,
+        "kmeans_silhouette": 0.05072062359603588,
+        "kmeans_calinski_harabasz": 249.3152276211671,
+        "kmeans_davies_bouldin": 3.7138455138835367,
+        "hierarchical_silhouette": 0.6197188560821666,
+        "hierarchical_calinski_harabasz": 7.242446799989332,
+        "hierarchical_davies_bouldin": 0.7836226059736983
+      },
+      {
+        "k": 10,
+        "kmeans_silhouette": 0.0397442041804335,
+        "kmeans_calinski_harabasz": 211.23445942488505,
+        "kmeans_davies_bouldin": 3.663296735331019,
+        "hierarchical_silhouette": 0.6064780767082544,
+        "hierarchical_calinski_harabasz": 7.615720705368359,
+        "hierarchical_davies_bouldin": 0.7363728612366673
+      }
+    ]
+  },
+  "recommendations": [
+    "Clustering semántico funcional con métricas aceptables",
+    "Índice de similitud listo para recomendaciones",
+    "Sistema apto para integración híbrida música + letras",
+    "Considerar optimización de K basada en silhouette score"
+  ]
+}
