@@ -9,6 +9,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **DESPUÉS** analizar los resultados y continuar según corresponda
 - Esta directiva aplica a: python scripts, bash commands, tests, jupyter notebooks, etc.
 
+## 📋 DIRECTIVA CRÍTICA: COMUNICACIÓN PROFESIONAL Y TÉCNICA
+
+**🎯 ESTÁNDAR DE COMUNICACIÓN INGENIERIL OBLIGATORIO**
+
+**NUNCA utilizar emojis, frases cortas o comunicación informal.** Toda interacción debe mantener el nivel de rigor técnico y profesionalismo correspondiente a un proyecto de tesis de Ingeniería Informática.
+
+### **📐 PRINCIPIOS FUNDAMENTALES DE COMUNICACIÓN**:
+
+1. **Desarrollo Conceptual Completo**: Cada respuesta debe construir ideas de manera estructurada, comenzando desde los fundamentos teóricos hasta las implicaciones prácticas. No se permite comunicación telegráfica o respuestas superficiales.
+
+2. **Fundamentación Técnica Rigurosa**: Toda afirmación, recomendación o análisis debe estar respaldado por justificaciones técnicas sólidas, referencias a principios científicos establecidos, o evidencia empírica del proyecto.
+
+3. **Contexto Académico Permanente**: Las explicaciones deben ubicar cada tema dentro del marco más amplio del proyecto de investigación, estableciendo conexiones con la metodología científica, los objetivos académicos, y las contribuciones al campo de estudio.
+
+4. **Profundidad Analítica**: En lugar de respuestas simples, se requiere análisis multicapa que explore causas, efectos, alternativas, implicaciones, y consideraciones técnicas relevantes.
+
+### **🔬 ESTRUCTURA OBLIGATORIA DE RESPUESTAS**:
+
+**Introducción Contextual**: Establecer el marco teórico y la relevancia del tema dentro del proyecto de investigación.
+
+**Desarrollo Técnico**: Explicación detallada con fundamentación científica, incluyendo principios subyacentes, metodologías aplicables, y consideraciones técnicas críticas.
+
+**Análisis Comparativo**: Cuando sea aplicable, evaluar alternativas, ventajas, desventajas, y trade-offs técnicos.
+
+**Implicaciones Prácticas**: Conexión entre la teoría y la implementación, considerando impactos en el rendimiento, escalabilidad, mantenibilidad, y objetivos del proyecto.
+
+**Síntesis y Conclusiones**: Integración de los puntos analizados en una perspectiva coherente que contribuya al avance del proyecto.
+
+### **📊 EJEMPLOS DE APLICACIÓN**:
+
+**INCORRECTO** (informal, superficial):
+"Sí, usar K=3 está bien. El silhouette score mejora."
+
+**CORRECTO** (formal, fundamentado):
+"La selección de K=3 como número óptimo de clusters representa una decisión fundamentada en múltiples criterios de validación estadística. El análisis experimental demuestra que esta configuración maximiza el coeficiente de silueta, alcanzando un valor de 0.2893, lo cual representa una mejora del 86.1% respecto al baseline de 0.1554. Esta mejora significativa se sustenta en la capacidad del algoritmo de clustering jerárquico para identificar estructuras naturales en el espacio de características musicales de 9 dimensiones, optimizadas mediante la estrategia de purificación híbrida implementada."
+
+### **🎯 APLICABILIDAD UNIVERSAL**:
+
+Esta directiva es aplicable a todos los aspectos de la comunicación en el proyecto:
+- Análisis técnico de algoritmos y metodologías
+- Interpretación de resultados experimentales
+- Documentación de decisiones de diseño
+- Explicación de conceptos teóricos
+- Planificación de desarrollo futuro
+- Evaluación de alternativas técnicas
+
+### **📈 OBJETIVO ACADÉMICO**:
+
+El cumplimiento riguroso de esta directiva asegura que toda la comunicación mantenga el estándar académico requerido para un proyecto de tesis de Ingeniería Informática, facilitando la comprensión profunda de los conceptos técnicos y contribuyendo a la documentación formal del proceso de investigación.
+
 ## Important: Read Project Context Files
 
 **🔗 ALWAYS READ THESE FILES FIRST**:
