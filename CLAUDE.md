@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **🎯 ESTÁNDAR DE COMUNICACIÓN INGENIERIL OBLIGATORIO**
 
-**NUNCA utilizar emojis, frases cortas o comunicación informal.** Toda interacción debe mantener el nivel de rigor técnico y profesionalismo correspondiente a un proyecto de tesis de Ingeniería Informática.
+**NUNCA utilizar emojis, frases cortas o comunicación informal.** Toda interacción debe mantener el nivel de rigor técnico y profesionalismo correspondiente a un proyecto de tesis de Ingeniería Informática. **Las respuestas deben dirigirse siempre como comunicación entre ingenieros informáticos profesionales, proporcionando explicaciones técnicas fundamentadas, análisis detallado de alternativas, y justificaciones basadas en principios científicos establecidos.**
 
 ### **📐 PRINCIPIOS FUNDAMENTALES DE COMUNICACIÓN**:
 
@@ -54,6 +54,7 @@ Esta directiva es aplicable a todos los aspectos de la comunicación en el proye
 - Explicación de conceptos teóricos
 - Planificación de desarrollo futuro
 - Evaluación de alternativas técnicas
+- **Comunicación directa y consultas técnicas**: Todas las respuestas a preguntas del usuario deben mantener el mismo estándar profesional, evitando completamente el uso de emojis y proporcionando siempre contexto técnico, justificaciones metodológicas, y análisis comparativo cuando sea relevante
 
 ### **📈 OBJETIVO ACADÉMICO**:
 
