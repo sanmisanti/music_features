@@ -1,0 +1,131 @@
+{
+  "metadata": {
+    "creation_timestamp": "20250822_004929",
+    "builder_version": "1.0",
+    "source_semantic_embeddings": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\vectorization_complete_output\\embeddings_complete_20250819_194820.npy",
+    "source_musical_dataset": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\data\\final_data\\picked_data_optimal.csv",
+    "valid_track_ids_source": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase1_dataset_unification\\valid_multimodal_track_ids_20250822_003644.npy",
+    "sample_size": 7811,
+    "semantic_dimensions": 384,
+    "musical_dimensions": 12,
+    "musical_features_used": [
+      "danceability",
+      "energy",
+      "key",
+      "loudness",
+      "mode",
+      "speechiness",
+      "acousticness",
+      "instrumentalness",
+      "liveness",
+      "valence",
+      "tempo",
+      "duration_ms"
+    ]
+  },
+  "statistics": {
+    "semantic_embeddings_stats": {
+      "mean": -0.00012890102304786007,
+      "std": 0.05103087351254874,
+      "min": -0.2527388036251068,
+      "max": 0.2516041398048401
+    },
+    "musical_features_raw_stats": {
+      "means": [
+        0.6206216873639738,
+        0.6751141467161695,
+        5.352963769043656,
+        -7.342233516835232,
+        0.5972346690564588,
+        0.10609819485341185,
+        0.1926442806746895,
+        0.07590408853283831,
+        0.22410346434515427,
+        0.5063145435923697,
+        121.3643850979388,
+        240414.28062988093
+      ],
+      "stds": [
+        0.16740904664472903,
+        0.19732369833296307,
+        3.6106054201875377,
+        3.185022288520475,
+        0.4904542987205647,
+        0.10634752426172439,
+        0.23935458911686835,
+        0.189433269391145,
+        0.18390024294157248,
+        0.23170922286245915,
+        28.349879985953695,
+        67821.10344841269
+      ],
+      "mins": [
+        0.116,
+        0.0167,
+        0.0,
+        -34.283,
+        0.0,
+        0.0224,
+        1.4e-06,
+        0.0,
+        0.00936,
+        0.0292,
+        37.114,
+        31893.0
+      ],
+      "maxs": [
+        0.979,
+        0.999,
+        11.0,
+        1.275,
+        1.0,
+        0.918,
+        0.992,
+        0.982,
+        0.996,
+        0.991,
+        208.571,
+        517810.0
+      ]
+    },
+    "musical_features_normalized_stats": {
+      "means": [
+        3.2748096898429916e-16,
+        -1.7465651679162623e-16,
+        7.277354866317759e-17,
+        -2.328753557221683e-16,
+        7.277354866317759e-17,
+        5.821883893054207e-17,
+        1.4554709732635517e-16,
+        -1.4554709732635518e-17,
+        1.4554709732635518e-17,
+        8.732825839581311e-17,
+        3.6386774331588797e-16,
+        9.460561326213087e-17
+      ],
+      "stds": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9999999999999999
+      ]
+    },
+    "genre_distribution": {
+      "rock": 1927,
+      "r&b": 1555,
+      "pop": 1418,
+      "rap": 1372,
+      "edm": 782,
+      "latin": 757
+    },
+    "dataset_size_mb": 24.68648338317871
+  }
+}

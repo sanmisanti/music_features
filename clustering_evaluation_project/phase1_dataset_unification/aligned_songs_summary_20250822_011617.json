@@ -1,0 +1,43 @@
+{
+  "export_timestamp": "20250822_011617",
+  "csv_filename": "aligned_songs_multimodal_20250822_011617.csv",
+  "total_aligned_songs": 7811,
+  "csv_columns": [
+    "track_id",
+    "alignment_index",
+    "embedding_norm",
+    "embedding_mean",
+    "musical_features_norm",
+    "musical_features_mean",
+    "primary_genre"
+  ],
+  "semantic_embedding_stats": {
+    "shape": [
+      7811,
+      384
+    ],
+    "mean_norm": 1.0000000000500777,
+    "std_norm": 3.982062068880658e-08
+  },
+  "musical_features_stats": {
+    "shape": [
+      7811,
+      12
+    ],
+    "mean_norm": 3.3482912883870632,
+    "std_norm": 0.8882260118411862
+  },
+  "genre_distribution": {
+    "rock": 1927,
+    "r&b": 1555,
+    "pop": 1418,
+    "rap": 1372,
+    "edm": 782,
+    "latin": 757
+  },
+  "dataset_source_info": {
+    "semantic_source": "vectorization_complete_output/embeddings_complete_20250819_194820.npy",
+    "musical_source": "data/final_data/picked_data_optimal.csv",
+    "intersection_method": "track_id_alignment"
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "audit_metadata": {
+    "timestamp": "20250822_003644",
+    "auditor_version": "1.0",
+    "base_path": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features",
+    "semantic_embeddings_source": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\vectorization_complete_output\\embeddings_complete_20250819_194820.npy",
+    "musical_dataset_source": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\data\\final_data\\picked_data_optimal.csv"
+  },
+  "semantic_data_info": {
+    "embeddings_shape": [
+      9753,
+      384
+    ],
+    "total_processed": 9753,
+    "valid_embeddings": 8567,
+    "embedding_dimensions": 384,
+    "embedding_dtype": "float64",
+    "processing_metadata": {
+      "timestamp": "20250819_194820",
+      "dataset_info": {
+        "dataset_path": "data\\final_data\\picked_data_optimal.csv",
+        "total_songs": 10000,
+        "valid_lyrics": 9753
+      },
+      "processing_stats": {
+        "total_songs": 10000,
+        "valid_lyrics": 9753,
+        "processed": 9753,
+        "successful": 8567,
+        "failed": 1186,
+        "cache_hits": 2107,
+        "processing_time": 1198.6522064208984,
+        "embeddings_size_mb": 28.5732421875
+      },
+      "embeddings_info": {
+        "shape": [
+          9753,
+          384
+        ],
+        "dtype": "float64",
+        "size_mb": 28.5732421875,
+        "non_zero_count": 8567
+      },
+      "similarity_index_info": {
+        "n_samples": 9753,
+        "n_features": 384,
+        "algorithm": "brute",
+        "metric": "cosine",
+        "max_neighbors": 50
+      },
+      "files_generated": {
+        "embeddings": "embeddings_complete_20250819_194820.npy",
+        "track_ids": "track_ids_complete_20250819_194820.npy",
+        "similarity_index": "similarity_index_20250819_194820.pkl",
+        "metadata": "vectorization_metadata_20250819_194820.json"
+      }
+    }
+  },
+  "musical_data_info": {
+    "total_songs": 10000,
+    "available_features": [
+      "danceability",
+      "energy",
+      "key",
+      "loudness",
+      "mode",
+      "speechiness",
+      "acousticness",
+      "instrumentalness",
+      "liveness",
+      "valence",
+      "tempo",
+      "duration_ms"
+    ],
+    "missing_features": [
+      "time_signature"
+    ],
+    "dataset_columns": [
+      "track_id",
+      "track_name",
+      "track_artist",
+      "lyrics",
+      "track_popularity",
+      "track_album_id",
+      "track_album_name",
+      "track_album_release_date",
+      "playlist_name",
+      "playlist_id",
+      "playlist_genre",
+      "playlist_subgenre",
+      "danceability",
+      "energy",
+      "key",
+      "loudness",
+      "mode",
+      "speechiness",
+      "acousticness",
+      "instrumentalness",
+      "liveness",
+      "valence",
+      "tempo",
+      "duration_ms",
+      "language",
+      "natural_cluster"
+    ]
+  },
+  "intersection_analysis": {
+    "semantic_total": 7811,
+    "musical_total": 9123,
+    "multimodal_intersection": 7811,
+    "semantic_only": 0,
+    "musical_only": 1312,
+    "intersection_percentage_semantic": 100.0,
+    "intersection_percentage_musical": 85.61876575687822,
+    "dataset_alignment_score": 0.8561876575687822,
+    "coverage_ratio": 1.0
+  },
+  "quality_analysis": {
+    "multimodal_sample_size": 8567,
+    "musical_features_completeness": {
+      "danceability": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "energy": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "key": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "loudness": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "mode": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "speechiness": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "acousticness": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "instrumentalness": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "liveness": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "valence": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "tempo": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      },
+      "duration_ms": {
+        "non_null_count": 8567,
+        "completeness_percentage": 100.0
+      }
+    },
+    "genre_distribution": {
+      "rock": 2125,
+      "r&b": 1731,
+      "pop": 1541,
+      "rap": 1491,
+      "edm": 853,
+      "latin": 826
+    },
+    "genre_diversity": 6,
+    "lyrics_analysis": {
+      "available_count": 8567,
+      "availability_percentage": 100.0,
+      "average_length": 1716.21932998716,
+      "median_length": 1479.0,
+      "min_length": 51,
+      "max_length": 23911
+    },
+    "available_musical_features_count": 12,
+    "expected_musical_features_count": 13
+  },
+  "multimodal_viability": {
+    "viable_for_analysis": true,
+    "recommended_min_sample": 1000,
+    "actual_sample_size": 7811,
+    "alignment_quality": "excellent",
+    "coverage_assessment": "sufficient"
+  }
+}

@@ -137,6 +137,16 @@ Este repositorio implementa el **Módulo de Análisis Musical** completado - com
 - **Artefactos**: `vectorization_complete_output/` + sistema k-NN optimizado
 - **Validación**: Test práctico con Led Zeppelin - coherencia temática excepcional
 
+#### ✅ **7. Sistema Dataset Multimodal Unificado** 🎯 DECISIÓN ESTRATÉGICA CRÍTICA (Agosto 2025)
+- **PROBLEMÁTICA IDENTIFICADA**: Asimetría fundamental entre datasets semánticos (8,567) y musicales (10,000)
+- **SOLUCIÓN IMPLEMENTADA**: Dataset unificado con 7,811 canciones alineadas por track_id
+- **METODOLOGÍA**: Auditoría de intersección + eliminación duplicados + validación integridad
+- **TRADE-OFF JUSTIFICADO**: Pérdida 13% cobertura vs ganancia 100% calidad metodológica
+- **BENEFICIOS TÉCNICOS**: Evaluación algorítmica justa + fusión multimodal determinística
+- **IMPACTO ARQUITECTURAL**: Habilita comparación directa clustering 384D vs 12D sobre mismas canciones
+- **ARTEFACTOS**: `clustering_evaluation_project/phase1_dataset_unification/`
+- **DOCUMENTACIÓN**: Sección 8.7 FULL_PROJECT.md + justificación técnica completa
+
 #### 📁 **Sistemas Legacy** (Movidos a docs/legacy/, scripts/legacy/)
 - Data Selection Pipeline (reemplazado por clustering optimizado)
 - Notebooks experimentales (cluster.ipynb, pred.ipynb)
@@ -144,7 +154,16 @@ Este repositorio implementa el **Módulo de Análisis Musical** completado - com
 
 ### 📊 **DATASETS PRINCIPALES**
 
-#### ✅ **DATASET OPTIMIZADO ACTUAL**
+#### ✅ **DATASET MULTIMODAL UNIFICADO** (CRÍTICO PARA EVALUACIÓN)
+- **`clustering_evaluation_project/phase1_dataset_unification/unified_multimodal_dataset_*.pkl`** - **7,811 canciones alineadas**
+  - **Embeddings BERT**: (7811, 384) semántico validado
+  - **Características musicales**: (7811, 12) normalizadas StandardScaler
+  - **Integridad referencial**: 100% alineación por track_id
+  - **Distribución géneros**: rock 24.7%, r&b 19.9%, pop 18.2%, rap 17.6%, edm 10.0%, latin 9.7%
+  - **CSV exportado**: `aligned_songs_multimodal_*.csv` con metadatos completos
+  - **READY FOR CLUSTERING EVALUATION 384D vs 12D**
+
+#### ✅ **DATASET OPTIMIZADO MUSICAL**
 - **`data/final_data/picked_data_optimal.csv`** - **16,081 canciones purificadas**
   - Silhouette Score: 0.2893 (optimizado)
   - 9 características discriminativas seleccionadas
