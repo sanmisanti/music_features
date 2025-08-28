@@ -1,13 +1,7 @@
+#!/usr/bin/env python3
 """
-Orquestador Principal para Experimentación Clustering Multimodal Exhaustivo
-==========================================================================
-
-Implementa pipeline automatizado para evaluación sistemática de clustering
-multimodal con prioridad en interpretabilidad, análisis cross-modal,
-y generación de reportes científicos.
-
-Autor: Proyecto FASE 3 - Sistema Clustering Multimodal
-Fecha: Agosto 2025
+Orquestador principal para experimentación de clustering multimodal FASE 3.
+Coordina evaluación exhaustiva de ambos dominios y análisis cross-modal.
 """
 
 import numpy as np
@@ -15,81 +9,435 @@ import pandas as pd
 import pickle
 import json
 from pathlib import Path
-from typing import Dict, List, Any, Tuple, Optional, Union
-import time
-import logging
 from datetime import datetime
-import warnings
+from typing import Dict, List, Tuple, Any, Optional
+import logging
+import time
 
-from .algorithm_evaluator import AlgorithmEvaluator
-from .interpretability_validator import InterpretabilityValidator
-from .cross_modal_analyzer import CrossModalAnalyzer
-from .config.algorithms_config import algorithms_config
-from .config.evaluation_metrics import evaluation_metrics
-from .config.interpretability_settings import interpretability_settings
-
+# Importar módulos propios
+from algorithm_evaluator import DomainAlgorithmEvaluator, ClusteringResult
+from interpretability_validator import InterpretabilityValidator
+from cross_modal_analyzer import CrossModalAnalyzer, CrossModalAnalysisResult
+from config.evaluation_metrics import multi_criteria_evaluator
 
 class MultimodalClusteringExperimenter:
-    """
-    Orquestador principal para experimentación clustering multimodal exhaustivo.
+    """Orquestador de experimentación clustering multimodal."""
     
-    Coordina evaluación algoritmica, validación de interpretabilidad,
-    análisis cross-modal, y generación de reportes científicos.
-    """
-    
-    def __init__(self, dataset_path: str, output_directory: str, verbose: bool = True):
+    def __init__(self, output_dir: str = "./results", verbose: bool = True):
         """
-        Inicializar experimentador multimodal.
+        Inicializar experimentador.
         
         Args:
-            dataset_path: Ruta al dataset unificado multimodal
-            output_directory: Directorio para guardar resultados
-            verbose: Activar logging detallado
+            output_dir: Directorio para guardar resultados
+            verbose: Si mostrar progreso detallado
         """
-        self.dataset_path = dataset_path
-        self.output_directory = Path(output_directory)
+        self.output_dir = Path(output_dir)
         self.verbose = verbose
-        
-        # Crear directorio de salida
-        self.output_directory.mkdir(parents=True, exist_ok=True)
-        
-        # Configurar logging
         self.logger = self._setup_logging()
         
-        # Inicializar timestamp único
-        self.experiment_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        # Crear directorio de salida
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         
         # Inicializar componentes
-        self.algorithm_evaluator = AlgorithmEvaluator(dataset_path, verbose)
-        self.interpretability_validator = InterpretabilityValidator(verbose)
-        self.cross_modal_analyzer = None  # Se inicializará cuando sea necesario
+        self.musical_evaluator = DomainAlgorithmEvaluator('musical', verbose=verbose)
+        self.semantic_evaluator = DomainAlgorithmEvaluator('semantic', verbose=verbose)
+        self.interpretability_validator = InterpretabilityValidator(verbose=verbose)
+        self.cross_modal_analyzer = CrossModalAnalyzer(verbose=verbose)
         
-        # Almacenar resultados experimentales
-        self.experiment_results = {
-            'metadata': {
-                'dataset_path': dataset_path,
-                'output_directory': str(output_directory),
-                'experiment_timestamp': self.experiment_timestamp,
-                'n_samples': len(self.algorithm_evaluator.track_ids),
-                'musical_features_shape': self.algorithm_evaluator.musical_features.shape,
-                'semantic_embeddings_shape': self.algorithm_evaluator.semantic_embeddings.shape
-            },
-            'musical_experiments': [],
-            'semantic_experiments': [],
-            'cross_modal_analysis': {},
-            'ranking_results': {},
-            'interpretability_analysis': {},
-            'final_recommendations': {}
-        }
+        # Almacenar resultados
+        self.musical_results: List[ClusteringResult] = []
+        self.semantic_results: List[ClusteringResult] = []
+        self.cross_modal_results: Dict[str, CrossModalAnalysisResult] = {}
         
-        self.logger.info(f"MultimodalClusteringExperimenter inicializado")
-        self.logger.info(f"Dataset: {len(self.algorithm_evaluator.track_ids)} muestras")
-        self.logger.info(f"Output directory: {self.output_directory}")
-    
+        # Timestamp para esta ejecución
+        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
     def _setup_logging(self) -> logging.Logger:
-        """Configurar logging para experimentador."""
-        logger = logging.getLogger(f'MultimodalExperimenter_{id(self)}')
+        """Configurar logging principal."""
+        logger = logging.getLogger('MultimodalExperimenter')
         logger.setLevel(logging.INFO if self.verbose else logging.WARNING)
         
         if not logger.handlers:
-            # Handler para archivo\n            log_file = self.output_directory / f'experiment_log_{self.experiment_timestamp}.log'\n            file_handler = logging.FileHandler(log_file)\n            file_handler.setLevel(logging.INFO)\n            \n            # Handler para consola\n            console_handler = logging.StreamHandler()\n            console_handler.setLevel(logging.INFO if self.verbose else logging.WARNING)\n            \n            # Formatter\n            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\n            file_handler.setFormatter(formatter)\n            console_handler.setFormatter(formatter)\n            \n            logger.addHandler(file_handler)\n            logger.addHandler(console_handler)\n        \n        return logger\n    \n    def run_complete_multimodal_experimentation(self, \n                                              include_cross_modal: bool = True,\n                                              generate_visualizations: bool = True) -> Dict[str, Any]:\n        \"\"\"\n        Ejecutar experimentación multimodal completa.\n        \n        Args:\n            include_cross_modal: Incluir análisis cross-modal\n            generate_visualizations: Generar visualizaciones\n            \n        Returns:\n            Dict con resultados completos de experimentación\n        \"\"\"\n        self.logger.info(\"=\" * 80)\n        self.logger.info(\"INICIANDO EXPERIMENTACIÓN MULTIMODAL COMPLETA\")\n        self.logger.info(\"=\" * 80)\n        \n        start_time = time.time()\n        \n        try:\n            # FASE 1: Evaluación algoritmica por dominio\n            self.logger.info(\"\\n>>> FASE 1: EVALUACIÓN ALGORÍTMICA POR DOMINIO\")\n            self._run_algorithmic_evaluation()\n            \n            # FASE 2: Validación de interpretabilidad\n            self.logger.info(\"\\n>>> FASE 2: VALIDACIÓN DE INTERPRETABILIDAD\")\n            self._run_interpretability_validation()\n            \n            # FASE 3: Análisis cross-modal (opcional)\n            if include_cross_modal:\n                self.logger.info(\"\\n>>> FASE 3: ANÁLISIS CROSS-MODAL\")\n                self._run_cross_modal_analysis()\n            \n            # FASE 4: Ranking y selección de configuraciones\n            self.logger.info(\"\\n>>> FASE 4: RANKING Y SELECCIÓN\")\n            self._run_configuration_ranking()\n            \n            # FASE 5: Generación de reportes\n            self.logger.info(\"\\n>>> FASE 5: GENERACIÓN DE REPORTES\")\n            self._generate_comprehensive_reports()\n            \n            # FASE 6: Visualizaciones (opcional)\n            if generate_visualizations:\n                self.logger.info(\"\\n>>> FASE 6: GENERACIÓN DE VISUALIZACIONES\")\n                self._generate_visualizations()\n            \n            # Finalizar experimentación\n            total_time = time.time() - start_time\n            self.experiment_results['metadata']['total_execution_time_seconds'] = total_time\n            self.experiment_results['metadata']['experiment_completed'] = True\n            \n            self.logger.info(\"\\n\" + \"=\" * 80)\n            self.logger.info(f\"EXPERIMENTACIÓN COMPLETADA EN {total_time:.1f} SEGUNDOS\")\n            self.logger.info(f\"Experimentos totales: {self._count_total_experiments()}\")\n            self.logger.info(f\"Resultados guardados en: {self.output_directory}\")\n            self.logger.info(\"=\" * 80)\n            \n            return self.experiment_results\n            \n        except Exception as e:\n            self.logger.error(f\"Error durante experimentación: {e}\")\n            self.experiment_results['metadata']['experiment_error'] = str(e)\n            self.experiment_results['metadata']['experiment_completed'] = False\n            raise\n    \n    def _run_algorithmic_evaluation(self) -> None:\n        \"\"\"Ejecutar evaluación algorítmica para ambos dominios.\"\"\"\n        \n        # Evaluar dominio musical\n        self.logger.info(\"Evaluando dominio musical...\")\n        musical_results = self.algorithm_evaluator.evaluate_domain_complete('musical')\n        self.experiment_results['musical_experiments'] = musical_results\n        \n        # Evaluar dominio semántico\n        self.logger.info(\"Evaluando dominio semántico...\")\n        semantic_results = self.algorithm_evaluator.evaluate_domain_complete('semantic')\n        self.experiment_results['semantic_experiments'] = semantic_results\n        \n        # Guardar resultados intermedios\n        self._save_intermediate_results('algorithmic_evaluation')\n        \n        # Estadísticas de evaluación\n        musical_success = len([r for r in musical_results if not r.get('error', False)])\n        semantic_success = len([r for r in semantic_results if not r.get('error', False)])\n        \n        self.logger.info(f\"Evaluación algorítmica completada:\")\n        self.logger.info(f\"  - Musical: {musical_success}/{len(musical_results)} éxito\")\n        self.logger.info(f\"  - Semántico: {semantic_success}/{len(semantic_results)} éxito\")\n    \n    def _run_interpretability_validation(self) -> None:\n        \"\"\"Ejecutar validación de interpretabilidad para resultados existentes.\"\"\"\n        \n        interpretability_results = {\n            'musical': {},\n            'semantic': {},\n            'summary': {}\n        }\n        \n        # Validar interpretabilidad musical\n        self.logger.info(\"Validando interpretabilidad musical...\")\n        musical_validations = self._validate_domain_interpretability('musical')\n        interpretability_results['musical'] = musical_validations\n        \n        # Validar interpretabilidad semántica\n        self.logger.info(\"Validando interpretabilidad semántica...\")\n        semantic_validations = self._validate_domain_interpretability('semantic')\n        interpretability_results['semantic'] = semantic_validations\n        \n        # Generar resumen de interpretabilidad\n        interpretability_summary = self._generate_interpretability_summary(\n            musical_validations, semantic_validations\n        )\n        interpretability_results['summary'] = interpretability_summary\n        \n        self.experiment_results['interpretability_analysis'] = interpretability_results\n        \n        # Guardar resultados intermedios\n        self._save_intermediate_results('interpretability_validation')\n        \n        self.logger.info(\"Validación de interpretabilidad completada\")\n    \n    def _validate_domain_interpretability(self, domain: str) -> Dict[str, Any]:\n        \"\"\"Validar interpretabilidad para dominio específico.\"\"\"\n        \n        domain_experiments = self.experiment_results[f'{domain}_experiments']\n        domain_validations = []\n        \n        X = (self.algorithm_evaluator.musical_features \n             if domain == 'musical' \n             else self.algorithm_evaluator.semantic_embeddings)\n        \n        for experiment in domain_experiments:\n            if experiment.get('error', False):\n                continue\n            \n            try:\n                # Recrear clustering para validación\n                algorithm_name = experiment['algorithm_name']\n                k = experiment['k_target']\n                \n                # Recrear algoritmo y labels\n                algorithm = algorithms_config.create_algorithm_instance(domain, algorithm_name, k)\n                labels = algorithm.fit_predict(X)\n                \n                # Validar interpretabilidad\n                validation_result = self.interpretability_validator.validate_cluster_interpretability_complete(\n                    X, labels, domain\n                )\n                \n                # Agregar información del experimento\n                validation_result.update({\n                    'experiment_id': experiment.get('evaluation_timestamp', 'unknown'),\n                    'algorithm_name': algorithm_name,\n                    'k_target': k,\n                    'silhouette_score': experiment.get('silhouette_score', -1),\n                    'composite_score': experiment.get('composite_score_partial', 0)\n                })\n                \n                domain_validations.append(validation_result)\n                \n            except Exception as e:\n                self.logger.warning(f\"Error validando interpretabilidad {domain} {algorithm_name}: {e}\")\n                continue\n        \n        return {\n            'domain': domain,\n            'validations': domain_validations,\n            'total_experiments': len(domain_experiments),\n            'validated_experiments': len(domain_validations)\n        }\n    \n    def _run_cross_modal_analysis(self) -> None:\n        \"\"\"Ejecutar análisis de correspondencia cross-modal.\"\"\"\n        \n        # Inicializar analizador cross-modal si no existe\n        if self.cross_modal_analyzer is None:\n            self.cross_modal_analyzer = CrossModalAnalyzer(\n                self.algorithm_evaluator.musical_features,\n                self.algorithm_evaluator.semantic_embeddings,\n                self.algorithm_evaluator.track_ids,\n                verbose=self.verbose\n            )\n        \n        # Obtener mejores configuraciones de cada dominio\n        top_musical = self.algorithm_evaluator.get_top_configurations('musical', 3)\n        top_semantic = self.algorithm_evaluator.get_top_configurations('semantic', 3)\n        \n        cross_modal_results = []\n        \n        self.logger.info(f\"Analizando correspondencias: {len(top_musical)} x {len(top_semantic)} combinaciones\")\n        \n        for musical_config in top_musical:\n            for semantic_config in top_semantic:\n                try:\n                    # Recrear clustering para análisis cross-modal\n                    musical_algorithm = algorithms_config.create_algorithm_instance(\n                        'musical', musical_config['algorithm_name'], musical_config['k_target']\n                    )\n                    semantic_algorithm = algorithms_config.create_algorithm_instance(\n                        'semantic', semantic_config['algorithm_name'], semantic_config['k_target']\n                    )\n                    \n                    musical_labels = musical_algorithm.fit_predict(self.algorithm_evaluator.musical_features)\n                    semantic_labels = semantic_algorithm.fit_predict(self.algorithm_evaluator.semantic_embeddings)\n                    \n                    # Análisis de correspondencia\n                    correspondence_analysis = self.cross_modal_analyzer.analyze_cross_modal_correspondence(\n                        musical_labels, semantic_labels,\n                        musical_config['algorithm_name'], semantic_config['algorithm_name']\n                    )\n                    \n                    cross_modal_results.append(correspondence_analysis)\n                    \n                except Exception as e:\n                    self.logger.warning(f\"Error análisis cross-modal: {e}\")\n                    continue\n        \n        self.experiment_results['cross_modal_analysis'] = {\n            'correspondences': cross_modal_results,\n            'total_combinations_analyzed': len(cross_modal_results),\n            'top_musical_configs': len(top_musical),\n            'top_semantic_configs': len(top_semantic)\n        }\n        \n        # Guardar resultados intermedios\n        self._save_intermediate_results('cross_modal_analysis')\n        \n        self.logger.info(f\"Análisis cross-modal completado: {len(cross_modal_results)} combinaciones\")\n    \n    def _run_configuration_ranking(self) -> None:\n        \"\"\"Ejecutar ranking y selección de configuraciones óptimas.\"\"\"\n        \n        ranking_results = {\n            'musical_ranking': self._rank_domain_configurations('musical'),\n            'semantic_ranking': self._rank_domain_configurations('semantic'),\n            'multimodal_recommendations': self._generate_multimodal_recommendations()\n        }\n        \n        self.experiment_results['ranking_results'] = ranking_results\n        \n        # Guardar resultados intermedios\n        self._save_intermediate_results('configuration_ranking')\n        \n        self.logger.info(\"Ranking de configuraciones completado\")\n    \n    def _rank_domain_configurations(self, domain: str) -> Dict[str, Any]:\n        \"\"\"Ranking configuraciones para dominio específico.\"\"\"\n        \n        domain_experiments = self.experiment_results[f'{domain}_experiments']\n        \n        # Filtrar experimentos válidos\n        valid_experiments = [exp for exp in domain_experiments if not exp.get('error', False)]\n        \n        if not valid_experiments:\n            return {\n                'domain': domain,\n                'top_configurations': [],\n                'ranking_criteria': 'No hay experimentos válidos'\n            }\n        \n        # Ordenar por score compuesto multi-criterio\n        valid_experiments.sort(key=lambda x: x.get('composite_score_partial', 0), reverse=True)\n        \n        # Agregar información de interpretabilidad si está disponible\n        interpretability_data = self.experiment_results.get('interpretability_analysis', {}).get(domain, {})\n        interpretability_validations = interpretability_data.get('validations', [])\n        \n        for experiment in valid_experiments:\n            # Buscar validación correspondiente\n            matching_validation = None\n            exp_timestamp = experiment.get('evaluation_timestamp', '')\n            \n            for validation in interpretability_validations:\n                if validation.get('experiment_id') == exp_timestamp:\n                    matching_validation = validation\n                    break\n            \n            if matching_validation:\n                experiment['interpretability_score_global'] = matching_validation.get('global_interpretability_score', 0)\n                experiment['interpretability_classification'] = matching_validation.get('interpretability_classification', 'Unknown')\n            else:\n                experiment['interpretability_score_global'] = 0\n                experiment['interpretability_classification'] = 'Not Validated'\n        \n        # Top 5 configuraciones\n        top_configurations = valid_experiments[:5]\n        \n        return {\n            'domain': domain,\n            'top_configurations': top_configurations,\n            'total_valid_experiments': len(valid_experiments),\n            'ranking_criteria': 'composite_score_partial + interpretability_score_global',\n            'best_configuration': top_configurations[0] if top_configurations else None\n        }\n    \n    def _generate_multimodal_recommendations(self) -> Dict[str, Any]:\n        \"\"\"Generar recomendaciones multimodales finales.\"\"\"\n        \n        musical_ranking = self.experiment_results['ranking_results']['musical_ranking']\n        semantic_ranking = self.experiment_results['ranking_results']['semantic_ranking']\n        \n        recommendations = {\n            'recommended_musical_config': musical_ranking.get('best_configuration'),\n            'recommended_semantic_config': semantic_ranking.get('best_configuration'),\n            'implementation_priority': 'interpretability_over_metrics',\n            'deployment_recommendations': []\n        }\n        \n        # Generar recomendaciones específicas\n        musical_best = musical_ranking.get('best_configuration')\n        semantic_best = semantic_ranking.get('best_configuration')\n        \n        if musical_best:\n            recommendations['deployment_recommendations'].append(\n                f\"Implementar clustering musical: {musical_best['algorithm_name']} \"\n                f\"con K={musical_best['k_effective']} \"\n                f\"(Silhouette: {musical_best['silhouette_score']:.3f})\"\n            )\n        \n        if semantic_best:\n            recommendations['deployment_recommendations'].append(\n                f\"Implementar clustering semántico: {semantic_best['algorithm_name']} \"\n                f\"con K={semantic_best['k_effective']} \"\n                f\"(Silhouette: {semantic_best['silhouette_score']:.3f})\"\n            )\n        \n        # Evaluación cross-modal si está disponible\n        cross_modal_data = self.experiment_results.get('cross_modal_analysis', {})\n        if cross_modal_data.get('correspondences'):\n            best_correspondence = max(\n                cross_modal_data['correspondences'],\n                key=lambda x: x.get('correspondence_score', 0),\n                default=None\n            )\n            \n            if best_correspondence:\n                recommendations['deployment_recommendations'].append(\n                    f\"Correspondencia cross-modal óptima: \"\n                    f\"NMI={best_correspondence.get('normalized_mutual_info', 0):.3f}\"\n                )\n        \n        return recommendations\n    \n    def _generate_interpretability_summary(self, musical_validations: Dict[str, Any], \n                                         semantic_validations: Dict[str, Any]) -> Dict[str, Any]:\n        \"\"\"Generar resumen de interpretabilidad multimodal.\"\"\"\n        \n        musical_vals = musical_validations.get('validations', [])\n        semantic_vals = semantic_validations.get('validations', [])\n        \n        summary = {\n            'total_interpretable_musical': len([v for v in musical_vals if v.get('global_interpretability_score', 0) > 0.6]),\n            'total_interpretable_semantic': len([v for v in semantic_vals if v.get('global_interpretability_score', 0) > 0.6]),\n            'average_interpretability_musical': np.mean([v.get('global_interpretability_score', 0) for v in musical_vals]) if musical_vals else 0,\n            'average_interpretability_semantic': np.mean([v.get('global_interpretability_score', 0) for v in semantic_vals]) if semantic_vals else 0\n        }\n        \n        # Clasificación general\n        avg_global = (summary['average_interpretability_musical'] + summary['average_interpretability_semantic']) / 2\n        \n        if avg_global > 0.8:\n            summary['overall_assessment'] = 'Excelente'\n        elif avg_global > 0.6:\n            summary['overall_assessment'] = 'Bueno'\n        elif avg_global > 0.4:\n            summary['overall_assessment'] = 'Moderado'\n        else:\n            summary['overall_assessment'] = 'Requiere mejoras'\n        \n        return summary\n    \n    def _generate_comprehensive_reports(self) -> None:\n        \"\"\"Generar reportes científicos comprensivos.\"\"\"\n        \n        # Reporte JSON completo\n        json_report_path = self.output_directory / f'multimodal_experiment_results_{self.experiment_timestamp}.json'\n        with open(json_report_path, 'w', encoding='utf-8') as f:\n            json.dump(self.experiment_results, f, indent=2, default=str)\n        \n        # Reporte Markdown académico\n        markdown_report = self._generate_markdown_report()\n        markdown_report_path = self.output_directory / f'multimodal_experiment_report_{self.experiment_timestamp}.md'\n        \n        with open(markdown_report_path, 'w', encoding='utf-8') as f:\n            f.write(markdown_report)\n        \n        self.logger.info(f\"Reportes generados:\")\n        self.logger.info(f\"  - JSON: {json_report_path}\")\n        self.logger.info(f\"  - Markdown: {markdown_report_path}\")\n    \n    def _generate_markdown_report(self) -> str:\n        \"\"\"Generar reporte académico en formato Markdown.\"\"\"\n        \n        musical_ranking = self.experiment_results['ranking_results']['musical_ranking']\n        semantic_ranking = self.experiment_results['ranking_results']['semantic_ranking']\n        interpretability_summary = self.experiment_results['interpretability_analysis']['summary']\n        \n        report = f\"\"\"\n# FASE 3: Reporte de Experimentación Clustering Multimodal\n\n**Timestamp**: {self.experiment_timestamp}  \n**Dataset**: {len(self.algorithm_evaluator.track_ids)} muestras  \n**Tiempo total**: {self.experiment_results['metadata'].get('total_execution_time_seconds', 0):.1f} segundos\n\n## Resumen Ejecutivo\n\nExperimentación exhaustiva de clustering multimodal completada exitosamente con **{self._count_total_experiments()} experimentos totales** distribuidos entre dominios musical (12D) y semántico (384D).\n\n### Resultados Principales\n\n**Dominio Musical**:\n- Mejor configuración: {musical_ranking.get('best_configuration', {}).get('algorithm_name', 'N/A')}\n- K óptimo: {musical_ranking.get('best_configuration', {}).get('k_effective', 'N/A')}\n- Silhouette Score: {musical_ranking.get('best_configuration', {}).get('silhouette_score', 0):.3f}\n- Score Interpretabilidad: {musical_ranking.get('best_configuration', {}).get('interpretability_score_global', 0):.3f}\n\n**Dominio Semántico**:\n- Mejor configuración: {semantic_ranking.get('best_configuration', {}).get('algorithm_name', 'N/A')}\n- K óptimo: {semantic_ranking.get('best_configuration', {}).get('k_effective', 'N/A')}\n- Silhouette Score: {semantic_ranking.get('best_configuration', {}).get('silhouette_score', 0):.3f}\n- Score Interpretabilidad: {semantic_ranking.get('best_configuration', {}).get('interpretability_score_global', 0):.3f}\n\n### Evaluación de Interpretabilidad\n\n- **Interpretabilidad Musical Promedio**: {interpretability_summary.get('average_interpretability_musical', 0):.3f}\n- **Interpretabilidad Semántica Promedio**: {interpretability_summary.get('average_interpretability_semantic', 0):.3f}\n- **Evaluación General**: {interpretability_summary.get('overall_assessment', 'No disponible')}\n\n## Metodología Experimental\n\n### Configuración Algorítmica\n\n**Algoritmos Evaluados**:\n- Musical: Hierarchical (Ward, Complete, Average), K-Means++, GMM Full, DBSCAN\n- Semántico: Hierarchical (Ward, Average), K-Means++, GMM Tied, DBSCAN Coseno\n\n**Rangos K**:\n- Musical: [5, 6, 7, 8, 9, 10]\n- Semántico: [5, 6, 7, 8]\n\n### Función Objetivo Multi-Criterio\n\n```\nscore = 0.3 * silhouette_normalized + 0.3 * balance_distribution + \n        0.2 * interpretability_score + 0.1 * cross_modal_correspondence + \n        0.1 * granularity_bonus\n```\n\n## Análisis de Resultados\n\n### Configuraciones Top-3 Musical\n\n{self._format_top_configurations(musical_ranking.get('top_configurations', [])[:3], 'Musical')}\n\n### Configuraciones Top-3 Semántico\n\n{self._format_top_configurations(semantic_ranking.get('top_configurations', [])[:3], 'Semántico')}\n\n## Recomendaciones de Implementación\n\n{chr(10).join([f'- {rec}' for rec in self.experiment_results['ranking_results']['multimodal_recommendations'].get('deployment_recommendations', [])])}\n\n## Conclusiones Científicas\n\nLa experimentación FASE 3 ha validado exitosamente la viabilidad de clustering simétrico multimodal con **prioridad en interpretabilidad sobre optimización métrica pura**. Los resultados confirman que:\n\n1. **Granularidad Explicativa**: K≥5 proporciona interpretabilidad superior para explicaciones de recomendación\n2. **Equivalencia Dimensional**: Clustering en espacio 384D semántico muestra performance comparable al espacio 12D musical\n3. **Arquitectura Simétrica**: Fusión multimodal coherente habilitada por clustering en ambos dominios\n\n---\n\n*Generado automáticamente por MultimodalClusteringExperimenter*  \n*Proyecto FASE 3 - Sistema Clustering Multimodal*\n\"\"\"\n        \n        return report\n    \n    def _format_top_configurations(self, configurations: List[Dict[str, Any]], domain_name: str) -> str:\n        \"\"\"Formatear configuraciones top para reporte.\"\"\"\n        \n        if not configurations:\n            return f\"No hay configuraciones disponibles para {domain_name}\"\n        \n        formatted_configs = []\n        \n        for i, config in enumerate(configurations, 1):\n            formatted_configs.append(\n                f\"{i}. **{config.get('algorithm_name', 'Unknown')}** \"\n                f\"(K={config.get('k_effective', 'N/A')}) - \"\n                f\"Silhouette: {config.get('silhouette_score', 0):.3f}, \"\n                f\"Balance: {config.get('balance_distribution_score', 0):.3f}, \"\n                f\"Interpretabilidad: {config.get('interpretability_score_global', 0):.3f}\"\n            )\n        \n        return '\\n'.join(formatted_configs)\n    \n    def _generate_visualizations(self) -> None:\n        \"\"\"Generar visualizaciones científicas (placeholder).\"\"\"\n        \n        # Placeholder para generación de visualizaciones\n        # En implementación futura: gráficos comparativos, matrices de correspondencia, etc.\n        \n        self.logger.info(\"Generación de visualizaciones (placeholder implementado)\")\n        \n        # Crear archivo de configuración para visualizaciones futuras\n        viz_config = {\n            'top_musical_config': self.experiment_results['ranking_results']['musical_ranking'].get('best_configuration'),\n            'top_semantic_config': self.experiment_results['ranking_results']['semantic_ranking'].get('best_configuration'),\n            'visualization_requirements': [\n                'Comparación métricas por algoritmo',\n                'Matriz correspondencia cross-modal',\n                'Distribución interpretabilidad',\n                'Ranking configuraciones'\n            ]\n        }\n        \n        viz_config_path = self.output_directory / f'visualization_config_{self.experiment_timestamp}.json'\n        with open(viz_config_path, 'w') as f:\n            json.dump(viz_config, f, indent=2, default=str)\n        \n        self.logger.info(f\"Configuración visualizaciones guardada: {viz_config_path}\")\n    \n    def _save_intermediate_results(self, phase_name: str) -> None:\n        \"\"\"Guardar resultados intermedios por fase.\"\"\"\n        \n        intermediate_path = self.output_directory / f'intermediate_{phase_name}_{self.experiment_timestamp}.json'\n        \n        with open(intermediate_path, 'w') as f:\n            json.dump(self.experiment_results, f, indent=2, default=str)\n        \n        self.logger.info(f\"Resultados intermedios guardados: {intermediate_path}\")\n    \n    def _count_total_experiments(self) -> int:\n        \"\"\"Contar número total de experimentos ejecutados.\"\"\"\n        \n        musical_count = len(self.experiment_results.get('musical_experiments', []))\n        semantic_count = len(self.experiment_results.get('semantic_experiments', []))\n        \n        return musical_count + semantic_count\n    \n    def get_experiment_summary(self) -> Dict[str, Any]:\n        \"\"\"Obtener resumen ejecutivo de experimentación.\"\"\"\n        \n        return {\n            'experiment_timestamp': self.experiment_timestamp,\n            'dataset_samples': len(self.algorithm_evaluator.track_ids),\n            'total_experiments': self._count_total_experiments(),\n            'execution_time': self.experiment_results['metadata'].get('total_execution_time_seconds', 0),\n            'best_musical_algorithm': self.experiment_results['ranking_results']['musical_ranking'].get('best_configuration', {}).get('algorithm_name'),\n            'best_semantic_algorithm': self.experiment_results['ranking_results']['semantic_ranking'].get('best_configuration', {}).get('algorithm_name'),\n            'interpretability_assessment': self.experiment_results['interpretability_analysis']['summary'].get('overall_assessment')\n        }\n\n\n# Función de conveniencia para ejecución completa\ndef run_complete_multimodal_experimentation(dataset_path: str, \n                                           output_directory: str,\n                                           include_cross_modal: bool = True,\n                                           generate_visualizations: bool = True,\n                                           verbose: bool = True) -> Dict[str, Any]:\n    \"\"\"\n    Función de conveniencia para experimentación multimodal completa.\n    \n    Args:\n        dataset_path: Ruta al dataset unificado\n        output_directory: Directorio para resultados\n        include_cross_modal: Incluir análisis cross-modal\n        generate_visualizations: Generar visualizaciones\n        verbose: Logging detallado\n        \n    Returns:\n        Resultados completos de experimentación\n    \"\"\"\n    \n    experimenter = MultimodalClusteringExperimenter(\n        dataset_path, output_directory, verbose=verbose\n    )\n    \n    return experimenter.run_complete_multimodal_experimentation(\n        include_cross_modal=include_cross_modal,\n        generate_visualizations=generate_visualizations\n    )"
+            handler = logging.StreamHandler()
+            formatter = logging.Formatter(
+                '[EXPERIMENTER] %(asctime)s - %(levelname)s - %(message)s'
+            )
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+        
+        return logger
+    
+    def load_dataset(self, dataset_path: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Cargar dataset multimodal unificado.
+        
+        Args:
+            dataset_path: Ruta al archivo .pkl del dataset
+            
+        Returns:
+            Tupla (semantic_embeddings, musical_features, track_ids)
+        """
+        self.logger.info(f"Cargando dataset desde: {dataset_path}")
+        
+        dataset_path = Path(dataset_path)
+        if not dataset_path.exists():
+            raise FileNotFoundError(f"Dataset no encontrado: {dataset_path}")
+        
+        # Cargar dataset completo
+        with open(dataset_path, 'rb') as f:
+            dataset = pickle.load(f)
+        
+        # Extraer arrays principales
+        data = dataset['data']
+        semantic_embeddings = data['semantic_embeddings']
+        musical_features = data['musical_features_normalized']
+        track_ids = data['track_ids']
+        
+        self.logger.info(f"Dataset cargado: {len(track_ids):,} canciones")
+        self.logger.info(f"Semántico: {semantic_embeddings.shape}, Musical: {musical_features.shape}")
+        
+        return semantic_embeddings, musical_features, track_ids
+    
+    def run_musical_evaluation(self, X_musical: np.ndarray) -> List[ClusteringResult]:
+        """Ejecutar evaluación exhaustiva del dominio musical."""
+        self.logger.info("=== INICIANDO EVALUACIÓN MUSICAL ===")
+        start_time = time.time()
+        
+        results = self.musical_evaluator.evaluate_all_configurations(X_musical)
+        
+        elapsed = time.time() - start_time
+        self.logger.info(f"Evaluación musical completada en {elapsed:.1f}s")
+        self.logger.info(f"Mejores 3 configuraciones musicales:")
+        
+        for i, result in enumerate(results[:3]):
+            self.logger.info(
+                f"  {i+1}. {result.algorithm_name} (K={result.algorithm_params.get('k', 'N/A')}): "
+                f"Score={result.composite_score:.3f}, Silhouette={result.silhouette_score:.3f}"
+            )
+        
+        self.musical_results = results
+        return results
+    
+    def run_semantic_evaluation(self, X_semantic: np.ndarray) -> List[ClusteringResult]:
+        """Ejecutar evaluación exhaustiva del dominio semántico."""
+        self.logger.info("=== INICIANDO EVALUACIÓN SEMÁNTICA ===")
+        start_time = time.time()
+        
+        results = self.semantic_evaluator.evaluate_all_configurations(X_semantic)
+        
+        elapsed = time.time() - start_time
+        self.logger.info(f"Evaluación semántica completada en {elapsed:.1f}s")
+        self.logger.info(f"Mejores 3 configuraciones semánticas:")
+        
+        for i, result in enumerate(results[:3]):
+            self.logger.info(
+                f"  {i+1}. {result.algorithm_name} (K={result.algorithm_params.get('k', 'N/A')}): "
+                f"Score={result.composite_score:.3f}, Silhouette={result.silhouette_score:.3f}"
+            )
+        
+        self.semantic_results = results
+        return results
+    
+    def run_cross_modal_analysis(self, X_musical: np.ndarray, X_semantic: np.ndarray,
+                                track_ids: np.ndarray, top_n: int = 3) -> Dict[str, CrossModalAnalysisResult]:
+        """
+        Ejecutar análisis cross-modal para las mejores configuraciones.
+        
+        Args:
+            X_musical: Características musicales
+            X_semantic: Embeddings semánticos
+            track_ids: IDs de canciones
+            top_n: Número de mejores configuraciones a analizar por dominio
+            
+        Returns:
+            Dict con resultados cross-modal
+        """
+        self.logger.info("=== INICIANDO ANÁLISIS CROSS-MODAL ===")
+        
+        # Obtener mejores configuraciones
+        top_musical = self.musical_results[:top_n]
+        top_semantic = self.semantic_results[:top_n]
+        
+        cross_modal_results = {}
+        
+        # Analizar todas las combinaciones top musical x top semántico
+        for i, musical_result in enumerate(top_musical):
+            for j, semantic_result in enumerate(top_semantic):
+                combination_id = f"M{i+1}_S{j+1}"
+                
+                self.logger.info(f"Analizando combinación {combination_id}: "
+                               f"{musical_result.algorithm_name} x {semantic_result.algorithm_name}")
+                
+                # Ejecutar análisis cross-modal
+                cross_result = self.cross_modal_analyzer.analyze_cross_modal_correspondence(
+                    musical_result.labels, semantic_result.labels, track_ids
+                )
+                
+                # Actualizar scores compuestos con información cross-modal
+                updated_musical_score = multi_criteria_evaluator.compute_composite_score(
+                    musical_result.silhouette_score,
+                    musical_result.balance_score,
+                    musical_result.interpretability_score,
+                    cross_result.nmi_score,  # Incluir cross-modal
+                    musical_result.granularity_bonus
+                )
+                
+                updated_semantic_score = multi_criteria_evaluator.compute_composite_score(
+                    semantic_result.silhouette_score,
+                    semantic_result.balance_score,
+                    semantic_result.interpretability_score,
+                    cross_result.nmi_score,  # Incluir cross-modal
+                    semantic_result.granularity_bonus
+                )
+                
+                # Agregar información adicional al resultado cross-modal
+                cross_result.musical_config = {
+                    'algorithm': musical_result.algorithm_name,
+                    'params': musical_result.algorithm_params,
+                    'original_score': musical_result.composite_score,
+                    'updated_score': updated_musical_score
+                }
+                
+                cross_result.semantic_config = {
+                    'algorithm': semantic_result.algorithm_name,
+                    'params': semantic_result.algorithm_params,
+                    'original_score': semantic_result.composite_score,
+                    'updated_score': updated_semantic_score
+                }
+                
+                cross_modal_results[combination_id] = cross_result
+                
+                self.logger.info(f"  NMI: {cross_result.nmi_score:.3f}, "
+                               f"Correspondencias fuertes: {len(cross_result.strong_correspondences)}")
+        
+        self.cross_modal_results = cross_modal_results
+        return cross_modal_results
+    
+    def run_interpretability_validation(self, X_musical: np.ndarray, X_semantic: np.ndarray,
+                                      top_n: int = 3) -> Dict[str, Any]:
+        """Validar interpretabilidad para las mejores configuraciones."""
+        self.logger.info("=== VALIDANDO INTERPRETABILIDAD ===")
+        
+        interpretability_results = {}
+        
+        # Validar mejores configuraciones
+        for i in range(min(top_n, len(self.musical_results), len(self.semantic_results))):
+            config_id = f"config_{i+1}"
+            
+            musical_result = self.musical_results[i]
+            semantic_result = self.semantic_results[i]
+            
+            self.logger.info(f"Validando interpretabilidad {config_id}")
+            
+            interpretations = self.interpretability_validator.validate_all_clusters(
+                X_musical, musical_result.labels,
+                X_semantic, semantic_result.labels
+            )
+            
+            # Calcular métricas de interpretabilidad
+            musical_interpretable = len([i for i in interpretations['musical'] if i.confidence_score > 0.5])
+            semantic_interpretable = len([i for i in interpretations['semantic'] if i.confidence_score > 0.5])
+            
+            interpretability_results[config_id] = {
+                'musical_config': {
+                    'algorithm': musical_result.algorithm_name,
+                    'params': musical_result.algorithm_params
+                },
+                'semantic_config': {
+                    'algorithm': semantic_result.algorithm_name,
+                    'params': semantic_result.algorithm_params
+                },
+                'interpretations': interpretations,
+                'musical_interpretable_clusters': musical_interpretable,
+                'semantic_interpretable_clusters': semantic_interpretable,
+                'musical_interpretability_rate': musical_interpretable / len(interpretations['musical']) if interpretations['musical'] else 0.0,
+                'semantic_interpretability_rate': semantic_interpretable / len(interpretations['semantic']) if interpretations['semantic'] else 0.0
+            }
+            
+            self.logger.info(f"  Musical: {musical_interpretable}/{len(interpretations['musical'])} interpretables")
+            self.logger.info(f"  Semántico: {semantic_interpretable}/{len(interpretations['semantic'])} interpretables")
+        
+        return interpretability_results
+    
+    def generate_comprehensive_report(self, interpretability_results: Dict[str, Any]) -> Dict[str, Any]:
+        """Generar reporte científico completo."""
+        self.logger.info("Generando reporte científico completo")
+        
+        # Identificar mejor configuración cross-modal
+        best_cross_modal = max(self.cross_modal_results.items(),
+                              key=lambda x: x[1].nmi_score) if self.cross_modal_results else None
+        
+        # Crear reporte estructurado
+        report = {
+            'metadata': {
+                'timestamp': self.timestamp,
+                'total_configurations_evaluated': len(self.musical_results) + len(self.semantic_results),
+                'dataset_size': len(self.musical_results[0].labels) if self.musical_results else 0
+            },
+            'musical_domain': {
+                'total_configurations': len(self.musical_results),
+                'best_configuration': self._extract_result_summary(self.musical_results[0]) if self.musical_results else None,
+                'top_5_configurations': [self._extract_result_summary(r) for r in self.musical_results[:5]]
+            },
+            'semantic_domain': {
+                'total_configurations': len(self.semantic_results),
+                'best_configuration': self._extract_result_summary(self.semantic_results[0]) if self.semantic_results else None,
+                'top_5_configurations': [self._extract_result_summary(r) for r in self.semantic_results[:5]]
+            },
+            'cross_modal_analysis': {
+                'total_combinations_analyzed': len(self.cross_modal_results),
+                'best_combination': {
+                    'combination_id': best_cross_modal[0],
+                    'nmi_score': best_cross_modal[1].nmi_score,
+                    'strong_correspondences': len(best_cross_modal[1].strong_correspondences),
+                    'correspondence_coverage': best_cross_modal[1].correspondence_coverage
+                } if best_cross_modal else None,
+                'all_combinations': {
+                    combo_id: {
+                        'nmi_score': result.nmi_score,
+                        'adjusted_rand_score': result.adjusted_rand_score,
+                        'strong_correspondences': len(result.strong_correspondences),
+                        'correspondence_coverage': result.correspondence_coverage
+                    } for combo_id, result in self.cross_modal_results.items()
+                }
+            },
+            'interpretability_analysis': interpretability_results,
+            'scientific_conclusions': self._generate_scientific_conclusions()
+        }
+        
+        return report
+    
+    def _extract_result_summary(self, result: ClusteringResult) -> Dict[str, Any]:
+        """Extraer resumen de un resultado de clustering."""
+        return {
+            'algorithm': result.algorithm_name,
+            'parameters': result.algorithm_params,
+            'composite_score': result.composite_score,
+            'silhouette_score': result.silhouette_score,
+            'balance_score': result.balance_score,
+            'interpretability_score': result.interpretability_score,
+            'n_clusters': result.n_clusters,
+            'meets_granularity_criteria': result.meets_granularity_criteria,
+            'execution_time': result.execution_time
+        }
+    
+    def _generate_scientific_conclusions(self) -> Dict[str, Any]:
+        """Generar conclusiones científicas basadas en resultados."""
+        conclusions = {}
+        
+        if self.musical_results and self.semantic_results:
+            # Comparar dominios
+            best_musical_score = self.musical_results[0].composite_score
+            best_semantic_score = self.semantic_results[0].composite_score
+            
+            conclusions['domain_comparison'] = {
+                'musical_best_score': best_musical_score,
+                'semantic_best_score': best_semantic_score,
+                'superior_domain': 'musical' if best_musical_score > best_semantic_score else 'semantic',
+                'score_difference': abs(best_musical_score - best_semantic_score)
+            }
+        
+        if self.cross_modal_results:
+            # Análisis cross-modal
+            nmi_scores = [result.nmi_score for result in self.cross_modal_results.values()]
+            avg_nmi = np.mean(nmi_scores)
+            max_nmi = np.max(nmi_scores)
+            
+            conclusions['cross_modal_coherence'] = {
+                'average_nmi': avg_nmi,
+                'maximum_nmi': max_nmi,
+                'coherence_assessment': 'High' if max_nmi > 0.6 else 'Moderate' if max_nmi > 0.3 else 'Low'
+            }
+        
+        return conclusions
+    
+    def save_all_results(self) -> Dict[str, str]:
+        """Guardar todos los resultados en múltiples formatos."""
+        self.logger.info("Guardando todos los resultados")
+        
+        saved_files = {}
+        
+        # Guardar resultados de dominios individuales
+        if self.musical_results:
+            musical_files = self.musical_evaluator.save_results(
+                self.musical_results, self.output_dir, self.timestamp
+            )
+            saved_files.update({f'musical_{k}': v for k, v in musical_files.items()})
+        
+        if self.semantic_results:
+            semantic_files = self.semantic_evaluator.save_results(
+                self.semantic_results, self.output_dir, self.timestamp
+            )
+            saved_files.update({f'semantic_{k}': v for k, v in semantic_files.items()})
+        
+        # Guardar análisis cross-modal
+        if self.cross_modal_results:
+            cross_modal_path = self.output_dir / f"cross_modal_analysis_{self.timestamp}.json"
+            cross_modal_data = {}
+            
+            for combo_id, result in self.cross_modal_results.items():
+                cross_modal_data[combo_id] = {
+                    'nmi_score': result.nmi_score,
+                    'adjusted_rand_score': result.adjusted_rand_score,
+                    'n_musical_clusters': result.n_musical_clusters,
+                    'n_semantic_clusters': result.n_semantic_clusters,
+                    'strong_correspondences': len(result.strong_correspondences),
+                    'correspondence_coverage': result.correspondence_coverage,
+                    'avg_correspondence_strength': result.avg_correspondence_strength
+                }
+            
+            with open(cross_modal_path, 'w') as f:
+                json.dump(cross_modal_data, f, indent=2)
+            
+            saved_files['cross_modal_analysis'] = str(cross_modal_path)
+        
+        return saved_files
+    
+    def run_complete_experiment(self, dataset_path: str, run_cross_modal: bool = True,
+                              top_n_cross_modal: int = 3) -> Dict[str, Any]:
+        """
+        Ejecutar experimento completo de clustering multimodal.
+        
+        Args:
+            dataset_path: Ruta al dataset unificado
+            run_cross_modal: Si ejecutar análisis cross-modal
+            top_n_cross_modal: Número de configuraciones top para cross-modal
+            
+        Returns:
+            Reporte científico completo
+        """
+        self.logger.info("=== INICIANDO EXPERIMENTO MULTIMODAL COMPLETO ===")
+        experiment_start = time.time()
+        
+        # 1. Cargar dataset
+        X_semantic, X_musical, track_ids = self.load_dataset(dataset_path)
+        
+        # 2. Evaluación exhaustiva por dominios
+        self.run_musical_evaluation(X_musical)
+        self.run_semantic_evaluation(X_semantic)
+        
+        # 3. Análisis cross-modal (opcional)
+        if run_cross_modal:
+            self.run_cross_modal_analysis(X_musical, X_semantic, track_ids, top_n_cross_modal)
+        
+        # 4. Validación de interpretabilidad
+        interpretability_results = self.run_interpretability_validation(X_musical, X_semantic)
+        
+        # 5. Generar reporte científico
+        comprehensive_report = self.generate_comprehensive_report(interpretability_results)
+        
+        # 6. Guardar todos los resultados
+        saved_files = self.save_all_results()
+        
+        # 7. Guardar reporte principal
+        report_path = self.output_dir / f"comprehensive_report_{self.timestamp}.json"
+        with open(report_path, 'w') as f:
+            json.dump(comprehensive_report, f, indent=2, default=str)
+        
+        saved_files['comprehensive_report'] = str(report_path)
+        
+        experiment_elapsed = time.time() - experiment_start
+        self.logger.info(f"=== EXPERIMENTO COMPLETADO EN {experiment_elapsed:.1f}s ===")
+        self.logger.info(f"Resultados guardados en: {self.output_dir}")
+        
+        return comprehensive_report

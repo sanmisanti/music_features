@@ -1,286 +1,190 @@
+#!/usr/bin/env python3
 """
-Configuración Especializada de Algoritmos para Clustering Multimodal
-====================================================================
-
-Implementa configuraciones específicas por dimensionalidad para optimizar
-performance computacional y calidad de clustering en espacios vectoriales
-de diferentes características estructurales.
-
-Autor: Proyecto FASE 3 - Sistema Clustering Multimodal
-Fecha: Agosto 2025
+Configuración algorítmica especializada para clustering multimodal FASE 3.
+Optimizada para espacios vectoriales de diferentes dimensionalidades.
 """
 
-import numpy as np
+from typing import Dict, List, Any
 from sklearn.cluster import AgglomerativeClustering, KMeans, DBSCAN
 from sklearn.mixture import GaussianMixture
-from typing import Dict, List, Any, Tuple
 
-
-class AlgorithmsConfig:
-    """
-    Configuración especializada de algoritmos de clustering por dominio vectorial.
-    
-    Implementa parámetros optimizados para:
-    - Espacio Musical (12D): Configuraciones standard con énfasis en interpretabilidad
-    - Espacio Semántico (384D): Optimizaciones para alta dimensionalidad
-    """
+class AlgorithmConfig:
+    """Configuración de algoritmos especializados por dominio."""
     
     def __init__(self):
-        """Inicializar configuraciones por dominio vectorial."""
-        self.musical_k_range = list(range(5, 11))  # [5, 6, 7, 8, 9, 10]
-        self.semantic_k_range = list(range(5, 9))  # [5, 6, 7, 8]
+        """Inicializar configuraciones optimizadas por dimensionalidad."""
+        self.musical_algorithms = self._get_musical_config()
+        self.semantic_algorithms = self._get_semantic_config()
         
-        # Semillas determinísticas para reproducibilidad
-        self.random_state = 42
-        
-        # Configuraciones especializadas por dominio
-        self._setup_musical_configs()
-        self._setup_semantic_configs()
-    
-    def _setup_musical_configs(self) -> None:
-        """Configurar algoritmos para espacio musical (12D)."""
-        self.musical_algorithms = {
+    def _get_musical_config(self) -> Dict[str, Dict]:
+        """Configuración optimizada para espacio musical 12D."""
+        return {
             'hierarchical_ward': {
-                'class': AgglomerativeClustering,
-                'params': {
+                'algorithm_class': AgglomerativeClustering,
+                'base_params': {
                     'linkage': 'ward',
-                    'n_clusters': None  # Se establecerá dinámicamente
+                    'metric': 'euclidean'
                 },
-                'description': 'Hierarchical Ward - Minimización varianza intra-cluster'
+                'k_range': [5, 6, 7, 8, 9, 10],
+                'description': 'Hierarchical Ward - Óptimo para características normalizadas'
             },
             'hierarchical_complete': {
-                'class': AgglomerativeClustering,
-                'params': {
+                'algorithm_class': AgglomerativeClustering,
+                'base_params': {
                     'linkage': 'complete',
-                    'n_clusters': None,
                     'metric': 'euclidean'
                 },
-                'description': 'Hierarchical Complete - Máxima distancia intra-cluster'
+                'k_range': [5, 6, 7, 8, 9, 10],
+                'description': 'Hierarchical Complete - Clusters compactos'
             },
             'hierarchical_average': {
-                'class': AgglomerativeClustering,
-                'params': {
+                'algorithm_class': AgglomerativeClustering,
+                'base_params': {
                     'linkage': 'average',
-                    'n_clusters': None,
                     'metric': 'euclidean'
                 },
-                'description': 'Hierarchical Average - Distancia promedio intra-cluster'
+                'k_range': [5, 6, 7, 8, 9, 10],
+                'description': 'Hierarchical Average - Balance compactness/separación'
             },
             'kmeans_plus': {
-                'class': KMeans,
-                'params': {
-                    'n_clusters': None,
+                'algorithm_class': KMeans,
+                'base_params': {
                     'init': 'k-means++',
-                    'random_state': self.random_state,
                     'n_init': 20,
-                    'max_iter': 500
+                    'max_iter': 300,
+                    'random_state': 42
                 },
-                'description': 'K-Means++ - Inicialización inteligente centroides'
+                'k_range': [5, 6, 7, 8, 9, 10],
+                'description': 'K-Means++ - Inicialización inteligente'
             },
             'gmm_full': {
-                'class': GaussianMixture,
-                'params': {
-                    'n_components': None,
+                'algorithm_class': GaussianMixture,
+                'base_params': {
                     'covariance_type': 'full',
-                    'random_state': self.random_state,
-                    'n_init': 10,
-                    'max_iter': 200
+                    'n_init': 5,
+                    'max_iter': 200,
+                    'random_state': 42
                 },
-                'description': 'GMM Full Covariance - Modelado gaussiano completo'
+                'k_range': [5, 6, 7, 8, 9, 10],
+                'description': 'GMM Full Covariance - Clusters elípticos'
             },
-            'dbscan': {
-                'class': DBSCAN,
-                'params': {
-                    'eps': 0.5,  # Se optimizará dinámicamente
-                    'min_samples': 20,
-                    'metric': 'euclidean'
+            'dbscan_euclidean': {
+                'algorithm_class': DBSCAN,
+                'base_params': {
+                    'metric': 'euclidean',
+                    'min_samples': 50  # ~0.6% de 7811 canciones
                 },
-                'description': 'DBSCAN - Clustering basado en densidad',
-                'requires_eps_optimization': True
+                'eps_range': [0.5, 0.7, 1.0, 1.2, 1.5],
+                'description': 'DBSCAN Euclidiano - Clusters basados en densidad'
             }
         }
     
-    def _setup_semantic_configs(self) -> None:
-        """Configurar algoritmos para espacio semántico (384D)."""
-        self.semantic_algorithms = {
+    def _get_semantic_config(self) -> Dict[str, Dict]:
+        """Configuración especializada para espacio semántico 384D."""
+        return {
             'hierarchical_ward': {
-                'class': AgglomerativeClustering,
-                'params': {
+                'algorithm_class': AgglomerativeClustering,
+                'base_params': {
                     'linkage': 'ward',
-                    'n_clusters': None
+                    'metric': 'euclidean'  # Ward requiere euclidean
                 },
-                'description': 'Hierarchical Ward - Optimizado alta dimensionalidad'
+                'k_range': [5, 6, 7, 8],
+                'description': 'Hierarchical Ward - Adaptado para alta dimensionalidad'
             },
             'hierarchical_average': {
-                'class': AgglomerativeClustering,
-                'params': {
+                'algorithm_class': AgglomerativeClustering,
+                'base_params': {
                     'linkage': 'average',
-                    'n_clusters': None,
-                    'metric': 'cosine'  # Métrica coseno para embeddings
-                },
-                'description': 'Hierarchical Average - Métrica coseno semántica'
-            },
-            'kmeans_plus': {
-                'class': KMeans,
-                'params': {
-                    'n_clusters': None,
-                    'init': 'k-means++',
-                    'random_state': self.random_state,
-                    'n_init': 15,  # Reducido para alta dimensionalidad
-                    'max_iter': 300
-                },
-                'description': 'K-Means++ - Optimizado espacios semánticos'
-            },
-            'gmm_tied': {
-                'class': GaussianMixture,
-                'params': {
-                    'n_components': None,
-                    'covariance_type': 'tied',  # Tied para estabilidad 384D
-                    'random_state': self.random_state,
-                    'n_init': 5,  # Reducido por complejidad computacional
-                    'max_iter': 150
-                },
-                'description': 'GMM Tied Covariance - Estabilidad alta dimensionalidad'
-            },
-            'dbscan_cosine': {
-                'class': DBSCAN,
-                'params': {
-                    'eps': 0.3,  # Eps menor para coseno
-                    'min_samples': 15,
                     'metric': 'cosine'
                 },
-                'description': 'DBSCAN Cosine - Optimizado embeddings BERT',
-                'requires_eps_optimization': True
+                'k_range': [5, 6, 7, 8],
+                'description': 'Hierarchical Average Cosine - Óptimo para embeddings'
+            },
+            'kmeans_plus': {
+                'algorithm_class': KMeans,
+                'base_params': {
+                    'init': 'k-means++',
+                    'n_init': 10,  # Reducido para 384D
+                    'max_iter': 200,  # Reducido por estabilidad
+                    'random_state': 42
+                },
+                'k_range': [5, 6, 7, 8],
+                'description': 'K-Means++ Optimized - Estabilidad numérica 384D'
+            },
+            'gmm_tied': {
+                'algorithm_class': GaussianMixture,
+                'base_params': {
+                    'covariance_type': 'tied',  # Compartida para alta dim
+                    'n_init': 3,  # Reducido por complejidad
+                    'max_iter': 100,
+                    'random_state': 42
+                },
+                'k_range': [5, 6, 7, 8],
+                'description': 'GMM Tied Covariance - Eficiente para 384D'
+            },
+            'dbscan_cosine': {
+                'algorithm_class': DBSCAN,
+                'base_params': {
+                    'metric': 'cosine',
+                    'min_samples': 30  # Ajustado para alta dimensionalidad
+                },
+                'eps_range': [0.1, 0.15, 0.2, 0.25, 0.3],
+                'description': 'DBSCAN Cosine - Especializado para embeddings BERT'
             }
         }
     
-    def get_algorithm_configs(self, domain: str) -> Dict[str, Dict[str, Any]]:
+    def get_algorithm_instance(self, domain: str, algorithm_name: str, 
+                             k: int = None, eps: float = None) -> Any:
         """
-        Obtener configuraciones de algoritmos para dominio específico.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            
-        Returns:
-            Dict con configuraciones de algoritmos
-            
-        Raises:
-            ValueError: Si el dominio no es válido
-        """
-        if domain == 'musical':
-            return self.musical_algorithms.copy()
-        elif domain == 'semantic':
-            return self.semantic_algorithms.copy()
-        else:
-            raise ValueError(f"Dominio inválido: {domain}. Usar 'musical' o 'semantic'.")
-    
-    def get_k_range(self, domain: str) -> List[int]:
-        """
-        Obtener rango de valores K para dominio específico.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            
-        Returns:
-            Lista de valores K a evaluar
-        """
-        if domain == 'musical':
-            return self.musical_k_range.copy()
-        elif domain == 'semantic':
-            return self.semantic_k_range.copy()
-        else:
-            raise ValueError(f"Dominio inválido: {domain}. Usar 'musical' o 'semantic'.")
-    
-    def create_algorithm_instance(self, domain: str, algorithm_name: str, k: int) -> Any:
-        """
-        Crear instancia configurada de algoritmo específico.
+        Crear instancia de algoritmo configurada.
         
         Args:
             domain: 'musical' o 'semantic'
             algorithm_name: Nombre del algoritmo
-            k: Número de clusters
+            k: Número de clusters (si aplica)
+            eps: Parámetro epsilon para DBSCAN (si aplica)
             
         Returns:
             Instancia configurada del algoritmo
         """
-        configs = self.get_algorithm_configs(domain)
+        config_dict = self.musical_algorithms if domain == 'musical' else self.semantic_algorithms
         
-        if algorithm_name not in configs:
+        if algorithm_name not in config_dict:
             raise ValueError(f"Algoritmo {algorithm_name} no disponible para dominio {domain}")
         
-        config = configs[algorithm_name]
-        params = config['params'].copy()
+        algorithm_config = config_dict[algorithm_name]
+        algorithm_class = algorithm_config['algorithm_class']
+        base_params = algorithm_config['base_params'].copy()
         
-        # Establecer parámetro K según tipo de algoritmo
-        if 'n_clusters' in params:
-            params['n_clusters'] = k
-        elif 'n_components' in params:
-            params['n_components'] = k
-        
-        # DBSCAN no usa K, requiere optimización eps
+        # Configurar parámetros específicos
         if algorithm_name.startswith('dbscan'):
-            # DBSCAN se manejará con optimización eps especializada
-            pass
-        
-        return config['class'](**params)
-    
-    def get_eps_optimization_range(self, domain: str) -> np.ndarray:
-        """
-        Obtener rango de valores eps para optimización DBSCAN.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            
-        Returns:
-            Array numpy con valores eps a evaluar
-        """
-        if domain == 'musical':
-            # Rango eps para espacio euclidiano 12D
-            return np.arange(0.3, 1.5, 0.1)
-        elif domain == 'semantic':
-            # Rango eps para espacio coseno 384D
-            return np.arange(0.1, 0.6, 0.05)
+            if eps is not None:
+                base_params['eps'] = eps
         else:
-            raise ValueError(f"Dominio inválido: {domain}")
+            if k is not None:
+                if algorithm_name.startswith('gmm'):
+                    base_params['n_components'] = k
+                else:
+                    base_params['n_clusters'] = k
+        
+        return algorithm_class(**base_params)
     
-    def get_experiment_matrix_size(self) -> Tuple[int, int, int]:
-        """
-        Calcular tamaño de matriz experimental total.
-        
-        Returns:
-            Tuple (experimentos_musical, experimentos_semantic, total)
-        """
-        # Algoritmos que usan K (excluyendo DBSCAN)
-        musical_k_algorithms = len([alg for alg in self.musical_algorithms.keys() 
-                                   if not alg.startswith('dbscan')])
-        semantic_k_algorithms = len([alg for alg in self.semantic_algorithms.keys() 
-                                    if not alg.startswith('dbscan')])
-        
-        # Experimentos con K
-        musical_k_experiments = musical_k_algorithms * len(self.musical_k_range)
-        semantic_k_experiments = semantic_k_algorithms * len(self.semantic_k_range)
-        
-        # Experimentos DBSCAN (1 por dominio, eps se optimiza internamente)
-        dbscan_experiments = 2  # 1 musical + 1 semántico
-        
-        total_experiments = musical_k_experiments + semantic_k_experiments + dbscan_experiments
-        
-        return (musical_k_experiments, semantic_k_experiments, total_experiments)
+    def get_algorithm_configs(self, domain: str) -> Dict[str, Dict]:
+        """Obtener todas las configuraciones para un dominio."""
+        return self.musical_algorithms if domain == 'musical' else self.semantic_algorithms
     
-    def get_algorithm_description(self, domain: str, algorithm_name: str) -> str:
-        """
-        Obtener descripción técnica de algoritmo específico.
+    def get_total_configurations(self) -> int:
+        """Calcular número total de configuraciones a evaluar."""
+        total = 0
         
-        Args:
-            domain: 'musical' o 'semantic'
-            algorithm_name: Nombre del algoritmo
-            
-        Returns:
-            Descripción técnica del algoritmo
-        """
-        configs = self.get_algorithm_configs(domain)
-        return configs.get(algorithm_name, {}).get('description', 'Descripción no disponible')
-
+        for domain_config in [self.musical_algorithms, self.semantic_algorithms]:
+            for algorithm_name, config in domain_config.items():
+                if 'k_range' in config:
+                    total += len(config['k_range'])
+                elif 'eps_range' in config:
+                    total += len(config['eps_range'])
+        
+        return total
 
 # Instancia global de configuración
-algorithms_config = AlgorithmsConfig()
+algorithm_config = AlgorithmConfig()

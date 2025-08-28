@@ -1,0 +1,83 @@
+{
+  "M1_S1": {
+    "nmi_score": 0.053791796733486184,
+    "adjusted_rand_score": 0.028310648312730877,
+    "n_musical_clusters": 10,
+    "n_semantic_clusters": 6,
+    "strong_correspondences": 5,
+    "correspondence_coverage": 0.16271924209448213,
+    "avg_correspondence_strength": 0.1896989876868661
+  },
+  "M1_S2": {
+    "nmi_score": 0.055340194437777115,
+    "adjusted_rand_score": 0.028609773955387326,
+    "n_musical_clusters": 10,
+    "n_semantic_clusters": 8,
+    "strong_correspondences": 4,
+    "correspondence_coverage": 0.0958904109589041,
+    "avg_correspondence_strength": 0.1731680651441992
+  },
+  "M1_S3": {
+    "nmi_score": 0.05485305249747194,
+    "adjusted_rand_score": 0.026643964633110785,
+    "n_musical_clusters": 10,
+    "n_semantic_clusters": 5,
+    "strong_correspondences": 8,
+    "correspondence_coverage": 0.30060171552938164,
+    "avg_correspondence_strength": 0.20707839620852395
+  },
+  "M2_S1": {
+    "nmi_score": 0.055349357060534995,
+    "adjusted_rand_score": 0.03021652416855579,
+    "n_musical_clusters": 9,
+    "n_semantic_clusters": 6,
+    "strong_correspondences": 5,
+    "correspondence_coverage": 0.1736013314556395,
+    "avg_correspondence_strength": 0.19190546317737703
+  },
+  "M2_S2": {
+    "nmi_score": 0.05665234964217979,
+    "adjusted_rand_score": 0.029709503812840727,
+    "n_musical_clusters": 9,
+    "n_semantic_clusters": 8,
+    "strong_correspondences": 4,
+    "correspondence_coverage": 0.09550633721674562,
+    "avg_correspondence_strength": 0.17586799231309005
+  },
+  "M2_S3": {
+    "nmi_score": 0.05641594526000334,
+    "adjusted_rand_score": 0.028946269521789334,
+    "n_musical_clusters": 9,
+    "n_semantic_clusters": 5,
+    "strong_correspondences": 8,
+    "correspondence_coverage": 0.32671872999615925,
+    "avg_correspondence_strength": 0.20971287729168508
+  },
+  "M3_S1": {
+    "nmi_score": 0.05329606981443074,
+    "adjusted_rand_score": 0.02943493330887569,
+    "n_musical_clusters": 8,
+    "n_semantic_clusters": 6,
+    "strong_correspondences": 5,
+    "correspondence_coverage": 0.17616182307002945,
+    "avg_correspondence_strength": 0.19486531866966458
+  },
+  "M3_S2": {
+    "nmi_score": 0.05496884788267475,
+    "adjusted_rand_score": 0.028972400436026887,
+    "n_musical_clusters": 8,
+    "n_semantic_clusters": 8,
+    "strong_correspondences": 4,
+    "correspondence_coverage": 0.10101139418768404,
+    "avg_correspondence_strength": 0.18024084123366405
+  },
+  "M3_S3": {
+    "nmi_score": 0.05433879110203946,
+    "adjusted_rand_score": 0.028253018893793436,
+    "n_musical_clusters": 8,
+    "n_semantic_clusters": 5,
+    "strong_correspondences": 7,
+    "correspondence_coverage": 0.3044424529509666,
+    "avg_correspondence_strength": 0.21287774580903793
+  }
+}

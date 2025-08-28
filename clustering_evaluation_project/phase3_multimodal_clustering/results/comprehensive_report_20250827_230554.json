@@ -1,0 +1,443 @@
+{
+  "metadata": {
+    "timestamp": "20250827_230554",
+    "total_configurations_evaluated": 56,
+    "dataset_size": 7811
+  },
+  "musical_domain": {
+    "total_configurations": 35,
+    "best_configuration": {
+      "algorithm": "kmeans_plus",
+      "parameters": {
+        "algorithm": "kmeans_plus",
+        "k": 10,
+        "eps": null,
+        "n_samples": 7811,
+        "n_features": 12
+      },
+      "composite_score": 0.5546137864451541,
+      "silhouette_score": 0.0965187404296657,
+      "balance_score": 0.7546870968109431,
+      "interpretability_score": 0.31864923168710707,
+      "n_clusters": 10,
+      "meets_granularity_criteria": true,
+      "execution_time": 0.4958021640777588
+    },
+    "top_5_configurations": [
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 10,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        },
+        "composite_score": 0.5546137864451541,
+        "silhouette_score": 0.0965187404296657,
+        "balance_score": 0.7546870968109431,
+        "interpretability_score": 0.31864923168710707,
+        "n_clusters": 10,
+        "meets_granularity_criteria": true,
+        "execution_time": 0.4958021640777588
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 9,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        },
+        "composite_score": 0.5474261408893861,
+        "silhouette_score": 0.10278764153686046,
+        "balance_score": 0.7310938231676167,
+        "interpretability_score": 0.3133992385428599,
+        "n_clusters": 9,
+        "meets_granularity_criteria": true,
+        "execution_time": 0.45518016815185547
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 8,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        },
+        "composite_score": 0.5262542781902817,
+        "silhouette_score": 0.10630237880356758,
+        "balance_score": 0.670748280930247,
+        "interpretability_score": 0.2954221854533627,
+        "n_clusters": 8,
+        "meets_granularity_criteria": true,
+        "execution_time": 0.3846566677093506
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 6,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        },
+        "composite_score": 0.5204660591734972,
+        "silhouette_score": 0.10706768396410792,
+        "balance_score": 0.6529057169927918,
+        "interpretability_score": 0.2926709574052174,
+        "n_clusters": 6,
+        "meets_granularity_criteria": true,
+        "execution_time": 0.35444068908691406
+      },
+      {
+        "algorithm": "hierarchical_ward",
+        "parameters": {
+          "algorithm": "hierarchical_ward",
+          "k": 10,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        },
+        "composite_score": 0.5159276630177451,
+        "silhouette_score": 0.043412940600162576,
+        "balance_score": 0.6494667107623817,
+        "interpretability_score": 0.32287854349503065,
+        "n_clusters": 10,
+        "meets_granularity_criteria": true,
+        "execution_time": 2.348665475845337
+      }
+    ]
+  },
+  "semantic_domain": {
+    "total_configurations": 21,
+    "best_configuration": {
+      "algorithm": "kmeans_plus",
+      "parameters": {
+        "algorithm": "kmeans_plus",
+        "k": 6,
+        "eps": null,
+        "n_samples": 7811,
+        "n_features": 384
+      },
+      "composite_score": 0.5614620437077431,
+      "silhouette_score": 0.03292602586494366,
+      "balance_score": 0.5361543643864908,
+      "interpretability_score": 0.728384152560272,
+      "n_clusters": 6,
+      "meets_granularity_criteria": true,
+      "execution_time": 2.828493118286133
+    },
+    "top_5_configurations": [
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 6,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        },
+        "composite_score": 0.5614620437077431,
+        "silhouette_score": 0.03292602586494366,
+        "balance_score": 0.5361543643864908,
+        "interpretability_score": 0.728384152560272,
+        "n_clusters": 6,
+        "meets_granularity_criteria": true,
+        "execution_time": 2.828493118286133
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 8,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        },
+        "composite_score": 0.5570467583575633,
+        "silhouette_score": 0.027900956662536218,
+        "balance_score": 0.5307332209828532,
+        "interpretability_score": 0.7182082428166349,
+        "n_clusters": 8,
+        "meets_granularity_criteria": true,
+        "execution_time": 2.860868453979492
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 5,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        },
+        "composite_score": 0.5367949801657926,
+        "silhouette_score": 0.041650847544733964,
+        "balance_score": 0.45703125602867456,
+        "interpretability_score": 0.7171898811274008,
+        "n_clusters": 5,
+        "meets_granularity_criteria": true,
+        "execution_time": 1.886949062347412
+      },
+      {
+        "algorithm": "kmeans_plus",
+        "parameters": {
+          "algorithm": "kmeans_plus",
+          "k": 7,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        },
+        "composite_score": 0.5277108120991155,
+        "silhouette_score": 0.031763015774806294,
+        "balance_score": 0.4364537403397202,
+        "interpretability_score": 0.7100511881548923,
+        "n_clusters": 7,
+        "meets_granularity_criteria": true,
+        "execution_time": 2.777222156524658
+      },
+      {
+        "algorithm": "hierarchical_ward",
+        "parameters": {
+          "algorithm": "hierarchical_ward",
+          "k": 7,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        },
+        "composite_score": 0.5197323035669779,
+        "silhouette_score": 0.014844721808285721,
+        "balance_score": 0.42079537489409424,
+        "interpretability_score": 0.7063349141375336,
+        "n_clusters": 7,
+        "meets_granularity_criteria": true,
+        "execution_time": 12.180679321289062
+      }
+    ]
+  },
+  "cross_modal_analysis": {
+    "total_combinations_analyzed": 9,
+    "best_combination": {
+      "combination_id": "M2_S2",
+      "nmi_score": 0.05665234964217979,
+      "strong_correspondences": 4,
+      "correspondence_coverage": 0.09550633721674562
+    },
+    "all_combinations": {
+      "M1_S1": {
+        "nmi_score": 0.053791796733486184,
+        "adjusted_rand_score": 0.028310648312730877,
+        "strong_correspondences": 5,
+        "correspondence_coverage": 0.16271924209448213
+      },
+      "M1_S2": {
+        "nmi_score": 0.055340194437777115,
+        "adjusted_rand_score": 0.028609773955387326,
+        "strong_correspondences": 4,
+        "correspondence_coverage": 0.0958904109589041
+      },
+      "M1_S3": {
+        "nmi_score": 0.05485305249747194,
+        "adjusted_rand_score": 0.026643964633110785,
+        "strong_correspondences": 8,
+        "correspondence_coverage": 0.30060171552938164
+      },
+      "M2_S1": {
+        "nmi_score": 0.055349357060534995,
+        "adjusted_rand_score": 0.03021652416855579,
+        "strong_correspondences": 5,
+        "correspondence_coverage": 0.1736013314556395
+      },
+      "M2_S2": {
+        "nmi_score": 0.05665234964217979,
+        "adjusted_rand_score": 0.029709503812840727,
+        "strong_correspondences": 4,
+        "correspondence_coverage": 0.09550633721674562
+      },
+      "M2_S3": {
+        "nmi_score": 0.05641594526000334,
+        "adjusted_rand_score": 0.028946269521789334,
+        "strong_correspondences": 8,
+        "correspondence_coverage": 0.32671872999615925
+      },
+      "M3_S1": {
+        "nmi_score": 0.05329606981443074,
+        "adjusted_rand_score": 0.02943493330887569,
+        "strong_correspondences": 5,
+        "correspondence_coverage": 0.17616182307002945
+      },
+      "M3_S2": {
+        "nmi_score": 0.05496884788267475,
+        "adjusted_rand_score": 0.028972400436026887,
+        "strong_correspondences": 4,
+        "correspondence_coverage": 0.10101139418768404
+      },
+      "M3_S3": {
+        "nmi_score": 0.05433879110203946,
+        "adjusted_rand_score": 0.028253018893793436,
+        "strong_correspondences": 7,
+        "correspondence_coverage": 0.3044424529509666
+      }
+    }
+  },
+  "interpretability_analysis": {
+    "config_1": {
+      "musical_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 10,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        }
+      },
+      "semantic_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 6,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        }
+      },
+      "interpretations": {
+        "musical": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=797, domain='musical', automatic_label='Hablado & Vocal', confidence_score=0.539366297914077, dominant_features={'danceability': 0.5995391348704753, 'energy': -0.23594255543266848, 'key': 0.037769631781804355, 'loudness': -0.03605681689806069, 'mode': -0.13813539476023307, 'speechiness': 2.329390302604365, 'acousticness': 0.060427041602311056, 'instrumentalness': -0.36612428488587184, 'liveness': 0.04015350619617051, 'valence': 0.05951196630734613, 'tempo': -0.156501514392113, 'duration_ms': -0.24730830719747438}, feature_consistency={'danceability': 0.40593235197028293, 'energy': 0.23370721790411952, 'key': 0.035449575270581554, 'loudness': 0.04267773471445136, 'mode': 0.1195124623212023, 'speechiness': 0.7273315696728261, 'acousticness': 0.06696371664632657, 'instrumentalness': 0.6570601061652853, 'liveness': 0.04431921883996587, 'valence': 0.06729107570439367, 'tempo': 0.11693528401426555, 'duration_ms': 0.20623698425213224}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.5995391348704753, 'energy': -0.23594255543266848, 'key': 0.037769631781804355, 'loudness': -0.03605681689806069, 'mode': -0.13813539476023307, 'speechiness': 2.329390302604365, 'acousticness': 0.060427041602311056, 'instrumentalness': -0.36612428488587184, 'liveness': 0.04015350619617051, 'valence': 0.05951196630734613, 'tempo': -0.156501514392113, 'duration_ms': -0.24730830719747438}, 'std_values': {'danceability': 0.8774043312511226, 'energy': 0.7736221367716404, 'key': 1.0276770369009425, 'loudness': 0.8088056678388226, 'mode': 1.0176887943274993, 'speechiness': 0.8732622423407915, 'acousticness': 0.8419577829253392, 'instrumentalness': 0.19109153370480403, 'liveness': 0.8658531280076176, 'valence': 0.8248841557289563, 'tempo': 1.1818585520299862, 'duration_ms': 0.9518379476493636}, 'consistency_scores': {'danceability': 0.40593235197028293, 'energy': 0.23370721790411952, 'key': 0.035449575270581554, 'loudness': 0.04267773471445136, 'mode': 0.1195124623212023, 'speechiness': 0.7273315696728261, 'acousticness': 0.06696371664632657, 'instrumentalness': 0.6570601061652853, 'liveness': 0.04431921883996587, 'valence': 0.06729107570439367, 'tempo': 0.11693528401426555, 'duration_ms': 0.20623698425213224}})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=620, domain='musical', automatic_label='Canci\u00f3n Corta & Fuerte', confidence_score=0.5193341140567705, dominant_features={'danceability': 0.18424596690847606, 'energy': -0.33204627159639766, 'key': -0.007968253882216033, 'loudness': -0.95443917064831, 'mode': 0.10100742234528358, 'speechiness': -0.37378944386477897, 'acousticness': -0.2541852793319042, 'instrumentalness': -0.08284101038060675, 'liveness': -0.35965105265832126, 'valence': 0.41889253116548625, 'tempo': -0.09559116308454585, 'duration_ms': 1.6427421054582143}, feature_consistency={'danceability': 0.16869128714671425, 'energy': 0.2994244459368612, 'key': 0.007891122196512085, 'loudness': 0.5133345994982571, 'mode': 0.09391171962268466, 'speechiness': 0.4195410588952252, 'acousticness': 0.2791563837283868, 'instrumentalness': 0.12256288310011348, 'liveness': 0.3780708970260307, 'valence': 0.31811902663668273, 'tempo': 0.10820290157108414, 'duration_ms': 0.6251266837768292}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.18424596690847606, 'energy': -0.33204627159639766, 'key': -0.007968253882216033, 'loudness': -0.95443917064831, 'mode': 0.10100742234528358, 'speechiness': -0.37378944386477897, 'acousticness': -0.2541852793319042, 'instrumentalness': -0.08284101038060675, 'liveness': -0.35965105265832126, 'valence': 0.41889253116548625, 'tempo': -0.09559116308454585, 'duration_ms': 1.6427421054582143}, 'std_values': {'danceability': 0.9079619953875521, 'energy': 0.7769021665564207, 'key': 1.0018062475123928, 'loudness': 0.9048533290777233, 'mode': 0.9745497375248223, 'speechiness': 0.5171589770290478, 'acousticness': 0.65636269384755, 'instrumentalness': 0.5930651724127853, 'liveness': 0.5916283384548005, 'valence': 0.89788671232215, 'tempo': 0.7878524579807056, 'duration_ms': 0.9851126128378328}, 'consistency_scores': {'danceability': 0.16869128714671425, 'energy': 0.2994244459368612, 'key': 0.007891122196512085, 'loudness': 0.5133345994982571, 'mode': 0.09391171962268466, 'speechiness': 0.4195410588952252, 'acousticness': 0.2791563837283868, 'instrumentalness': 0.12256288310011348, 'liveness': 0.3780708970260307, 'valence': 0.31811902663668273, 'tempo': 0.10820290157108414, 'duration_ms': 0.6251266837768292}})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=920, domain='musical', automatic_label='Poco Bailable & Electr\u00f3nico', confidence_score=0.36227423873732106, dominant_features={'danceability': -0.9449125236999787, 'energy': 0.6402742758918462, 'key': -0.08330731857832141, 'loudness': 0.5777093677238098, 'mode': 0.8212086875254634, 'speechiness': -0.26784560139303804, 'acousticness': -0.5276057625533377, 'instrumentalness': -0.22061859345091117, 'liveness': -0.15964165021535726, 'valence': -0.4395894718320269, 'tempo': 0.9023919693900382, 'duration_ms': 0.014125041368382796}, feature_consistency={'danceability': 0.5541784421725392, 'energy': 0.4769741576892545, 'key': 0.07923759185796422, 'loudness': 0.47844023253995077, 'mode': 0.9999999999999885, 'speechiness': 0.32212849580990877, 'acousticness': 0.532644274039424, 'instrumentalness': 0.347953365110846, 'liveness': 0.20137148753518636, 'valence': 0.3494411871895448, 'tempo': 0.4822054877665577, 'duration_ms': 0.01646848386360713}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.9449125236999787, 'energy': 0.6402742758918462, 'key': -0.08330731857832141, 'loudness': 0.5777093677238098, 'mode': 0.8212086875254634, 'speechiness': -0.26784560139303804, 'acousticness': -0.5276057625533377, 'instrumentalness': -0.22061859345091117, 'liveness': -0.15964165021535726, 'valence': -0.4395894718320269, 'tempo': 0.9023919693900382, 'duration_ms': 0.014125041368382796}, 'std_values': {'danceability': 0.7601565512359417, 'energy': 0.7020925287292192, 'key': 0.9680537427185506, 'loudness': 0.6297755561694287, 'mode': 9.547918011776346e-15, 'speechiness': 0.563641227449585, 'acousticness': 0.4629348070445666, 'instrumentalness': 0.41342784965744706, 'liveness': 0.633130217586063, 'valence': 0.8183889463177476, 'tempo': 0.9689927251754412, 'duration_ms': 0.8435763465505235}, 'consistency_scores': {'danceability': 0.5541784421725392, 'energy': 0.4769741576892545, 'key': 0.07923759185796422, 'loudness': 0.47844023253995077, 'mode': 0.9999999999999885, 'speechiness': 0.32212849580990877, 'acousticness': 0.532644274039424, 'instrumentalness': 0.347953365110846, 'liveness': 0.20137148753518636, 'valence': 0.3494411871895448, 'tempo': 0.4822054877665577, 'duration_ms': 0.01646848386360713}})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=1134, domain='musical', automatic_label='Vocal & Fuerte', confidence_score=0.2751465121656642, dominant_features={'danceability': 0.6229764458563906, 'energy': 0.44092027366045355, 'key': -0.2643253949744389, 'loudness': 0.4351224213735189, 'mode': 0.8212086875254566, 'speechiness': -0.18606391275540485, 'acousticness': -0.2601005659674597, 'instrumentalness': -0.2759197602861883, 'liveness': -0.21635756417066343, 'valence': 0.7804805396434068, 'tempo': -0.20386916649795514, 'duration_ms': -0.35683724112663556}, feature_consistency={'danceability': 0.48193393214188274, 'energy': 0.3983800082125867, 'key': 0.21190882938928987, 'loudness': 0.39148712553007525, 'mode': 0.99999999999998, 'speechiness': 0.24334083704320789, 'acousticness': 0.28961563968971993, 'instrumentalness': 0.43395241096691745, 'liveness': 0.25121695966989116, 'valence': 0.5167727909764249, 'tempo': 0.21602938553379814, 'duration_ms': 0.3259880725340407}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.6229764458563906, 'energy': 0.44092027366045355, 'key': -0.2643253949744389, 'loudness': 0.4351224213735189, 'mode': 0.8212086875254566, 'speechiness': -0.18606391275540485, 'acousticness': -0.2601005659674597, 'instrumentalness': -0.2759197602861883, 'liveness': -0.21635756417066343, 'valence': 0.7804805396434068, 'tempo': -0.20386916649795514, 'duration_ms': -0.35683724112663556}, 'std_values': {'danceability': 0.669682992211131, 'energy': 0.6658628596069373, 'key': 0.9830289310110332, 'loudness': 0.6763379385175315, 'mode': 1.63202784619898e-14, 'speechiness': 0.5785587255649897, 'acousticness': 0.6379882469058961, 'instrumentalness': 0.359909776247549, 'liveness': 0.64488032569889, 'valence': 0.7298167386189368, 'tempo': 0.7398411813910665, 'duration_ms': 0.7377955729520902}, 'consistency_scores': {'danceability': 0.48193393214188274, 'energy': 0.3983800082125867, 'key': 0.21190882938928987, 'loudness': 0.39148712553007525, 'mode': 0.99999999999998, 'speechiness': 0.24334083704320789, 'acousticness': 0.28961563968971993, 'instrumentalness': 0.43395241096691745, 'liveness': 0.25121695966989116, 'valence': 0.5167727909764249, 'tempo': 0.21602938553379814, 'duration_ms': 0.3259880725340407}})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=1008, domain='musical', automatic_label='Vocal & Estudio', confidence_score=0.22550385460068645, dominant_features={'danceability': 0.7457812905607364, 'energy': 0.19083209402517737, 'key': 0.31493765274873053, 'loudness': 0.24969561408304658, 'mode': -1.217717268692444, 'speechiness': -0.10958177437480525, 'acousticness': -0.10698692563845967, 'instrumentalness': -0.2412703900829794, 'liveness': -0.28800353847921784, 'valence': 0.7664356908995744, 'tempo': -0.26177983004804567, 'duration_ms': -0.2830865901525603}, feature_consistency={'danceability': 0.5581924945572723, 'energy': 0.20820762931043454, 'key': 0.24690403937534858, 'loudness': 0.2510220612695558, 'mode': 0.9999999999999745, 'speechiness': 0.14898103206588237, 'acousticness': 0.12455890703747445, 'instrumentalness': 0.3580920848324701, 'liveness': 0.31841947896958916, 'valence': 0.508659547222421, 'tempo': 0.25601702926001235, 'duration_ms': 0.284437472484461}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.7457812905607364, 'energy': 0.19083209402517737, 'key': 0.31493765274873053, 'loudness': 0.24969561408304658, 'mode': -1.217717268692444, 'speechiness': -0.10958177437480525, 'acousticness': -0.10698692563845967, 'instrumentalness': -0.2412703900829794, 'liveness': -0.28800353847921784, 'valence': 0.7664356908995744, 'tempo': -0.26177983004804567, 'duration_ms': -0.2830865901525603}, 'std_values': {'danceability': 0.5902834144948736, 'energy': 0.7257149832187056, 'key': 0.960609128992112, 'loudness': 0.7450202005154679, 'mode': 3.108624468950438e-14, 'speechiness': 0.6259600119879574, 'acousticness': 0.7519394110691672, 'instrumentalness': 0.43249594088757576, 'liveness': 0.6164748542351984, 'valence': 0.740339705598724, 'tempo': 0.7607296134803334, 'duration_ms': 0.7121640979914984}, 'consistency_scores': {'danceability': 0.5581924945572723, 'energy': 0.20820762931043454, 'key': 0.24690403937534858, 'loudness': 0.2510220612695558, 'mode': 0.9999999999999745, 'speechiness': 0.14898103206588237, 'acousticness': 0.12455890703747445, 'instrumentalness': 0.3580920848324701, 'liveness': 0.31841947896958916, 'valence': 0.508659547222421, 'tempo': 0.25601702926001235, 'duration_ms': 0.284437472484461}})",
+          "ClusterInterpretation(cluster_id=5, cluster_size=857, domain='musical', automatic_label='Baja Energ\u00eda & Melanc\u00f3lico/Triste', confidence_score=0.4993873409969091, dominant_features={'danceability': -0.05986486953402692, 'energy': -0.7853529866250158, 'key': -0.13556909877195414, 'loudness': -0.36080994603381794, 'mode': 0.45006230576353023, 'speechiness': -0.384457088036177, 'acousticness': 0.42971949345273447, 'instrumentalness': -0.2806239251525221, 'liveness': -0.28169138581980985, 'valence': -0.6519143479207018, 'tempo': -0.6503911937171877, 'duration_ms': -0.2277730863698162}, feature_consistency={'danceability': 0.06651835215443523, 'energy': 0.5614846852093343, 'key': 0.12193876195662344, 'loudness': 0.34021879597085813, 'mode': 0.36388616359538145, 'speechiness': 0.4544509990864405, 'acousticness': 0.32248518578691293, 'instrumentalness': 0.4473444136112173, 'liveness': 0.32412370145121416, 'valence': 0.4718915910693099, 'tempo': 0.4647857467120834, 'duration_ms': 0.23114712603189766}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.05986486953402692, 'energy': -0.7853529866250158, 'key': -0.13556909877195414, 'loudness': -0.36080994603381794, 'mode': 0.45006230576353023, 'speechiness': -0.384457088036177, 'acousticness': 0.42971949345273447, 'instrumentalness': -0.2806239251525221, 'liveness': -0.28169138581980985, 'valence': -0.6519143479207018, 'tempo': -0.6503911937171877, 'duration_ms': -0.2277730863698162}, 'std_values': {'danceability': 0.8401103656971045, 'energy': 0.6133547739901646, 'key': 0.9762110823978816, 'loudness': 0.6997133124480611, 'mode': 0.786759400729225, 'speechiness': 0.46152430239664477, 'acousticness': 0.9028052625973922, 'instrumentalness': 0.34668674794258264, 'liveness': 0.5873946594961221, 'valence': 0.729577419068131, 'tempo': 0.7489443030608602, 'duration_ms': 0.7576299785822846}, 'consistency_scores': {'danceability': 0.06651835215443523, 'energy': 0.5614846852093343, 'key': 0.12193876195662344, 'loudness': 0.34021879597085813, 'mode': 0.36388616359538145, 'speechiness': 0.4544509990864405, 'acousticness': 0.32248518578691293, 'instrumentalness': 0.4473444136112173, 'liveness': 0.32412370145121416, 'valence': 0.4718915910693099, 'tempo': 0.4647857467120834, 'duration_ms': 0.23114712603189766}})",
+          "ClusterInterpretation(cluster_id=6, cluster_size=536, domain='musical', automatic_label='Instrumental & Musical', confidence_score=0.5339338338435491, dominant_features={'danceability': -0.12432931170827877, 'energy': 0.33545737113152524, 'key': 0.08154429974864026, 'loudness': -0.05102112598991051, 'mode': 0.04519955493508348, 'speechiness': -0.4313517890695467, 'acousticness': -0.32323663852452406, 'instrumentalness': 3.2161761456771307, 'liveness': -0.21444093729167332, 'valence': -0.21340836058462312, 'tempo': 0.07140423417059805, 'duration_ms': 0.20050124441161768}, feature_consistency={'danceability': 0.11790414729871279, 'energy': 0.2649881605229763, 'key': 0.07532241868101681, 'loudness': 0.05589282275142125, 'mode': 0.04366403414727299, 'speechiness': 0.5146835083190144, 'acousticness': 0.28736279057292824, 'instrumentalness': 0.7997552026387046, 'liveness': 0.21705634876419083, 'valence': 0.16308019432651516, 'tempo': 0.08437433261494205, 'duration_ms': 0.15716513529294268}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.12432931170827877, 'energy': 0.33545737113152524, 'key': 0.08154429974864026, 'loudness': -0.05102112598991051, 'mode': 0.04519955493508348, 'speechiness': -0.4313517890695467, 'acousticness': -0.32323663852452406, 'instrumentalness': 3.2161761456771307, 'liveness': -0.21444093729167332, 'valence': -0.21340836058462312, 'tempo': 0.07140423417059805, 'duration_ms': 0.20050124441161768}, 'std_values': {'danceability': 0.9301655016208679, 'energy': 0.9304760597922308, 'key': 1.0010590110457231, 'loudness': 0.8618174742581662, 'mode': 0.9899671655347884, 'speechiness': 0.4067395469573211, 'acousticness': 0.8016015423385453, 'instrumentalness': 0.8052745871042686, 'liveness': 0.7735096045417539, 'valence': 1.0952015631994638, 'tempo': 0.7748748657545783, 'duration_ms': 1.0752349048442817}, 'consistency_scores': {'danceability': 0.11790414729871279, 'energy': 0.2649881605229763, 'key': 0.07532241868101681, 'loudness': 0.05589282275142125, 'mode': 0.04366403414727299, 'speechiness': 0.5146835083190144, 'acousticness': 0.28736279057292824, 'instrumentalness': 0.7997552026387046, 'liveness': 0.21705634876419083, 'valence': 0.16308019432651516, 'tempo': 0.08437433261494205, 'duration_ms': 0.15716513529294268}})",
+          "ClusterInterpretation(cluster_id=7, cluster_size=558, domain='musical', automatic_label='En Vivo & Vocal', confidence_score=0.4734702953126512, dominant_features={'danceability': -0.20007549109150397, 'energy': 0.4583040007085527, 'key': -0.06301318307941939, 'loudness': 0.3049332443977419, 'mode': 0.0429089945605811, 'speechiness': -0.06950892100934587, 'acousticness': -0.22552863302244727, 'instrumentalness': -0.2700190080728611, 'liveness': 2.595836865915235, 'valence': 0.08197059002508551, 'tempo': -0.006021017862003666, 'duration_ms': 0.06340580452888862}, feature_consistency={'danceability': 0.18266135933067032, 'energy': 0.3787008401988431, 'key': 0.05802823167901083, 'loudness': 0.27544322275169353, 'mode': 0.04152068219181241, 'speechiness': 0.08055931873070356, 'acousticness': 0.22032121098091714, 'instrumentalness': 0.37145070021094745, 'liveness': 0.7735169629753125, 'valence': 0.08250687463877082, 'tempo': 0.0067126541781524765, 'duration_ms': 0.061890476718614695}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.20007549109150397, 'energy': 0.4583040007085527, 'key': -0.06301318307941939, 'loudness': 0.3049332443977419, 'mode': 0.0429089945605811, 'speechiness': -0.06950892100934587, 'acousticness': -0.22552863302244727, 'instrumentalness': -0.2700190080728611, 'liveness': 2.595836865915235, 'valence': 0.08197059002508551, 'tempo': -0.006021017862003666, 'duration_ms': 0.06340580452888862}, 'std_values': {'danceability': 0.895260117415837, 'energy': 0.7518966434992673, 'key': 1.0228924416547702, 'loudness': 0.8021306413058056, 'mode': 0.9905276541486829, 'speechiness': 0.7933201370869215, 'acousticness': 0.7981069583775521, 'instrumentalness': 0.45691193587844076, 'liveness': 0.7600518736840436, 'valence': 0.9115295331551472, 'tempo': 0.8909442959372491, 'duration_ms': 0.961078219256779}, 'consistency_scores': {'danceability': 0.18266135933067032, 'energy': 0.3787008401988431, 'key': 0.05802823167901083, 'loudness': 0.27544322275169353, 'mode': 0.04152068219181241, 'speechiness': 0.08055931873070356, 'acousticness': 0.22032121098091714, 'instrumentalness': 0.37145070021094745, 'liveness': 0.7735169629753125, 'valence': 0.08250687463877082, 'tempo': 0.0067126541781524765, 'duration_ms': 0.061890476718614695}})",
+          "ClusterInterpretation(cluster_id=8, cluster_size=773, domain='musical', automatic_label='Electr\u00f3nico & Fuerte', confidence_score=0.34279313635478365, dominant_features={'danceability': -0.6999577240879595, 'energy': 0.5973712483152505, 'key': 0.20535987794434252, 'loudness': 0.5957324394644818, 'mode': -1.2177172686924371, 'speechiness': -0.23866691931039832, 'acousticness': -0.5376412821359795, 'instrumentalness': -0.2322792356825242, 'liveness': -0.05788177998309437, 'valence': -0.603124341424966, 'tempo': 0.507086541231589, 'duration_ms': -0.036040233313315406}, feature_consistency={'danceability': 0.47918202808386545, 'energy': 0.46183944049515135, 'key': 0.17865727289145364, 'loudness': 0.4903024553472154, 'mode': 0.99999999999998, 'speechiness': 0.2987750086166916, 'acousticness': 0.5380769537171355, 'instrumentalness': 0.369367636301519, 'liveness': 0.07544721769158012, 'valence': 0.4497171100890618, 'tempo': 0.33791075300166096, 'duration_ms': 0.04212603933234847}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.6999577240879595, 'energy': 0.5973712483152505, 'key': 0.20535987794434252, 'loudness': 0.5957324394644818, 'mode': -1.2177172686924371, 'speechiness': -0.23866691931039832, 'acousticness': -0.5376412821359795, 'instrumentalness': -0.2322792356825242, 'liveness': -0.05788177998309437, 'valence': -0.603124341424966, 'tempo': 0.507086541231589, 'duration_ms': -0.036040233313315406}, 'std_values': {'danceability': 0.7607767841301494, 'energy': 0.6960896300553963, 'key': 0.9441028598600502, 'loudness': 0.6192980647037551, 'mode': 2.4202861936828413e-14, 'speechiness': 0.5601512967296003, 'acousticness': 0.4615490352861773, 'instrumentalness': 0.3965772555666855, 'liveness': 0.7093006535980081, 'valence': 0.7379950599706177, 'tempo': 0.9935657369020561, 'duration_ms': 0.8194931607655247}, 'consistency_scores': {'danceability': 0.47918202808386545, 'energy': 0.46183944049515135, 'key': 0.17865727289145364, 'loudness': 0.4903024553472154, 'mode': 0.99999999999998, 'speechiness': 0.2987750086166916, 'acousticness': 0.5380769537171355, 'instrumentalness': 0.369367636301519, 'liveness': 0.07544721769158012, 'valence': 0.4497171100890618, 'tempo': 0.33791075300166096, 'duration_ms': 0.04212603933234847}})",
+          "ClusterInterpretation(cluster_id=9, cluster_size=608, domain='musical', automatic_label='Baja Energ\u00eda & Ac\u00fastico', confidence_score=0.688587886719772, dominant_features={'danceability': -0.6748262329639113, 'energy': -1.8285510174196533, 'key': -0.028517037189377585, 'loudness': -1.5628577846511391, 'mode': 0.15721635309925244, 'speechiness': -0.4489177090872591, 'acousticness': 2.210617773201096, 'instrumentalness': -0.0837633317548543, 'liveness': -0.2859799741008738, 'valence': -0.7677651260486589, 'tempo': -0.03395767296647918, 'duration_ms': -0.10554963627771974}, feature_consistency={'danceability': 0.42359498186678274, 'energy': 0.7465787120717786, 'key': 0.028115708281975783, 'loudness': 0.5780879349703943, 'mode': 0.14129290951530307, 'speechiness': 0.45110121020353466, 'acousticness': 0.7410970131171433, 'instrumentalness': 0.09544079115288386, 'liveness': 0.28975166065685537, 'valence': 0.48373817249831164, 'tempo': 0.029086667645608282, 'duration_ms': 0.10117169149404732}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.6748262329639113, 'energy': -1.8285510174196533, 'key': -0.028517037189377585, 'loudness': -1.5628577846511391, 'mode': 0.15721635309925244, 'speechiness': -0.4489177090872591, 'acousticness': 2.210617773201096, 'instrumentalness': -0.0837633317548543, 'liveness': -0.2859799741008738, 'valence': -0.7677651260486589, 'tempo': -0.03395767296647918, 'duration_ms': -0.10554963627771974}, 'std_values': {'danceability': 0.9182668439360867, 'energy': 0.6206897496666609, 'key': 0.985757154325389, 'loudness': 1.1406371166450953, 'mode': 0.9554817555634151, 'speechiness': 0.5462419113881537, 'acousticness': 0.7722815424078844, 'instrumentalness': 0.7938837501006611, 'liveness': 0.7010030634547817, 'valence': 0.8193850509470689, 'tempo': 1.1335075546529416, 'duration_ms': 0.9377227930837368}, 'consistency_scores': {'danceability': 0.42359498186678274, 'energy': 0.7465787120717786, 'key': 0.028115708281975783, 'loudness': 0.5780879349703943, 'mode': 0.14129290951530307, 'speechiness': 0.45110121020353466, 'acousticness': 0.7410970131171433, 'instrumentalness': 0.09544079115288386, 'liveness': 0.28975166065685537, 'valence': 0.48373817249831164, 'tempo': 0.029086667645608282, 'duration_ms': 0.10117169149404732}})"
+        ],
+        "semantic": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=1272, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8819031802144263, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7638063604288525, coherence_score=0.7638063604288525, cluster_stats={'avg_cosine_similarity': 0.7638063604288525, 'min_similarity': 0.17023425856900715, 'max_similarity': 1.000000000000001, 'std_similarity': 0.06669810961168708, 'embedding_centroid_norm': 0.8740663850957321})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=2053, domain='semantic', automatic_label='Tema Principal Muy Coherente', confidence_score=0.901900909057036, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.803801818114072, coherence_score=0.803801818114072, cluster_stats={'avg_cosine_similarity': 0.803801818114072, 'min_similarity': 0.2888165984394559, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.05603561067432689, 'embedding_centroid_norm': 0.8966032471575875})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=1718, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8904486394163631, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7808972788327263, coherence_score=0.7808972788327263, cluster_stats={'avg_cosine_similarity': 0.7808972788327263, 'min_similarity': 0.3184562177967115, 'max_similarity': 1.0000000000000018, 'std_similarity': 0.06276539077251106, 'embedding_centroid_norm': 0.8837560821362201})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=537, domain='semantic', automatic_label='Tema Importante Muy Coherente', confidence_score=0.6739118032777409, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.8108236065554819, coherence_score=0.8108236065554819, cluster_stats={'avg_cosine_similarity': 0.8108236065554819, 'min_similarity': 0.4065985372189709, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.07039633152144031, 'embedding_centroid_norm': 0.9006530369055015})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=485, domain='semantic', automatic_label='Subtema Moderadamente Coherente', confidence_score=0.4556472121081766, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.4262944242163532, coherence_score=0.4262944242163532, cluster_stats={'avg_cosine_similarity': 0.4262944242163532, 'min_similarity': -0.1767910670096634, 'max_similarity': 1.000000000000001, 'std_similarity': 0.1531242736505421, 'embedding_centroid_norm': 0.6538174970180217})",
+          "ClusterInterpretation(cluster_id=5, cluster_size=1746, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8923407136070729, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7846814272141459, coherence_score=0.7846814272141459, cluster_stats={'avg_cosine_similarity': 0.7846814272141459, 'min_similarity': 0.3160408542646442, 'max_similarity': 1.000000000000001, 'std_similarity': 0.0614568198795548, 'embedding_centroid_norm': 0.8858920657970409})"
+        ]
+      },
+      "musical_interpretable_clusters": 4,
+      "semantic_interpretable_clusters": 5,
+      "musical_interpretability_rate": 0.4,
+      "semantic_interpretability_rate": 0.8333333333333334
+    },
+    "config_2": {
+      "musical_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 9,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        }
+      },
+      "semantic_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 8,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        }
+      },
+      "interpretations": {
+        "musical": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=882, domain='musical', automatic_label='Baja Energ\u00eda & Ac\u00fastico', confidence_score=0.6289884092711818, dominant_features={'danceability': -0.5568822677706817, 'energy': -1.6029583761759583, 'key': -0.047829003755040324, 'loudness': -1.2303384457237112, 'mode': 0.19935938795335348, 'speechiness': -0.4358598561076442, 'acousticness': 1.8623751699646602, 'instrumentalness': -0.14839560495517568, 'liveness': -0.29144729588268364, 'valence': -0.7564813451303547, 'tempo': -0.2503921727111958, 'duration_ms': -0.19077369411692632}, feature_consistency={'danceability': 0.3795453846351594, 'energy': 0.6997672181955307, 'key': 0.04628395852745947, 'loudness': 0.5221430944229378, 'mode': 0.17517071977943552, 'speechiness': 0.4562552221872597, 'acousticness': 0.6650549151950768, 'instrumentalness': 0.17999717083207203, 'liveness': 0.30366289171218686, 'valence': 0.4886200006921231, 'tempo': 0.18692654019649502, 'duration_ms': 0.18112350305966435}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.5568822677706817, 'energy': -1.6029583761759583, 'key': -0.047829003755040324, 'loudness': -1.2303384457237112, 'mode': 0.19935938795335348, 'speechiness': -0.4358598561076442, 'acousticness': 1.8623751699646602, 'instrumentalness': -0.14839560495517568, 'liveness': -0.29144729588268364, 'valence': -0.7564813451303547, 'tempo': -0.2503921727111958, 'duration_ms': -0.19077369411692632}, 'std_values': {'danceability': 0.9103527201294714, 'energy': 0.6877439238538765, 'key': 0.985552871350474, 'loudness': 1.1259858242185017, 'mode': 0.9387268646284582, 'speechiness': 0.5194384834325219, 'acousticness': 0.9379577460801374, 'instrumentalness': 0.6760373811367074, 'liveness': 0.6683252147095967, 'valence': 0.7917183685734394, 'tempo': 1.0891296123135192, 'duration_ms': 0.8625059243540721}, 'consistency_scores': {'danceability': 0.3795453846351594, 'energy': 0.6997672181955307, 'key': 0.04628395852745947, 'loudness': 0.5221430944229378, 'mode': 0.17517071977943552, 'speechiness': 0.4562552221872597, 'acousticness': 0.6650549151950768, 'instrumentalness': 0.17999717083207203, 'liveness': 0.30366289171218686, 'valence': 0.4886200006921231, 'tempo': 0.18692654019649502, 'duration_ms': 0.18112350305966435}})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=569, domain='musical', automatic_label='En Vivo & Vocal', confidence_score=0.47559162718576414, dominant_features={'danceability': -0.20568564749018092, 'energy': 0.46146553120101996, 'key': -0.06173785806668113, 'loudness': 0.3123483098914671, 'mode': 0.06512190938492124, 'speechiness': -0.059905281081318616, 'acousticness': -0.24114890991790922, 'instrumentalness': -0.2728949513714855, 'liveness': 2.5735004701203894, 'valence': 0.07100002883379623, 'tempo': -0.011228888673494244, 'duration_ms': 0.05960497361958991}, feature_consistency={'danceability': 0.18703768949706925, 'energy': 0.3788896146411265, 'key': 0.05691678943710686, 'loudness': 0.28020943624395944, 'mode': 0.062022278987422866, 'speechiness': 0.07024853129848971, 'acousticness': 0.23755479811428043, 'instrumentalness': 0.3766599015323034, 'liveness': 0.7699055437810297, 'valence': 0.07201673505558366, 'tempo': 0.012363763071830302, 'duration_ms': 0.058686575321173676}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.20568564749018092, 'energy': 0.46146553120101996, 'key': -0.06173785806668113, 'loudness': 0.3123483098914671, 'mode': 0.06512190938492124, 'speechiness': -0.059905281081318616, 'acousticness': -0.24114890991790922, 'instrumentalness': -0.2728949513714855, 'liveness': 2.5735004701203894, 'valence': 0.07100002883379623, 'tempo': -0.011228888673494244, 'duration_ms': 0.05960497361958991}, 'std_values': {'danceability': 0.8940159587719095, 'energy': 0.7564763532716332, 'key': 1.0229659485176639, 'loudness': 0.8023475909685794, 'mode': 0.9848541724666453, 'speechiness': 0.7928567634339335, 'acousticness': 0.773980701895464, 'instrumentalness': 0.45161793232982167, 'liveness': 0.7691179730523395, 'valence': 0.9148823340891493, 'tempo': 0.8969807483941926, 'duration_ms': 0.9560442338443226}, 'consistency_scores': {'danceability': 0.18703768949706925, 'energy': 0.3788896146411265, 'key': 0.05691678943710686, 'loudness': 0.28020943624395944, 'mode': 0.062022278987422866, 'speechiness': 0.07024853129848971, 'acousticness': 0.23755479811428043, 'instrumentalness': 0.3766599015323034, 'liveness': 0.7699055437810297, 'valence': 0.07201673505558366, 'tempo': 0.012363763071830302, 'duration_ms': 0.058686575321173676}})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=1323, domain='musical', automatic_label='Vocal & Canci\u00f3n Corta', confidence_score=0.2730937615870183, dominant_features={'danceability': 0.6202689291738659, 'energy': 0.2777223296651532, 'key': -0.2702568029530535, 'loudness': 0.3644391276419149, 'mode': 0.821208687525459, 'speechiness': -0.19717591035307436, 'acousticness': -0.17186140181883158, 'instrumentalness': -0.2828137650211136, 'liveness': -0.2450858120876907, 'valence': 0.5861047000770827, 'tempo': -0.278970774271966, 'duration_ms': -0.4216644867072455}, feature_consistency={'danceability': 0.48093996132985695, 'energy': 0.2761341337129659, 'key': 0.21698171784920103, 'loudness': 0.35318764084763493, 'mode': 0.9999999999999829, 'speechiness': 0.2576996387672724, 'acousticness': 0.19711915065615562, 'instrumentalness': 0.45005435155265944, 'liveness': 0.2824527483774116, 'valence': 0.40862224105110057, 'tempo': 0.27246918315680824, 'duration_ms': 0.36922693320839556}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.6202689291738659, 'energy': 0.2777223296651532, 'key': -0.2702568029530535, 'loudness': 0.3644391276419149, 'mode': 0.821208687525459, 'speechiness': -0.19717591035307436, 'acousticness': -0.17186140181883158, 'instrumentalness': -0.2828137650211136, 'liveness': -0.2450858120876907, 'valence': 0.5861047000770827, 'tempo': -0.278970774271966, 'duration_ms': -0.4216644867072455}, 'std_values': {'danceability': 0.669432445423191, 'energy': 0.728029208557299, 'key': 0.9752711876547988, 'loudness': 0.6674178389041345, 'mode': 1.3988810110276972e-14, 'speechiness': 0.5679625716817152, 'acousticness': 0.7000041745447038, 'instrumentalness': 0.3455853696621049, 'liveness': 0.622619719429968, 'valence': 0.8482389093862229, 'tempo': 0.7448909744681443, 'duration_ms': 0.7203553629994683}, 'consistency_scores': {'danceability': 0.48093996132985695, 'energy': 0.2761341337129659, 'key': 0.21698171784920103, 'loudness': 0.35318764084763493, 'mode': 0.9999999999999829, 'speechiness': 0.2576996387672724, 'acousticness': 0.19711915065615562, 'instrumentalness': 0.45005435155265944, 'liveness': 0.2824527483774116, 'valence': 0.40862224105110057, 'tempo': 0.27246918315680824, 'duration_ms': 0.36922693320839556}})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=1026, domain='musical', automatic_label='Poco Bailable & Electr\u00f3nico', confidence_score=0.3487736943241148, dominant_features={'danceability': -0.9119429289554608, 'energy': 0.5610105072724182, 'key': -0.07967129921917704, 'loudness': 0.5264080685112205, 'mode': 0.8212086875254596, 'speechiness': -0.29396751346676786, 'acousticness': -0.494739070509013, 'instrumentalness': -0.22557445121251743, 'liveness': -0.17344693851689696, 'valence': -0.4921651415207524, 'tempo': 0.7763060078006477, 'duration_ms': -0.009711521834172872}, feature_consistency={'danceability': 0.5454433359272417, 'energy': 0.4315303963288983, 'key': 0.07562493588033802, 'loudness': 0.44913885659800845, 'mode': 0.9999999999999838, 'speechiness': 0.35220353644105107, 'acousticness': 0.5008777470451028, 'instrumentalness': 0.35678262163200164, 'liveness': 0.21913395388962312, 'valence': 0.37167977047262457, 'tempo': 0.43384789799427725, 'duration_ms': 0.011554309919673161}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.9119429289554608, 'energy': 0.5610105072724182, 'key': -0.07967129921917704, 'loudness': 0.5264080685112205, 'mode': 0.8212086875254596, 'speechiness': -0.29396751346676786, 'acousticness': -0.494739070509013, 'instrumentalness': -0.22557445121251743, 'liveness': -0.17344693851689696, 'valence': -0.4921651415207524, 'tempo': 0.7763060078006477, 'duration_ms': -0.009711521834172872}, 'std_values': {'danceability': 0.7599868003731294, 'energy': 0.7390381384356847, 'key': 0.9738343782954343, 'loudness': 0.6456305133954351, 'mode': 1.3322676295501878e-14, 'speechiness': 0.5406848483522889, 'acousticness': 0.4930050915696732, 'instrumentalness': 0.4066717334391126, 'liveness': 0.6180640779928863, 'valence': 0.8319993158500422, 'tempo': 1.0130446181818782, 'duration_ms': 0.8307992486517337}, 'consistency_scores': {'danceability': 0.5454433359272417, 'energy': 0.4315303963288983, 'key': 0.07562493588033802, 'loudness': 0.44913885659800845, 'mode': 0.9999999999999838, 'speechiness': 0.35220353644105107, 'acousticness': 0.5008777470451028, 'instrumentalness': 0.35678262163200164, 'liveness': 0.21913395388962312, 'valence': 0.37167977047262457, 'tempo': 0.43384789799427725, 'duration_ms': 0.011554309919673161}})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=773, domain='musical', automatic_label='Canci\u00f3n Corta & Fuerte', confidence_score=0.5143432025546267, dominant_features={'danceability': 0.09082521141253659, 'energy': -0.47952960699833963, 'key': -0.06049484596101213, 'loudness': -0.9357586070201687, 'mode': 0.3306003720577831, 'speechiness': -0.4074635108297598, 'acousticness': -0.17482582536962296, 'instrumentalness': -0.1433345810229072, 'liveness': -0.3230566226143914, 'valence': 0.16938110427968314, 'tempo': -0.24206411435335065, 'duration_ms': 1.3655737809430701}, feature_consistency={'danceability': 0.0935223665829547, 'energy': 0.3899942909682266, 'key': 0.057009807976630925, 'loudness': 0.5185346114771984, 'mode': 0.27500512674897903, 'speechiness': 0.4565914810731157, 'acousticness': 0.20277753274170382, 'instrumentalness': 0.21051798371682406, 'liveness': 0.35036882643090567, 'valence': 0.15138762092933866, 'tempo': 0.2297216670257967, 'duration_ms': 0.5679035151135661}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.09082521141253659, 'energy': -0.47952960699833963, 'key': -0.06049484596101213, 'loudness': -0.9357586070201687, 'mode': 0.3306003720577831, 'speechiness': -0.4074635108297598, 'acousticness': -0.17482582536962296, 'instrumentalness': -0.1433345810229072, 'liveness': -0.3230566226143914, 'valence': 0.16938110427968314, 'tempo': -0.24206411435335065, 'duration_ms': 1.3655737809430701}, 'std_values': {'danceability': 0.8803351090721042, 'energy': 0.7500514873013413, 'key': 1.0006356542523684, 'loudness': 0.8688626976262688, 'mode': 0.8715603877743423, 'speechiness': 0.4849392776025806, 'acousticness': 0.6873299720975292, 'instrumentalness': 0.5375316260877421, 'liveness': 0.5989906553076435, 'valence': 0.9494759285790625, 'tempo': 0.8116637188300809, 'duration_ms': 1.039013872847381}, 'consistency_scores': {'danceability': 0.0935223665829547, 'energy': 0.3899942909682266, 'key': 0.057009807976630925, 'loudness': 0.5185346114771984, 'mode': 0.27500512674897903, 'speechiness': 0.4565914810731157, 'acousticness': 0.20277753274170382, 'instrumentalness': 0.21051798371682406, 'liveness': 0.35036882643090567, 'valence': 0.15138762092933866, 'tempo': 0.2297216670257967, 'duration_ms': 0.5679035151135661}})",
+          "ClusterInterpretation(cluster_id=5, cluster_size=1080, domain='musical', automatic_label='Vocal & Estudio', confidence_score=0.21719287799008033, dominant_features={'danceability': 0.7453056315015304, 'energy': 0.10743167914389407, 'key': 0.31973685961613196, 'loudness': 0.17689922086586177, 'mode': -1.2177172686924456, 'speechiness': -0.12745208189871035, 'acousticness': -0.08321929791849103, 'instrumentalness': -0.22786408010833367, 'liveness': -0.2887872118586681, 'valence': 0.7112973669121777, 'tempo': -0.2955314263220966, 'duration_ms': -0.2183670670584221}, feature_consistency={'danceability': 0.5583391222266951, 'energy': 0.12468511760401368, 'key': 0.25121321272090225, 'loudness': 0.19039583613003902, 'mode': 0.9999999999999731, 'speechiness': 0.17100430119677157, 'acousticness': 0.09924214586444066, 'instrumentalness': 0.33430293013133366, 'liveness': 0.31727570383890724, 'valence': 0.4726743060775162, 'tempo': 0.27907376885321816, 'duration_ms': 0.2204867042851995}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.7453056315015304, 'energy': 0.10743167914389407, 'key': 0.31973685961613196, 'loudness': 0.17689922086586177, 'mode': -1.2177172686924456, 'speechiness': -0.12745208189871035, 'acousticness': -0.08321929791849103, 'instrumentalness': -0.22786408010833367, 'liveness': -0.2887872118586681, 'valence': 0.7112973669121777, 'tempo': -0.2955314263220966, 'duration_ms': -0.2183670670584221}, 'std_values': {'danceability': 0.5895562864191877, 'energy': 0.7541922363310611, 'key': 0.9530340118994445, 'loudness': 0.7522136449533323, 'mode': 3.26405569239796e-14, 'speechiness': 0.6178629838021992, 'acousticness': 0.7553286524879806, 'instrumentalness': 0.45374550101434785, 'liveness': 0.6214218222171608, 'valence': 0.7935387492448558, 'tempo': 0.763441000963347, 'duration_ms': 0.7720194863816242}, 'consistency_scores': {'danceability': 0.5583391222266951, 'energy': 0.12468511760401368, 'key': 0.25121321272090225, 'loudness': 0.19039583613003902, 'mode': 0.9999999999999731, 'speechiness': 0.17100430119677157, 'acousticness': 0.09924214586444066, 'instrumentalness': 0.33430293013133366, 'liveness': 0.31727570383890724, 'valence': 0.4726743060775162, 'tempo': 0.27907376885321816, 'duration_ms': 0.2204867042851995}})",
+          "ClusterInterpretation(cluster_id=6, cluster_size=540, domain='musical', automatic_label='Instrumental & Musical', confidence_score=0.5331838746520478, dominant_features={'danceability': -0.12749555662599, 'energy': 0.3288576556571959, 'key': 0.08021613824916222, 'loudness': -0.06080014485175153, 'mode': 0.035844615500805775, 'speechiness': -0.43494065180345837, 'acousticness': -0.31847421276780535, 'instrumentalness': 3.2110280472476758, 'liveness': -0.21859950122503924, 'valence': -0.2143143766699385, 'tempo': 0.07865472235519357, 'duration_ms': 0.21351655890401555}, feature_consistency={'danceability': 0.12120725760826363, 'energy': 0.2604387960228044, 'key': 0.07396657763847067, 'loudness': 0.06446611733975788, 'mode': 0.03486607846962362, 'speechiness': 0.5179722704980869, 'acousticness': 0.2826713951929278, 'instrumentalness': 0.7989079582651283, 'liveness': 0.22063562157354868, 'valence': 0.16280347530971204, 'tempo': 0.09144912947460433, 'duration_ms': 0.16544505748746588}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.12749555662599, 'energy': 0.3288576556571959, 'key': 0.08021613824916222, 'loudness': -0.06080014485175153, 'mode': 0.035844615500805775, 'speechiness': -0.43494065180345837, 'acousticness': -0.31847421276780535, 'instrumentalness': 3.2110280472476758, 'liveness': -0.21859950122503924, 'valence': -0.2143143766699385, 'tempo': 0.07865472235519357, 'duration_ms': 0.21351655890401555}, 'std_values': {'danceability': 0.9243849926883847, 'energy': 0.9338484417183915, 'key': 1.004275545736017, 'loudness': 0.8823332010711608, 'mode': 0.9922209763479615, 'speechiness': 0.4047580668816523, 'acousticness': 0.8081845799344928, 'instrumentalness': 0.8082435272159277, 'liveness': 0.7721720693126117, 'valence': 1.10208489764502, 'tempo': 0.7814379094493691, 'duration_ms': 1.0770421451760206}, 'consistency_scores': {'danceability': 0.12120725760826363, 'energy': 0.2604387960228044, 'key': 0.07396657763847067, 'loudness': 0.06446611733975788, 'mode': 0.03486607846962362, 'speechiness': 0.5179722704980869, 'acousticness': 0.2826713951929278, 'instrumentalness': 0.7989079582651283, 'liveness': 0.22063562157354868, 'valence': 0.16280347530971204, 'tempo': 0.09144912947460433, 'duration_ms': 0.16544505748746588}})",
+          "ClusterInterpretation(cluster_id=7, cluster_size=816, domain='musical', automatic_label='Electr\u00f3nico & Fuerte', confidence_score=0.33326941683399397, dominant_features={'danceability': -0.6739633967114971, 'energy': 0.583356783610839, 'key': 0.17377373454075695, 'loudness': 0.5860609208275581, 'mode': -1.2177172686924387, 'speechiness': -0.2394702422950278, 'acousticness': -0.523929970261786, 'instrumentalness': -0.23464652107360146, 'liveness': -0.07249525886672707, 'valence': -0.5798441175845286, 'tempo': 0.4776761308055681, 'duration_ms': -0.029332051519661968}, feature_consistency={'danceability': 0.468569895012544, 'energy': 0.4513852479326623, 'key': 0.15453135336502577, 'loudness': 0.4805045067929102, 'mode': 0.9999999999999789, 'speechiness': 0.2998431979901303, 'acousticness': 0.5193037437090717, 'instrumentalness': 0.3751800036475945, 'liveness': 0.09329497890646607, 'valence': 0.43583142917888235, 'tempo': 0.32537157851398474, 'duration_ms': 0.0339324331803451}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.6739633967114971, 'energy': 0.583356783610839, 'key': 0.17377373454075695, 'loudness': 0.5860609208275581, 'mode': -1.2177172686924387, 'speechiness': -0.2394702422950278, 'acousticness': -0.523929970261786, 'instrumentalness': -0.23464652107360146, 'liveness': -0.07249525886672707, 'valence': -0.5798441175845286, 'tempo': 0.4776761308055681, 'duration_ms': -0.029332051519661968}, 'std_values': {'danceability': 0.7643778282333912, 'energy': 0.7090132846124045, 'key': 0.9507471529119319, 'loudness': 0.6336173810288085, 'mode': 2.5757174171303632e-14, 'speechiness': 0.5591813328290006, 'acousticness': 0.4849785474541495, 'instrumentalness': 0.390777325759361, 'liveness': 0.7045589814271531, 'valence': 0.7505879688149923, 'tempo': 0.9904180802949878, 'duration_ms': 0.8350931861393609}, 'consistency_scores': {'danceability': 0.468569895012544, 'energy': 0.4513852479326623, 'key': 0.15453135336502577, 'loudness': 0.4805045067929102, 'mode': 0.9999999999999789, 'speechiness': 0.2998431979901303, 'acousticness': 0.5193037437090717, 'instrumentalness': 0.3751800036475945, 'liveness': 0.09329497890646607, 'valence': 0.43583142917888235, 'tempo': 0.32537157851398474, 'duration_ms': 0.0339324331803451}})",
+          "ClusterInterpretation(cluster_id=8, cluster_size=802, domain='musical', automatic_label='Hablado & Vocal', confidence_score=0.5392530065925679, dominant_features={'danceability': 0.5821779392244514, 'energy': -0.2378305720968911, 'key': 0.041068767282152946, 'loudness': -0.034811361404715274, 'mode': -0.13469674830735195, 'speechiness': 2.3240425289836106, 'acousticness': 0.06744873587773566, 'instrumentalness': -0.3663698225712771, 'liveness': 0.042085605692559105, 'valence': 0.057496584132479926, 'tempo': -0.15728711675972712, 'duration_ms': -0.26052716019562655}, feature_consistency={'danceability': 0.40036676767153034, 'energy': 0.23288134066357008, 'key': 0.03857432566189555, 'loudness': 0.041354579727839215, 'mode': 0.11690634147660381, 'speechiness': 0.7263799528880199, 'acousticness': 0.07380540067516585, 'instrumentalness': 0.6584977262261139, 'liveness': 0.04646326331578342, 'valence': 0.06513307387331091, 'tempo': 0.11721509989201043, 'duration_ms': 0.21516646867767417}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.5821779392244514, 'energy': -0.2378305720968911, 'key': 0.041068767282152946, 'loudness': -0.034811361404715274, 'mode': -0.13469674830735195, 'speechiness': 2.3240425289836106, 'acousticness': 0.06744873587773566, 'instrumentalness': -0.3663698225712771, 'liveness': 0.042085605692559105, 'valence': 0.057496584132479926, 'tempo': -0.15728711675972712, 'duration_ms': -0.26052716019562655}, 'std_values': {'danceability': 0.8719336062224129, 'energy': 0.783421587891241, 'key': 1.0235970868474507, 'loudness': 0.8069663021498097, 'mode': 1.0174798290652098, 'speechiness': 0.8754435247969117, 'acousticness': 0.8464238988256807, 'instrumentalness': 0.190002368271526, 'liveness': 0.8636967863422345, 'valence': 0.825258993130803, 'tempo': 1.1845802449787632, 'duration_ms': 0.9502895710320789}, 'consistency_scores': {'danceability': 0.40036676767153034, 'energy': 0.23288134066357008, 'key': 0.03857432566189555, 'loudness': 0.041354579727839215, 'mode': 0.11690634147660381, 'speechiness': 0.7263799528880199, 'acousticness': 0.07380540067516585, 'instrumentalness': 0.6584977262261139, 'liveness': 0.04646326331578342, 'valence': 0.06513307387331091, 'tempo': 0.11721509989201043, 'duration_ms': 0.21516646867767417}})"
+        ],
+        "semantic": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=1132, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8816504319423418, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7633008638846837, coherence_score=0.7633008638846837, cluster_stats={'avg_cosine_similarity': 0.7633008638846837, 'min_similarity': 0.3603267541291154, 'max_similarity': 1.000000000000001, 'std_similarity': 0.06531789835257619, 'embedding_centroid_norm': 0.8737905707089187})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=428, domain='semantic', automatic_label='Subtema Coherente', confidence_score=0.5315260422534251, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.6350520845068504, coherence_score=0.6350520845068504, cluster_stats={'avg_cosine_similarity': 0.6350520845068504, 'min_similarity': 0.19903195465250556, 'max_similarity': 1.0000000000000009, 'std_similarity': 0.10926053615915804, 'embedding_centroid_norm': 0.7974363676363565})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=1423, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8968508842932563, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7937017685865128, coherence_score=0.7937017685865128, cluster_stats={'avg_cosine_similarity': 0.7937017685865128, 'min_similarity': 0.44501665349328967, 'max_similarity': 1.000000000000001, 'std_similarity': 0.05297135315930317, 'embedding_centroid_norm': 0.8909807744209105})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=248, domain='semantic', automatic_label='Subtema Poco Coherente', confidence_score=0.29715224199279167, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.34630448398558333, coherence_score=0.34630448398558333, cluster_stats={'avg_cosine_similarity': 0.34630448398558333, 'min_similarity': -0.1767910670096634, 'max_similarity': 1.0000000000000009, 'std_similarity': 0.1290046777629035, 'embedding_centroid_norm': 0.5907117361832138})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=1290, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8942706930410098, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7885413860820196, coherence_score=0.7885413860820196, cluster_stats={'avg_cosine_similarity': 0.7885413860820196, 'min_similarity': 0.29134424026499395, 'max_similarity': 1.0000000000000018, 'std_similarity': 0.06192777917561421, 'embedding_centroid_norm': 0.8880908221301823})",
+          "ClusterInterpretation(cluster_id=5, cluster_size=530, domain='semantic', automatic_label='Tema Importante Muy Coherente', confidence_score=0.6703974590855661, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.8107949181711323, coherence_score=0.8107949181711323, cluster_stats={'avg_cosine_similarity': 0.8107949181711323, 'min_similarity': 0.4065985372189709, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.07041720527103147, 'embedding_centroid_norm': 0.900639723631452})",
+          "ClusterInterpretation(cluster_id=6, cluster_size=1403, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8981154987433645, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.796230997486729, coherence_score=0.796230997486729, cluster_stats={'avg_cosine_similarity': 0.796230997486729, 'min_similarity': 0.3860839134056547, 'max_similarity': 1.000000000000001, 'std_similarity': 0.056726858348605705, 'embedding_centroid_norm': 0.8923991474505825})",
+          "ClusterInterpretation(cluster_id=7, cluster_size=1357, domain='semantic', automatic_label='Tema Principal Muy Coherente', confidence_score=0.9058697199147839, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.8117394398295679, coherence_score=0.8117394398295679, cluster_stats={'avg_cosine_similarity': 0.8117394398295679, 'min_similarity': 0.34358762065510157, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.05654837515538974, 'embedding_centroid_norm': 0.9010428253455975})"
+        ]
+      },
+      "musical_interpretable_clusters": 4,
+      "semantic_interpretable_clusters": 7,
+      "musical_interpretability_rate": 0.4444444444444444,
+      "semantic_interpretability_rate": 0.875
+    },
+    "config_3": {
+      "musical_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 8,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 12
+        }
+      },
+      "semantic_config": {
+        "algorithm": "kmeans_plus",
+        "params": {
+          "algorithm": "kmeans_plus",
+          "k": 5,
+          "eps": null,
+          "n_samples": 7811,
+          "n_features": 384
+        }
+      },
+      "interpretations": {
+        "musical": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=1203, domain='musical', automatic_label='Poco Bailable & Electr\u00f3nico', confidence_score=0.5494838382146078, dominant_features={'danceability': -1.0447374192100178, 'energy': 0.6646280630412276, 'key': -0.004055526105506283, 'loudness': 0.6134852485002883, 'mode': 0.1347872309433915, 'speechiness': -0.21985846554287017, 'acousticness': -0.5513671293702038, 'instrumentalness': -0.22796197887473432, 'liveness': -0.13622382233026184, 'valence': -0.558670570853091, 'tempo': 0.9739847719935733, 'duration_ms': 0.03482227755926213}, feature_consistency={'danceability': 0.5923015677144711, 'energy': 0.484793826743074, 'key': 0.004176918037039342, 'loudness': 0.4962861858727335, 'mode': 0.12272169784660103, 'speechiness': 0.2724807086241826, 'acousticness': 0.5598637610566191, 'instrumentalness': 0.36251027708848005, 'liveness': 0.17646496152538607, 'valence': 0.40592354354077026, 'tempo': 0.5049024914405522, 'duration_ms': 0.039667118932041626}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -1.0447374192100178, 'energy': 0.6646280630412276, 'key': -0.004055526105506283, 'loudness': 0.6134852485002883, 'mode': 0.1347872309433915, 'speechiness': -0.21985846554287017, 'acousticness': -0.5513671293702038, 'instrumentalness': -0.22796197887473432, 'liveness': -0.13622382233026184, 'valence': -0.558670570853091, 'tempo': 0.9739847719935733, 'duration_ms': 0.03482227755926213}, 'std_values': {'danceability': 0.7191232156387842, 'energy': 0.7063218674845604, 'key': 0.9668819376239004, 'loudness': 0.6226669274298724, 'mode': 0.963528986940099, 'speechiness': 0.5870187138572339, 'acousticness': 0.43345662198965196, 'instrumentalness': 0.40088082461589136, 'liveness': 0.6357357850335963, 'valence': 0.817624497029284, 'tempo': 0.9550704189685038, 'duration_ms': 0.8430402592928226}, 'consistency_scores': {'danceability': 0.5923015677144711, 'energy': 0.484793826743074, 'key': 0.004176918037039342, 'loudness': 0.4962861858727335, 'mode': 0.12272169784660103, 'speechiness': 0.2724807086241826, 'acousticness': 0.5598637610566191, 'instrumentalness': 0.36251027708848005, 'liveness': 0.17646496152538607, 'valence': 0.40592354354077026, 'tempo': 0.5049024914405522, 'duration_ms': 0.039667118932041626}})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=887, domain='musical', automatic_label='Canci\u00f3n Corta & Fuerte', confidence_score=0.5064294238965298, dominant_features={'danceability': -0.10923454378878635, 'energy': -0.5539815880271398, 'key': -0.017198133585915633, 'loudness': -0.8949257203596149, 'mode': 0.23964356134382347, 'speechiness': -0.41449054962392573, 'acousticness': -0.16214118524776283, 'instrumentalness': -0.166806195831957, 'liveness': -0.31134884579474054, 'valence': -0.11209477692718813, 'tempo': -0.30451236647566293, 'duration_ms': 1.2584171077321211}, feature_consistency={'danceability': 0.10399964137037863, 'energy': 0.4247466293423086, 'key': 0.016904767721033963, 'loudness': 0.5096148242704069, 'mode': 0.2065414739854836, 'speechiness': 0.46401812482352905, 'acousticness': 0.19255022188684773, 'instrumentalness': 0.24997309248471156, 'liveness': 0.3355958793219508, 'valence': 0.10307292485071523, 'tempo': 0.2653000688127658, 'duration_ms': 0.5456553225956534}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.10923454378878635, 'energy': -0.5539815880271398, 'key': -0.017198133585915633, 'loudness': -0.8949257203596149, 'mode': 0.23964356134382347, 'speechiness': -0.41449054962392573, 'acousticness': -0.16214118524776283, 'instrumentalness': -0.166806195831957, 'liveness': -0.31134884579474054, 'valence': -0.11209477692718813, 'tempo': -0.30451236647566293, 'duration_ms': 1.2584171077321211}, 'std_values': {'danceability': 0.9411012308257092, 'energy': 0.7502820595560514, 'key': 1.0001559033362344, 'loudness': 0.8611568694470672, 'mode': 0.9206249154852529, 'speechiness': 0.47877315604524173, 'acousticness': 0.6799309959195494, 'instrumentalness': 0.5004904089702643, 'liveness': 0.616400465341739, 'valence': 0.9754340496704107, 'tempo': 0.8432912052001552, 'duration_ms': 1.0478320126674237}, 'consistency_scores': {'danceability': 0.10399964137037863, 'energy': 0.4247466293423086, 'key': 0.016904767721033963, 'loudness': 0.5096148242704069, 'mode': 0.2065414739854836, 'speechiness': 0.46401812482352905, 'acousticness': 0.19255022188684773, 'instrumentalness': 0.24997309248471156, 'liveness': 0.3355958793219508, 'valence': 0.10307292485071523, 'tempo': 0.2653000688127658, 'duration_ms': 0.5456553225956534}})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=550, domain='musical', automatic_label='Instrumental & Musical', confidence_score=0.5341840016038047, dominant_features={'danceability': -0.12456075028690491, 'energy': 0.32635087887961967, 'key': 0.07849095493388526, 'loudness': -0.05928519422407699, 'mode': 0.03900254795824761, 'speechiness': -0.43441464619751935, 'acousticness': -0.3230574255998216, 'instrumentalness': 3.182802264236657, 'liveness': -0.22064932430810458, 'valence': -0.20990884919808947, 'tempo': 0.0778037089485025, 'duration_ms': 0.2228162630258445}, feature_consistency={'danceability': 0.1184666003938351, 'energy': 0.25861988875189124, 'key': 0.07255736248780682, 'loudness': 0.06385854034848679, 'mode': 0.0378491647493897, 'speechiness': 0.5192941869852734, 'acousticness': 0.28879365036566035, 'instrumentalness': 0.7944641674604805, 'liveness': 0.22237421127588394, 'valence': 0.15989548109561316, 'tempo': 0.09033312742631924, 'duration_ms': 0.16958145424965734}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.12456075028690491, 'energy': 0.32635087887961967, 'key': 0.07849095493388526, 'loudness': -0.05928519422407699, 'mode': 0.03900254795824761, 'speechiness': -0.43441464619751935, 'acousticness': -0.3230574255998216, 'instrumentalness': 3.182802264236657, 'liveness': -0.22064932430810458, 'valence': -0.20990884919808947, 'tempo': 0.0778037089485025, 'duration_ms': 0.2228162630258445}, 'std_values': {'danceability': 0.9268811747870276, 'energy': 0.9355430942743345, 'key': 1.0032869975078098, 'loudness': 0.869097978866975, 'mode': 0.9914706028420377, 'speechiness': 0.4021336093636572, 'acousticness': 0.7955870642007619, 'instrumentalness': 0.8234228049582154, 'liveness': 0.7715939898778338, 'valence': 1.1028790285067227, 'tempo': 0.7834939263285474, 'duration_ms': 1.0911025501767884}, 'consistency_scores': {'danceability': 0.1184666003938351, 'energy': 0.25861988875189124, 'key': 0.07255736248780682, 'loudness': 0.06385854034848679, 'mode': 0.0378491647493897, 'speechiness': 0.5192941869852734, 'acousticness': 0.28879365036566035, 'instrumentalness': 0.7944641674604805, 'liveness': 0.22237421127588394, 'valence': 0.15989548109561316, 'tempo': 0.09033312742631924, 'duration_ms': 0.16958145424965734}})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=1512, domain='musical', automatic_label='Vocal & Fuerte', confidence_score=0.2584843901944229, dominant_features={'danceability': 0.5228022792596232, 'energy': 0.2904320879411441, 'key': -0.24667945623806478, 'loudness': 0.35038172267193385, 'mode': 0.8212086875254692, 'speechiness': -0.2503663394225371, 'acousticness': -0.2063475085948381, 'instrumentalness': -0.27504672782557693, 'liveness': -0.24909999175908246, 'valence': 0.5141804418300833, 'tempo': -0.23352198620961004, 'duration_ms': -0.37918684020168497}, feature_consistency={'danceability': 0.42652122851358587, 'energy': 0.2866456379741864, 'key': 0.20061651801723313, 'loudness': 0.3380875128852975, 'mode': 0.9999999999999953, 'speechiness': 0.3209144153224851, 'acousticness': 0.23281514676962806, 'instrumentalness': 0.43736565769797103, 'liveness': 0.28733268501493797, 'valence': 0.3667822113246594, 'tempo': 0.2367415329728914, 'duration_ms': 0.3392125574435745}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.5228022792596232, 'energy': 0.2904320879411441, 'key': -0.24667945623806478, 'loudness': 0.35038172267193385, 'mode': 0.8212086875254692, 'speechiness': -0.2503663394225371, 'acousticness': -0.2063475085948381, 'instrumentalness': -0.27504672782557693, 'liveness': -0.24909999175908246, 'valence': 0.5141804418300833, 'tempo': -0.23352198620961004, 'duration_ms': -0.37918684020168497}, 'std_values': {'danceability': 0.7029333802265924, 'energy': 0.722777427700026, 'key': 0.9829274512889276, 'loudness': 0.6859822641192572, 'mode': 3.774758283725532e-15, 'speechiness': 0.5297991113530348, 'acousticness': 0.6799672846421272, 'instrumentalness': 0.35382461367279405, 'liveness': 0.6178392908964876, 'valence': 0.8876880949138519, 'tempo': 0.752878597386661, 'duration_ms': 0.7386575082665721}, 'consistency_scores': {'danceability': 0.42652122851358587, 'energy': 0.2866456379741864, 'key': 0.20061651801723313, 'loudness': 0.3380875128852975, 'mode': 0.9999999999999953, 'speechiness': 0.3209144153224851, 'acousticness': 0.23281514676962806, 'instrumentalness': 0.43736565769797103, 'liveness': 0.28733268501493797, 'valence': 0.3667822113246594, 'tempo': 0.2367415329728914, 'duration_ms': 0.3392125574435745}})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=863, domain='musical', automatic_label='Hablado & Vocal', confidence_score=0.5329745464253652, dominant_features={'danceability': 0.6027207624383101, 'energy': -0.2201446426665847, 'key': 0.04377225528786721, 'loudness': -0.02682364975541649, 'mode': -0.17580956684758167, 'speechiness': 2.2605357876430365, 'acousticness': 0.07073555303484849, 'instrumentalness': -0.3650976036396595, 'liveness': 0.02444464909011802, 'valence': 0.10186754099943983, 'tempo': -0.16865733568431834, 'duration_ms': -0.25548502035309}, feature_consistency={'danceability': 0.4086414425004833, 'energy': 0.2214139845566892, 'key': 0.04105634901806291, 'loudness': 0.03243457733999685, 'mode': 0.14711784444245535, 'speechiness': 0.7208342010309173, 'acousticness': 0.07750816461222318, 'instrumentalness': 0.6566754536884892, 'liveness': 0.027777268615281032, 'valence': 0.107886222761396, 'tempo': 0.12613893174829965, 'duration_ms': 0.2144080200264039}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.6027207624383101, 'energy': -0.2201446426665847, 'key': 0.04377225528786721, 'loudness': -0.02682364975541649, 'mode': -0.17580956684758167, 'speechiness': 2.2605357876430365, 'acousticness': 0.07073555303484849, 'instrumentalness': -0.3650976036396595, 'liveness': 0.02444464909011802, 'valence': 0.10186754099943983, 'tempo': -0.16865733568431834, 'duration_ms': -0.25548502035309}, 'std_values': {'danceability': 0.8722171655637748, 'energy': 0.7741224682623509, 'key': 1.022378448090648, 'loudness': 0.8001841934790729, 'mode': 1.019215874145997, 'speechiness': 0.8754638422829527, 'acousticness': 0.8418851170712083, 'instrumentalness': 0.19088115515704945, 'liveness': 0.8555788523528075, 'valence': 0.8423451534605759, 'tempo': 1.1684186442220832, 'duration_ms': 0.9360983000851415}, 'consistency_scores': {'danceability': 0.4086414425004833, 'energy': 0.2214139845566892, 'key': 0.04105634901806291, 'loudness': 0.03243457733999685, 'mode': 0.14711784444245535, 'speechiness': 0.7208342010309173, 'acousticness': 0.07750816461222318, 'instrumentalness': 0.6566754536884892, 'liveness': 0.027777268615281032, 'valence': 0.107886222761396, 'tempo': 0.12613893174829965, 'duration_ms': 0.2144080200264039}})",
+          "ClusterInterpretation(cluster_id=5, cluster_size=607, domain='musical', automatic_label='En Vivo & Vocal', confidence_score=0.4799506101071092, dominant_features={'danceability': -0.2008257056075553, 'energy': 0.4987056658471135, 'key': -0.03250948577620341, 'loudness': 0.3454532655576005, 'mode': -0.005110563264642375, 'speechiness': -0.07658061309962189, 'acousticness': -0.2899373882360906, 'instrumentalness': -0.27153991205326056, 'liveness': 2.489380555156823, 'valence': 0.02522812053457545, 'tempo': 0.0027712227092296384, 'duration_ms': 0.03506931004197449}, feature_consistency={'danceability': 0.1861431729448436, 'energy': 0.4075522213595839, 'key': 0.030727997483154846, 'loudness': 0.30731999045447467, 'mode': 0.005079526462884509, 'speechiness': 0.09055278584552007, 'acousticness': 0.2848445755551639, 'instrumentalness': 0.37615775613870334, 'liveness': 0.7563740837281497, 'valence': 0.026609584592892067, 'tempo': 0.00314780253200951, 'duration_ms': 0.035929608848836135}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.2008257056075553, 'energy': 0.4987056658471135, 'key': -0.03250948577620341, 'loudness': 0.3454532655576005, 'mode': -0.005110563264642375, 'speechiness': -0.07658061309962189, 'acousticness': -0.2899373882360906, 'instrumentalness': -0.27153991205326056, 'liveness': 2.489380555156823, 'valence': 0.02522812053457545, 'tempo': 0.0027712227092296384, 'duration_ms': 0.03506931004197449}, 'std_values': {'danceability': 0.8780519266569813, 'energy': 0.7249551063667853, 'key': 1.0254665795678655, 'loudness': 0.7786300233817266, 'mode': 1.0009996325334691, 'speechiness': 0.7691207364006628, 'acousticness': 0.7279418806336653, 'instrumentalness': 0.4503378312186818, 'liveness': 0.8018223148715743, 'valence': 0.9228558506317166, 'tempo': 0.8775962021005315, 'duration_ms': 0.9409866856112464}, 'consistency_scores': {'danceability': 0.1861431729448436, 'energy': 0.4075522213595839, 'key': 0.030727997483154846, 'loudness': 0.30731999045447467, 'mode': 0.005079526462884509, 'speechiness': 0.09055278584552007, 'acousticness': 0.2848445755551639, 'instrumentalness': 0.37615775613870334, 'liveness': 0.7563740837281497, 'valence': 0.026609584592892067, 'tempo': 0.00314780253200951, 'duration_ms': 0.035929608848836135}})",
+          "ClusterInterpretation(cluster_id=6, cluster_size=848, domain='musical', automatic_label='Ac\u00fastico & Baja Energ\u00eda', confidence_score=0.6374588266028985, dominant_features={'danceability': -0.5303442376172558, 'energy': -1.6036598380516702, 'key': -0.053665696825449506, 'loudness': -1.2344101354191355, 'mode': 0.17683114475850012, 'speechiness': -0.42700283968675024, 'acousticness': 1.9665411484580617, 'instrumentalness': -0.1341673528182359, 'liveness': -0.2765223152265458, 'valence': -0.7160692532926585, 'tempo': -0.18924390298017518, 'duration_ms': -0.2312198775353535}, feature_consistency={'danceability': 0.3647986198808819, 'energy': 0.6943704178462178, 'key': 0.0520193189660112, 'loudness': 0.5202582927636156, 'mode': 0.15721334638404122, 'speechiness': 0.4492280021285847, 'acousticness': 0.697747769198862, 'instrumentalness': 0.16016841514655217, 'liveness': 0.2840868254534539, 'valence': 0.46660553658200815, 'tempo': 0.14745809197391813, 'duration_ms': 0.21340627921761554}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': -0.5303442376172558, 'energy': -1.6036598380516702, 'key': -0.053665696825449506, 'loudness': -1.2344101354191355, 'mode': 0.17683114475850012, 'speechiness': -0.42700283968675024, 'acousticness': 1.9665411484580617, 'instrumentalness': -0.1341673528182359, 'liveness': -0.2765223152265458, 'valence': -0.7160692532926585, 'tempo': -0.18924390298017518, 'duration_ms': -0.2312198775353535}, 'std_values': {'danceability': 0.9234557736162018, 'energy': 0.705856519307603, 'key': 0.9779836593553206, 'loudness': 1.1382769560444423, 'mode': 0.947953416539592, 'speechiness': 0.5235230351887085, 'acousticness': 0.8518715148260138, 'instrumentalness': 0.7034968819152948, 'liveness': 0.6968502262728974, 'valence': 0.8185658875403635, 'tempo': 1.094130244427769, 'duration_ms': 0.8522528228074157}, 'consistency_scores': {'danceability': 0.3647986198808819, 'energy': 0.6943704178462178, 'key': 0.0520193189660112, 'loudness': 0.5202582927636156, 'mode': 0.15721334638404122, 'speechiness': 0.4492280021285847, 'acousticness': 0.697747769198862, 'instrumentalness': 0.16016841514655217, 'liveness': 0.2840868254534539, 'valence': 0.46660553658200815, 'tempo': 0.14745809197391813, 'duration_ms': 0.21340627921761554}})",
+          "ClusterInterpretation(cluster_id=7, cluster_size=1341, domain='musical', automatic_label='Vocal & Fuerte', confidence_score=0.22165433285454159, dominant_features={'danceability': 0.5094903958885282, 'energy': 0.23891263125320986, 'key': 0.2814386036350887, 'loudness': 0.3123374530479457, 'mode': -1.21771726869245, 'speechiness': -0.21822127692028198, 'acousticness': -0.19081787955241122, 'instrumentalness': -0.2377310684723472, 'liveness': -0.2681721144223889, 'valence': 0.4575088535628034, 'tempo': -0.21398958253456035, 'duration_ms': -0.232702952440145}, feature_consistency={'danceability': 0.41960497187709733, 'energy': 0.24314099360704883, 'key': 0.22736532064200876, 'loudness': 0.3027635615283753, 'mode': 0.9999999999999696, 'speechiness': 0.2891957117296546, 'acousticness': 0.21077946466083677, 'instrumentalness': 0.3621994370352495, 'liveness': 0.3057765170992871, 'valence': 0.3387599058548296, 'tempo': 0.21675405173774215, 'duration_ms': 0.23530841650752693}, avg_cosine_similarity=None, coherence_score=None, cluster_stats={'mean_values': {'danceability': 0.5094903958885282, 'energy': 0.23891263125320986, 'key': 0.2814386036350887, 'loudness': 0.3123374530479457, 'mode': -1.21771726869245, 'speechiness': -0.21822127692028198, 'acousticness': -0.19081787955241122, 'instrumentalness': -0.2377310684723472, 'liveness': -0.2681721144223889, 'valence': 0.4575088535628034, 'tempo': -0.21398958253456035, 'duration_ms': -0.232702952440145}, 'std_values': {'danceability': 0.7047239964418798, 'energy': 0.7436967913068266, 'key': 0.9563869491697864, 'loudness': 0.7192842240817731, 'mode': 3.708144902248023e-14, 'speechiness': 0.5363586429761777, 'acousticness': 0.7144784686396506, 'instrumentalness': 0.418622984648368, 'liveness': 0.6088478642070835, 'valence': 0.8930312951435369, 'tempo': 0.7732564730630438, 'duration_ms': 0.7562244984790218}, 'consistency_scores': {'danceability': 0.41960497187709733, 'energy': 0.24314099360704883, 'key': 0.22736532064200876, 'loudness': 0.3027635615283753, 'mode': 0.9999999999999696, 'speechiness': 0.2891957117296546, 'acousticness': 0.21077946466083677, 'instrumentalness': 0.3621994370352495, 'liveness': 0.3057765170992871, 'valence': 0.3387599058548296, 'tempo': 0.21675405173774215, 'duration_ms': 0.23530841650752693}})"
+        ],
+        "semantic": [
+          "ClusterInterpretation(cluster_id=0, cluster_size=503, domain='semantic', automatic_label='Tema Importante Moderadamente Coherente', confidence_score=0.4668542536462882, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.43070850729257637, coherence_score=0.43070850729257637, cluster_stats={'avg_cosine_similarity': 0.43070850729257637, 'min_similarity': -0.1767910670096634, 'max_similarity': 1.000000000000001, 'std_similarity': 0.15281939846603634, 'embedding_centroid_norm': 0.6571455672191324})",
+          "ClusterInterpretation(cluster_id=1, cluster_size=2403, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8959145356486719, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7918290712973437, coherence_score=0.7918290712973437, cluster_stats={'avg_cosine_similarity': 0.7918290712973437, 'min_similarity': 0.3556874011257777, 'max_similarity': 1.000000000000001, 'std_similarity': 0.05823592757322189, 'embedding_centroid_norm': 0.8898964562461957})",
+          "ClusterInterpretation(cluster_id=2, cluster_size=2278, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8909714554219752, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7819429108439505, coherence_score=0.7819429108439505, cluster_stats={'avg_cosine_similarity': 0.7819429108439505, 'min_similarity': 0.284787258939089, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.0630733412235046, 'embedding_centroid_norm': 0.8843294818056183})",
+          "ClusterInterpretation(cluster_id=3, cluster_size=561, domain='semantic', automatic_label='Tema Importante Muy Coherente', confidence_score=0.6848846638405512, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.8087693276811024, coherence_score=0.8087693276811024, cluster_stats={'avg_cosine_similarity': 0.8087693276811024, 'min_similarity': 0.4065985372189709, 'max_similarity': 1.0000000000000013, 'std_similarity': 0.07145062800736962, 'embedding_centroid_norm': 0.899505533188472})",
+          "ClusterInterpretation(cluster_id=4, cluster_size=2066, domain='semantic', automatic_label='Tema Principal Coherente', confidence_score=0.8863497942610155, dominant_features=None, feature_consistency=None, avg_cosine_similarity=0.7726995885220308, coherence_score=0.7726995885220308, cluster_stats={'avg_cosine_similarity': 0.7726995885220308, 'min_similarity': 0.26896189531273956, 'max_similarity': 1.0000000000000018, 'std_similarity': 0.06623852220491802, 'embedding_centroid_norm': 0.8790959039703852})"
+        ]
+      },
+      "musical_interpretable_clusters": 5,
+      "semantic_interpretable_clusters": 4,
+      "musical_interpretability_rate": 0.625,
+      "semantic_interpretability_rate": 0.8
+    }
+  },
+  "scientific_conclusions": {
+    "domain_comparison": {
+      "musical_best_score": 0.5546137864451541,
+      "semantic_best_score": 0.5614620437077431,
+      "superior_domain": "semantic",
+      "score_difference": 0.006848257262588975
+    },
+    "cross_modal_coherence": {
+      "average_nmi": 0.05500071160339981,
+      "maximum_nmi": 0.05665234964217979,
+      "coherence_assessment": "Low"
+    }
+  }
+}

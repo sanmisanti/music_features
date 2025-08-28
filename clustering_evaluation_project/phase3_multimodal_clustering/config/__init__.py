@@ -1,2 +1,1 @@
-# FASE 3: Configuración del Sistema de Clustering Multimodal
-# Módulo de configuración especializada para experimentación algorítmica exhaustiva
+# Configuration modules for FASE 3 Multimodal Clustering

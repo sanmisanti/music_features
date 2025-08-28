@@ -1,454 +1,356 @@
+#!/usr/bin/env python3
 """
-Evaluador Especializado de Algoritmos para Clustering Multimodal
-===============================================================
-
-Implementa evaluación sistemática de algoritmos de clustering con
-optimizaciones específicas por dimensionalidad y prioridad en
-interpretabilidad sobre métricas puras.
-
-Autor: Proyecto FASE 3 - Sistema Clustering Multimodal
-Fecha: Agosto 2025
+Evaluador de algoritmos especializado por dominio para FASE 3.
+Maneja la evaluación sistemática de configuraciones algorítmicas.
 """
 
 import numpy as np
 import pandas as pd
-import pickle
-import warnings
-from typing import Dict, List, Any, Tuple, Optional, Union
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import DBSCAN
 import time
+import warnings
+from typing import Dict, List, Tuple, Any, Optional
+from dataclasses import dataclass, asdict
 import logging
+from pathlib import Path
 
-from .config.algorithms_config import algorithms_config
-from .config.evaluation_metrics import evaluation_metrics
-from .config.interpretability_settings import interpretability_settings
+from config.algorithms_config import algorithm_config
+from config.evaluation_metrics import multi_criteria_evaluator
 
-
-class AlgorithmEvaluator:
-    """
-    Evaluador especializado de algoritmos de clustering multimodal.
+@dataclass
+class ClusteringResult:
+    """Estructura para resultados de clustering."""
+    domain: str
+    algorithm_name: str
+    algorithm_params: Dict[str, Any]
+    labels: np.ndarray
+    execution_time: float
+    n_clusters: int
+    n_outliers: int
     
-    Ejecuta evaluación sistemática de configuraciones algorítmicas
-    con optimizaciones por dimensionalidad y enfoque en interpretabilidad.
-    """
+    # Métricas de calidad técnica
+    silhouette_score: float
+    calinski_harabasz_score: float
+    davies_bouldin_score: float
     
-    def __init__(self, dataset_path: str, verbose: bool = True):
+    # Métricas de balance
+    balance_score: float
+    entropy_score: float
+    
+    # Métricas de interpretabilidad
+    interpretability_score: float
+    coherence_score: float
+    
+    # Métricas de granularidad
+    granularity_bonus: float
+    meets_granularity_criteria: bool
+    
+    # Score compuesto
+    composite_score: float
+    
+    # Validez del resultado
+    valid_result: bool
+    error_message: Optional[str] = None
+
+class DomainAlgorithmEvaluator:
+    """Evaluador especializado para un dominio específico."""
+    
+    def __init__(self, domain: str, verbose: bool = True):
         """
-        Inicializar evaluador con dataset unificado multimodal.
+        Inicializar evaluador de dominio.
         
         Args:
-            dataset_path: Ruta al dataset unificado (.pkl)
-            verbose: Activar logging detallado
+            domain: 'musical' o 'semantic'
+            verbose: Si mostrar progreso detallado
         """
-        self.dataset_path = dataset_path
-        self.verbose = verbose
+        if domain not in ['musical', 'semantic']:
+            raise ValueError(f"Dominio debe ser 'musical' o 'semantic', recibido: {domain}")
         
-        # Configurar logging
+        self.domain = domain
+        self.verbose = verbose
         self.logger = self._setup_logging()
         
-        # Cargar dataset
-        self.dataset = self._load_unified_dataset()
+        # Configuraciones algorítmicas para este dominio
+        self.algorithm_configs = algorithm_config.get_algorithm_configs(domain)
         
-        # Extraer componentes
-        self.musical_features = self.dataset['musical_features_normalized']
-        self.semantic_embeddings = self.dataset['semantic_embeddings']
-        self.track_ids = self.dataset['track_ids']
-        
-        # Validar integridad
-        self._validate_dataset_integrity()
-        
-        # Inicializar resultados
-        self.evaluation_results = {
-            'musical': [],
-            'semantic': [],
-            'metadata': {
-                'dataset_path': dataset_path,
-                'n_samples': len(self.track_ids),
-                'evaluation_timestamp': pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')
-            }
-        }
-        
-        self.logger.info(f"AlgorithmEvaluator inicializado con {len(self.track_ids)} muestras")
-    
     def _setup_logging(self) -> logging.Logger:
-        """Configurar logging para evaluador."""
-        logger = logging.getLogger(f'AlgorithmEvaluator_{id(self)}')
+        """Configurar logging para el evaluador."""
+        logger = logging.getLogger(f'DomainEvaluator_{self.domain}')
         logger.setLevel(logging.INFO if self.verbose else logging.WARNING)
         
         if not logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            formatter = logging.Formatter(
+                f'[{self.domain.upper()}] %(asctime)s - %(levelname)s - %(message)s'
+            )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
         
         return logger
     
-    def _load_unified_dataset(self) -> Dict[str, Any]:
+    def evaluate_single_configuration(self, X: np.ndarray, algorithm_name: str,
+                                    k: int = None, eps: float = None) -> ClusteringResult:
         """
-        Cargar dataset unificado multimodal.
-        
-        Returns:
-            Dict con componentes del dataset
-        """
-        try:
-            with open(self.dataset_path, 'rb') as f:
-                dataset = pickle.load(f)
-            
-            self.logger.info(f"Dataset cargado exitosamente desde {self.dataset_path}")
-            return dataset
-        
-        except Exception as e:
-            self.logger.error(f"Error cargando dataset: {e}")
-            raise RuntimeError(f"No se pudo cargar dataset desde {self.dataset_path}")
-    
-    def _validate_dataset_integrity(self) -> None:
-        """Validar integridad del dataset cargado."""
-        required_keys = ['musical_features_normalized', 'semantic_embeddings', 'track_ids']
-        
-        for key in required_keys:
-            if key not in self.dataset:
-                raise ValueError(f"Dataset no contiene clave requerida: {key}")
-        
-        # Verificar dimensiones
-        n_samples = len(self.track_ids)
-        
-        if self.musical_features.shape[0] != n_samples:
-            raise ValueError("Inconsistencia en número de muestras musicales")
-        
-        if self.semantic_embeddings.shape[0] != n_samples:
-            raise ValueError("Inconsistencia en número de muestras semánticas")
-        
-        # Verificar dimensionalidad esperada
-        if self.musical_features.shape[1] != 12:
-            self.logger.warning(f"Dimensionalidad musical inesperada: {self.musical_features.shape[1]} (esperado: 12)")
-        
-        if self.semantic_embeddings.shape[1] != 384:
-            self.logger.warning(f"Dimensionalidad semántica inesperada: {self.semantic_embeddings.shape[1]} (esperado: 384)")
-        
-        self.logger.info(f"Dataset validado: {n_samples} muestras, {self.musical_features.shape[1]}D musical, {self.semantic_embeddings.shape[1]}D semántico")
-    
-    def evaluate_single_algorithm(self, domain: str, algorithm_name: str, k: int) -> Dict[str, Any]:
-        """
-        Evaluar algoritmo específico en dominio determinado.
+        Evaluar una configuración algorítmica específica.
         
         Args:
-            domain: 'musical' o 'semantic'
-            algorithm_name: Nombre del algoritmo según configuración
-            k: Número de clusters objetivo
-            
-        Returns:
-            Dict con resultados de evaluación completa
-        """
-        self.logger.info(f"Evaluando {algorithm_name} en dominio {domain} con K={k}")
-        
-        start_time = time.time()
-        
-        try:
-            # Obtener datos y algoritmo
-            X = self.musical_features if domain == 'musical' else self.semantic_embeddings
-            algorithm = algorithms_config.create_algorithm_instance(domain, algorithm_name, k)
-            
-            # Manejo especial para DBSCAN
-            if algorithm_name.startswith('dbscan'):
-                labels = self._evaluate_dbscan(domain, algorithm, X)
-                k_effective = len(np.unique(labels[labels != -1]))
-            else:
-                # Clustering estándar
-                labels = algorithm.fit_predict(X)
-                k_effective = len(np.unique(labels))
-            
-            # Evaluación completa
-            results = evaluation_metrics.evaluate_clustering_complete(X, labels, domain, k)
-            
-            # Agregar información algoritmo
-            results.update({
-                'algorithm_name': algorithm_name,
-                'algorithm_description': algorithms_config.get_algorithm_description(domain, algorithm_name),
-                'k_effective': k_effective,
-                'execution_time_seconds': time.time() - start_time,
-                'n_samples': len(X)
-            })
-            
-            # Generar etiqueta automática si es interpretable
-            if results['interpretability_score'] > 0.5:
-                results['auto_label'] = self._generate_cluster_label(domain, X, labels)
-            else:
-                results['auto_label'] = f"Cluster {domain.title()} K={k_effective}"
-            
-            self.logger.info(f"Evaluación completada: Silhouette={results['silhouette_score']:.3f}, "
-                           f"Balance={results['balance_distribution_score']:.3f}, "
-                           f"Interpretabilidad={results['interpretability_score']:.3f}")
-            
-            return results
-            
-        except Exception as e:
-            self.logger.error(f"Error evaluando {algorithm_name}: {e}")
-            return self._create_error_result(domain, algorithm_name, k, str(e), time.time() - start_time)
-    
-    def _evaluate_dbscan(self, domain: str, dbscan_algorithm: DBSCAN, X: np.ndarray) -> np.ndarray:
-        """
-        Evaluar DBSCAN con optimización de eps.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            dbscan_algorithm: Instancia configurada de DBSCAN
-            X: Matriz de características
-            
-        Returns:
-            Etiquetas de clustering optimizadas
-        """
-        eps_range = algorithms_config.get_eps_optimization_range(domain)
-        best_labels = None
-        best_score = -1.0
-        
-        for eps in eps_range:
-            # Actualizar eps
-            dbscan_algorithm.eps = eps
-            
-            try:
-                labels = dbscan_algorithm.fit_predict(X)
-                unique_labels = np.unique(labels[labels != -1])
-                
-                # Validar clustering válido
-                if len(unique_labels) >= 2:
-                    # Calcular silhouette para comparar
-                    silhouette = evaluation_metrics.calculate_traditional_metrics(X, labels)['silhouette_score']
-                    
-                    if silhouette > best_score:
-                        best_score = silhouette
-                        best_labels = labels.copy()
-                        
-            except Exception:
-                continue
-        
-        # Si no se encontró configuración válida, usar configuración original
-        if best_labels is None:
-            self.logger.warning(f"DBSCAN {domain}: No se encontró eps óptimo, usando configuración original")
-            best_labels = dbscan_algorithm.fit_predict(X)
-        
-        return best_labels
-    
-    def _generate_cluster_label(self, domain: str, X: np.ndarray, labels: np.ndarray) -> str:
-        """
-        Generar etiqueta automática para clustering interpretable.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            X: Matriz de características
-            labels: Etiquetas de clustering
-            
-        Returns:
-            Etiqueta descriptiva automática
-        """
-        try:
-            unique_labels = np.unique(labels[labels != -1])
-            
-            if len(unique_labels) == 0:
-                return f"Sin Clusters {domain.title()}"
-            
-            # Seleccionar cluster más grande para etiqueta representativa
-            cluster_sizes = [(label, np.sum(labels == label)) for label in unique_labels]
-            largest_cluster_label = max(cluster_sizes, key=lambda x: x[1])[0]
-            
-            cluster_mask = labels == largest_cluster_label
-            cluster_data = X[cluster_mask]
-            
-            if domain == 'musical':
-                cluster_mean = np.mean(cluster_data, axis=0)
-                cluster_std = np.std(cluster_data, axis=0)
-                return interpretability_settings.generate_musical_cluster_label(cluster_mean, cluster_std)
-            
-            elif domain == 'semantic':
-                coherence_score = evaluation_metrics._calculate_semantic_coherence(cluster_data)
-                return interpretability_settings.generate_semantic_cluster_label(cluster_data[:5], coherence_score)
-            
-            else:
-                return f"Cluster {domain.title()}"
-                
-        except Exception as e:
-            self.logger.warning(f"Error generando etiqueta automática: {e}")
-            return f"Cluster {domain.title()} K={len(np.unique(labels[labels != -1]))}"
-    
-    def _create_error_result(self, domain: str, algorithm_name: str, k: int, 
-                           error_message: str, execution_time: float) -> Dict[str, Any]:
-        """
-        Crear resultado de error estandarizado.
-        
-        Args:
-            domain: 'musical' o 'semantic'
+            X: Datos de entrada (N, features)
             algorithm_name: Nombre del algoritmo
-            k: Valor K objetivo
-            error_message: Mensaje de error
-            execution_time: Tiempo de ejecución
+            k: Número de clusters (si aplica)
+            eps: Parámetro epsilon para DBSCAN (si aplica)
             
         Returns:
-            Dict con resultado de error
+            Resultado completo de la evaluación
         """
-        return {
-            'domain': domain,
-            'algorithm_name': algorithm_name,
-            'k_target': k,
-            'k_effective': 0,
-            'silhouette_score': -1.0,
-            'calinski_harabasz_score': 0.0,
-            'davies_bouldin_score': float('inf'),
-            'balance_distribution_score': 0.0,
-            'interpretability_score': 0.0,
-            'granularity_bonus': 0.0,
-            'composite_score_partial': 0.0,
-            'n_clusters': 0,
-            'n_noise_points': 0,
-            'auto_label': f"Error: {domain.title()}",
-            'execution_time_seconds': execution_time,
-            'error': True,
-            'error_message': error_message,
-            'evaluation_timestamp': pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')
-        }
+        self.logger.info(f"Evaluando {algorithm_name} con K={k}, eps={eps}")
+        
+        try:
+            # Crear instancia del algoritmo
+            algorithm = algorithm_config.get_algorithm_instance(
+                self.domain, algorithm_name, k=k, eps=eps
+            )
+            
+            # Ejecutar clustering con medición de tiempo
+            start_time = time.time()
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                labels = algorithm.fit_predict(X)
+            execution_time = time.time() - start_time
+            
+            # Obtener parámetros utilizados
+            algorithm_params = {
+                'algorithm': algorithm_name,
+                'k': k,
+                'eps': eps,
+                'n_samples': len(X),
+                'n_features': X.shape[1]
+            }
+            
+            # Calcular métricas básicas
+            unique_labels = np.unique(labels)
+            n_clusters = len(unique_labels[unique_labels != -1])
+            n_outliers = np.sum(labels == -1)
+            
+            # Evaluación de calidad técnica
+            quality_metrics = multi_criteria_evaluator.evaluate_clustering_quality(
+                X, labels, self.domain
+            )
+            
+            if not quality_metrics['valid']:
+                return ClusteringResult(
+                    domain=self.domain,
+                    algorithm_name=algorithm_name,
+                    algorithm_params=algorithm_params,
+                    labels=labels,
+                    execution_time=execution_time,
+                    n_clusters=n_clusters,
+                    n_outliers=n_outliers,
+                    silhouette_score=-1.0,
+                    calinski_harabasz_score=0.0,
+                    davies_bouldin_score=10.0,
+                    balance_score=0.0,
+                    entropy_score=0.0,
+                    interpretability_score=0.0,
+                    coherence_score=0.0,
+                    granularity_bonus=0.0,
+                    meets_granularity_criteria=False,
+                    composite_score=0.0,
+                    valid_result=False,
+                    error_message="Invalid clustering result"
+                )
+            
+            # Evaluación de balance
+            balance_metrics = multi_criteria_evaluator.evaluate_balance_distribution(labels)
+            
+            # Evaluación de interpretabilidad
+            interpretability_metrics = multi_criteria_evaluator.evaluate_interpretability(
+                X, labels, self.domain
+            )
+            
+            # Evaluación de granularidad
+            granularity_metrics = multi_criteria_evaluator.evaluate_granularity_bonus(labels)
+            
+            # Calcular score compuesto
+            composite_score = multi_criteria_evaluator.compute_composite_score(
+                quality_metrics['silhouette_score'],
+                balance_metrics['balance_score'],
+                interpretability_metrics['interpretability_score'],
+                0.0,  # cross_modal_score se calcula después
+                granularity_metrics['granularity_bonus']
+            )
+            
+            result = ClusteringResult(
+                domain=self.domain,
+                algorithm_name=algorithm_name,
+                algorithm_params=algorithm_params,
+                labels=labels,
+                execution_time=execution_time,
+                n_clusters=n_clusters,
+                n_outliers=n_outliers,
+                silhouette_score=quality_metrics['silhouette_score'],
+                calinski_harabasz_score=quality_metrics['calinski_harabasz_score'],
+                davies_bouldin_score=quality_metrics['davies_bouldin_score'],
+                balance_score=balance_metrics['balance_score'],
+                entropy_score=balance_metrics['entropy_score'],
+                interpretability_score=interpretability_metrics['interpretability_score'],
+                coherence_score=interpretability_metrics['coherence_score'],
+                granularity_bonus=granularity_metrics['granularity_bonus'],
+                meets_granularity_criteria=granularity_metrics['meets_granularity_criteria'],
+                composite_score=composite_score,
+                valid_result=True
+            )
+            
+            self.logger.info(
+                f"Completado: Score={composite_score:.3f}, "
+                f"Silhouette={quality_metrics['silhouette_score']:.3f}, "
+                f"K={n_clusters}, Tiempo={execution_time:.2f}s"
+            )
+            
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"Error evaluating {algorithm_name}: {e}")
+            
+            return ClusteringResult(
+                domain=self.domain,
+                algorithm_name=algorithm_name,
+                algorithm_params={'algorithm': algorithm_name, 'k': k, 'eps': eps},
+                labels=np.array([-1] * len(X)),
+                execution_time=0.0,
+                n_clusters=0,
+                n_outliers=len(X),
+                silhouette_score=-1.0,
+                calinski_harabasz_score=0.0,
+                davies_bouldin_score=10.0,
+                balance_score=0.0,
+                entropy_score=0.0,
+                interpretability_score=0.0,
+                coherence_score=0.0,
+                granularity_bonus=0.0,
+                meets_granularity_criteria=False,
+                composite_score=0.0,
+                valid_result=False,
+                error_message=str(e)
+            )
     
-    def evaluate_domain_complete(self, domain: str, max_parallel: int = 1) -> List[Dict[str, Any]]:
+    def evaluate_all_configurations(self, X: np.ndarray) -> List[ClusteringResult]:
         """
-        Evaluar todos los algoritmos y valores K para un dominio.
+        Evaluar todas las configuraciones algorítmicas para este dominio.
         
         Args:
-            domain: 'musical' o 'semantic'
-            max_parallel: Número máximo de evaluaciones paralelas (futuro)
+            X: Datos de entrada
             
         Returns:
-            Lista con resultados de todas las evaluaciones
+            Lista de resultados ordenados por score compuesto
         """
-        self.logger.info(f"Iniciando evaluación completa del dominio {domain}")
+        self.logger.info(f"Iniciando evaluación exhaustiva para dominio {self.domain}")
+        self.logger.info(f"Dataset: {X.shape[0]} muestras, {X.shape[1]} características")
         
-        algorithms = algorithms_config.get_algorithm_configs(domain)
-        k_range = algorithms_config.get_k_range(domain)
+        results = []
+        total_configs = 0
         
-        domain_results = []
-        total_experiments = 0
+        # Contar configuraciones totales
+        for algorithm_name, config in self.algorithm_configs.items():
+            if 'k_range' in config:
+                total_configs += len(config['k_range'])
+            elif 'eps_range' in config:
+                total_configs += len(config['eps_range'])
         
-        # Contar experimentos
-        for algorithm_name in algorithms.keys():
-            if algorithm_name.startswith('dbscan'):
-                total_experiments += 1  # DBSCAN no usa K
-            else:
-                total_experiments += len(k_range)
+        self.logger.info(f"Total configuraciones a evaluar: {total_configs}")
         
-        self.logger.info(f"Ejecutando {total_experiments} experimentos para dominio {domain}")
-        
-        experiment_count = 0
-        
-        for algorithm_name in algorithms.keys():
-            if algorithm_name.startswith('dbscan'):
-                # DBSCAN: un experimento sin K específico
-                experiment_count += 1
-                self.logger.info(f"Progreso: {experiment_count}/{total_experiments} - {algorithm_name}")
-                
-                result = self.evaluate_single_algorithm(domain, algorithm_name, k=0)  # K=0 para DBSCAN
-                domain_results.append(result)
-                
-            else:
-                # Algoritmos con K
-                for k in k_range:
-                    experiment_count += 1
-                    self.logger.info(f"Progreso: {experiment_count}/{total_experiments} - {algorithm_name} K={k}")
+        config_count = 0
+        for algorithm_name, config in self.algorithm_configs.items():
+            self.logger.info(f"Evaluando algoritmo: {algorithm_name}")
+            
+            if 'k_range' in config:
+                # Algoritmos con parámetro K
+                for k in config['k_range']:
+                    config_count += 1
+                    self.logger.info(f"Progreso: {config_count}/{total_configs}")
                     
-                    result = self.evaluate_single_algorithm(domain, algorithm_name, k)
-                    domain_results.append(result)
+                    result = self.evaluate_single_configuration(X, algorithm_name, k=k)
+                    results.append(result)
+                    
+            elif 'eps_range' in config:
+                # Algoritmos DBSCAN con parámetro eps
+                for eps in config['eps_range']:
+                    config_count += 1
+                    self.logger.info(f"Progreso: {config_count}/{total_configs}")
+                    
+                    result = self.evaluate_single_configuration(X, algorithm_name, eps=eps)
+                    results.append(result)
         
-        # Guardar resultados del dominio
-        self.evaluation_results[domain] = domain_results
+        # Ordenar por score compuesto (descendente)
+        results.sort(key=lambda r: r.composite_score, reverse=True)
         
-        self.logger.info(f"Evaluación del dominio {domain} completada: {len(domain_results)} resultados")
+        self.logger.info(f"Evaluación completada. Mejor score: {results[0].composite_score:.3f}")
         
-        return domain_results
+        return results
     
-    def evaluate_multimodal_complete(self) -> Dict[str, Any]:
-        """
-        Evaluar clustering completo multimodal (ambos dominios).
-        
-        Returns:
-            Dict con resultados completos de evaluación
-        """
-        self.logger.info("Iniciando evaluación multimodal completa")
-        start_time = time.time()
-        
-        # Evaluar cada dominio
-        musical_results = self.evaluate_domain_complete('musical')
-        semantic_results = self.evaluate_domain_complete('semantic')
-        
-        # Agregar metadatos finales
-        self.evaluation_results['metadata'].update({
-            'total_execution_time_seconds': time.time() - start_time,
-            'musical_experiments': len(musical_results),
-            'semantic_experiments': len(semantic_results),
-            'total_experiments': len(musical_results) + len(semantic_results),
-            'evaluation_completed': True
-        })
-        
-        self.logger.info(f"Evaluación multimodal completada en {self.evaluation_results['metadata']['total_execution_time_seconds']:.1f} segundos")
-        self.logger.info(f"Total experimentos: {self.evaluation_results['metadata']['total_experiments']}")
-        
-        return self.evaluation_results
-    
-    def get_top_configurations(self, domain: str, top_n: int = 3) -> List[Dict[str, Any]]:
-        """
-        Obtener top-N configuraciones por score compuesto para dominio.
-        
-        Args:
-            domain: 'musical' o 'semantic'
-            top_n: Número de configuraciones top a retornar
-            
-        Returns:
-            Lista de top configuraciones ordenadas por score
-        """
-        if domain not in self.evaluation_results:
-            self.logger.warning(f"No hay resultados para dominio {domain}")
-            return []
-        
-        results = self.evaluation_results[domain]
-        
-        # Filtrar errores y ordenar por score compuesto
-        valid_results = [r for r in results if not r.get('error', False)]
-        valid_results.sort(key=lambda x: x.get('composite_score_partial', 0), reverse=True)
-        
+    def get_top_configurations(self, results: List[ClusteringResult], 
+                              top_n: int = 5) -> List[ClusteringResult]:
+        """Obtener las mejores N configuraciones."""
+        valid_results = [r for r in results if r.valid_result]
         return valid_results[:top_n]
     
-    def save_results(self, output_path: str) -> None:
+    def export_results_to_dataframe(self, results: List[ClusteringResult]) -> pd.DataFrame:
         """
-        Guardar resultados de evaluación en archivo.
+        Exportar resultados a DataFrame para análisis.
         
         Args:
-            output_path: Ruta para guardar resultados (.pkl)
+            results: Lista de resultados
+            
+        Returns:
+            DataFrame con todos los resultados
         """
-        try:
-            with open(output_path, 'wb') as f:
-                pickle.dump(self.evaluation_results, f)
-            
-            self.logger.info(f"Resultados guardados en {output_path}")
-            
-        except Exception as e:
-            self.logger.error(f"Error guardando resultados: {e}")
-            raise
-
-
-# Función de conveniencia para evaluación rápida
-def evaluate_multimodal_clustering(dataset_path: str, 
-                                 output_path: Optional[str] = None,
-                                 verbose: bool = True) -> Dict[str, Any]:
-    """
-    Función de conveniencia para evaluación multimodal completa.
-    
-    Args:
-        dataset_path: Ruta al dataset unificado
-        output_path: Ruta opcional para guardar resultados
-        verbose: Activar logging detallado
+        rows = []
+        for result in results:
+            row = asdict(result)
+            # Expandir algorithm_params
+            row.update(result.algorithm_params)
+            # Remover campos complejos
+            row.pop('labels', None)
+            row.pop('algorithm_params', None)
+            rows.append(row)
         
-    Returns:
-        Resultados completos de evaluación
-    """
-    evaluator = AlgorithmEvaluator(dataset_path, verbose=verbose)
-    results = evaluator.evaluate_multimodal_complete()
+        return pd.DataFrame(rows)
     
-    if output_path:
-        evaluator.save_results(output_path)
-    
-    return results
+    def save_results(self, results: List[ClusteringResult], 
+                    output_dir: Path, timestamp: str) -> Dict[str, str]:
+        """
+        Guardar resultados en múltiples formatos.
+        
+        Args:
+            results: Lista de resultados
+            output_dir: Directorio de salida
+            timestamp: Timestamp para nombres de archivo
+            
+        Returns:
+            Dict con rutas de archivos guardados
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        saved_files = {}
+        
+        # DataFrame con todos los resultados
+        df = self.export_results_to_dataframe(results)
+        csv_path = output_dir / f"{self.domain}_clustering_results_{timestamp}.csv"
+        df.to_csv(csv_path, index=False)
+        saved_files['results_csv'] = str(csv_path)
+        
+        # Top 5 configuraciones
+        top_5 = self.get_top_configurations(results, top_n=5)
+        top_5_df = self.export_results_to_dataframe(top_5)
+        top_5_path = output_dir / f"{self.domain}_top5_configurations_{timestamp}.csv"
+        top_5_df.to_csv(top_5_path, index=False)
+        saved_files['top5_csv'] = str(top_5_path)
+        
+        # Labels de la mejor configuración
+        if results and results[0].valid_result:
+            best_labels_path = output_dir / f"{self.domain}_best_labels_{timestamp}.npy"
+            np.save(best_labels_path, results[0].labels)
+            saved_files['best_labels'] = str(best_labels_path)
+        
+        self.logger.info(f"Resultados guardados en: {output_dir}")
+        
+        return saved_files

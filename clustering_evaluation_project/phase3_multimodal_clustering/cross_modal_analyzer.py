@@ -1,63 +1,405 @@
+#!/usr/bin/env python3
 """
-Analizador Cross-Modal para Correspondencias entre Dominios Vectoriales
-======================================================================
-
-Implementa análisis de correspondencias entre clustering musical y semántico,
-evaluación de patrones cross-modales, y métricas de coherencia multimodal
-para sistemas de recomendación explicables.
-
-Autor: Proyecto FASE 3 - Sistema Clustering Multimodal
-Fecha: Agosto 2025
+Analizador de correspondencias cross-modales para FASE 3.
+Evalúa coherencia entre clustering musical y semántico de las mismas canciones.
 """
 
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Any, Tuple, Optional, Union
-from scipy.stats import contingency
-from sklearn.metrics import normalized_mutual_info_score, adjusted_mutual_info_score
-from sklearn.metrics.cluster import adjusted_rand_score
-import warnings
+from typing import Dict, List, Tuple, Any, Optional
+from dataclasses import dataclass
+from sklearn.metrics import normalized_mutual_info_score, adjusted_rand_score
+from sklearn.metrics import confusion_matrix
 import logging
+from collections import Counter
+import matplotlib.pyplot as plt
+import seaborn as sns
+from pathlib import Path
 
-from .config.interpretability_settings import interpretability_settings
+@dataclass
+class CrossModalCorrespondence:
+    """Correspondencia entre clusters de diferentes dominios."""
+    musical_cluster_id: int
+    semantic_cluster_id: int
+    overlap_count: int
+    overlap_ratio: float
+    musical_cluster_size: int
+    semantic_cluster_size: int
+    correspondence_strength: float
 
+@dataclass
+class CrossModalAnalysisResult:
+    """Resultado completo de análisis cross-modal."""
+    nmi_score: float
+    adjusted_rand_score: float
+    n_musical_clusters: int
+    n_semantic_clusters: int
+    n_valid_samples: int
+    
+    # Correspondencias principales
+    strong_correspondences: List[CrossModalCorrespondence]
+    weak_correspondences: List[CrossModalCorrespondence]
+    
+    # Matriz de contingencia
+    contingency_matrix: np.ndarray
+    musical_cluster_sizes: Dict[int, int]
+    semantic_cluster_sizes: Dict[int, int]
+    
+    # Métricas de coherencia
+    avg_correspondence_strength: float
+    correspondence_coverage: float  # % de muestras en correspondencias fuertes
+    
+    # Análisis de divergencias
+    divergent_cases: Dict[str, Any]
 
 class CrossModalAnalyzer:
-    """
-    Analizador especializado de correspondencias cross-modales.
+    """Analizador de correspondencias cross-modales."""
     
-    Evalúa patrones de correspondencia entre clustering musical y semántico,
-    identifica relaciones interpretables, y genera métricas de coherencia
-    multimodal para explicabilidad de recomendaciones.
-    """
-    
-    def __init__(self, musical_features: np.ndarray, semantic_embeddings: np.ndarray,
-                 track_ids: np.ndarray, verbose: bool = True):
-        """
-        Inicializar analizador cross-modal.
-        
-        Args:
-            musical_features: Características musicales normalizadas (N, 12)
-            semantic_embeddings: Embeddings semánticos BERT (N, 384)
-            track_ids: Identificadores de tracks (N,)
-            verbose: Activar logging detallado
-        """
-        self.musical_features = musical_features
-        self.semantic_embeddings = semantic_embeddings
-        self.track_ids = track_ids
+    def __init__(self, verbose: bool = True):
+        """Inicializar analizador."""
         self.verbose = verbose
-        
-        # Validar consistencia dimensional
-        self._validate_input_consistency()
-        
-        # Configurar logging
         self.logger = self._setup_logging()
         
-        # Configuraciones cross-modal
-        self.settings = interpretability_settings.cross_modal_config
+        # Umbrales para correspondencias
+        self.strong_correspondence_threshold = 0.3  # 30% de overlap
+        self.weak_correspondence_threshold = 0.1    # 10% de overlap
         
-        self.logger.info(f"CrossModalAnalyzer inicializado con {len(track_ids)} muestras")
-    
     def _setup_logging(self) -> logging.Logger:
-        """Configurar logging para analizador."""
-        logger = logging.getLogger(f'CrossModalAnalyzer_{id(self)}')\n        logger.setLevel(logging.INFO if self.verbose else logging.WARNING)\n        \n        if not logger.handlers:\n            handler = logging.StreamHandler()\n            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')\n            handler.setFormatter(formatter)\n            logger.addHandler(handler)\n        \n        return logger\n    \n    def _validate_input_consistency(self) -> None:\n        \"\"\"Validar consistencia de datos de entrada.\"\"\"\n        n_samples = len(self.track_ids)\n        \n        if self.musical_features.shape[0] != n_samples:\n            raise ValueError(f\"Inconsistencia dimensional musical: {self.musical_features.shape[0]} vs {n_samples}\")\n        \n        if self.semantic_embeddings.shape[0] != n_samples:\n            raise ValueError(f\"Inconsistencia dimensional semántica: {self.semantic_embeddings.shape[0]} vs {n_samples}\")\n        \n        if self.musical_features.shape[1] != 12:\n            warnings.warn(f\"Dimensionalidad musical inesperada: {self.musical_features.shape[1]} (esperado: 12)\")\n        \n        if self.semantic_embeddings.shape[1] != 384:\n            warnings.warn(f\"Dimensionalidad semántica inesperada: {self.semantic_embeddings.shape[1]} (esperado: 384)\")\n    \n    def analyze_cross_modal_correspondence(self, musical_labels: np.ndarray, \n                                         semantic_labels: np.ndarray,\n                                         musical_algorithm_name: str = \"unknown\",\n                                         semantic_algorithm_name: str = \"unknown\") -> Dict[str, Any]:\n        \"\"\"\n        Analizar correspondencia completa entre clustering musical y semántico.\n        \n        Args:\n            musical_labels: Etiquetas clustering musical\n            semantic_labels: Etiquetas clustering semántico\n            musical_algorithm_name: Nombre algoritmo musical\n            semantic_algorithm_name: Nombre algoritmo semántico\n            \n        Returns:\n            Dict con análisis completo de correspondencia\n        \"\"\"\n        self.logger.info(f\"Analizando correspondencia: {musical_algorithm_name} vs {semantic_algorithm_name}\")\n        \n        # Validar entrada\n        if len(musical_labels) != len(semantic_labels) or len(musical_labels) != len(self.track_ids):\n            raise ValueError(\"Inconsistencia en longitudes de arrays de etiquetas\")\n        \n        analysis_results = {\n            'musical_algorithm': musical_algorithm_name,\n            'semantic_algorithm': semantic_algorithm_name,\n            'n_samples': len(musical_labels),\n            'analysis_timestamp': pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')\n        }\n        \n        # Información básica de clustering\n        cluster_info = self._analyze_basic_cluster_info(musical_labels, semantic_labels)\n        analysis_results.update(cluster_info)\n        \n        # Métricas de correspondencia\n        correspondence_metrics = self._calculate_correspondence_metrics(musical_labels, semantic_labels)\n        analysis_results.update(correspondence_metrics)\n        \n        # Matriz de contingencia y análisis de patrones\n        contingency_analysis = self._analyze_contingency_patterns(musical_labels, semantic_labels)\n        analysis_results.update(contingency_analysis)\n        \n        # Identificación de correspondencias fuertes\n        strong_correspondences = self._identify_strong_correspondences(musical_labels, semantic_labels)\n        analysis_results['strong_correspondences'] = strong_correspondences\n        \n        # Análisis de interpretabilidad cross-modal\n        interpretability_analysis = self._analyze_cross_modal_interpretability(\n            musical_labels, semantic_labels, strong_correspondences\n        )\n        analysis_results.update(interpretability_analysis)\n        \n        # Score de correspondencia general\n        correspondence_score = self._calculate_overall_correspondence_score(analysis_results)\n        analysis_results['correspondence_score'] = correspondence_score\n        \n        self.logger.info(f\"Correspondencia completada: Score={correspondence_score:.3f}, \"\n                        f\"{len(strong_correspondences)} correspondencias fuertes\")\n        \n        return analysis_results\n    \n    def _analyze_basic_cluster_info(self, musical_labels: np.ndarray, \n                                   semantic_labels: np.ndarray) -> Dict[str, Any]:\n        \"\"\"Analizar información básica de clustering.\"\"\"\n        \n        # Filtrar ruido\n        musical_clean = musical_labels[musical_labels != -1]\n        semantic_clean = semantic_labels[semantic_labels != -1]\n        \n        return {\n            'musical_clusters_count': len(np.unique(musical_clean)),\n            'semantic_clusters_count': len(np.unique(semantic_clean)),\n            'musical_noise_points': np.sum(musical_labels == -1),\n            'semantic_noise_points': np.sum(semantic_labels == -1),\n            'valid_points_both': np.sum((musical_labels != -1) & (semantic_labels != -1)),\n            'valid_points_ratio': np.sum((musical_labels != -1) & (semantic_labels != -1)) / len(musical_labels)\n        }\n    \n    def _calculate_correspondence_metrics(self, musical_labels: np.ndarray, \n                                        semantic_labels: np.ndarray) -> Dict[str, Any]:\n        \"\"\"Calcular métricas de correspondencia entre clustering.\"\"\"\n        \n        # Filtrar puntos válidos (sin ruido)\n        valid_mask = (musical_labels != -1) & (semantic_labels != -1)\n        \n        if np.sum(valid_mask) < 10:\n            return {\n                'normalized_mutual_info': 0.0,\n                'adjusted_mutual_info': 0.0,\n                'adjusted_rand_score': 0.0,\n                'correspondence_strength': 'insufficient_data'\n            }\n        \n        musical_valid = musical_labels[valid_mask]\n        semantic_valid = semantic_labels[valid_mask]\n        \n        try:\n            # Normalized Mutual Information\n            nmi = normalized_mutual_info_score(musical_valid, semantic_valid)\n            \n            # Adjusted Mutual Information\n            ami = adjusted_mutual_info_score(musical_valid, semantic_valid)\n            \n            # Adjusted Rand Score\n            ars = adjusted_rand_score(musical_valid, semantic_valid)\n            \n            # Clasificar strength de correspondencia\n            if nmi > 0.5:\n                strength = 'very_strong'\n            elif nmi > 0.3:\n                strength = 'strong'\n            elif nmi > 0.15:\n                strength = 'moderate'\n            elif nmi > 0.05:\n                strength = 'weak'\n            else:\n                strength = 'very_weak'\n            \n            return {\n                'normalized_mutual_info': float(nmi),\n                'adjusted_mutual_info': float(ami),\n                'adjusted_rand_score': float(ars),\n                'correspondence_strength': strength\n            }\n            \n        except Exception as e:\n            self.logger.warning(f\"Error calculando métricas de correspondencia: {e}\")\n            return {\n                'normalized_mutual_info': 0.0,\n                'adjusted_mutual_info': 0.0,\n                'adjusted_rand_score': 0.0,\n                'correspondence_strength': 'calculation_error'\n            }\n    \n    def _analyze_contingency_patterns(self, musical_labels: np.ndarray, \n                                    semantic_labels: np.ndarray) -> Dict[str, Any]:\n        \"\"\"Analizar patrones en matriz de contingencia.\"\"\"\n        \n        # Crear matriz de contingencia\n        unique_musical = np.unique(musical_labels[musical_labels != -1])\n        unique_semantic = np.unique(semantic_labels[semantic_labels != -1])\n        \n        if len(unique_musical) == 0 or len(unique_semantic) == 0:\n            return {\n                'contingency_matrix': [],\n                'dominant_patterns': [],\n                'pattern_analysis': 'no_valid_clusters'\n            }\n        \n        contingency_matrix = np.zeros((len(unique_musical), len(unique_semantic)))\n        \n        for i, m_label in enumerate(unique_musical):\n            for j, s_label in enumerate(unique_semantic):\n                overlap = np.sum((musical_labels == m_label) & (semantic_labels == s_label))\n                contingency_matrix[i, j] = overlap\n        \n        # Normalizar por filas (clusters musicales)\n        row_sums = np.sum(contingency_matrix, axis=1, keepdims=True)\n        normalized_matrix = contingency_matrix / (row_sums + 1e-8)\n        \n        # Identificar patrones dominantes\n        dominant_patterns = []\n        \n        for i, m_label in enumerate(unique_musical):\n            max_correspondence_idx = np.argmax(normalized_matrix[i, :])\n            max_correspondence_value = normalized_matrix[i, max_correspondence_idx]\n            \n            if max_correspondence_value > 0.3:  # Umbral de correspondencia significativa\n                s_label = unique_semantic[max_correspondence_idx]\n                overlap_count = int(contingency_matrix[i, max_correspondence_idx])\n                \n                dominant_patterns.append({\n                    'musical_cluster': int(m_label),\n                    'semantic_cluster': int(s_label),\n                    'correspondence_ratio': float(max_correspondence_value),\n                    'overlap_count': overlap_count,\n                    'pattern_strength': 'strong' if max_correspondence_value > 0.5 else 'moderate'\n                })\n        \n        return {\n            'contingency_matrix': contingency_matrix.tolist(),\n            'normalized_contingency': normalized_matrix.tolist(),\n            'dominant_patterns': dominant_patterns,\n            'pattern_analysis': f\"{len(dominant_patterns)} patrones dominantes identificados\"\n        }\n    \n    def _identify_strong_correspondences(self, musical_labels: np.ndarray, \n                                       semantic_labels: np.ndarray) -> List[Dict[str, Any]]:\n        \"\"\"Identificar correspondencias fuertes entre clusters.\"\"\"\n        \n        strong_correspondences = []\n        \n        unique_musical = np.unique(musical_labels[musical_labels != -1])\n        unique_semantic = np.unique(semantic_labels[semantic_labels != -1])\n        \n        for m_label in unique_musical:\n            for s_label in unique_semantic:\n                # Calcular overlap bidireccional\n                musical_mask = musical_labels == m_label\n                semantic_mask = semantic_labels == s_label\n                \n                overlap = np.sum(musical_mask & semantic_mask)\n                total_musical = np.sum(musical_mask)\n                total_semantic = np.sum(semantic_mask)\n                \n                if total_musical > 0 and total_semantic > 0:\n                    # Porcentaje de overlap desde perspectiva musical\n                    musical_overlap_percent = (overlap / total_musical) * 100\n                    \n                    # Porcentaje de overlap desde perspectiva semántica\n                    semantic_overlap_percent = (overlap / total_semantic) * 100\n                    \n                    # Considerar correspondencia fuerte si supera umbrales\n                    min_overlap_threshold = self.settings['min_overlap_percent']\n                    \n                    if (musical_overlap_percent >= min_overlap_threshold and \n                        semantic_overlap_percent >= min_overlap_threshold):\n                        \n                        # Calcular métricas adicionales\n                        jaccard_index = overlap / (total_musical + total_semantic - overlap)\n                        correspondence_strength = min(musical_overlap_percent, semantic_overlap_percent)\n                        \n                        strong_correspondences.append({\n                            'musical_cluster': int(m_label),\n                            'semantic_cluster': int(s_label),\n                            'overlap_count': int(overlap),\n                            'musical_overlap_percent': float(musical_overlap_percent),\n                            'semantic_overlap_percent': float(semantic_overlap_percent),\n                            'jaccard_index': float(jaccard_index),\n                            'correspondence_strength': float(correspondence_strength),\n                            'classification': self._classify_correspondence_strength(correspondence_strength)\n                        })\n        \n        # Ordenar por strength de correspondencia\n        strong_correspondences.sort(key=lambda x: x['correspondence_strength'], reverse=True)\n        \n        return strong_correspondences[:self.settings['max_correspondences_display']]\n    \n    def _classify_correspondence_strength(self, strength: float) -> str:\n        \"\"\"Clasificar strength de correspondencia.\"\"\"\n        if strength >= 70:\n            return 'very_strong'\n        elif strength >= 50:\n            return 'strong'\n        elif strength >= 30:\n            return 'moderate'\n        else:\n            return 'weak'\n    \n    def _analyze_cross_modal_interpretability(self, musical_labels: np.ndarray, \n                                            semantic_labels: np.ndarray,\n                                            strong_correspondences: List[Dict[str, Any]]) -> Dict[str, Any]:\n        \"\"\"Analizar interpretabilidad de correspondencias cross-modales.\"\"\"\n        \n        interpretability_analysis = {\n            'total_correspondences': len(strong_correspondences),\n            'very_strong_correspondences': len([c for c in strong_correspondences if c['classification'] == 'very_strong']),\n            'interpretable_correspondences': len([c for c in strong_correspondences if c['correspondence_strength'] >= 40]),\n            'correspondence_coverage': 0.0\n        }\n        \n        if len(strong_correspondences) > 0:\n            # Calcular cobertura de correspondencias\n            covered_musical_clusters = set([c['musical_cluster'] for c in strong_correspondences])\n            covered_semantic_clusters = set([c['semantic_cluster'] for c in strong_correspondences])\n            \n            total_musical_clusters = len(np.unique(musical_labels[musical_labels != -1]))\n            total_semantic_clusters = len(np.unique(semantic_labels[semantic_labels != -1]))\n            \n            if total_musical_clusters > 0 and total_semantic_clusters > 0:\n                musical_coverage = len(covered_musical_clusters) / total_musical_clusters\n                semantic_coverage = len(covered_semantic_clusters) / total_semantic_clusters\n                interpretability_analysis['correspondence_coverage'] = (musical_coverage + semantic_coverage) / 2\n            \n            # Evaluar calidad de interpretabilidad\n            avg_strength = np.mean([c['correspondence_strength'] for c in strong_correspondences])\n            \n            if avg_strength >= 60 and interpretability_analysis['correspondence_coverage'] >= 0.7:\n                interpretability_analysis['interpretability_quality'] = 'excellent'\n            elif avg_strength >= 45 and interpretability_analysis['correspondence_coverage'] >= 0.5:\n                interpretability_analysis['interpretability_quality'] = 'good'\n            elif avg_strength >= 30 and interpretability_analysis['correspondence_coverage'] >= 0.3:\n                interpretability_analysis['interpretability_quality'] = 'moderate'\n            else:\n                interpretability_analysis['interpretability_quality'] = 'poor'\n        else:\n            interpretability_analysis['interpretability_quality'] = 'no_correspondences'\n        \n        return interpretability_analysis\n    \n    def _calculate_overall_correspondence_score(self, analysis_results: Dict[str, Any]) -> float:\n        \"\"\"Calcular score general de correspondencia cross-modal.\"\"\"\n        \n        # Componentes del score\n        nmi = analysis_results.get('normalized_mutual_info', 0)\n        strong_corr_count = analysis_results.get('very_strong_correspondences', 0)\n        total_corr_count = analysis_results.get('total_correspondences', 0)\n        coverage = analysis_results.get('correspondence_coverage', 0)\n        \n        # Normalizar componentes\n        nmi_component = min(1.0, nmi / 0.5)  # Normalizar NMI (0.5 = excelente)\n        \n        if total_corr_count > 0:\n            strength_component = strong_corr_count / total_corr_count\n        else:\n            strength_component = 0\n        \n        coverage_component = coverage\n        \n        # Score ponderado\n        weights = {'nmi': 0.4, 'strength': 0.3, 'coverage': 0.3}\n        \n        overall_score = (\n            weights['nmi'] * nmi_component +\n            weights['strength'] * strength_component +\n            weights['coverage'] * coverage_component\n        )\n        \n        return max(0.0, min(1.0, overall_score))\n    \n    def generate_correspondence_summary_report(self, analysis_results: Dict[str, Any]) -> str:\n        \"\"\"Generar reporte resumen de correspondencia cross-modal.\"\"\"\n        \n        musical_alg = analysis_results.get('musical_algorithm', 'Unknown')\n        semantic_alg = analysis_results.get('semantic_algorithm', 'Unknown')\n        nmi = analysis_results.get('normalized_mutual_info', 0)\n        correspondence_score = analysis_results.get('correspondence_score', 0)\n        strong_correspondences = analysis_results.get('strong_correspondences', [])\n        \n        report = f\"\"\"\n## Análisis Cross-Modal: {musical_alg} ↔ {semantic_alg}\n\n**Métricas Generales**:\n- Normalized Mutual Information: {nmi:.3f}\n- Score Correspondencia: {correspondence_score:.3f}\n- Correspondencias Fuertes: {len(strong_correspondences)}\n- Calidad Interpretabilidad: {analysis_results.get('interpretability_quality', 'unknown').title()}\n\n**Correspondencias Principales**:\n\"\"\"\n        \n        for i, corr in enumerate(strong_correspondences[:3], 1):\n            report += f\"\"\"\n{i}. Musical Cluster {corr['musical_cluster']} ↔ Semántico Cluster {corr['semantic_cluster']}\n   - Overlap: {corr['overlap_count']} canciones\n   - Strength: {corr['correspondence_strength']:.1f}%\n   - Clasificación: {corr['classification'].replace('_', ' ').title()}\n\"\"\"\n        \n        if not strong_correspondences:\n            report += \"\\nNo se identificaron correspondencias significativas.\"\n        \n        return report\n    \n    def analyze_multiple_algorithm_combinations(self, \n                                              musical_configs: List[Tuple[str, int]], \n                                              semantic_configs: List[Tuple[str, int]]) -> List[Dict[str, Any]]:\n        \"\"\"Analizar múltiples combinaciones de algoritmos.\"\"\"\n        \n        from .config.algorithms_config import algorithms_config\n        \n        combination_results = []\n        \n        total_combinations = len(musical_configs) * len(semantic_configs)\n        self.logger.info(f\"Analizando {total_combinations} combinaciones algorítmicas\")\n        \n        combination_count = 0\n        \n        for musical_alg_name, musical_k in musical_configs:\n            for semantic_alg_name, semantic_k in semantic_configs:\n                combination_count += 1\n                \n                try:\n                    self.logger.info(f\"Combinación {combination_count}/{total_combinations}: \"\n                                   f\"{musical_alg_name} K={musical_k} vs {semantic_alg_name} K={semantic_k}\")\n                    \n                    # Crear y ejecutar clustering\n                    musical_algorithm = algorithms_config.create_algorithm_instance(\n                        'musical', musical_alg_name, musical_k\n                    )\n                    semantic_algorithm = algorithms_config.create_algorithm_instance(\n                        'semantic', semantic_alg_name, semantic_k\n                    )\n                    \n                    musical_labels = musical_algorithm.fit_predict(self.musical_features)\n                    semantic_labels = semantic_algorithm.fit_predict(self.semantic_embeddings)\n                    \n                    # Analizar correspondencia\n                    correspondence_analysis = self.analyze_cross_modal_correspondence(\n                        musical_labels, semantic_labels,\n                        f\"{musical_alg_name}_K{musical_k}\",\n                        f\"{semantic_alg_name}_K{semantic_k}\"\n                    )\n                    \n                    combination_results.append(correspondence_analysis)\n                    \n                except Exception as e:\n                    self.logger.warning(f\"Error en combinación {musical_alg_name}-{semantic_alg_name}: {e}\")\n                    continue\n        \n        # Ordenar por score de correspondencia\n        combination_results.sort(key=lambda x: x.get('correspondence_score', 0), reverse=True)\n        \n        self.logger.info(f\"Análisis combinaciones completado: {len(combination_results)} resultados válidos\")\n        \n        return combination_results\n    \n    def get_best_correspondence_combination(self, combination_results: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:\n        \"\"\"Obtener la mejor combinación por score de correspondencia.\"\"\"\n        \n        if not combination_results:\n            return None\n        \n        return max(combination_results, key=lambda x: x.get('correspondence_score', 0))"
+        """Configurar logging."""
+        logger = logging.getLogger('CrossModalAnalyzer')
+        logger.setLevel(logging.INFO if self.verbose else logging.WARNING)
+        
+        if not logger.handlers:
+            handler = logging.StreamHandler()
+            formatter = logging.Formatter(
+                '[CROSS-MODAL] %(asctime)s - %(levelname)s - %(message)s'
+            )
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+        
+        return logger
+    
+    def analyze_cross_modal_correspondence(self, labels_musical: np.ndarray,
+                                         labels_semantic: np.ndarray,
+                                         track_ids: Optional[np.ndarray] = None) -> CrossModalAnalysisResult:
+        """
+        Analizar correspondencias cross-modales entre clusterings.
+        
+        Args:
+            labels_musical: Etiquetas clustering musical
+            labels_semantic: Etiquetas clustering semántico
+            track_ids: IDs de canciones (opcional, para debugging)
+            
+        Returns:
+            Resultado completo del análisis cross-modal
+        """
+        self.logger.info("Iniciando análisis cross-modal")
+        
+        # Validar entrada
+        if len(labels_musical) != len(labels_semantic):
+            raise ValueError("Las etiquetas deben tener la misma longitud")
+        
+        # Filtrar outliers de ambos dominios
+        valid_mask = (labels_musical != -1) & (labels_semantic != -1)
+        n_valid_samples = np.sum(valid_mask)
+        
+        if n_valid_samples < 10:
+            self.logger.warning(f"Muy pocas muestras válidas: {n_valid_samples}")
+            return self._create_empty_result()
+        
+        labels_musical_valid = labels_musical[valid_mask]
+        labels_semantic_valid = labels_semantic[valid_mask]
+        
+        self.logger.info(f"Muestras válidas para análisis: {n_valid_samples}/{len(labels_musical)}")
+        
+        # Calcular métricas de correspondencia global
+        nmi_score = normalized_mutual_info_score(labels_musical_valid, labels_semantic_valid)
+        ari_score = adjusted_rand_score(labels_musical_valid, labels_semantic_valid)
+        
+        self.logger.info(f"NMI Score: {nmi_score:.3f}, ARI Score: {ari_score:.3f}")
+        
+        # Obtener información de clusters
+        unique_musical = np.unique(labels_musical_valid)
+        unique_semantic = np.unique(labels_semantic_valid)
+        
+        n_musical_clusters = len(unique_musical)
+        n_semantic_clusters = len(unique_semantic)
+        
+        # Calcular tamaños de clusters
+        musical_cluster_sizes = dict(Counter(labels_musical_valid))
+        semantic_cluster_sizes = dict(Counter(labels_semantic_valid))
+        
+        # Crear matriz de contingencia
+        contingency_matrix = confusion_matrix(labels_musical_valid, labels_semantic_valid,
+                                            labels=unique_musical)
+        
+        # Analizar correspondencias específicas
+        correspondences = self._analyze_correspondences(
+            contingency_matrix, unique_musical, unique_semantic,
+            musical_cluster_sizes, semantic_cluster_sizes, n_valid_samples
+        )
+        
+        # Clasificar correspondencias por fuerza
+        strong_correspondences = [c for c in correspondences 
+                                if c.correspondence_strength >= self.strong_correspondence_threshold]
+        weak_correspondences = [c for c in correspondences 
+                              if self.weak_correspondence_threshold <= c.correspondence_strength < self.strong_correspondence_threshold]
+        
+        # Calcular métricas de coherencia
+        avg_correspondence_strength = np.mean([c.correspondence_strength for c in correspondences]) if correspondences else 0.0
+        
+        # Calcular cobertura de correspondencias fuertes
+        strong_coverage_count = sum(c.overlap_count for c in strong_correspondences)
+        correspondence_coverage = strong_coverage_count / n_valid_samples if n_valid_samples > 0 else 0.0
+        
+        # Analizar casos divergentes
+        divergent_cases = self._analyze_divergent_cases(
+            contingency_matrix, unique_musical, unique_semantic,
+            musical_cluster_sizes, semantic_cluster_sizes
+        )
+        
+        result = CrossModalAnalysisResult(
+            nmi_score=float(nmi_score),
+            adjusted_rand_score=float(ari_score),
+            n_musical_clusters=n_musical_clusters,
+            n_semantic_clusters=n_semantic_clusters,
+            n_valid_samples=n_valid_samples,
+            strong_correspondences=strong_correspondences,
+            weak_correspondences=weak_correspondences,
+            contingency_matrix=contingency_matrix,
+            musical_cluster_sizes=musical_cluster_sizes,
+            semantic_cluster_sizes=semantic_cluster_sizes,
+            avg_correspondence_strength=float(avg_correspondence_strength),
+            correspondence_coverage=float(correspondence_coverage),
+            divergent_cases=divergent_cases
+        )
+        
+        self._log_analysis_summary(result)
+        
+        return result
+    
+    def _analyze_correspondences(self, contingency_matrix: np.ndarray,
+                               unique_musical: np.ndarray, unique_semantic: np.ndarray,
+                               musical_sizes: Dict[int, int], semantic_sizes: Dict[int, int],
+                               total_samples: int) -> List[CrossModalCorrespondence]:
+        """Analizar correspondencias específicas entre clusters."""
+        correspondences = []
+        
+        for i, musical_cluster in enumerate(unique_musical):
+            for j, semantic_cluster in enumerate(unique_semantic):
+                overlap_count = int(contingency_matrix[i, j])
+                
+                if overlap_count == 0:
+                    continue
+                
+                musical_cluster_size = musical_sizes[musical_cluster]
+                semantic_cluster_size = semantic_sizes[semantic_cluster]
+                
+                # Ratio de overlap respecto al cluster más pequeño
+                min_cluster_size = min(musical_cluster_size, semantic_cluster_size)
+                overlap_ratio = overlap_count / min_cluster_size
+                
+                # Fuerza de correspondencia basada en múltiples factores
+                # Factor 1: Ratio de overlap
+                overlap_strength = overlap_ratio
+                
+                # Factor 2: Significancia estadística (overlap vs esperado por azar)
+                expected_overlap = (musical_cluster_size * semantic_cluster_size) / total_samples
+                statistical_significance = overlap_count / (expected_overlap + 1e-10)
+                
+                # Combinear factores
+                correspondence_strength = (overlap_strength + min(statistical_significance / 5.0, 1.0)) / 2.0
+                
+                correspondence = CrossModalCorrespondence(
+                    musical_cluster_id=int(musical_cluster),
+                    semantic_cluster_id=int(semantic_cluster),
+                    overlap_count=overlap_count,
+                    overlap_ratio=float(overlap_ratio),
+                    musical_cluster_size=musical_cluster_size,
+                    semantic_cluster_size=semantic_cluster_size,
+                    correspondence_strength=float(correspondence_strength)
+                )
+                
+                correspondences.append(correspondence)
+        
+        # Ordenar por fuerza de correspondencia
+        correspondences.sort(key=lambda c: c.correspondence_strength, reverse=True)
+        
+        return correspondences
+    
+    def _analyze_divergent_cases(self, contingency_matrix: np.ndarray,
+                               unique_musical: np.ndarray, unique_semantic: np.ndarray,
+                               musical_sizes: Dict[int, int], semantic_sizes: Dict[int, int]) -> Dict[str, Any]:
+        """Analizar casos donde los dominios divergen significativamente."""
+        
+        # Clusters musicales con alta fragmentación semántica
+        musical_fragmented = []
+        for i, musical_cluster in enumerate(unique_musical):
+            row = contingency_matrix[i, :]
+            n_semantic_clusters_involved = np.sum(row > 0)
+            musical_size = musical_sizes[musical_cluster]
+            
+            if n_semantic_clusters_involved > 3 and musical_size > 50:
+                fragmentation_ratio = n_semantic_clusters_involved / musical_size
+                musical_fragmented.append({
+                    'musical_cluster_id': int(musical_cluster),
+                    'cluster_size': musical_size,
+                    'semantic_clusters_involved': int(n_semantic_clusters_involved),
+                    'fragmentation_ratio': float(fragmentation_ratio)
+                })
+        
+        # Clusters semánticos con alta fragmentación musical
+        semantic_fragmented = []
+        for j, semantic_cluster in enumerate(unique_semantic):
+            col = contingency_matrix[:, j]
+            n_musical_clusters_involved = np.sum(col > 0)
+            semantic_size = semantic_sizes[semantic_cluster]
+            
+            if n_musical_clusters_involved > 3 and semantic_size > 50:
+                fragmentation_ratio = n_musical_clusters_involved / semantic_size
+                semantic_fragmented.append({
+                    'semantic_cluster_id': int(semantic_cluster),
+                    'cluster_size': semantic_size,
+                    'musical_clusters_involved': int(n_musical_clusters_involved),
+                    'fragmentation_ratio': float(fragmentation_ratio)
+                })
+        
+        return {
+            'musical_fragmented': musical_fragmented,
+            'semantic_fragmented': semantic_fragmented,
+            'n_musical_fragmented': len(musical_fragmented),
+            'n_semantic_fragmented': len(semantic_fragmented)
+        }
+    
+    def _create_empty_result(self) -> CrossModalAnalysisResult:
+        """Crear resultado vacío para casos con datos insuficientes."""
+        return CrossModalAnalysisResult(
+            nmi_score=0.0,
+            adjusted_rand_score=0.0,
+            n_musical_clusters=0,
+            n_semantic_clusters=0,
+            n_valid_samples=0,
+            strong_correspondences=[],
+            weak_correspondences=[],
+            contingency_matrix=np.array([[]]),
+            musical_cluster_sizes={},
+            semantic_cluster_sizes={},
+            avg_correspondence_strength=0.0,
+            correspondence_coverage=0.0,
+            divergent_cases={'musical_fragmented': [], 'semantic_fragmented': []}
+        )
+    
+    def _log_analysis_summary(self, result: CrossModalAnalysisResult):
+        """Log resumen del análisis."""
+        self.logger.info(f"=== RESUMEN ANÁLISIS CROSS-MODAL ===")
+        self.logger.info(f"NMI Score: {result.nmi_score:.3f}")
+        self.logger.info(f"Clusters Musical: {result.n_musical_clusters}, Semántico: {result.n_semantic_clusters}")
+        self.logger.info(f"Correspondencias fuertes: {len(result.strong_correspondences)}")
+        self.logger.info(f"Correspondencias débiles: {len(result.weak_correspondences)}")
+        self.logger.info(f"Cobertura correspondencias fuertes: {result.correspondence_coverage:.1%}")
+        self.logger.info(f"Fuerza promedio: {result.avg_correspondence_strength:.3f}")
+    
+    def visualize_contingency_matrix(self, result: CrossModalAnalysisResult, 
+                                   output_path: Optional[Path] = None,
+                                   title: str = "Cross-Modal Correspondence Matrix") -> str:
+        """
+        Visualizar matriz de contingencia cross-modal.
+        
+        Args:
+            result: Resultado de análisis cross-modal
+            output_path: Ruta de salida (opcional)
+            title: Título del gráfico
+            
+        Returns:
+            Path del archivo guardado
+        """
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        # Crear heatmap
+        sns.heatmap(result.contingency_matrix, 
+                   annot=True, fmt='d', cmap='Blues',
+                   xticklabels=[f'S{i}' for i in range(result.n_semantic_clusters)],
+                   yticklabels=[f'M{i}' for i in range(result.n_musical_clusters)],
+                   ax=ax)
+        
+        ax.set_title(f'{title}\nNMI: {result.nmi_score:.3f}, Strong Correspondences: {len(result.strong_correspondences)}')
+        ax.set_xlabel('Semantic Clusters')
+        ax.set_ylabel('Musical Clusters')
+        
+        plt.tight_layout()
+        
+        if output_path:
+            output_path = Path(output_path)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            plt.savefig(output_path, dpi=300, bbox_inches='tight')
+            self.logger.info(f"Matriz de contingencia guardada: {output_path}")
+            plt.close()
+            return str(output_path)
+        else:
+            plt.show()
+            return ""
+    
+    def export_correspondences_to_dataframe(self, correspondences: List[CrossModalCorrespondence]) -> pd.DataFrame:
+        """Exportar correspondencias a DataFrame."""
+        if not correspondences:
+            return pd.DataFrame()
+        
+        rows = []
+        for corr in correspondences:
+            rows.append({
+                'musical_cluster_id': corr.musical_cluster_id,
+                'semantic_cluster_id': corr.semantic_cluster_id,
+                'overlap_count': corr.overlap_count,
+                'overlap_ratio': corr.overlap_ratio,
+                'musical_cluster_size': corr.musical_cluster_size,
+                'semantic_cluster_size': corr.semantic_cluster_size,
+                'correspondence_strength': corr.correspondence_strength
+            })
+        
+        return pd.DataFrame(rows)
+    
+    def generate_cross_modal_report(self, result: CrossModalAnalysisResult) -> str:
+        """Generar reporte textual del análisis cross-modal."""
+        
+        report_lines = [
+            "# REPORTE ANÁLISIS CROSS-MODAL",
+            "",
+            "## Métricas Globales",
+            f"- **NMI Score**: {result.nmi_score:.3f}",
+            f"- **Adjusted Rand Index**: {result.adjusted_rand_score:.3f}",
+            f"- **Muestras válidas**: {result.n_valid_samples:,}",
+            f"- **Clusters musicales**: {result.n_musical_clusters}",
+            f"- **Clusters semánticos**: {result.n_semantic_clusters}",
+            "",
+            "## Correspondencias",
+            f"- **Correspondencias fuertes**: {len(result.strong_correspondences)} (threshold ≥ {self.strong_correspondence_threshold})",
+            f"- **Correspondencias débiles**: {len(result.weak_correspondences)} (threshold ≥ {self.weak_correspondence_threshold})",
+            f"- **Cobertura correspondencias fuertes**: {result.correspondence_coverage:.1%}",
+            f"- **Fuerza promedio**: {result.avg_correspondence_strength:.3f}",
+            ""
+        ]
+        
+        # Detallar correspondencias fuertes
+        if result.strong_correspondences:
+            report_lines.extend([
+                "## Correspondencias Fuertes",
+                ""
+            ])
+            
+            for i, corr in enumerate(result.strong_correspondences[:5]):  # Top 5
+                report_lines.append(
+                    f"{i+1}. Musical Cluster {corr.musical_cluster_id} ↔ Semantic Cluster {corr.semantic_cluster_id}: "
+                    f"{corr.overlap_count} canciones ({corr.overlap_ratio:.1%} overlap, "
+                    f"strength={corr.correspondence_strength:.3f})"
+                )
+        
+        # Casos divergentes
+        if result.divergent_cases['musical_fragmented'] or result.divergent_cases['semantic_fragmented']:
+            report_lines.extend([
+                "",
+                "## Casos Divergentes",
+                f"- **Clusters musicales fragmentados**: {result.divergent_cases['n_musical_fragmented']}",
+                f"- **Clusters semánticos fragmentados**: {result.divergent_cases['n_semantic_fragmented']}",
+            ])
+        
+        return "\n".join(report_lines)
