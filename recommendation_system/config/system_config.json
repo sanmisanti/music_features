@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "dataset_info": {
+    "total_songs": 7811,
+    "semantic_dimensions": 384,
+    "musical_dimensions": 12,
+    "musical_features": [
+      "danceability", "energy", "key", "loudness", "mode", 
+      "speechiness", "acousticness", "instrumentalness", 
+      "liveness", "valence", "tempo", "duration_ms"
+    ]
+  },
+  "optimal_configurations": {
+    "musical_clustering": {
+      "algorithm": "kmeans_plus",
+      "n_clusters": 10,
+      "silhouette_score": 0.0965,
+      "composite_score": 0.5546,
+      "balance_score": 0.7547,
+      "interpretability_score": 0.3186
+    },
+    "semantic_clustering": {
+      "algorithm": "kmeans_plus", 
+      "n_clusters": 6,
+      "silhouette_score": 0.0329,
+      "composite_score": 0.5615,
+      "balance_score": 0.5362,
+      "interpretability_score": 0.7284
+    }
+  },
+  "recommendation_weights": {
+    "musical_weight": 0.55,
+    "semantic_weight": 0.45,
+    "justification": "Basado en resultados FASE 3: equivalencia práctica con ligera preferencia musical por mejor estructuración técnica"
+  },
+  "cross_modal_analysis": {
+    "best_combination": "M2_S2",
+    "max_nmi": 0.0567,
+    "interpretation": "Baja correspondencia indica complementariedad - estrategia híbrida óptima"
+  }
+}
