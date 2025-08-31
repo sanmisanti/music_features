@@ -135,8 +135,9 @@ class MusicDataLoader:
             DataFrame con información de canciones (track_name, artist_name, genre, etc.)
         """
         if 'metadata_df' not in self._cache:
-            metadata_path = self.data_dir / "songs_metadata.csv"
-            self._cache['metadata_df'] = pd.read_csv(metadata_path)
+            # Usar dataset optimizado con metadatos completos
+            metadata_path = Path(__file__).parent.parent.parent / "data" / "final_data" / "picked_data_optimal.csv"
+            self._cache['metadata_df'] = pd.read_csv(metadata_path, sep='^')
             print(f"✅ Metadatos cargados: {len(self._cache['metadata_df'])} registros")
         
         return self._cache['metadata_df']
@@ -172,7 +173,7 @@ class MusicDataLoader:
                 'track_id': track_id,
                 'index': int(idx),
                 'track_name': song_row['track_name'],
-                'artist_name': song_row['artist_name'],
+                'artist_name': song_row['track_artist'],  # Nombre correcto de columna
                 'genre': song_row.get('playlist_genre', 'unknown'),
                 'musical_cluster': int(musical_clusters[idx]),
                 'semantic_cluster': int(semantic_clusters[idx]),

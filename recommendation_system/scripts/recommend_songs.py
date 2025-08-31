@@ -41,13 +41,16 @@ class MusicRecommendationInterface:
     Proporciona funcionalidad completa con explicaciones automáticas
     """
     
-    def __init__(self, system_dir: str = None, verbose: bool = True):
+    def __init__(self, system_dir: str = None, verbose: bool = True, 
+                 custom_musical_weight: float = None, custom_semantic_weight: float = None):
         """
         Inicializa el sistema de recomendaciones completo
         
         Args:
             system_dir: Directorio del sistema (None para auto-detectar)
             verbose: Mostrar información detallada de inicialización
+            custom_musical_weight: Peso personalizado para componente musical (0.0-1.0)
+            custom_semantic_weight: Peso personalizado para componente semántico (0.0-1.0)
         """
         self.verbose = verbose
         
@@ -58,7 +61,11 @@ class MusicRecommendationInterface:
             
             # Inicializar componentes principales
             self.loader = MusicDataLoader(system_dir)
-            self.recommender = HybridMusicRecommender(system_dir)
+            self.recommender = HybridMusicRecommender(
+                system_dir, 
+                custom_musical_weight=custom_musical_weight,
+                custom_semantic_weight=custom_semantic_weight
+            )
             self.explainer = RecommendationExplainer(system_dir)
             
             if verbose:
@@ -302,8 +309,30 @@ def format_recommendations_output(result: Dict, show_explanations: bool = True,
     for i, rec in enumerate(recommendations, 1):
         output_lines.append(f"{i}. {rec['track_name']} - {rec['artist_name']}")
         if not compact:
-            output_lines.append(f"   Género: {rec['genre']} | Similitud: {rec['scores']['hybrid']:.3f}")
+            # Métricas básicas
+            output_lines.append(f"   Género: {rec['genre']} | Similitud Híbrida: {rec['scores']['hybrid']:.3f}")
             output_lines.append(f"   Musical: {rec['musical_cluster']} | Semántico: {rec['semantic_cluster']}")
+            
+            # Métricas expandidas
+            scores = rec['scores']
+            output_lines.append(f"   📊 Similitudes: Musical {scores['musical']:.3f} | Semántico {scores['semantic']:.3f}")
+            output_lines.append(f"   🎯 Contribuciones: Musical {scores['musical_contribution']:.3f} | Semántico {scores['semantic_contribution']:.3f}")
+            
+            # Características musicales
+            if 'musical_features' in rec:
+                features = rec['musical_features']
+                output_lines.append(f"   🎵 Características: Energía {features['energy']:.2f} | Baile {features['danceability']:.2f} | Valencia {features['valence']:.2f}")
+                output_lines.append(f"   🎼 Audio: Acústico {features['acousticness']:.2f} | Instrumental {features['instrumentalness']:.2f} | Tempo {features['tempo']:.0f}")
+            
+            # Información adicional
+            if 'additional_info' in rec:
+                info = rec['additional_info']
+                duration_min = int(info.get('duration_ms', 0)) // 60000
+                duration_sec = (int(info.get('duration_ms', 0)) % 60000) // 1000
+                output_lines.append(f"   ℹ️  Album: {info.get('album_name', 'Unknown')} ({info.get('release_date', 'Unknown')})")
+                output_lines.append(f"   ⏱️  Duración: {duration_min}:{duration_sec:02d} | Popularidad: {info.get('popularity', 0)}")
+        else:
+            output_lines.append(f"   Género: {rec['genre']} | Similitud: {rec['scores']['hybrid']:.3f}")
         
         # Agregar explicación si está disponible
         if show_explanations and 'explanations' in result:
@@ -536,12 +565,42 @@ Ejemplos de uso:
     parser.add_argument('--system_dir', type=str,
                        help='Directorio del sistema (para desarrollo)')
     
+    # Opciones de personalización de pesos
+    parser.add_argument('--musical_weight', type=float,
+                       help='Peso para componente musical (0.0-1.0, debe sumar 1.0 con --semantic_weight)')
+    parser.add_argument('--semantic_weight', type=float,
+                       help='Peso para componente semántico (0.0-1.0, debe sumar 1.0 con --musical_weight)')
+    
     args = parser.parse_args()
     
     try:
         # Inicializar sistema
         verbose = not args.quiet
-        interface = MusicRecommendationInterface(args.system_dir, verbose=verbose)
+        
+        # Manejar pesos personalizados
+        custom_musical_weight = args.musical_weight
+        custom_semantic_weight = args.semantic_weight
+        
+        # Validar pesos si se proporcionan
+        if (custom_musical_weight is not None) != (custom_semantic_weight is not None):
+            print("❌ Error: Debe especificar tanto --musical_weight como --semantic_weight juntos")
+            return
+        
+        if custom_musical_weight is not None and custom_semantic_weight is not None:
+            if not (0.0 <= custom_musical_weight <= 1.0) or not (0.0 <= custom_semantic_weight <= 1.0):
+                print("❌ Error: Los pesos deben estar en rango 0.0-1.0")
+                return
+            
+            if abs((custom_musical_weight + custom_semantic_weight) - 1.0) > 0.001:
+                print(f"❌ Error: Los pesos deben sumar 1.0 (suma actual: {custom_musical_weight + custom_semantic_weight:.3f})")
+                return
+        
+        interface = MusicRecommendationInterface(
+            args.system_dir, 
+            verbose=verbose,
+            custom_musical_weight=custom_musical_weight,
+            custom_semantic_weight=custom_semantic_weight
+        )
         
         # Modo interactivo
         if args.interactive:

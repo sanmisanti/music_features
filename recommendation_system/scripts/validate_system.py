@@ -142,7 +142,7 @@ class SystemValidator:
             semantic_clusters = np.load(self.clusters_dir / "semantic_clusters_k6.npy")
             
             # Cargar metadatos
-            metadata_df = pd.read_csv(self.data_dir / "songs_metadata.csv")
+            metadata_df = pd.read_csv(self.data_dir / "songs_metadata.csv", sep='^')
             
             # Verificar dimensiones
             expected_samples = 7811

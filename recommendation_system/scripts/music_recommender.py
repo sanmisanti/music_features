@@ -22,25 +22,42 @@ class HybridMusicRecommender:
     Combina similitud musical (12D) y semántica (384D) con pesos validados científicamente
     """
     
-    def __init__(self, system_dir: str = None, precompute_similarities: bool = False):
+    def __init__(self, system_dir: str = None, precompute_similarities: bool = False, 
+                 custom_musical_weight: float = None, custom_semantic_weight: float = None):
         """
         Inicializa el motor de recomendaciones
         
         Args:
             system_dir: Directorio del sistema (None para auto-detectar)
             precompute_similarities: Pre-calcular matrices de similitud (mejora velocidad)
+            custom_musical_weight: Peso personalizado para componente musical (0.0-1.0)
+            custom_semantic_weight: Peso personalizado para componente semántico (0.0-1.0)
         """
         # Cargar datos del sistema
         self.loader = MusicDataLoader(system_dir)
         
-        # Cargar configuración de pesos validados FASE 3
-        config = self.loader.get_config()
-        weights = config['recommendation_weights']
-        self.musical_weight = weights['musical_weight']
-        self.semantic_weight = weights['semantic_weight']
-        
-        print(f"🎯 HybridMusicRecommender inicializado")
-        print(f"   Pesos: Musical {self.musical_weight:.2f}, Semántico {self.semantic_weight:.2f}")
+        # Configurar pesos híbridos
+        if custom_musical_weight is not None and custom_semantic_weight is not None:
+            # Validar pesos personalizados
+            if not (0.0 <= custom_musical_weight <= 1.0 and 0.0 <= custom_semantic_weight <= 1.0):
+                raise ValueError("Los pesos deben estar en rango 0.0-1.0")
+            
+            total_weight = custom_musical_weight + custom_semantic_weight
+            if abs(total_weight - 1.0) > 0.001:
+                raise ValueError(f"Los pesos deben sumar 1.0, suma actual: {total_weight:.3f}")
+            
+            self.musical_weight = custom_musical_weight
+            self.semantic_weight = custom_semantic_weight
+            print(f"🎯 HybridMusicRecommender inicializado con pesos personalizados")
+            print(f"   Pesos: Musical {self.musical_weight:.2f}, Semántico {self.semantic_weight:.2f}")
+        else:
+            # Cargar configuración de pesos validados FASE 3
+            config = self.loader.get_config()
+            weights = config['recommendation_weights']
+            self.musical_weight = weights['musical_weight']
+            self.semantic_weight = weights['semantic_weight']
+            print(f"🎯 HybridMusicRecommender inicializado con pesos FASE 3")
+            print(f"   Pesos: Musical {self.musical_weight:.2f}, Semántico {self.semantic_weight:.2f}")
         
         # Cache para matrices de similitud pre-calculadas
         self._similarity_cache = {}
@@ -174,6 +191,13 @@ class HybridMusicRecommender:
             rec_song = self.loader.get_song_by_track_id(rec_track_id)
             
             if rec_song:
+                # Calcular métricas adicionales
+                musical_contribution = self.musical_weight * musical_sims[idx]
+                semantic_contribution = self.semantic_weight * semantic_sims[idx]
+                
+                # Obtener metadatos musicales adicionales del dataset
+                metadata_full = rec_song.get('metadata', {})
+                
                 recommendation = {
                     'rank': rank + 1,
                     'track_id': rec_track_id,
@@ -185,7 +209,23 @@ class HybridMusicRecommender:
                     'scores': {
                         'hybrid': float(hybrid_scores[idx]),
                         'musical': float(musical_sims[idx]),
-                        'semantic': float(semantic_sims[idx])
+                        'semantic': float(semantic_sims[idx]),
+                        'musical_contribution': float(musical_contribution),
+                        'semantic_contribution': float(semantic_contribution)
+                    },
+                    'musical_features': {
+                        'danceability': metadata_full.get('danceability', 0.0),
+                        'energy': metadata_full.get('energy', 0.0),
+                        'valence': metadata_full.get('valence', 0.0),
+                        'acousticness': metadata_full.get('acousticness', 0.0),
+                        'instrumentalness': metadata_full.get('instrumentalness', 0.0),
+                        'tempo': metadata_full.get('tempo', 0.0)
+                    },
+                    'additional_info': {
+                        'popularity': metadata_full.get('track_popularity', 0),
+                        'duration_ms': metadata_full.get('duration_ms', 0),
+                        'album_name': metadata_full.get('track_album_name', 'Unknown'),
+                        'release_date': metadata_full.get('track_album_release_date', 'Unknown')
                     }
                 }
                 recommendations.append(recommendation)
