@@ -1,0 +1,907 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+
+% Configuración de página
+\geometry{left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\onehalfspacing
+
+% Configuración de títulos
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Configuración de código
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=4,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+% Información del documento
+\title{\textbf{SISTEMA AVANZADO DE RECOMENDACIONES MUSICALES BASADO EN ANÁLISIS SEMÁNTICO DE LETRAS Y CLUSTERING OPTIMIZADO}\\
+\vspace{0.5cm}
+\large{Anteproyecto de Tesis de Grado}\\
+\large{Ingeniería Informática}}
+
+\author{
+\textbf{Estudiante 1:} [Nombre Apellido] - [Matrícula] \\
+\textbf{Estudiante 2:} [Nombre Apellido] - [Matrícula] \\
+\\
+\textbf{Director:} [Nombre del Director] \\
+\textbf{Codirector:} [Nombre del Codirector] \\
+\\
+\textbf{Universidad:} [Nombre de la Universidad] \\
+\textbf{Facultad:} [Nombre de la Facultad] \\
+\textbf{Carrera:} Ingeniería Informática
+}
+
+\date{Septiembre 2025}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =====================================================
+% 1. INTRODUCCIÓN Y PLANTEAMIENTO DEL PROBLEMA
+% =====================================================
+\section{Introducción y Planteamiento del Problema}
+
+Los sistemas de recomendación musical constituyen una de las aplicaciones más relevantes de la inteligencia artificial en la industria del entretenimiento digital contemporáneo. Las plataformas de streaming musical como Spotify, Apple Music y YouTube Music procesan diariamente millones de consultas de usuarios que buscan descubrir nueva música alineada con sus preferencias personales, generando un ecosistema tecnológico que demanda algoritmos de recomendación cada vez más sofisticados y precisos.
+
+\subsection{Contexto Tecnológico Actual}
+
+Los enfoques tradicionales para recomendaciones musicales se fundamentan principalmente en dos paradigmas algorítmicos establecidos: el filtrado colaborativo, que analiza patrones de comportamiento de usuarios similares, y el filtrado basado en contenido, que examina características acústicas extraídas automáticamente de las grabaciones musicales. Estos sistemas operan típicamente sobre vectores de características numéricas que representan aspectos como tempo, energía, valencia emocional, instrumentalidad, y otras propiedades acústicas cuantificables mediante técnicas de procesamiento de señales de audio.
+
+Sin embargo, la literatura científica especializada en Music Information Retrieval (MIR) documenta consistentemente limitaciones fundamentales en estos enfoques. Los sistemas basados exclusivamente en características acústicas frecuentemente generan recomendaciones que, aunque musicalmente coherentes desde una perspectiva técnica, pueden resultar temáticamente incongruentes o contextualmente inapropiadas para las preferencias específicas del usuario. Esta limitación se manifiesta particularmente cuando usuarios buscan música relacionada con temas específicos, estados emocionales narrativos, o contextos culturales que trascienden las propiedades puramente sonoras de las composiciones musicales.
+
+\subsection{Identificación del Problema Fundamental}
+
+El problema central que motiva esta investigación radica en la ausencia de integración sistemática del contenido semántico de las letras musicales en los sistemas de recomendación contemporáneos. Las letras de las canciones constituyen una dimensión informacional rica y complementaria que contiene información semántica, temática, emocional y contextual que no puede inferirse directamente desde características acústicas. Esta dimensión semántica representa un espacio vectorial de información substancialmente diferente al espacio acústico, ofreciendo potencial significativo para enriquecer la calidad y relevancia de las recomendaciones musicales.
+
+La literatura científica actual presenta una brecha notable en la investigación de sistemas híbridos que combinen efectivamente análisis acústico tradicional con procesamiento avanzado de lenguaje natural aplicado al contenido lírico. Los pocos trabajos existentes en esta área utilizan técnicas rudimentarias de análisis textual como bag-of-words o TF-IDF, que resultan insuficientes para capturar la complejidad semántica y las relaciones contextuales presentes en las letras musicales contemporáneas.
+
+\subsection{Oportunidad de Investigación}
+
+Los avances recientes en modelos de lenguaje basados en arquitecturas transformer, particularmente BERT (Bidirectional Encoder Representations from Transformers), han revolucionado las capacidades de comprensión y representación semántica de textos complejos. Estos modelos pre-entrenados proporcionan representaciones vectoriales contextuales de alta dimensionalidad que capturan relaciones semánticas sutiles, dependencias contextuales, y patrones temáticos que técnicas tradicionales de procesamiento textual no pueden detectar.
+
+La aplicación de estas tecnologías avanzadas de procesamiento de lenguaje natural al análisis de letras musicales representa una oportunidad de investigación técnicamente viable y científicamente relevante. La hipótesis fundamental que guía este trabajo establece que la fusión inteligente de representaciones semánticas derivadas de letras musicales con características acústicas tradicionales puede producir sistemas de recomendación substancialmente superiores en términos de precisión, diversidad, y satisfacción de usuario.
+
+% =====================================================
+% 2. JUSTIFICACIÓN DEL PROYECTO
+% =====================================================
+\section{Justificación del Proyecto}
+
+\subsection{Relevancia Científica y Técnica}
+
+El presente proyecto de investigación aborda un problema fundamental en el campo de Music Information Retrieval que posee implicaciones técnicas y científicas de considerable importancia. La integración de análisis semántico de letras con técnicas avanzadas de clustering musical representa una contribución original al estado del arte que no ha sido explorada exhaustivamente en la literatura científica especializada.
+
+Desde una perspectiva metodológica, este proyecto propone la implementación de una arquitectura híbrida que combina dos espacios vectoriales fundamentalmente diferentes: el espacio acústico de características musicales de dimensionalidad moderada (12-15 dimensiones) y el espacio semántico de embeddings contextuales de alta dimensionalidad (384+ dimensiones). La fusión efectiva de estos espacios requiere el desarrollo de técnicas especializadas de normalización, ponderación, y combinación que constituyen contribuciones metodológicas originales con aplicabilidad extendida a otros dominios de fusión multimodal.
+
+\subsection{Brecha en el Estado del Arte}
+
+La revisión sistemática de la literatura científica revela una ausencia notable de trabajos que aborden comprehensivamente la integración de análisis semántico avanzado de letras con clustering musical optimizado. Los trabajos existentes en el área de recomendación musical basada en letras utilizan predominantemente técnicas elementales de procesamiento textual que resultan inadecuadas para capturar la complejidad semántica del lenguaje lírico contemporáneo.
+
+Específicamente, la literatura científica carece de investigaciones que:
+
+\begin{itemize}
+    \item Implementen embeddings contextuales BERT para análisis de letras musicales en sistemas de recomendación
+    \item Desarrollen metodologías específicas de clustering optimizado para datos musicales mediante técnicas de purificación híbrida
+    \item Propongan arquitecturas de fusión multimodal científicamente validadas para integración música-letra
+    \item Establezcan benchmarks experimentales comparativos entre enfoques unimodales y multimodales en recomendación musical
+\end{itemize}
+
+\subsection{Impacto Potencial en la Industria}
+
+El desarrollo exitoso de este sistema de recomendación híbrido posee implicaciones prácticas significativas para la industria del streaming musical. Las mejoras en precisión y relevancia de recomendaciones pueden traducirse directamente en mayor engagement de usuarios, reducción de churn rates, y incremento en métricas de satisfacción de usuario que impactan los modelos de negocio de plataformas musicales.
+
+Adicionalmente, la capacidad de generar recomendaciones basadas en contenido temático específico abre nuevas posibilidades comerciales en aplicaciones especializadas como terapia musical, educación musical contextual, y sistemas de recomendación para eventos o ambientes específicos que requieren coherencia temática además de coherencia musical.
+
+\subsection{Contribución al Conocimiento Científico}
+
+Esta investigación contribuye al cuerpo de conocimiento científico en múltiples dimensiones:
+
+\begin{enumerate}
+    \item \textbf{Metodológica}: Desarrollo de técnicas originales de clustering musical mediante purificación híbrida que pueden ser aplicadas a otros dominios de análisis de datos complejos
+    \item \textbf{Algorítmica}: Implementación de arquitecturas de fusión multimodal específicamente diseñadas para dominios con características asimétricas en dimensionalidad y distribución
+    \item \textbf{Evaluativa}: Establecimiento de protocolos de evaluación comprensivos para sistemas de recomendación multimodales que balanceen métricas técnicas con métricas de interpretabilidad
+    \item \textbf{Empírica}: Generación de evidencia experimental que valide o refute hipótesis sobre la complementariedad de información acústica y semántica en preferencias musicales
+\end{enumerate}
+
+% =====================================================
+% 3. OBJETIVOS
+% =====================================================
+\section{Objetivos}
+
+\subsection{Objetivo General}
+
+Desarrollar, implementar y validar experimentalmente un sistema avanzado de recomendaciones musicales que integre análisis semántico de letras mediante embeddings BERT con clustering optimizado de características acústicas, estableciendo una arquitectura híbrida que demuestre mejoras significativas en precisión y relevancia de recomendaciones comparado con enfoques unimodales tradicionales.
+
+\subsection{Objetivos Específicos}
+
+\subsubsection{Objetivos Técnicos de Implementación}
+
+\begin{enumerate}
+    \item \textbf{Implementar sistema de vectorización semántica}: Desarrollar un módulo de procesamiento que utilice modelos BERT pre-entrenados para generar representaciones vectoriales contextuales de letras musicales, implementando técnicas de preprocesamiento específicas para texto lírico y optimizaciones de memoria para datasets de gran escala.
+    
+    \item \textbf{Desarrollar algoritmos de clustering musical optimizado}: Diseñar e implementar metodologías de purificación híbrida que mejoren significativamente las métricas de calidad de clustering (Silhouette Score, Calinski-Harabasz Index) aplicadas a características acústicas musicales, mediante eliminación inteligente de outliers y boundary points.
+    
+    \item \textbf{Diseñar arquitectura de fusión multimodal}: Crear una arquitectura técnica que combine efectivamente información de espacios vectoriales musical (12D) y semántico (384D) mediante técnicas de normalización, ponderación adaptiva, y fusión tardía científicamente validada.
+    
+    \item \textbf{Implementar sistema de recomendación híbrido}: Desarrollar un motor de recomendaciones completo que integre clustering musical optimizado con similaridad semántica directa, proporcionando recomendaciones balanceadas entre coherencia musical y relevancia temática.
+\end{enumerate}
+
+\subsubsection{Objetivos de Validación Experimental}
+
+\begin{enumerate}
+    \item \textbf{Validar efectividad del clustering optimizado}: Demostrar mediante experimentación controlada que las técnicas de purificación híbrida producen mejoras estadísticamente significativas (>15\%) en métricas de calidad de clustering comparado con algoritmos baseline.
+    
+    \item \textbf{Evaluar calidad del análisis semántico}: Verificar que las representaciones BERT de letras musicales capturan efectivamente similaridades temáticas y semánticas mediante evaluación cualitativa en muestras representativas y análisis de coherencia temática en clusters semánticos.
+    
+    \item \textbf{Comparar rendimiento multimodal vs unimodal}: Realizar evaluación sistemática que demuestre superioridad del enfoque híbrido versus sistemas basados exclusivamente en características acústicas o análisis semántico individual.
+    
+    \item \textbf{Medir performance computacional}: Verificar que el sistema completo mantiene latencias de respuesta apropiadas para aplicaciones interactivas (<100ms por recomendación) y escalabilidad para datasets de tamaño industrial.
+\end{enumerate}
+
+\subsubsection{Objetivos de Contribución Científica}
+
+\begin{enumerate}
+    \item \textbf{Establecer benchmarks comparativos}: Crear un protocolo de evaluación estándar para sistemas de recomendación musical multimodales que pueda ser utilizado por investigadores posteriores en el área.
+    
+    \item \textbf{Documentar metodología reproducible}: Producir documentación técnica completa que permita replicación de experimentos y extensión de la metodología a otros dominios de aplicación.
+    
+    \item \textbf{Generar evidencia empírica}: Proporcionar evidencia experimental sobre la efectividad de fusión multimodal música-letra que contribuya al cuerpo de conocimiento científico en Music Information Retrieval.
+\end{enumerate}
+
+% =====================================================
+% 4. ALCANCE DEL PROYECTO
+% =====================================================
+\section{Alcance del Proyecto}
+
+\subsection{Delimitaciones Funcionales}
+
+El presente proyecto se circunscribe al desarrollo e implementación de un sistema de recomendaciones musicales de carácter experimental y académico, enfocado específicamente en la demostración y validación de metodologías híbridas de fusión multimodal. El sistema desarrollado constituye una prueba de concepto técnica que valida la viabilidad y efectividad de integrar análisis semántico de letras con clustering musical optimizado.
+
+\subsubsection{Inclusiones del Proyecto}
+
+\begin{itemize}
+    \item \textbf{Procesamiento de dataset musical}: Limpieza, normalización y preparación de aproximadamente 18,000 canciones con metadatos completos incluyendo características acústicas Spotify y letras verificadas
+    \item \textbf{Implementación completa de vectorización BERT}: Sistema funcional de generación de embeddings semánticos para letras musicales con optimizaciones de memoria y cache
+    \item \textbf{Algoritmos de clustering optimizado}: Implementación de 5 estrategias de purificación híbrida con validación experimental en métricas de calidad
+    \item \textbf{Sistema de fusión multimodal}: Arquitectura completa que combina información musical y semántica mediante ponderación científicamente validada
+    \item \textbf{Interface de recomendación}: Sistema funcional con capacidades de consulta por nombre de canción, artista, o identificador único
+    \item \textbf{Suite de evaluación experimental}: Conjunto comprensivo de 15+ métricas de evaluación incluyendo análisis de precisión, diversidad, y coherencia
+    \item \textbf{Documentación técnica completa}: Especificaciones de arquitectura, protocolos experimentales, y guías de reproducibilidad
+\end{itemize}
+
+\subsubsection{Exclusiones Específicas}
+
+\begin{itemize}
+    \item \textbf{Sistema de producción escalable}: El proyecto no incluye desarrollo de infraestructura de producción, balanceadores de carga, o arquitectura distribuida para servir millones de usuarios simultáneos
+    \item \textbf{Interface de usuario final}: No se desarrollará aplicación web, móvil, o interface gráfica para usuarios finales; el sistema opera mediante interfaces de línea de comandos y APIs programáticas
+    \item \textbf{Integración con plataformas comerciales}: No se realizará integración directa con APIs de Spotify, Apple Music, o otras plataformas comerciales para datos en tiempo real
+    \item \textbf{Análisis de audio raw}: El proyecto utiliza características acústicas pre-procesadas; no incluye desarrollo de algoritmos de extracción de características desde archivos de audio
+    \item \textbf{Recomendaciones en tiempo real}: El sistema no implementa capacidades de streaming o actualización en tiempo real de recomendaciones basadas en comportamiento de usuario
+\end{itemize}
+
+\subsection{Limitaciones Técnicas}
+
+\subsubsection{Limitaciones de Dataset}
+
+El proyecto opera sobre un dataset curado de aproximadamente 18,000 canciones seleccionadas mediante criterios específicos de calidad y disponibilidad de letras. Esta limitación impone restricciones en la diversidad de géneros musicales y representatividad cultural, particularmente para música no-occidental o géneros altamente especializados. El dataset se enfoca primordialmente en música popular occidental con letras en inglés, limitando la generalización de resultados a contextos musicales más amplios.
+
+\subsubsection{Limitaciones Metodológicas}
+
+La validación experimental se realiza mediante métricas computacionales y análisis estadístico automatizado, sin incluir evaluación con usuarios reales o estudios de satisfacción subjetiva. Esta limitación implica que las mejoras documentadas en métricas técnicas no garantizan necesariamente mejoras en experiencia de usuario percibida, requiriendo validación adicional en trabajos futuros.
+
+\subsubsection{Limitaciones Computacionales}
+
+El sistema está diseñado para operación en hardware académico estándar (16-32GB RAM, GPU opcional), limitando la escala de experimentación y la complejidad de modelos BERT que pueden utilizarse. Estas limitaciones impactan la profundidad de análisis semántico posible y la velocidad de procesamiento para datasets de mayor escala.
+
+\subsection{Entregables Específicos}
+
+\begin{enumerate}
+    \item \textbf{Código fuente completo}: Implementación completa en Python con documentación técnica, disponible en repositorio Git con control de versiones
+    \item \textbf{Dataset procesado}: Dataset limpio y normalizado con vectores semánticos y características musicales, listo para experimentación
+    \item \textbf{Sistema de recomendación funcional}: Aplicación de línea de comandos capaz de generar recomendaciones para consultas de entrada
+    \item \textbf{Resultados experimentales}: Conjunto completo de métricas, comparaciones, y análisis estadístico que documenten el rendimiento del sistema
+    \item \textbf{Documentación técnica}: Especificaciones de arquitectura, protocolos de evaluación, y guías de replicación experimental
+    \item \textbf{Informe final de tesis}: Documento académico completo con fundamentación teórica, metodología, resultados, y conclusiones
+\end{enumerate}
+
+% =====================================================
+% 5. MARCO TEÓRICO
+% =====================================================
+\section{Marco Teórico}
+
+\subsection{Fundamentos de Sistemas de Recomendación}
+
+Los sistemas de recomendación constituyen una clase especializada de sistemas de filtrado de información diseñados para predecir la preferencia o utilidad de elementos específicos para usuarios individuales. La taxonomía fundamental de estos sistemas se estructura en tres paradigmas principales: filtrado colaborativo, filtrado basado en contenido, y sistemas híbridos que combinan múltiples enfoques.
+
+El filtrado colaborativo opera bajo la premisa de que usuarios con patrones de preferencia similares en el pasado mantendrán preferencias similares en el futuro. Matemáticamente, este enfoque puede formularse como un problema de completado de matriz donde $R \in \mathbb{R}^{m \times n}$ representa la matriz de ratings parcialmente observada con $m$ usuarios y $n$ ítems, y el objetivo consiste en predecir valores faltantes $r_{u,i}$ mediante factorización matricial o métodos de k-vecinos más cercanos.
+
+El filtrado basado en contenido analiza características intrínsecas de los ítems para identificar patrones que correlacionen con preferencias de usuario. Para ítems musicales, estas características típicamente incluyen vectores de características acústicas $\mathbf{x}_i \in \mathbb{R}^d$ donde $d$ representa la dimensionalidad del espacio de características (comúnmente 12-15 para características Spotify Audio Features).
+
+\subsection{Music Information Retrieval y Análisis Musical}
+
+Music Information Retrieval (MIR) constituye un campo interdisciplinario que combina técnicas de procesamiento de señales, machine learning, y musicología computacional para extraer, indexar, y recuperar información de datos musicales. Los sistemas MIR operan típicamente en múltiples niveles de representación: nivel de señal de audio, nivel de características acústicas, y nivel semántico-musical.
+
+\subsubsection{Características Acústicas y Representación Vectorial}
+
+Las características acústicas musicales proporcionan representaciones numéricas de propiedades perceptuales y técnicas de grabaciones musicales. Spotify Audio Features, utilizadas en este proyecto, incluyen:
+
+\begin{itemize}
+    \item \textbf{Acousticness}: Medida de probabilidad (0.0-1.0) de que la pista sea acústica
+    \item \textbf{Danceability}: Combinación de elementos musicales que determinan aptitud para baile
+    \item \textbf{Energy}: Medida perceptual de intensidad y potencia musical
+    \item \textbf{Instrumentalness}: Predicción de ausencia de vocals en la grabación
+    \item \textbf{Liveness}: Detección de presencia de audiencia en la grabación
+    \item \textbf{Loudness}: Sonoridad general de la pista en decibeles (dB)
+    \item \textbf{Speechiness}: Detección de presencia de palabras habladas
+    \item \textbf{Valence}: Medida de positividad musical (0.0-1.0)
+    \item \textbf{Tempo}: Tempo estimado en beats per minute (BPM)
+\end{itemize}
+
+\subsubsection{Clustering Musical y Métricas de Calidad}
+
+El clustering musical busca identificar agrupamientos naturales en el espacio de características acústicas que correspondan a conceptos musicales interpretables. La calidad de clustering se evalúa mediante métricas específicas:
+
+\textbf{Silhouette Score}: Definido para cada punto $i$ como:
+\[s_i = \frac{b_i - a_i}{\max(a_i, b_i)}\]
+donde $a_i$ es la distancia promedio intra-cluster y $b_i$ es la distancia promedio al cluster más cercano. El score general se calcula como $S = \frac{1}{n}\sum_{i=1}^{n} s_i$.
+
+\textbf{Calinski-Harabasz Index}: Evalúa la relación entre dispersión inter-cluster e intra-cluster:
+\[CH = \frac{\text{tr}(B)}{\text{tr}(W)} \cdot \frac{n-k}{k-1}\]
+donde $B$ es la matriz de dispersión entre clusters, $W$ es la matriz de dispersión intra-cluster, $n$ es el número de puntos, y $k$ el número de clusters.
+
+\subsection{Procesamiento de Lenguaje Natural y Modelos Transformer}
+
+\subsubsection{Arquitectura BERT}
+
+BERT (Bidirectional Encoder Representations from Transformers) representa un avance fundamental en modelos de lenguaje que utiliza atención bidireccional para generar representaciones contextuales de texto. La arquitectura se basa en el mecanismo de atención multi-cabeza definido como:
+
+\[\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\]
+
+donde $Q$, $K$, y $V$ representan matrices de queries, keys, y values respectivamente, y $d_k$ es la dimensionalidad de los keys.
+
+Para texto musical, BERT genera embeddings contextuales $\mathbf{e}_i \in \mathbb{R}^{768}$ (BERT-base) o $\mathbf{e}_i \in \mathbb{R}^{1024}$ (BERT-large) que capturan relaciones semánticas complejas entre palabras y frases. Estos embeddings pueden agregarse a nivel de canción mediante pooling strategies como:
+
+\textbf{CLS Token Pooling}: Utilizar directamente el embedding del token [CLS]
+\textbf{Mean Pooling}: $\mathbf{e}_{\text{song}} = \frac{1}{n}\sum_{i=1}^{n} \mathbf{e}_i$
+\textbf{Max Pooling}: $\mathbf{e}_{\text{song}} = \max_{i=1}^{n} \mathbf{e}_i$ (element-wise)
+
+\subsubsection{Análisis Semántico de Letras Musicales}
+
+Las letras musicales presentan características lingüísticas específicas que requieren consideración especializada en el procesamiento. Estas incluyen:
+
+\begin{itemize}
+    \item \textbf{Estructura repetitiva}: Presencia de coros, estribillos, y refranes que pueden dominar el contenido semántico
+    \item \textbf{Lenguaje figurativo}: Uso extensivo de metáforas, simbolismo, y referencias culturales
+    \item \textbf{Variabilidad estilística}: Diferencias significativas en vocabulario y estructuras sintácticas entre géneros musicales
+    \item \textbf{Contenido emocional}: Alta densidad de expresiones emocionales y afectivas
+\end{itemize}
+
+\subsection{Fusión Multimodal y Técnicas de Integración}
+
+\subsubsection{Paradigmas de Fusión}
+
+La fusión multimodal puede categorizarse en tres enfoques principales:
+
+\textbf{Fusión Temprana (Early Fusion)}: Concatenación directa de características de diferentes modalidades:
+\[\mathbf{x}_{\text{fused}} = [\mathbf{x}_{\text{audio}}, \mathbf{x}_{\text{text}}]\]
+
+\textbf{Fusión Tardía (Late Fusion)}: Combinación de decisiones o scores de modalidades individuales:
+\[\text{score}_{\text{final}} = \alpha \cdot \text{score}_{\text{audio}} + (1-\alpha) \cdot \text{score}_{\text{text}}\]
+
+\textbf{Fusión Híbrida}: Combinación de fusión temprana y tardía con optimización de pesos:
+\[\text{score}_{\text{final}} = f(\mathbf{x}_{\text{early}}, \text{score}_{\text{audio}}, \text{score}_{\text{text}})\]
+
+\subsubsection{Desafíos en Fusión Música-Texto}
+
+La integración de características musicales y semánticas presenta desafíos técnicos específicos:
+
+\begin{enumerate}
+    \item \textbf{Asimetría dimensional}: Características musicales (12D) vs embeddings textuales (384-1024D)
+    \item \textbf{Diferencias en distribución}: Características musicales normalizadas vs embeddings con distribuciones gaussianas complejas
+    \item \textbf{Escalas de similaridad}: Métricas de distancia apropiadas para cada modalidad (Euclidiana vs Coseno)
+    \item \textbf{Interpretabilidad}: Mantenimiento de explicabilidad en el espacio fusionado
+\end{enumerate}
+
+% =====================================================
+% 6. METODOLOGÍA
+% =====================================================
+\section{Metodología}
+
+\subsection{Diseño de Investigación}
+
+La metodología de investigación implementada sigue un paradigma experimental cuantitativo con enfoque en validación empírica de hipótesis técnicas específicas. El diseño experimental se estructura como una investigación aplicada que combina desarrollo de software con evaluación experimental controlada, siguiendo protocolos establecidos en la literatura de sistemas de recomendación y Music Information Retrieval.
+
+La investigación adopta un enfoque de desarrollo iterativo donde cada componente del sistema es implementado, evaluado individualmente, y posteriormente integrado en la arquitectura global. Esta metodología permite identificación temprana de problemas técnicos y optimización continua de parámetros algorítmicos mediante validación experimental sistemática.
+
+\subsection{Proceso de Curación y Limpieza del Dataset}
+
+\subsubsection{Dataset Fuente y Criterios de Selección}
+
+El proyecto parte de un dataset inicial de aproximadamente 1.2 millones de canciones con metadatos básicos de Spotify, del cual se implementa un proceso de curación sistemático para obtener un subconjunto de alta calidad apropiado para análisis multimodal. Los criterios de selección implementados incluyen:
+
+\begin{itemize}
+    \item \textbf{Disponibilidad de letras verificadas}: Verificación automática de disponibilidad de letras completas mediante APIs especializadas (Genius, LyricFind)
+    \item \textbf{Calidad de metadatos}: Presencia de información completa incluyendo nombre de canción, artista, álbum, género, y características acústicas
+    \item \textbf{Diversidad de géneros}: Selección balanceada que incluye representación proporcional de géneros principales (pop, rock, hip-hop, electronic, country, R\&B)
+    \item \textbf{Idioma del contenido lírico}: Filtrado para contenido principalmente en inglés para consistencia en análisis semántico
+    \item \textbf{Exclusión de contenido instrumental}: Eliminación de pistas sin contenido vocal significativo
+\end{itemize}
+
+\subsubsection{Pipeline de Limpieza Automatizada}
+
+El proceso de limpieza implementa una pipeline automatizada que opera en múltiples etapas:
+
+\textbf{Etapa 1 - Limpieza de Metadatos}:
+\begin{itemize}
+    \item Normalización de nombres de artistas y canciones (eliminación de caracteres especiales, unificación de encoding)
+    \item Detección y eliminación de duplicados mediante similarity matching con umbral de 0.95
+    \item Validación de rangos para características numéricas (tempo 60-200 BPM, loudness -60-0 dB)
+    \item Imputación de valores faltantes mediante estrategias específicas por característica
+\end{itemize}
+
+\textbf{Etapa 2 - Procesamiento de Letras}:
+\begin{itemize}
+    \item Extracción automatizada de letras mediante APIs múltiples con sistema de fallback
+    \item Limpieza de estructura textual (eliminación de marcadores de coro, repeticiones excesivas)
+    \item Normalización de texto (conversión a minúsculas, eliminación de puntuación no-semántica)
+    \item Filtrado por longitud mínima (>50 palabras) para garantizar contenido semántico suficiente
+\end{itemize}
+
+\textbf{Etapa 3 - Validación de Calidad}:
+\begin{itemize}
+    \item Verificación de correspondencia entre metadatos y contenido lírico
+    \item Detección de letras automáticamente generadas o placeholder text
+    \item Cálculo de métricas de calidad textual (diversidad lexical, coherencia temática)
+    \item Eliminación de outliers mediante análisis estadístico multivariado
+\end{itemize}
+
+\subsection{Arquitectura del Sistema Multimodal}
+
+\subsubsection{Módulo de Vectorización Semántica}
+
+El módulo de análisis semántico implementa un pipeline especializado para procesamiento de letras musicales:
+
+\begin{lstlisting}[style=pythonstyle]
+class SemanticVectorizer:
+    def __init__(self, model_name='bert-base-uncased'):
+        self.tokenizer = BertTokenizer.from_pretrained(model_name)
+        self.model = BertModel.from_pretrained(model_name)
+        
+    def vectorize_lyrics(self, lyrics_text):
+        # Tokenizacion con manejo de longitud maxima
+        tokens = self.tokenizer(lyrics_text, 
+                               max_length=512, 
+                               truncation=True, 
+                               padding=True, 
+                               return_tensors='pt')
+        
+        # Generacion de embeddings contextuales
+        with torch.no_grad():
+            outputs = self.model(**tokens)
+            embeddings = outputs.last_hidden_state
+            
+        # Pooling strategy: mean pooling excluyendo tokens especiales
+        mask = tokens['attention_mask']
+        masked_embeddings = embeddings * mask.unsqueeze(-1)
+        summed = torch.sum(masked_embeddings, 1)
+        counts = torch.clamp(mask.sum(1), min=1e-9)
+        mean_pooled = summed / counts.unsqueeze(-1)
+        
+        return mean_pooled.numpy()
+\end{lstlisting}
+
+\subsubsection{Sistema de Clustering Musical Optimizado}
+
+El clustering musical implementa una metodología de purificación híbrida que combina múltiples técnicas de optimización:
+
+\textbf{Técnica 1 - Eliminación de Boundary Points}: Identificación y remoción de puntos con Silhouette Score negativo que degradan la calidad de clustering.
+
+\textbf{Técnica 2 - Detección de Outliers Estadísticos}: Implementación de Isolation Forest y Local Outlier Factor para identificar puntos anómalos en el espacio de características.
+
+\textbf{Técnica 3 - Selección de Características Discriminativas}: Análisis de importancia de características mediante Random Forest Feature Importance y eliminación de características redundantes.
+
+\subsubsection{Arquitectura de Fusión Híbrida}
+
+El sistema de fusión implementa una arquitectura de fusión tardía con ponderación adaptiva:
+
+\begin{lstlisting}[style=pythonstyle]
+class HybridRecommendationEngine:
+    def __init__(self, musical_weight=0.6, semantic_weight=0.4):
+        self.w_music = musical_weight
+        self.w_semantic = semantic_weight
+        
+    def compute_hybrid_similarity(self, query_musical, query_semantic, 
+                                 candidates_musical, candidates_semantic):
+        # Similitud musical (euclidiana normalizada)
+        musical_sim = 1 / (1 + euclidean_distances(
+            query_musical.reshape(1, -1), candidates_musical))
+        
+        # Similitud semantica (coseno)
+        semantic_sim = cosine_similarity(
+            query_semantic.reshape(1, -1), candidates_semantic)
+        
+        # Fusion ponderada
+        hybrid_score = (self.w_music * musical_sim + 
+                       self.w_semantic * semantic_sim.flatten())
+        
+        return hybrid_score
+\end{lstlisting}
+
+\subsection{Protocolo de Validación Experimental}
+
+\subsubsection{Métricas de Evaluación}
+
+La validación experimental implementa un conjunto comprensivo de métricas que evalúan diferentes aspectos del sistema:
+
+\textbf{Métricas de Clustering}:
+\begin{itemize}
+    \item Silhouette Score: Evaluación de separación inter-cluster e intra-cluster
+    \item Calinski-Harabasz Index: Ratio de dispersión between/within clusters
+    \item Davies-Bouldin Index: Medida de similaridad promedio entre clusters
+    \item Hopkins Statistic: Evaluación de clustering tendency del dataset
+\end{itemize}
+
+\textbf{Métricas de Recomendación}:
+\begin{itemize}
+    \item Precision@K: Proporción de recomendaciones relevantes en top-K
+    \item Recall@K: Cobertura de ítems relevantes en top-K
+    \item Diversity Score: Medida de diversidad intra-lista de recomendaciones
+    \item Coverage: Proporción del catálogo cubierta por recomendaciones
+\end{itemize}
+
+\subsubsection{Diseño Experimental Comparativo}
+
+La validación implementa comparaciones sistemáticas entre múltiples configuraciones:
+
+\begin{itemize}
+    \item \textbf{Baseline Musical}: Recomendaciones basadas exclusivamente en características acústicas
+    \item \textbf{Baseline Semántico}: Recomendaciones basadas exclusivamente en similaridad de letras
+    \item \textbf{Sistema Híbrido}: Integración completa con diferentes configuraciones de pesos
+    \item \textbf{Ablation Studies}: Evaluación de contribución individual de cada componente técnico
+\end{itemize}
+
+% =====================================================
+% 7. METODOLOGÍA DE DESARROLLO Y DIVISIÓN DE RESPONSABILIDADES
+% =====================================================
+\section{Metodología de Desarrollo y División de Responsabilidades}
+
+\subsection{Organización del Equipo de Desarrollo}
+
+El proyecto se estructura como una colaboración técnica entre dos ingenieros informáticos, implementando una metodología de desarrollo que aprovecha especialización modular mientras mantiene integración continua y validación cruzada de componentes. La división de responsabilidades se fundamenta en la separación natural de dominios técnicos (musical vs semántico) con áreas de colaboración claramente definidas en fases críticas del desarrollo.
+
+\subsection{Asignación Específica de Responsabilidades}
+
+\subsubsection{Desarrollador A: Dominio Musical y Clustering}
+
+\textbf{Responsabilidades Técnicas Principales}:
+
+\begin{itemize}
+    \item \textbf{Pipeline de Características Musicales}: Implementación completa del módulo de procesamiento de características acústicas Spotify, incluyendo normalización, validación de rangos, e imputación de valores faltantes
+    \item \textbf{Algoritmos de Clustering Optimizado}: Desarrollo e implementación de las 5 estrategias de purificación híbrida (eliminación boundary points, detección outliers, selección características, optimización K, validación cruzada)
+    \item \textbf{Sistema de Métricas de Clustering}: Implementación de Silhouette Score, Calinski-Harabasz Index, Davies-Bouldin Index, y Hopkins Statistic con optimizaciones computacionales
+    \item \textbf{Módulo de Recomendación Musical}: Desarrollo del motor de recomendaciones basado exclusivamente en características acústicas, incluyendo cálculo de similaridades y ranking de candidatos
+    \item \textbf{Optimización de Performance Musical}: Implementación de técnicas de aceleración específicas para cálculos en espacio musical (matriz de distancias pre-computada, indexing espacial)
+\end{itemize}
+
+\textbf{Entregables Específicos}:
+\begin{enumerate}
+    \item Módulo \texttt{musical\_processing.py} con pipeline completo de procesamiento
+    \item Sistema \texttt{clustering\_optimizer.py} con 800+ líneas de implementación validada
+    \item Suite \texttt{clustering\_metrics.py} con evaluación automatizada
+    \item Motor \texttt{musical\_recommender.py} con capacidades de recomendación unimodal
+\end{enumerate}
+
+\subsubsection{Desarrollador B: Dominio Semántico y NLP}
+
+\textbf{Responsabilidades Técnicas Principales}:
+
+\begin{itemize}
+    \item \textbf{Pipeline de Extracción de Letras}: Implementación de sistema robusto de extracción mediante múltiples APIs (Genius, LyricFind, Musixmatch) con sistema de fallback y cache inteligente
+    \item \textbf{Vectorización BERT}: Desarrollo del módulo de generación de embeddings contextuales, incluyendo preprocesamiento especializado para texto lírico, tokenización, y pooling strategies
+    \item \textbf{Sistema de Clustering Semántico}: Implementación de clustering en espacio de alta dimensionalidad (384D) con optimizaciones específicas para embeddings BERT
+    \item \textbf{Módulo de Recomendación Semántica}: Desarrollo de motor de recomendaciones basado en similaridad coseno de embeddings, incluyendo técnicas de retrieval eficiente
+    \item \textbf{Análisis de Interpretabilidad}: Implementación de sistema de etiquetado automático de clusters semánticos y validación de coherencia temática
+\end{itemize}
+
+\textbf{Entregables Específicos}:
+\begin{enumerate}
+    \item Sistema \texttt{lyrics\_extractor.py} con extracción automatizada y robust error handling
+    \item Módulo \texttt{bert\_vectorizer.py} con pipeline completo de vectorización
+    \item Implementación \texttt{semantic\_clustering.py} con optimizaciones para alta dimensionalidad
+    \item Motor \texttt{semantic\_recommender.py} con retrieval semántico eficiente
+\end{enumerate}
+
+\subsection{Áreas de Colaboración Crítica}
+
+\subsubsection{Fase de Análisis y Selección de Datos}
+
+Ambos desarrolladores participan colaborativamente en:
+
+\begin{itemize}
+    \item \textbf{Definición de Criterios de Calidad}: Establecimiento conjunto de métricas de calidad para datos musicales y textuales
+    \item \textbf{Análisis Exploratorio Conjunto}: Evaluación estadística de distribuciones, correlaciones, y patrones en ambos dominios
+    \item \textbf{Diseño de Pipeline de Limpieza}: Arquitectura unificada que maneje tanto características musicales como contenido textual
+    \item \textbf{Validación Cruzada de Calidad}: Verificación mutua de que la limpieza en un dominio no impacte negativamente el otro
+\end{itemize}
+
+\subsubsection{Fase de Integración Multimodal}
+
+La fusión de componentes requiere colaboración técnica intensiva:
+
+\begin{itemize}
+    \item \textbf{Diseño de Arquitectura de Fusión}: Definición conjunta de interfaces entre módulos y protocolos de comunicación
+    \item \textbf{Optimización de Pesos de Fusión}: Experimentación colaborativa para determinar ponderación óptima entre modalidades
+    \item \textbf{Validación de Coherencia}: Verificación que recomendaciones híbridas mantengan coherencia tanto musical como semántica
+    \item \textbf{Testing de Integración}: Desarrollo conjunto de suite de pruebas que valide funcionamiento del sistema completo
+\end{itemize}
+
+\subsubsection{Fase de Experimentación y Validación}
+
+\begin{itemize}
+    \item \textbf{Diseño de Experimentos}: Definición colaborativa de protocolos experimentales y métricas de evaluación
+    \item \textbf{Análisis de Resultados}: Interpretación conjunta de métricas, identificación de fortalezas y limitaciones
+    \item \textbf{Debugging y Optimización}: Resolución colaborativa de problemas de performance y precisión
+    \item \textbf{Documentación Técnica}: Preparación conjunta de documentación que cubra aspectos de ambos dominios
+\end{itemize}
+
+\subsection{Metodología de Coordinación Técnica}
+
+\subsubsection{Protocolos de Integración Continua}
+
+\begin{itemize}
+    \item \textbf{Reuniones Técnicas Semanales}: Sincronización de progreso, identificación de dependencies, y resolución de problemas de interface
+    \item \textbf{Code Reviews Cruzados}: Revisión mutua de implementaciones para garantizar calidad, consistencia, y mantenibilidad
+    \item \textbf{Testing Colaborativo}: Ejecución conjunta de pruebas de integración y validación de resultados
+    \item \textbf{Documentación Compartida}: Mantenimiento de especificaciones técnicas actualizadas accesibles por ambos desarrolladores
+\end{itemize}
+
+\subsubsection{Herramientas de Colaboración}
+
+\begin{itemize}
+    \item \textbf{Control de Versiones}: Git con branching strategy que permita desarrollo paralelo con merges controlados
+    \item \textbf{Gestión de Dependencies}: Archivo \texttt{requirements.txt} compartido con versioning específico de librerías
+    \item \textbf{Ambiente de Desarrollo}: Containerización mediante Docker para garantizar reproducibilidad entre ambientes de desarrollo
+    \item \textbf{Monitoreo de Performance}: Herramientas de profiling compartidas para identificar bottlenecks en componentes integrados
+\end{itemize}
+
+% =====================================================
+% 8. RESULTADOS ESPERADOS
+% =====================================================
+\section{Resultados Esperados}
+
+\subsection{Contribuciones Técnicas y Científicas}
+
+\subsubsection{Mejoras Cuantificables en Métricas de Clustering}
+
+Se espera demostrar mejoras significativas y estadísticamente validadas en métricas fundamentales de calidad de clustering aplicado a datos musicales. Específicamente, el sistema de clustering optimizado mediante técnicas de purificación híbrida debe alcanzar:
+
+\begin{itemize}
+    \item \textbf{Silhouette Score}: Mejora mínima del 15\% respecto a clustering baseline (K-Means estándar), con objetivo de alcanzar valores >0.25 en datasets musicales reales
+    \item \textbf{Calinski-Harabasz Index}: Incremento del 20\% en ratio de dispersión inter/intra-cluster, indicando separación más clara entre agrupamientos musicales
+    \item \textbf{Hopkins Statistic}: Validación de clustering tendency >0.75, confirmando estructura de cluster natural en el dataset curado
+    \item \textbf{Estabilidad de Clustering}: Consistencia >90\% en asignaciones de cluster a través de múltiples ejecuciones con inicialización aleatoria
+\end{itemize}
+
+\subsubsection{Efectividad del Análisis Semántico BERT}
+
+El módulo de vectorización semántica debe demostrar capacidad superior para capturar similaridades temáticas en letras musicales comparado con técnicas tradicionales:
+
+\begin{itemize}
+    \item \textbf{Coherencia Temática}: Clusters semánticos deben exhibir coherencia temática >80\% mediante evaluación manual de muestras representativas
+    \item \textbf{Diversidad Semántica}: Cobertura de espectro temático amplio con clusters interpretables (amor, desamor, celebración, introspección, protesta social, etc.)
+    \item \textbf{Estabilidad de Embeddings}: Consistencia en representaciones vectoriales para letras con contenido semántico similar
+    \item \textbf{Eficiencia Computacional}: Generación de embeddings <500ms por canción en hardware estándar
+\end{itemize}
+
+\subsection{Performance del Sistema Híbrido}
+
+\subsubsection{Métricas de Recomendación Superiores}
+
+El sistema híbrido debe demostrar superioridad estadísticamente significativa respecto a sistemas unimodales:
+
+\begin{itemize}
+    \item \textbf{Precision@10}: >15\% de mejora respecto al mejor baseline unimodal
+    \item \textbf{Recall@10}: Mantenimiento o mejora de cobertura sin sacrificar precisión  
+    \item \textbf{Diversity Score}: >20\% incremento en diversidad intra-lista de recomendaciones
+    \item \textbf{User Coverage}: Capacidad de generar recomendaciones efectivas para >90\% de consultas del dataset de prueba
+\end{itemize}
+
+\subsubsection{Latencia y Escalabilidad}
+
+\begin{itemize}
+    \item \textbf{Tiempo de Respuesta}: <100ms para generación de 10 recomendaciones en dataset de 18K canciones
+    \item \textbf{Escalabilidad Linear}: Crecimiento O(n) en tiempo de procesamiento respecto a tamaño del dataset
+    \item \textbf{Uso de Memoria}: <2GB RAM para operación completa con dataset completo cargado
+    \item \textbf{Paralelización}: Capacidad de aprovechar múltiples cores para cálculos de similaridad
+\end{itemize}
+
+\subsection{Validación Experimental Comprensiva}
+
+\subsubsection{Estudios de Ablación}
+
+Análisis sistemático de contribución individual de cada componente técnico:
+
+\begin{itemize}
+    \item \textbf{Impacto de Purificación}: Cuantificación específica de mejora atribuible a cada técnica de purificación (boundary points, outliers, feature selection)
+    \item \textbf{Sensibilidad a Pesos de Fusión}: Caracterización de performance del sistema híbrido bajo diferentes configuraciones de ponderación musical/semántica
+    \item \textbf{Robustez a Parámetros}: Evaluación de estabilidad del sistema ante variaciones en hiperparámetros críticos
+    \item \textbf{Análisis de Failure Cases}: Identificación y caracterización de tipos de consultas donde el sistema presenta performance subóptima
+\end{itemize}
+
+\subsubsection{Comparación con Estado del Arte}
+
+\begin{itemize}
+    \item \textbf{Benchmarking contra Sistemas Comerciales}: Comparación cualitativa con recomendaciones de Spotify/Apple Music en muestras representativas
+    \item \textbf{Evaluación contra Literatura Académica}: Implementación y comparación con algoritmos documentados en papers recientes de MIR
+    \item \textbf{Análisis de Complementariedad}: Demostración empírica de que información musical y semántica es efectivamente complementaria
+\end{itemize}
+
+\subsection{Entregables Técnicos Concretos}
+
+\subsubsection{Software Funcional}
+
+\begin{itemize}
+    \item \textbf{Sistema de Recomendación Completo}: Aplicación de línea de comandos capaz de procesar consultas y generar recomendaciones en tiempo interactivo
+    \item \textbf{API Programática}: Interface Python bien documentada que permita integración con otros sistemas
+    \item \textbf{Pipeline de Procesamiento}: Sistema automatizado de limpieza y preparación de nuevos datasets musicales
+    \item \textbf{Suite de Evaluación}: Conjunto de herramientas para replicar experimentos y validar performance
+\end{itemize}
+
+\subsubsection{Recursos de Datos}
+
+\begin{itemize}
+    \item \textbf{Dataset Curado}: 18K canciones con metadatos completos, características musicales, y vectores semánticos pre-procesados
+    \item \textbf{Clusters Optimizados}: Asignaciones de cluster validadas para componentes musical y semántico
+    \item \textbf{Benchmarks de Evaluación}: Conjunto de consultas de prueba con ground truth para validación de sistemas futuros
+\end{itemize}
+
+\subsection{Contribuciones al Conocimiento Científico}
+
+\subsubsection{Publicaciones Académicas Potenciales}
+
+\begin{itemize}
+    \item \textbf{Metodología de Purificación Híbrida}: Paper técnico describiendo las técnicas de optimización de clustering desarrolladas
+    \item \textbf{Fusión Multimodal Música-Texto}: Contribución sobre arquitecturas efectivas de integración multimodal en dominio musical
+    \item \textbf{Análisis de Complementariedad}: Estudio empírico sobre la naturaleza complementaria de información musical y semántica
+\end{itemize}
+
+\subsubsection{Reproducibilidad y Extensibilidad}
+
+\begin{itemize}
+    \item \textbf{Código Fuente Abierto}: Implementación completa disponible con licencia académica permisiva
+    \item \textbf{Documentación Técnica Exhaustiva}: Especificaciones que permitan replicación y extensión del trabajo
+    \item \textbf{Protocolos de Evaluación}: Framework estandarizado para evaluación de sistemas de recomendación musical multimodales
+\end{itemize}
+
+% =====================================================
+% 9. CRONOGRAMA DE DESARROLLO
+% =====================================================
+\section{Cronograma de Desarrollo}
+
+\subsection{Fases del Proyecto y Distribución Temporal}
+
+El desarrollo del proyecto se estructura en 6 fases principales distribuidas a lo largo de 8 meses de trabajo intensivo. Cada fase incluye objetivos específicos, entregables concretos, y criterios de validación que permiten progresión estructurada y evaluación continua del avance técnico.
+
+\subsubsection{Fase 1: Preparación de Datos y Análisis Exploratorio (6 semanas)}
+
+\textbf{Semanas 1-2: Curación y Limpieza de Dataset}
+\begin{itemize}
+    \item Implementación de pipeline de extracción de letras con múltiples APIs
+    \item Desarrollo de algoritmos de limpieza y normalización de metadatos
+    \item Validación de calidad y eliminación de duplicados
+    \item \textit{Entregable}: Dataset limpio de 18K canciones con metadatos completos
+\end{itemize}
+
+\textbf{Semanas 3-4: Análisis Exploratorio Colaborativo}
+\begin{itemize}
+    \item Análisis estadístico de distribuciones musicales y textuales
+    \item Evaluación de correlaciones entre características acústicas y semánticas
+    \item Identificación de patrones, outliers, y características discriminativas
+    \item \textit{Entregable}: Reporte de análisis exploratorio con insights técnicos
+\end{itemize}
+
+\textbf{Semanas 5-6: Validación de Clustering Readiness}
+\begin{itemize}
+    \item Cálculo de Hopkins Statistic y métricas de separabilidad
+    \item Análisis de estructura natural de clusters en ambos dominios
+    \item Optimización preliminar de parámetros de clustering
+    \item \textit{Entregable}: Análisis de viabilidad de clustering con recomendaciones técnicas
+\end{itemize}
+
+\subsubsection{Fase 2: Desarrollo de Componentes Unimodales (8 semanas)}
+
+\textbf{Semanas 7-10: Desarrollo del Módulo Musical (Desarrollador A)}
+\begin{itemize}
+    \item Implementación de pipeline de procesamiento de características acústicas
+    \item Desarrollo de algoritmos de clustering optimizado con purificación híbrida
+    \item Implementación de métricas de evaluación de clustering
+    \item Testing individual del sistema de clustering musical
+    \item \textit{Entregable}: Módulo de clustering musical con mejoras >15\% en Silhouette Score
+\end{itemize}
+
+\textbf{Semanas 7-10: Desarrollo del Módulo Semántico (Desarrollador B)}
+\begin{itemize}
+    \item Implementación de vectorización BERT para letras musicales
+    \item Desarrollo de clustering semántico en espacio de alta dimensionalidad
+    \item Optimización de performance para generación de embeddings
+    \item Validación de coherencia temática en clusters semánticos
+    \item \textit{Entregable}: Sistema de vectorización y clustering semántico funcional
+\end{itemize}
+
+\textbf{Semanas 11-14: Desarrollo de Motores de Recomendación Unimodales}
+\begin{itemize}
+    \item Implementación de recomendador basado en clustering musical
+    \item Desarrollo de recomendador basado en similaridad semántica
+    \item Optimización de algoritmos de retrieval y ranking
+    \item Evaluación individual de performance de cada sistema
+    \item \textit{Entregable}: Dos sistemas de recomendación unimodales completamente funcionales
+\end{itemize}
+
+\subsubsection{Fase 3: Integración Multimodal (4 semanas)}
+
+\textbf{Semanas 15-16: Diseño de Arquitectura de Fusión}
+\begin{itemize}
+    \item Desarrollo colaborativo de interfaces entre módulos
+    \item Implementación de normalización y ponderación de modalidades
+    \item Diseño de sistema de fusión tardía con pesos adaptativos
+    \item \textit{Entregable}: Arquitectura de fusión con especificaciones técnicas completas
+\end{itemize}
+
+\textbf{Semanas 17-18: Implementación y Testing de Sistema Híbrido}
+\begin{itemize}
+    \item Integración de componentes musical y semántico
+    \item Desarrollo de motor de recomendación híbrido
+    \item Testing de integración y debugging
+    \item Optimización de performance del sistema completo
+    \item \textit{Entregable}: Sistema híbrido funcional con latencia <100ms
+\end{itemize}
+
+\subsubsection{Fase 4: Experimentación y Validación (6 semanas)}
+
+\textbf{Semanas 19-21: Diseño y Ejecución de Experimentos}
+\begin{itemize}
+    \item Implementación de protocolo de evaluación comprensivo
+    \item Ejecución de experimentos comparativos (unimodal vs híbrido)
+    \item Estudios de ablación para componentes individuales
+    \item Análisis de sensibilidad a parámetros críticos
+    \item \textit{Entregable}: Resultados experimentales completos con análisis estadístico
+\end{itemize}
+
+\textbf{Semanas 22-24: Optimización y Refinamiento}
+\begin{itemize}
+    \item Optimización basada en resultados experimentales
+    \item Refinamiento de parámetros y configuraciones
+    \item Validación final con métricas objetivas
+    \item Preparación de dataset y código para reproducibilidad
+    \item \textit{Entregable}: Sistema optimizado con performance validada
+\end{itemize}
+
+\subsubsection{Fase 5: Documentación y Análisis de Resultados (4 semanas)}
+
+\textbf{Semanas 25-26: Documentación Técnica}
+\begin{itemize}
+    \item Preparación de documentación de arquitectura y APIs
+    \item Creación de guías de instalación y uso
+    \item Documentación de protocolos de evaluación
+    \item Preparación de código para release público
+    \item \textit{Entregable}: Documentación técnica completa
+\end{itemize}
+
+\textbf{Semanas 27-28: Análisis de Contribuciones Científicas}
+\begin{itemize}
+    \item Análisis crítico de resultados y limitaciones
+    \item Identificación de contribuciones originales al estado del arte
+    \item Preparación de material para publicaciones académicas
+    \item Evaluación de trabajo futuro y extensiones posibles
+    \item \textit{Entregable}: Análisis de impacto científico y contribuciones
+\end{itemize}
+
+\subsubsection{Fase 6: Preparación de Tesis y Presentación (4 semanas)}
+
+\textbf{Semanas 29-30: Redacción de Tesis}
+\begin{itemize}
+    \item Redacción de capítulos técnicos de la tesis
+    \item Integración de resultados experimentales
+    \item Revisión y edición de contenido académico
+    \item Preparación de figuras y material visual
+\end{itemize}
+
+\textbf{Semanas 31-32: Preparación de Presentación}
+\begin{itemize}
+    \item Diseño de presentación para defensa de tesis
+    \item Preparación de demostración técnica del sistema
+    \item Revisión final de documentación
+    \item Preparación para preguntas y defensa académica
+    \item \textit{Entregable}: Tesis completa y presentación preparada
+\end{itemize}
+
+% =====================================================
+% 10. REFERENCIAS BIBLIOGRÁFICAS
+% =====================================================
+\section{Referencias Bibliográficas}
+
+\begin{thebibliography}{99}
+
+\bibitem{adomavicius2005toward}
+Adomavicius, G., \& Tuzhilin, A. (2005). Toward the next generation of recommender systems: A survey of the state-of-the-art and possible extensions. \textit{IEEE transactions on knowledge and data engineering}, 17(6), 734-749.
+
+\bibitem{devlin2018bert}
+Devlin, J., Chang, M. W., Lee, K., \& Toutanova, K. (2018). Bert: Pre-training of deep bidirectional transformers for language understanding. \textit{arXiv preprint arXiv:1810.04805}.
+
+\bibitem{schedule2013spotify}
+Schedl, M., Zamani, H., Chen, C. W., Deldjoo, Y., \& Elahi, M. (2018). Current challenges and visions in music recommender systems research. \textit{International journal of multimedia information retrieval}, 7(2), 95-116.
+
+\bibitem{yang2017bridging}
+Yang, Y. H., \& Chen, H. H. (2012). Machine recognition of music emotion: A review. \textit{ACM Transactions on Intelligent Systems and Technology (TIST)}, 3(3), 1-30.
+
+\bibitem{wang2014exploring}
+Wang, X., Rosenblum, D., \& Wang, Y. (2014). Context-aware mobile music recommendation for daily activities. \textit{Proceedings of the 20th ACM international conference on Multimedia}, 99-108.
+
+\bibitem{mcfee2012million}
+McFee, B., Bertin-Mahieux, T., Ellis, D. P., \& Lanckriet, G. R. (2012). The million song dataset challenge. \textit{Proceedings of the 21st international conference on World Wide Web}, 909-916.
+
+\bibitem{hu2008collaborative}
+Hu, Y., Koren, Y., \& Volinsky, C. (2008). Collaborative filtering for implicit feedback datasets. \textit{2008 Eighth IEEE International Conference on Data Mining}, 263-272.
+
+\bibitem{celma2010music}
+Celma, Ò. (2010). \textit{Music recommendation and discovery: the long tail, long fail, and long play in the digital music space}. Springer Science \& Business Media.
+
+\bibitem{logan2000mel}
+Logan, B. (2000). Mel frequency cepstral coefficients for music modeling. \textit{International symposium on music information retrieval}, 270, 1-11.
+
+\bibitem{lops2011content}
+Lops, P., De Gemmis, M., \& Semeraro, G. (2011). Content-based recommender systems: State of the art and trends. \textit{Recommender systems handbook}, 73-105.
+
+\bibitem{bonnin2015evaluating}
+Bonnin, G., \& Jannach, D. (2015). Evaluating the quality of playlists based on hand-crafted samples. \textit{Proceedings of the 16th International Society for Music Information Retrieval Conference}, 263-269.
+
+\bibitem{zhang2019neural}
+Zhang, S., Yao, L., Sun, A., \& Tay, Y. (2019). Deep learning based recommender system: A survey and new perspectives. \textit{ACM Computing Surveys}, 52(1), 1-38.
+
+\bibitem{mesnage2011using}
+Mesnage, C., Rafii, Z., \& Peeters, G. (2011). Using language models to improve audio music similarity. \textit{12th International Society for Music Information Retrieval Conference}, 475-480.
+
+\bibitem{turnbull2008semantic}
+Turnbull, D., Barrington, L., Torres, D., \& Lanckriet, G. (2008). Semantic annotation and retrieval of music and sound effects. \textit{IEEE Transactions on Audio, Speech, and Language Processing}, 16(2), 467-476.
+
+\bibitem{levy2006improving}
+Levy, M., \& Sandler, M. (2008). Learning latent semantic models for music from social tags. \textit{Journal of New Music Research}, 37(2), 137-150.
+
+\end{thebibliography}
+
+\end{document}
