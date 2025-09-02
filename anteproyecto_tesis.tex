@@ -161,27 +161,7 @@ Desarrollar, implementar y validar experimentalmente un sistema avanzado de reco
     \item \textbf{Implementar sistema de recomendación híbrido}: Desarrollar un motor de recomendaciones completo que integre clustering musical optimizado con similaridad semántica directa, proporcionando recomendaciones balanceadas entre coherencia musical y relevancia temática.
 \end{enumerate}
 
-\subsubsection{Objetivos de Validación Experimental}
 
-\begin{enumerate}
-    \item \textbf{Validar efectividad del clustering optimizado}: Demostrar mediante experimentación controlada que las técnicas de purificación híbrida producen mejoras estadísticamente significativas (>15\%) en métricas de calidad de clustering comparado con algoritmos baseline.
-    
-    \item \textbf{Evaluar calidad del análisis semántico}: Verificar que las representaciones BERT de letras musicales capturan efectivamente similaridades temáticas y semánticas mediante evaluación cualitativa en muestras representativas y análisis de coherencia temática en clusters semánticos.
-    
-    \item \textbf{Comparar rendimiento multimodal vs unimodal}: Realizar evaluación sistemática que demuestre superioridad del enfoque híbrido versus sistemas basados exclusivamente en características acústicas o análisis semántico individual.
-    
-    \item \textbf{Medir performance computacional}: Verificar que el sistema completo mantiene latencias de respuesta apropiadas para aplicaciones interactivas (<100ms por recomendación) y escalabilidad para datasets de tamaño industrial.
-\end{enumerate}
-
-\subsubsection{Objetivos de Contribución Científica}
-
-\begin{enumerate}
-    \item \textbf{Establecer benchmarks comparativos}: Crear un protocolo de evaluación estándar para sistemas de recomendación musical multimodales que pueda ser utilizado por investigadores posteriores en el área.
-    
-    \item \textbf{Documentar metodología reproducible}: Producir documentación técnica completa que permita replicación de experimentos y extensión de la metodología a otros dominios de aplicación.
-    
-    \item \textbf{Generar evidencia empírica}: Proporcionar evidencia experimental sobre la efectividad de fusión multimodal música-letra que contribuya al cuerpo de conocimiento científico en Music Information Retrieval.
-\end{enumerate}
 
 % =====================================================
 % 4. ALCANCE DEL PROYECTO
@@ -435,65 +415,7 @@ El clustering musical implementa una metodología de purificación híbrida que 
 
 \textbf{Técnica 3 - Selección de Características Discriminativas}: Análisis de importancia de características mediante Random Forest Feature Importance y eliminación de características redundantes.
 
-\subsubsection{Arquitectura de Fusión Híbrida}
 
-El sistema de fusión implementa una arquitectura de fusión tardía con ponderación adaptiva:
-
-\begin{lstlisting}[style=pythonstyle]
-class HybridRecommendationEngine:
-    def __init__(self, musical_weight=0.6, semantic_weight=0.4):
-        self.w_music = musical_weight
-        self.w_semantic = semantic_weight
-        
-    def compute_hybrid_similarity(self, query_musical, query_semantic, 
-                                 candidates_musical, candidates_semantic):
-        # Similitud musical (euclidiana normalizada)
-        musical_sim = 1 / (1 + euclidean_distances(
-            query_musical.reshape(1, -1), candidates_musical))
-        
-        # Similitud semantica (coseno)
-        semantic_sim = cosine_similarity(
-            query_semantic.reshape(1, -1), candidates_semantic)
-        
-        # Fusion ponderada
-        hybrid_score = (self.w_music * musical_sim + 
-                       self.w_semantic * semantic_sim.flatten())
-        
-        return hybrid_score
-\end{lstlisting}
-
-\subsection{Protocolo de Validación Experimental}
-
-\subsubsection{Métricas de Evaluación}
-
-La validación experimental implementa un conjunto comprensivo de métricas que evalúan diferentes aspectos del sistema:
-
-\textbf{Métricas de Clustering}:
-\begin{itemize}
-    \item Silhouette Score: Evaluación de separación inter-cluster e intra-cluster
-    \item Calinski-Harabasz Index: Ratio de dispersión between/within clusters
-    \item Davies-Bouldin Index: Medida de similaridad promedio entre clusters
-    \item Hopkins Statistic: Evaluación de clustering tendency del dataset
-\end{itemize}
-
-\textbf{Métricas de Recomendación}:
-\begin{itemize}
-    \item Precision@K: Proporción de recomendaciones relevantes en top-K
-    \item Recall@K: Cobertura de ítems relevantes en top-K
-    \item Diversity Score: Medida de diversidad intra-lista de recomendaciones
-    \item Coverage: Proporción del catálogo cubierta por recomendaciones
-\end{itemize}
-
-\subsubsection{Diseño Experimental Comparativo}
-
-La validación implementa comparaciones sistemáticas entre múltiples configuraciones:
-
-\begin{itemize}
-    \item \textbf{Baseline Musical}: Recomendaciones basadas exclusivamente en características acústicas
-    \item \textbf{Baseline Semántico}: Recomendaciones basadas exclusivamente en similaridad de letras
-    \item \textbf{Sistema Híbrido}: Integración completa con diferentes configuraciones de pesos
-    \item \textbf{Ablation Studies}: Evaluación de contribución individual de cada componente técnico
-\end{itemize}
 
 % =====================================================
 % 7. METODOLOGÍA DE DESARROLLO Y DIVISIÓN DE RESPONSABILIDADES
@@ -518,13 +440,6 @@ El proyecto se estructura como una colaboración técnica entre dos ingenieros i
     \item \textbf{Optimización de Performance Musical}: Implementación de técnicas de aceleración específicas para cálculos en espacio musical (matriz de distancias pre-computada, indexing espacial)
 \end{itemize}
 
-\textbf{Entregables Específicos}:
-\begin{enumerate}
-    \item Módulo \texttt{musical\_processing.py} con pipeline completo de procesamiento
-    \item Sistema \texttt{clustering\_optimizer.py} con 800+ líneas de implementación validada
-    \item Suite \texttt{clustering\_metrics.py} con evaluación automatizada
-    \item Motor \texttt{musical\_recommender.py} con capacidades de recomendación unimodal
-\end{enumerate}
 
 \subsubsection{Desarrollador B: Dominio Semántico y NLP}
 
@@ -538,13 +453,6 @@ El proyecto se estructura como una colaboración técnica entre dos ingenieros i
     \item \textbf{Análisis de Interpretabilidad}: Implementación de sistema de etiquetado automático de clusters semánticos y validación de coherencia temática
 \end{itemize}
 
-\textbf{Entregables Específicos}:
-\begin{enumerate}
-    \item Sistema \texttt{lyrics\_extractor.py} con extracción automatizada y robust error handling
-    \item Módulo \texttt{bert\_vectorizer.py} con pipeline completo de vectorización
-    \item Implementación \texttt{semantic\_clustering.py} con optimizaciones para alta dimensionalidad
-    \item Motor \texttt{semantic\_recommender.py} con retrieval semántico eficiente
-\end{enumerate}
 
 \subsection{Áreas de Colaboración Crítica}
 
@@ -579,137 +487,9 @@ La fusión de componentes requiere colaboración técnica intensiva:
     \item \textbf{Documentación Técnica}: Preparación conjunta de documentación que cubra aspectos de ambos dominios
 \end{itemize}
 
-\subsection{Metodología de Coordinación Técnica}
-
-\subsubsection{Protocolos de Integración Continua}
-
-\begin{itemize}
-    \item \textbf{Reuniones Técnicas Semanales}: Sincronización de progreso, identificación de dependencies, y resolución de problemas de interface
-    \item \textbf{Code Reviews Cruzados}: Revisión mutua de implementaciones para garantizar calidad, consistencia, y mantenibilidad
-    \item \textbf{Testing Colaborativo}: Ejecución conjunta de pruebas de integración y validación de resultados
-    \item \textbf{Documentación Compartida}: Mantenimiento de especificaciones técnicas actualizadas accesibles por ambos desarrolladores
-\end{itemize}
-
-\subsubsection{Herramientas de Colaboración}
-
-\begin{itemize}
-    \item \textbf{Control de Versiones}: Git con branching strategy que permita desarrollo paralelo con merges controlados
-    \item \textbf{Gestión de Dependencies}: Archivo \texttt{requirements.txt} compartido con versioning específico de librerías
-    \item \textbf{Ambiente de Desarrollo}: Containerización mediante Docker para garantizar reproducibilidad entre ambientes de desarrollo
-    \item \textbf{Monitoreo de Performance}: Herramientas de profiling compartidas para identificar bottlenecks en componentes integrados
-\end{itemize}
 
 % =====================================================
-% 8. RESULTADOS ESPERADOS
-% =====================================================
-\section{Resultados Esperados}
-
-\subsection{Contribuciones Técnicas y Científicas}
-
-\subsubsection{Mejoras Cuantificables en Métricas de Clustering}
-
-Se espera demostrar mejoras significativas y estadísticamente validadas en métricas fundamentales de calidad de clustering aplicado a datos musicales. Específicamente, el sistema de clustering optimizado mediante técnicas de purificación híbrida debe alcanzar:
-
-\begin{itemize}
-    \item \textbf{Silhouette Score}: Mejora mínima del 15\% respecto a clustering baseline (K-Means estándar), con objetivo de alcanzar valores >0.25 en datasets musicales reales
-    \item \textbf{Calinski-Harabasz Index}: Incremento del 20\% en ratio de dispersión inter/intra-cluster, indicando separación más clara entre agrupamientos musicales
-    \item \textbf{Hopkins Statistic}: Validación de clustering tendency >0.75, confirmando estructura de cluster natural en el dataset curado
-    \item \textbf{Estabilidad de Clustering}: Consistencia >90\% en asignaciones de cluster a través de múltiples ejecuciones con inicialización aleatoria
-\end{itemize}
-
-\subsubsection{Efectividad del Análisis Semántico BERT}
-
-El módulo de vectorización semántica debe demostrar capacidad superior para capturar similaridades temáticas en letras musicales comparado con técnicas tradicionales:
-
-\begin{itemize}
-    \item \textbf{Coherencia Temática}: Clusters semánticos deben exhibir coherencia temática >80\% mediante evaluación manual de muestras representativas
-    \item \textbf{Diversidad Semántica}: Cobertura de espectro temático amplio con clusters interpretables (amor, desamor, celebración, introspección, protesta social, etc.)
-    \item \textbf{Estabilidad de Embeddings}: Consistencia en representaciones vectoriales para letras con contenido semántico similar
-    \item \textbf{Eficiencia Computacional}: Generación de embeddings <500ms por canción en hardware estándar
-\end{itemize}
-
-\subsection{Performance del Sistema Híbrido}
-
-\subsubsection{Métricas de Recomendación Superiores}
-
-El sistema híbrido debe demostrar superioridad estadísticamente significativa respecto a sistemas unimodales:
-
-\begin{itemize}
-    \item \textbf{Precision@10}: >15\% de mejora respecto al mejor baseline unimodal
-    \item \textbf{Recall@10}: Mantenimiento o mejora de cobertura sin sacrificar precisión  
-    \item \textbf{Diversity Score}: >20\% incremento en diversidad intra-lista de recomendaciones
-    \item \textbf{User Coverage}: Capacidad de generar recomendaciones efectivas para >90\% de consultas del dataset de prueba
-\end{itemize}
-
-\subsubsection{Latencia y Escalabilidad}
-
-\begin{itemize}
-    \item \textbf{Tiempo de Respuesta}: <100ms para generación de 10 recomendaciones en dataset de 18K canciones
-    \item \textbf{Escalabilidad Linear}: Crecimiento O(n) en tiempo de procesamiento respecto a tamaño del dataset
-    \item \textbf{Uso de Memoria}: <2GB RAM para operación completa con dataset completo cargado
-    \item \textbf{Paralelización}: Capacidad de aprovechar múltiples cores para cálculos de similaridad
-\end{itemize}
-
-\subsection{Validación Experimental Comprensiva}
-
-\subsubsection{Estudios de Ablación}
-
-Análisis sistemático de contribución individual de cada componente técnico:
-
-\begin{itemize}
-    \item \textbf{Impacto de Purificación}: Cuantificación específica de mejora atribuible a cada técnica de purificación (boundary points, outliers, feature selection)
-    \item \textbf{Sensibilidad a Pesos de Fusión}: Caracterización de performance del sistema híbrido bajo diferentes configuraciones de ponderación musical/semántica
-    \item \textbf{Robustez a Parámetros}: Evaluación de estabilidad del sistema ante variaciones en hiperparámetros críticos
-    \item \textbf{Análisis de Failure Cases}: Identificación y caracterización de tipos de consultas donde el sistema presenta performance subóptima
-\end{itemize}
-
-\subsubsection{Comparación con Estado del Arte}
-
-\begin{itemize}
-    \item \textbf{Benchmarking contra Sistemas Comerciales}: Comparación cualitativa con recomendaciones de Spotify/Apple Music en muestras representativas
-    \item \textbf{Evaluación contra Literatura Académica}: Implementación y comparación con algoritmos documentados en papers recientes de MIR
-    \item \textbf{Análisis de Complementariedad}: Demostración empírica de que información musical y semántica es efectivamente complementaria
-\end{itemize}
-
-\subsection{Entregables Técnicos Concretos}
-
-\subsubsection{Software Funcional}
-
-\begin{itemize}
-    \item \textbf{Sistema de Recomendación Completo}: Aplicación de línea de comandos capaz de procesar consultas y generar recomendaciones en tiempo interactivo
-    \item \textbf{API Programática}: Interface Python bien documentada que permita integración con otros sistemas
-    \item \textbf{Pipeline de Procesamiento}: Sistema automatizado de limpieza y preparación de nuevos datasets musicales
-    \item \textbf{Suite de Evaluación}: Conjunto de herramientas para replicar experimentos y validar performance
-\end{itemize}
-
-\subsubsection{Recursos de Datos}
-
-\begin{itemize}
-    \item \textbf{Dataset Curado}: 18K canciones con metadatos completos, características musicales, y vectores semánticos pre-procesados
-    \item \textbf{Clusters Optimizados}: Asignaciones de cluster validadas para componentes musical y semántico
-    \item \textbf{Benchmarks de Evaluación}: Conjunto de consultas de prueba con ground truth para validación de sistemas futuros
-\end{itemize}
-
-\subsection{Contribuciones al Conocimiento Científico}
-
-\subsubsection{Publicaciones Académicas Potenciales}
-
-\begin{itemize}
-    \item \textbf{Metodología de Purificación Híbrida}: Paper técnico describiendo las técnicas de optimización de clustering desarrolladas
-    \item \textbf{Fusión Multimodal Música-Texto}: Contribución sobre arquitecturas efectivas de integración multimodal en dominio musical
-    \item \textbf{Análisis de Complementariedad}: Estudio empírico sobre la naturaleza complementaria de información musical y semántica
-\end{itemize}
-
-\subsubsection{Reproducibilidad y Extensibilidad}
-
-\begin{itemize}
-    \item \textbf{Código Fuente Abierto}: Implementación completa disponible con licencia académica permisiva
-    \item \textbf{Documentación Técnica Exhaustiva}: Especificaciones que permitan replicación y extensión del trabajo
-    \item \textbf{Protocolos de Evaluación}: Framework estandarizado para evaluación de sistemas de recomendación musical multimodales
-\end{itemize}
-
-% =====================================================
-% 9. CRONOGRAMA DE DESARROLLO
+% 8. CRONOGRAMA DE DESARROLLO
 % =====================================================
 \section{Cronograma de Desarrollo}
 
@@ -851,7 +631,7 @@ El desarrollo del proyecto se estructura en 6 fases principales distribuidas a l
 \end{itemize}
 
 % =====================================================
-% 10. REFERENCIAS BIBLIOGRÁFICAS
+% 9. REFERENCIAS BIBLIOGRÁFICAS
 % =====================================================
 \section{Referencias Bibliográficas}
 
