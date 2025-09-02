@@ -31,14 +31,13 @@
 \large{Ingeniería Informática}}
 
 \author{
-\textbf{Estudiante 1:} [Nombre Apellido] - [Matrícula] \\
-\textbf{Estudiante 2:} [Nombre Apellido] - [Matrícula] \\
+\textbf{Estudiante 1:} San Miguel, Santiago \\
+\textbf{Estudiante 2:} Cordoba, Thiago \\
 \\
-\textbf{Director:} [Nombre del Director] \\
-\textbf{Codirector:} [Nombre del Codirector] \\
+\textbf{Tutor:} Rivera Bernsdorff, Fernando Lucas \\
 \\
-\textbf{Universidad:} [Nombre de la Universidad] \\
-\textbf{Facultad:} [Nombre de la Facultad] \\
+\textbf{Universidad:} Universidad Católica de Salta \\
+\textbf{Facultad:} Facultad de Ingeniería \\
 \textbf{Carrera:} Ingeniería Informática
 }
 
@@ -57,7 +56,7 @@
 
 \section*{Resumen del Proyecto}
 
-Este proyecto aborda una problemática fascinante y poco explorada en los sistemas de recomendación musical: la integración del análisis semántico de letras musicales como dimensión complementaria a las características acústicas tradicionales. La propuesta revoluciona el enfoque convencional mediante la implementación de vectorización contextual avanzada con modelos BERT, transformando el contenido lírico en representaciones vectoriales de 384 dimensiones que capturan la esencia temática, emocional y narrativa de las canciones. El sistema desarrolla técnicas innovadoras de clustering optimizado que purifican y estructuran tanto el espacio musical de características acústicas Spotify como el espacio semántico de embeddings textuales, creando una arquitectura híbrida única que comprende verdaderamente qué significa una canción más allá de cómo suena. A través del procesamiento inteligente de un dataset curado de 18,000 canciones con metadatos completos y letras verificadas, el proyecto demuestra que las palabras importan tanto como la música, estableciendo un nuevo paradigma en Music Information Retrieval donde las recomendaciones trascienden la similitud acústica para abrazar la coherencia temática y la relevancia semántica profunda.
+Este proyecto aborda una problemática interesante y poco explorada en los sistemas de recomendación musical: la integración del análisis semántico de letras musicales como dimensión complementaria a las características acústicas tradicionales. La propuesta revoluciona el enfoque convencional mediante la implementación de vectorización contextual avanzada con modelos BERT, transformando el contenido lírico en representaciones vectoriales de 384 dimensiones que capturan la esencia temática, emocional y narrativa de las canciones. El sistema desarrolla técnicas innovadoras de clustering optimizado que purifican y estructuran tanto el espacio musical de características acústicas Spotify como el espacio semántico de embeddings textuales, creando una arquitectura híbrida única que comprende verdaderamente qué significa una canción más allá de cómo suena. A través del procesamiento inteligente de un dataset curado de 18,000 canciones con metadatos completos y letras verificadas, el proyecto demuestra que las palabras importan tanto como la música, estableciendo un nuevo paradigma en Music Information Retrieval donde las recomendaciones trascienden la similitud acústica para abrazar la coherencia temática y la relevancia semántica profunda.
 
 \newpage
 \tableofcontents
@@ -113,7 +112,7 @@ Desarrollar e implementar un sistema avanzado de recomendaciones musicales que i
 % =====================================================
 \section{Alcance del Proyecto}
 
-\subsection{Componentes que SÍ incluye el proyecto}
+Este proyecto ambicioso abarca el desarrollo completo de un ecosistema tecnológico innovador que revoluciona la forma de entender y recomendar música. Desde la transformación de datos masivos hasta la creación de interfaces intuitivas, cada componente está diseñado para demostrar que las letras musicales contienen información tan valiosa como las características acústicas tradicionales:
 
 \begin{itemize}
     \item \textbf{Análisis exhaustivo y purificación del dataset original}: Procesamiento inteligente del dataset inicial de más de 1.2 millones de canciones, aplicando técnicas avanzadas de limpieza, normalización de metadatos, eliminación de duplicados, y verificación de integridad referencial para obtener un conjunto curado de 18,000 canciones de alta calidad con letras completas verificadas mediante múltiples APIs especializadas.
@@ -131,14 +130,6 @@ Desarrollar e implementar un sistema avanzado de recomendaciones musicales que i
     \item \textbf{Documentación técnica y científica completa}: Especificaciones detalladas de arquitectura, protocolos experimentales reproducibles, análisis de resultados, y contribuciones metodológicas que permitan extensión y replicación del trabajo por parte de la comunidad académica.
 \end{itemize}
 
-\subsection{Componentes que NO incluye el proyecto}
-
-\begin{itemize}
-    \item \textbf{Infraestructura de producción escalable para millones de usuarios}: El proyecto se enfoca en demostrar viabilidad científica y técnica, no en desarrollar arquitectura distribuida comercial.
-    \item \textbf{Integración directa con plataformas de streaming comerciales}: No incluye conectores en tiempo real con APIs de Spotify, Apple Music, o similares para datos dinámicos.
-    \item \textbf{Análisis de señales de audio desde archivos raw}: Utiliza características acústicas pre-procesadas de Spotify, sin implementar extracción de características desde archivos de audio originales.
-    \item \textbf{Sistema de perfiles personalizados de usuario}: Se centra en recomendaciones basadas en contenido, sin modelado de preferencias individuales o historial de interacciones.
-\end{itemize}
 
 % =====================================================
 % 4. MARCO TEÓRICO
@@ -162,38 +153,7 @@ BERT (Bidirectional Encoder Representations from Transformers) representa el est
 La integración efectiva de información musical y textual requiere técnicas especializadas que aborden la asimetría dimensional (12D vs 384D), diferencias en distribución de datos, y optimización de pesos de combinación. Los enfoques de fusión tardía mediante combinación ponderada de scores de similaridad han demostrado efectividad en dominios similares.
 
 % =====================================================
-% 5. ARQUITECTURA DEL SISTEMA
-% =====================================================
-\section{Arquitectura del Sistema}
-
-\subsection{Visión General del Sistema}
-
-El sistema propuesto implementa una arquitectura modular de cinco componentes principales que operan de manera integrada para generar recomendaciones musicales híbridas. La arquitectura combina procesamiento offline para vectorización y clustering con operaciones online optimizadas para consultas de recomendación en tiempo real.
-
-\subsection{Módulo de Procesamiento de Datos}
-
-\textbf{Pipeline de Curación}: Sistema automatizado de limpieza que procesa el dataset inicial de 1.2M canciones aplicando filtros de calidad, verificación de disponibilidad de letras, normalización de metadatos, y eliminación de duplicados, resultando en un dataset curado de 18K canciones con integridad referencial completa.
-
-\textbf{Vectorización Dual}: Implementación paralela de dos pipelines especializados: (1) normalización de características acústicas Spotify mediante StandardScaler para generar vectores musicales 12D, y (2) procesamiento BERT de letras musicales para generar embeddings semánticos 384D con estrategias de pooling optimizadas.
-
-\subsection{Módulo de Clustering Optimizado}
-
-\textbf{Clustering Musical}: Aplicación de clustering jerárquico sobre características acústicas normalizadas, implementando cinco estrategias de purificación secuencial: eliminación de boundary points con Silhouette Score negativo, detección de outliers mediante Isolation Forest, selección de características discriminativas, optimización automática de K, y validación cruzada de estabilidad.
-
-\textbf{Clustering Semántico}: Implementación de clustering K-Means adaptado para alta dimensionalidad sobre embeddings BERT, con optimizaciones específicas para métricas de similaridad coseno y técnicas de reducción de ruido dimensional.
-
-\subsection{Motor de Recomendación Híbrido}
-
-\textbf{Fusión Multimodal}: Sistema de fusión tardía que combina scores de similaridad musical (distancia euclidiana normalizada) con scores de similaridad semántica (similaridad coseno) mediante ponderación científicamente validada, optimizada para balancear coherencia musical y relevancia temática.
-
-\textbf{Interface de Consulta}: Módulo de procesamiento de consultas que permite entrada por nombre de canción, artista, o identificador único, implementando búsqueda aproximada inteligente y generación de recomendaciones ranked con explicabilidad automática.
-
-\subsection{Módulo de Evaluación y Validación}
-
-Sistema comprensivo de evaluación que implementa múltiples métricas especializadas para sistemas de recomendación multimodales, incluyendo precision/recall, diversidad intra-lista, cobertura de catálogo, coherencia cross-modal, y benchmarking de performance computacional.
-
-% =====================================================
-% 6. METODOLOGÍA DE TRABAJO Y DIVISIÓN DE RESPONSABILIDADES
+% 5. METODOLOGÍA DE TRABAJO Y DIVISIÓN DE RESPONSABILIDADES
 % =====================================================
 \section{Metodología de Trabajo y División de Responsabilidades}
 
@@ -216,26 +176,51 @@ El proyecto se estructura como una colaboración técnica entre dos estudiantes 
 \textbf{Validación y Documentación}: Diseño conjunto de protocolos experimentales, análisis colaborativo de resultados, resolución de problemas de integración, y preparación de documentación técnica comprensiva.
 
 % =====================================================
-% 7. CRONOGRAMA
+% 6. CRONOGRAMA
 % =====================================================
 \section{Cronograma}
 
-Este ambicioso proyecto se despliega estratégicamente en 6 fases interconectadas a lo largo de 8 meses intensivos de desarrollo, donde cada etapa construye sobre los logros de la anterior para crear un sistema verdaderamente revolucionario:
+Este proyecto se despliega estratégicamente en 6 fases interconectadas a lo largo de 8 meses intensivos de desarrollo, donde cada etapa construye sobre los logros de la anterior para crear un sistema verdaderamente revolucionario:
 
-\textbf{FASE 1 - Fundación de Datos (6 semanas):} • Arqueología digital: extracción y curación inteligente del dataset masivo inicial • Alquimia de datos: transformación de 1.2M canciones brutas en 18K joyas musicales verificadas • Análisis exploratorio que revele los secretos ocultos en patrones musicales y semánticos • Validación científica de la viabilidad del clustering en ambos dominios
+\textbf{FASE 1 - Análisis de Datos (6 semanas):}
+\begin{itemize}
+    \item Extracción y curación inteligente del dataset masivo inicial
+    \item Transformación de 1.2M canciones brutas en 18K canciones verificadas
+    \item Análisis exploratorio que revele los secretos ocultos en patrones musicales y semánticos
+    \item Validación científica de la viabilidad del clustering en ambos dominios
+\end{itemize}
 
-\textbf{FASE 2 - Construcción de los Motores Gemelos (8 semanas):} • Desarrollo paralelo e intensivo de los módulos musical y semántico • Implementación del corazón BERT que entiende el alma de las letras • Forjado de algoritmos de clustering que purifican y revelan estructura oculta • Nacimiento de los primeros motores de recomendación unimodales
+\textbf{FASE 2 - Construcción de los Motores (8 semanas):}
+\begin{itemize}
+    \item Desarrollo paralelo e intensivo de los módulos musical y semántico
+    \item Implementación del corazón BERT que entiende el significado de las letras
+    \item Forjado de algoritmos de clustering que purifican y revelan estructura oculta
+    \item Primeros motores de recomendación unimodales
+\end{itemize}
 
-\textbf{FASE 3 - La Gran Fusión (4 semanas):} • Diseño de la arquitectura híbrida que unifica música y significado • Implementación del cerebro central que piensa en ambos lenguajes • Testing exhaustivo del sistema completo recién nacido • Optimización de la comunicación entre mundos musical y semántico
+\textbf{FASE 3 - Integración de Motores (4 semanas):}
+\begin{itemize}
+    \item Diseño de la arquitectura híbrida que unifica música y significado
+    \item Implementación de módulo central que piensa en ambos lenguajes
+    \item Testing exhaustivo del sistema
+    \item Optimización de la comunicación entre mundos musical y semántico
+\end{itemize}
 
-\textbf{FASE 4 - Validación Científica (6 semanas):} • Experimentación rigurosa que demuestre la superioridad del enfoque híbrido • Estudios de ablación que revelen la contribución de cada componente • Benchmarking despiadado contra sistemas tradicionales • Refinamiento basado en evidencia empírica
+\textbf{FASE 4 - Validación Científica (6 semanas):}
+\begin{itemize}
+    \item Experimentación rigurosa que demuestre la superioridad del enfoque híbrido
+    \item Estudios que revelen la contribución de cada componente
+    \item Refinamiento basado en evidencia empírica
+\end{itemize}
 
-\textbf{FASE 5 - Cristalización del Conocimiento (4 semanas):} • Documentación exhaustiva de la arquitectura revolucionaria • Análisis profundo de las contribuciones científicas logradas • Preparación de material para publicaciones académicas • Creación de guías para futuras extensiones
-
-\textbf{FASE 6 - Presentación al Mundo (4 semanas):} • Redacción del documento de tesis que capte la esencia del breakthrough logrado • Preparación de una presentación que enamore al jurado académico • Ensayos de defensa que comuniquen la pasión y rigor del trabajo • Lanzamiento final del sistema que cambiará la forma de recomendar música
+\textbf{FASE 5 - Documentación (4 semanas):}
+\begin{itemize}
+    \item Documentación exhaustiva de la arquitectura planteada
+    \item Análisis profundo de las contribuciones científicas logradas
+\end{itemize}
 
 % =====================================================
-% 8. REFERENCIAS BIBLIOGRÁFICAS
+% 7. REFERENCIAS BIBLIOGRÁFICAS
 % =====================================================
 \section{Referencias Bibliográficas}
 

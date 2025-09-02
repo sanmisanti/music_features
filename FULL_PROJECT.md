@@ -1328,6 +1328,34 @@ NumPy's broadcasting capabilities simplify implementation de complex mathematica
 
 # 5. DESARROLLO E IMPLEMENTACIÓN TÉCNICA
 
+## 5.0 Arquitectura del Sistema Completo
+
+### 5.0.1 Visión General del Sistema
+
+El sistema propuesto implementa una arquitectura modular de cinco componentes principales que operan de manera integrada para generar recomendaciones musicales híbridas. La arquitectura combina procesamiento offline para vectorización y clustering con operaciones online optimizadas para consultas de recomendación en tiempo real.
+
+### 5.0.2 Módulo de Procesamiento de Datos
+
+**Pipeline de Curación**: Sistema automatizado de limpieza que procesa el dataset inicial de 1.2M canciones aplicando filtros de calidad, verificación de disponibilidad de letras, normalización de metadatos, y eliminación de duplicados, resultando en un dataset curado de 18K canciones con integridad referencial completa.
+
+**Vectorización Dual**: Implementación paralela de dos pipelines especializados: (1) normalización de características acústicas Spotify mediante StandardScaler para generar vectores musicales 12D, y (2) procesamiento BERT de letras musicales para generar embeddings semánticos 384D con estrategias de pooling optimizadas.
+
+### 5.0.3 Módulo de Clustering Optimizado
+
+**Clustering Musical**: Aplicación de clustering jerárquico sobre características acústicas normalizadas, implementando cinco estrategias de purificación secuencial: eliminación de boundary points con Silhouette Score negativo, detección de outliers mediante Isolation Forest, selección de características discriminativas, optimización automática de K, y validación cruzada de estabilidad.
+
+**Clustering Semántico**: Implementación de clustering K-Means adaptado para alta dimensionalidad sobre embeddings BERT, con optimizaciones específicas para métricas de similaridad coseno y técnicas de reducción de ruido dimensional.
+
+### 5.0.4 Motor de Recomendación Híbrido
+
+**Fusión Multimodal**: Sistema de fusión tardía que combina scores de similaridad musical (distancia euclidiana normalizada) con scores de similaridad semántica (similaridad coseno) mediante ponderación científicamente validada, optimizada para balancear coherencia musical y relevancia temática.
+
+**Interface de Consulta**: Módulo de procesamiento de consultas que permite entrada por nombre de canción, artista, o identificador único, implementando búsqueda aproximada inteligente y generación de recomendaciones ranked con explicabilidad automática.
+
+### 5.0.5 Módulo de Evaluación y Validación
+
+Sistema comprensivo de evaluación que implementa múltiples métricas especializadas para sistemas de recomendación multimodales, incluyendo precision/recall, diversidad intra-lista, cobertura de catálogo, coherencia cross-modal, y benchmarking de performance computacional.
+
 ## 5.1 Implementación del Sistema de Clustering Musical Optimizado
 
 ### 5.1.1 Arquitectura del ClusterPurifier: Diseño y Fundamentos Técnicos
