@@ -5,6 +5,8 @@ Script para generar gráficos de distribuciones antes y después de normalizaci�
 Este script crea visualizaciones comparativas que muestran cómo la normalización
 preserva la forma de las distribuciones mientras las estandariza a media=0, std=1.
 
+NOTA: Se excluyen duration_ms (escala extrema) y key (categórica) para optimizar visualizaciones.
+
 Uso:
     python generate_normalization_plots.py
 """
@@ -48,15 +50,17 @@ def load_dataset():
     return pd.read_csv(dataset_path, sep='^', encoding='utf-8')
 
 def get_musical_features(df):
-    """Extraer las 12 características musicales Spotify"""
+    """Extraer características musicales continuas con escalas compatibles para visualización"""
+    # Excluir: duration_ms (escala extrema), key (categórica), tempo (escala BPM incompatible)
     musical_features = [
-        'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness',
-        'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'duration_ms'
+        'danceability', 'energy', 'loudness', 'mode', 'speechiness',
+        'acousticness', 'instrumentalness', 'liveness', 'valence'
     ]
 
     available_features = [col for col in musical_features if col in df.columns]
-    print(f"Características musicales encontradas: {len(available_features)}/12")
+    print(f"Características musicales encontradas: {len(available_features)}/9")
     print(f"Características disponibles: {available_features}")
+    print(f"Excluidas para visualización: duration_ms, key, tempo (escalas incompatibles)")
 
     return df[available_features].copy()
 
@@ -120,25 +124,52 @@ def create_summary_statistics_plot(original_data, normalized_data, feature_names
     orig_stats = original_data.describe()
     norm_stats = normalized_data.describe()
 
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+    # Crear layout 2x3 para separar medias originales y normalizadas
+    fig = plt.figure(figsize=(20, 12))
+    gs = fig.add_gridspec(2, 3, hspace=0.3, wspace=0.3)
+
+    ax1_orig = fig.add_subplot(gs[0, 0])  # Medias originales
+    ax1_norm = fig.add_subplot(gs[0, 1])  # Medias normalizadas
+    ax2 = fig.add_subplot(gs[0, 2])       # Desviaciones estándar
+    ax3 = fig.add_subplot(gs[1, 0])       # Rangos
+    ax4 = fig.add_subplot(gs[1, 1:])      # Coeficientes de variación (span 2 columns)
+
     fig.suptitle('Estadísticas Comparativas: Normalización StandardScaler',
                  fontsize=16, fontweight='bold')
 
-    # 1. Medias
     x_pos = np.arange(len(feature_names))
-    ax1.bar(x_pos - 0.2, orig_stats.loc['mean'], 0.4, label='Original', alpha=0.7, color='skyblue')
-    ax1.bar(x_pos + 0.2, norm_stats.loc['mean'], 0.4, label='Normalizado', alpha=0.7, color='lightcoral')
-    ax1.set_title('Medias (μ)', fontweight='bold')
-    ax1.set_ylabel('Valor')
-    ax1.set_xticks(x_pos)
-    ax1.set_xticklabels([f.replace('_', '\n') for f in feature_names], rotation=45, ha='right')
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-    ax1.axhline(y=0, color='red', linestyle='--', alpha=0.5)
+
+    # 1a. Medias Originales
+    bars1 = ax1_orig.bar(x_pos, orig_stats.loc['mean'], 0.6, alpha=0.7, color='skyblue', label='Original')
+    ax1_orig.set_title('Medias Originales (μ)', fontweight='bold')
+    ax1_orig.set_ylabel('Valor')
+    ax1_orig.set_xticks(x_pos)
+    ax1_orig.set_xticklabels([f.replace('_', '\n') for f in feature_names], rotation=45, ha='right')
+    ax1_orig.grid(True, alpha=0.3)
+    ax1_orig.axhline(y=0, color='red', linestyle='--', alpha=0.5)
+
+    # 1b. Medias Normalizadas (escala propia)
+    bars2 = ax1_norm.bar(x_pos, norm_stats.loc['mean'], 0.6, alpha=0.7, color='lightcoral', label='Normalizado')
+    ax1_norm.set_title('Medias Normalizadas (μ ≈ 0)', fontweight='bold')
+    ax1_norm.set_ylabel('Valor (×10⁻¹⁵)')
+    ax1_norm.set_xticks(x_pos)
+    ax1_norm.set_xticklabels([f.replace('_', '\n') for f in feature_names], rotation=45, ha='right')
+    ax1_norm.grid(True, alpha=0.3)
+    ax1_norm.axhline(y=0, color='red', linestyle='--', alpha=0.5)
+
+    # Formatear eje Y en notación científica
+    ax1_norm.ticklabel_format(style='scientific', axis='y', scilimits=(0,0))
+
+    # Añadir valores sobre barras normalizadas
+    for i, bar in enumerate(bars2):
+        height = bar.get_height()
+        ax1_norm.text(bar.get_x() + bar.get_width()/2., height,
+                     f'{height:.1e}', ha='center', va='bottom', fontsize=8, rotation=45)
 
     # 2. Desviaciones estándar
-    ax2.bar(x_pos - 0.2, orig_stats.loc['std'], 0.4, label='Original', alpha=0.7, color='skyblue')
-    ax2.bar(x_pos + 0.2, norm_stats.loc['std'], 0.4, label='Normalizado', alpha=0.7, color='lightcoral')
+    bars3 = ax2.bar(x_pos - 0.2, orig_stats.loc['std'], 0.4, label='Original', alpha=0.7, color='skyblue')
+    bars4 = ax2.bar(x_pos + 0.2, norm_stats.loc['std'], 0.4, label='Normalizado', alpha=0.7, color='lightcoral')
+
     ax2.set_title('Desviaciones Estándar (σ)', fontweight='bold')
     ax2.set_ylabel('Valor')
     ax2.set_xticks(x_pos)
@@ -160,16 +191,20 @@ def create_summary_statistics_plot(original_data, normalized_data, feature_names
     ax3.grid(True, alpha=0.3)
 
     # 4. Coeficientes de variación
-    orig_cv = orig_stats.loc['std'] / orig_stats.loc['mean']
-    norm_cv = norm_stats.loc['std'] / norm_stats.loc['mean']
+    orig_cv = orig_stats.loc['std'] / np.abs(orig_stats.loc['mean']) # Usar valor absoluto para evitar división por valores cercanos a cero
+    norm_cv = norm_stats.loc['std'] / np.abs(norm_stats.loc['mean'].replace(0, 1e-15)) # Reemplazar ceros para evitar división por cero
+
     ax4.bar(x_pos - 0.2, orig_cv, 0.4, label='Original', alpha=0.7, color='skyblue')
     ax4.bar(x_pos + 0.2, norm_cv, 0.4, label='Normalizado', alpha=0.7, color='lightcoral')
-    ax4.set_title('Coeficientes de Variación (σ/μ)', fontweight='bold')
+    ax4.set_title('Coeficientes de Variación (σ/|μ|)', fontweight='bold')
     ax4.set_ylabel('Ratio')
     ax4.set_xticks(x_pos)
     ax4.set_xticklabels([f.replace('_', '\n') for f in feature_names], rotation=45, ha='right')
     ax4.legend()
     ax4.grid(True, alpha=0.3)
+
+    # Usar escala logarítmica para coeficientes de variación normalizados (valores muy grandes)
+    ax4.set_yscale('log')
 
     plt.tight_layout()
     return fig
@@ -267,11 +302,12 @@ def main():
     for img_file in output_dir.glob("*.png"):
         print(f"  - {img_file.name}")
 
-    print("\n🎯 Los gráficos muestran:")
+    print("\n🎯 Los gráficos muestran (9 características con escalas compatibles):")
     print("  ✓ Preservación de la forma de las distribuciones")
     print("  ✓ Normalización a media=0, desviación estándar=1")
     print("  ✓ Conservación exacta de correlaciones entre variables")
     print("  ✓ Eliminación de efectos de escala entre características")
+    print("  ⚠️ Excluidas: duration_ms, key, tempo (escalas incompatibles para visualización)")
 
 if __name__ == "__main__":
     main()
