@@ -51,7 +51,7 @@ from sklearn.metrics import silhouette_score, silhouette_samples
 import sys
 sys.path.append('.')
 try:
-    from cluster_purification import ClusterPurifier
+    from scripts.cluster_purification import ClusterPurifier
 except ImportError:
     print("⚠️  Warning: cluster_purification.py no encontrado, usando fallback")
 
