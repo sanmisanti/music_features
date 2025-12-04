@@ -121,6 +121,39 @@ Archivos obsoletos movidos a `archive/legacy_data/`. NO usar en codigo nuevo.
 
 ---
 
+## Aclaracion Historica: 16,081 vs 10,000
+
+### Discrepancia en Documentacion
+
+Algunos documentos del proyecto mencionan **16,081 canciones** mientras que `picked_data_optimal.csv` contiene **10,000**. Esta discrepancia se debe a dos procesos DISTINTOS:
+
+| Proceso | Fecha | Fuente | Resultado | Archivo Generado |
+|---------|-------|--------|-----------|------------------|
+| **FASE 1.4 - Seleccion** | 2025-08-12 | 18,454 | 10,000 | `picked_data_optimal.csv` |
+| **FASE 4 - Purificacion** | 2025-08-12 | 18,454 | 16,081 | Solo analisis (JSON) |
+
+### Explicacion Tecnica
+
+**El valor 16,081** representa el resultado del algoritmo **Hybrid Purification Strategy**:
+- 18,454 canciones originales
+- 87.1% retencion tras filtros de calidad
+- 18,454 x 0.871 = 16,081 canciones
+
+Este resultado se documento en `outputs/fase4_purification/purification_results_*.json` pero **nunca se materializo en un archivo CSV separado**. Fue un analisis experimental que valido la metodologia (+86.1% Silhouette Score).
+
+**El valor 10,000** es el contenido REAL del archivo `picked_data_optimal.csv`:
+- Generado por proceso de SELECCION (no purificacion)
+- 10,000 canciones seleccionadas de 18,454 (54.2%)
+- Optimizado para diversidad musical clustering-aware
+
+### Conclusion
+
+- **Usar 10,000** cuando se refiera al archivo `picked_data_optimal.csv`
+- **Usar 16,081** solo en contexto del analisis de Hybrid Purification Strategy
+- La mejora +86.1% Silhouette Score se logro sobre el dataset de 18,454, no sobre 10,000
+
+---
+
 ## Nota sobre Reportes JSON
 
 Los archivos `*_report.json` en subcarpetas contienen **rutas absolutas legacy** que referencian ubicaciones anteriores a la reorganizacion:
