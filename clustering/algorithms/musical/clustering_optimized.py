@@ -82,8 +82,8 @@ Ejemplos de uso:
     
     # Argumentos principales
     parser.add_argument('--dataset', type=str, 
-                       default='../../../data/final_data/picked_data_lyrics.csv',
-                       help='Ruta al dataset CSV (default: ../../../data/final_data/picked_data_lyrics.csv)')
+                       default='../../../data/3_selected/picked_data_optimal.csv',
+                       help='Ruta al dataset CSV (default: ../../../data/3_selected/picked_data_optimal.csv)')
     
     parser.add_argument('--k-range', type=int, nargs=2, 
                        default=DEFAULT_CONFIG['k_range'],

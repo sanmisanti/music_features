@@ -73,7 +73,7 @@ class OptimizedMusicRecommender:
         np.random.seed(random_state)
         
         # Configuración optimizada
-        self.dataset_path = self.base_path / 'data' / 'final_data' / 'picked_data_optimal.csv'
+        self.dataset_path = self.base_path / 'data' / '3_selected/picked_data_optimal.csv'
         self.output_dir = self.base_path / 'outputs' / 'recommender_results'
         self.output_dir.mkdir(parents=True, exist_ok=True)
         

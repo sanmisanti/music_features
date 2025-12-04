@@ -315,11 +315,11 @@ class LyricsDatasetSelector:
     
     def save_selected_dataset(self, selected_data: pd.DataFrame) -> str:
         """Save the selected dataset."""
-        # Save in data/final_data/ directory
-        final_data_dir = Path("data/final_data")
+        # Save in data/3_selected/ directory
+        final_data_dir = Path("data/3_selected")
         final_data_dir.mkdir(parents=True, exist_ok=True)
         
-        output_path = final_data_dir / "picked_data_lyrics.csv"
+        output_path = final_data_dir / "picked_data_optimal.csv"
         
         try:
             # Save with ^ separator to avoid conflicts with lyrics content (single char required)
@@ -404,7 +404,7 @@ def main():
         print(f"📊 Selected {len(selected_data):,} representative songs")
         print(f"🎵 All songs have verified lyrics")
         print(f"🎯 Quality score: {validation_results.get('overall_quality', 0):.1f}/100")
-        print(f"📁 Dataset saved as: data/final_data/picked_data_lyrics.csv")
+        print(f"📁 Dataset saved as: data/3_selected/picked_data_optimal.csv")
     else:
         print(f"\n❌ Selection failed!")
         print(f"📋 Check logs for details")

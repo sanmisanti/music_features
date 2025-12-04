@@ -255,8 +255,8 @@ def test_dataset_access():
         # Buscar dataset en ubicaciones conocidas
         possible_paths = [
             project_root / "data" / "with_lyrics" / "spotify_songs_fixed.csv",
-            project_root / "data" / "final_data" / "picked_data_lyrics.csv",
-            project_root / "data" / "final_data" / "picked_data_optimal.csv"
+            project_root / "data" / "3_selected/picked_data_optimal.csv",
+            project_root / "data" / "3_selected/picked_data_optimal.csv"
         ]
         
         dataset_found = None

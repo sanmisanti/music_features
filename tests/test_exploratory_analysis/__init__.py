@@ -13,7 +13,7 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 # Test configuration
-TEST_DATA_PATH = project_root / "data" / "final_data" / "picked_data_lyrics.csv"
+TEST_DATA_PATH = project_root / "data" / "3_selected" / "picked_data_optimal.csv"
 TEST_OUTPUT_PATH = project_root / "tests" / "test_outputs"
 
 # Ensure test output directory exists

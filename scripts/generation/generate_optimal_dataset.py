@@ -31,7 +31,7 @@ def main():
     # Configuración - rutas relativas que funcionan en Windows y Linux
     base_path = os.path.dirname(os.path.abspath(__file__))
     source_path = os.path.join(base_path, "data", "with_lyrics", "spotify_songs_fixed.csv")
-    output_path = os.path.join(base_path, "data", "final_data", "picked_data_optimal.csv")
+    output_path = os.path.join(base_path, "data", "3_selected/picked_data_optimal.csv")
     target_size = 10000
     
     # Verificar archivo fuente

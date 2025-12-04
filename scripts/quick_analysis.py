@@ -33,7 +33,7 @@ def main(dataset_name=None):
         dataset_name: Nombre del dataset a analizar
                      - 'fixed' o None: spotify_songs_fixed.csv (18K)
                      - 'optimal': picked_data_optimal.csv (optimizado)
-                     - 'lyrics': picked_data_lyrics.csv (con letras)
+                     - 'lyrics': picked_data_optimal.csv (con letras)
                      - ruta personalizada: path completo al archivo
     """
     
@@ -45,10 +45,10 @@ def main(dataset_name=None):
     
     # Determinar dataset a analizar
     datasets = {
-        'fixed': 'data/with_lyrics/spotify_songs_fixed.csv',
-        'optimal': 'data/final_data/picked_data_optimal.csv', 
-        'lyrics': 'data/final_data/picked_data_lyrics.csv',
-        None: 'data/with_lyrics/spotify_songs_fixed.csv'  # Default
+        'fixed': 'data/2_with_lyrics/spotify_songs_fixed.csv',
+        'optimal': 'data/3_selected/picked_data_optimal.csv', 
+        'lyrics': 'data/3_selected/picked_data_optimal.csv',
+        None: 'data/2_with_lyrics/spotify_songs_fixed.csv'  # Default
     }
     
     if dataset_name in datasets:

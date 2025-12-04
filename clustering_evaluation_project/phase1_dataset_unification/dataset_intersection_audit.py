@@ -45,7 +45,7 @@ class DatasetIntersectionAuditor:
         self.semantic_track_ids_path = base_path / "vectorization_complete_output" / "track_ids_complete_20250819_194820.npy"
         self.semantic_metadata_path = base_path / "vectorization_complete_output" / "vectorization_metadata_20250819_194820.json"
         
-        self.musical_dataset_path = base_path / "data" / "final_data" / "picked_data_optimal.csv"
+        self.musical_dataset_path = base_path / "data" / "3_selected/picked_data_optimal.csv"
         
         # Resultados de auditoría
         self.audit_results = {}

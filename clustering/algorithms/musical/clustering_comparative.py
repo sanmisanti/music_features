@@ -66,7 +66,7 @@ class ClusteringComparator:
         # Configuración de datasets para comparación
         self.datasets_config = {
             'optimal': {
-                'path': base_path / 'data' / 'final_data' / 'picked_data_optimal.csv',
+                'path': base_path / 'data' / '3_selected/picked_data_optimal.csv',
                 'separator': '^',
                 'name': 'Dataset Optimizado (10K)',
                 'expected_hopkins': 0.933,
@@ -80,7 +80,7 @@ class ClusteringComparator:
                 'description': 'Dataset completo sin optimización'
             },
             'control': {
-                'path': base_path / 'data' / 'final_data' / 'picked_data_lyrics.csv',
+                'path': base_path / 'data' / '3_selected/picked_data_optimal.csv',
                 'separator': '^', 
                 'name': 'Dataset Control (10K)',
                 'expected_hopkins': 0.45,

@@ -36,7 +36,7 @@ def load_vectorization_and_dataset():
     print(f"✅ Vectorización cargada: {len(valid_embeddings)} embeddings válidos")
     
     # Cargar dataset original para obtener nombres de canciones
-    dataset_path = Path(__file__).parent.parent / "data" / "final_data" / "picked_data_optimal.csv"
+    dataset_path = Path(__file__).parent.parent / "data" / "3_selected/picked_data_optimal.csv"
     
     try:
         # Probar diferentes separadores

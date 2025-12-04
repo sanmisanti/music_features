@@ -45,7 +45,7 @@ class UnifiedMultimodalDatasetBuilder:
         # Rutas de archivos principales
         self.semantic_embeddings_path = base_path / "vectorization_complete_output" / "embeddings_complete_20250819_194820.npy"
         self.semantic_track_ids_path = base_path / "vectorization_complete_output" / "track_ids_complete_20250819_194820.npy"
-        self.musical_dataset_path = base_path / "data" / "final_data" / "picked_data_optimal.csv"
+        self.musical_dataset_path = base_path / "data" / "3_selected/picked_data_optimal.csv"
         
         # Buscar el archivo de track IDs válidos más reciente
         audit_files = list(Path(__file__).parent.glob("valid_multimodal_track_ids_*.npy"))

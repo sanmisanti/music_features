@@ -53,8 +53,8 @@ Ejemplos de uso:
                        help='Directorio con modelos entrenados (scaler, kmeans)')
     
     parser.add_argument('--dataset', type=str, 
-                       default='../../data/final_data/picked_data_lyrics.csv',
-                       help='Dataset con canciones clusterizadas (default: ../../data/final_data/picked_data_lyrics.csv)')
+                       default='../../data/3_selected/picked_data_optimal.csv',
+                       help='Dataset con canciones clusterizadas (default: ../../data/3_selected/picked_data_optimal.csv)')
     
     parser.add_argument('--clustered-data', type=str,
                        help='Archivo CSV con resultados de clustering (opcional)')

@@ -2,7 +2,7 @@
 """
 Análisis Exploratorio Completo del Dataset de Canciones con Letras
 
-Este script ejecuta el análisis exploratorio completo del dataset picked_data_lyrics.csv
+Este script ejecuta el análisis exploratorio completo del dataset picked_data_optimal.csv
 que contiene 9,987 canciones con letras y características musicales de Spotify.
 
 Uso:
@@ -36,7 +36,7 @@ def print_header():
     print("           ANÁLISIS EXPLORATORIO COMPLETO - DATASET MUSICAL")
     print("🎵" + "="*78 + "🎵")
     print(f"📅 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("📁 Dataset: data/final_data/picked_data_lyrics.csv")
+    print("📁 Dataset: data/3_selected/picked_data_optimal.csv")
     print("🎯 Objetivo: Análisis exploratorio para clustering musical")
     print("-" * 80)
 
@@ -46,7 +46,7 @@ def load_and_validate_data():
     print("-" * 50)
     
     loader = DataLoader()
-    print("🔄 Cargando dataset completo picked_data_lyrics.csv...")
+    print("🔄 Cargando dataset completo picked_data_optimal.csv...")
     
     start_time = time.time()
     result = loader.load_dataset('lyrics_dataset', sample_size=None, validate=True)
@@ -319,7 +319,7 @@ def main():
         print(f"\n❌ ERROR DURANTE EL ANÁLISIS:")
         print(f"   {str(e)}")
         print("\n🔧 Verifica que:")
-        print("   • El archivo picked_data_lyrics.csv existe")
+        print("   • El archivo picked_data_optimal.csv existe")
         print("   • Las dependencias están instaladas")
         print("   • Hay suficiente memoria disponible")
         return 1

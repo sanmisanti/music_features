@@ -147,9 +147,9 @@ def main():
     
     # Ubicaciones posibles dataset
     dataset_paths = [
-        project_root / "data" / "final_data" / "picked_data_optimal.csv",
+        project_root / "data" / "3_selected/picked_data_optimal.csv",
         project_root / "data" / "with_lyrics" / "spotify_songs_fixed.csv",
-        project_root / "data" / "final_data" / "picked_data_lyrics.csv"
+        project_root / "data" / "3_selected/picked_data_optimal.csv"
     ]
     
     found_datasets = []

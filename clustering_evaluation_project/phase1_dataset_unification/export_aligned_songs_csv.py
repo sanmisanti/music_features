@@ -145,7 +145,7 @@ class AlignedSongsExporter:
             'genre_distribution': self.unified_data['statistics'].get('genre_distribution', {}),
             'dataset_source_info': {
                 'semantic_source': 'vectorization_complete_output/embeddings_complete_20250819_194820.npy',
-                'musical_source': 'data/final_data/picked_data_optimal.csv',
+                'musical_source': 'data/3_selected/picked_data_optimal.csv',
                 'intersection_method': 'track_id_alignment'
             }
         }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script de prueba para validar compatibilidad con picked_data_lyrics.csv
+Script de prueba para validar compatibilidad con picked_data_optimal.csv
 """
 
 import sys
@@ -16,12 +16,12 @@ except ImportError as e:
     sys.exit(1)
 
 def test_dataset_loading():
-    """Probar carga del dataset picked_data_lyrics.csv"""
-    dataset_path = "../../data/final_data/picked_data_lyrics.csv"
+    """Probar carga del dataset picked_data_optimal.csv"""
+    dataset_path = "../../data/3_selected/picked_data_optimal.csv"
     
     if not Path(dataset_path).exists():
         print(f"❌ Dataset no encontrado: {dataset_path}")
-        print("💡 Verificar ruta: debe existir picked_data_lyrics.csv")
+        print("💡 Verificar ruta: debe existir picked_data_optimal.csv")
         return False
     
     try:
