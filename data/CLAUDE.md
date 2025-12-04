@@ -1,87 +1,100 @@
-# DATA - Contexto para Claude
+# DATA - Guia de Datasets
 
-## Historia de los Datos
+## Dataset de Produccion
 
-### Fuente 1: Spotify API (sin letras)
-Dataset original del Spotify Million Playlist Dataset con 1.2M canciones.
-- **Problema**: No contiene letras, solo metadatos y audio features
-- **Uso actual**: Solo para testing rapido (500 registros)
-- **Ubicacion**: `0_raw/` y `1_cleaned/`
+### Para analisis multimodal completo (RECOMENDADO)
 
-### Fuente 2: Kaggle (con letras)
-Dataset reducido pero enriquecido con letras de Genius.com.
-- **Ventaja**: Contiene letras completas para analisis multimodal
-- **Tamano**: 18,454 canciones (vs 1.2M del original)
-- **Hopkins**: 0.823 (excelente para clustering)
-- **Ubicacion**: `2_with_lyrics/`
+```python
+import pickle
 
-### Interseccion
-Solo 12.8% de IDs son comunes entre ambas fuentes. Son datasets independientes.
+with open('data/5_unified/unified_multimodal_7811.pkl', 'rb') as f:
+    dataset = pickle.load(f)
 
----
-
-## Estructura de Carpetas
-
-```
-data/
-├── 0_raw/           -> Spotify API original (1.2M, sep=',') SIN LETRAS
-├── 1_cleaned/       -> Formato corregido (sep=';') SIN LETRAS
-├── 2_with_lyrics/   -> Kaggle con letras (18K, sep='@@') CON LETRAS
-├── 3_selected/      -> PRODUCTION (10K, sep='^') CON LETRAS
-└── auxiliary/       -> Cache SQLite y JSON para extraccion de letras
+track_ids = dataset['data']['track_ids']                    # [7811]
+semantic = dataset['data']['semantic_embeddings']           # [7811, 384]
+musical_norm = dataset['data']['musical_features_normalized']  # [7811, 12]
+metadata = dataset['data']['track_metadata']                # DataFrame
 ```
 
----
+- 7,811 canciones con embeddings BERT + caracteristicas musicales
+- Ver: [5_unified/CLAUDE.md](5_unified/CLAUDE.md)
 
-## Dataset PRODUCTION
-
-**SIEMPRE usar este dataset para cualquier operacion:**
+### Para analisis solo musical
 
 ```python
 import pandas as pd
 df = pd.read_csv('data/3_selected/picked_data_optimal.csv', sep='^', encoding='utf-8')
 ```
 
-| Atributo | Valor |
-|----------|-------|
-| Archivo | `data/3_selected/picked_data_optimal.csv` |
-| Registros | 10,000 canciones |
-| Separador | `^` (caret) |
-| Hopkins | 0.823 (excelente) |
-| Silhouette | 0.289 (+86% vs baseline) |
-| Tiene letras | Si |
+- 10,000 canciones con caracteristicas Spotify
+- Ver: [3_selected/CLAUDE.md](3_selected/CLAUDE.md)
 
 ---
 
-## Separadores por Carpeta
+## Estructura de Carpetas
 
-| Carpeta | Separador | Carga |
-|---------|-----------|-------|
-| 0_raw/ | `,` | `sep=','` |
-| 1_cleaned/ | `;` | `sep=';'` |
-| 2_with_lyrics/ | `@@` | `sep='@@', engine='python'` |
-| 3_selected/ | `^` | `sep='^'` |
+| Carpeta | Contenido | Registros | Separador | Docs |
+|---------|-----------|-----------|-----------|------|
+| 0_raw/ | Spotify original | 1,204,025 | `,` | [CLAUDE.md](0_raw/CLAUDE.md) |
+| 1_cleaned/ | Testing rapido | 500 | `;` | [CLAUDE.md](1_cleaned/CLAUDE.md) |
+| 2_with_lyrics/ | Fuente con letras | 18,454 | `@@` | [CLAUDE.md](2_with_lyrics/CLAUDE.md) |
+| 3_selected/ | Produccion musical | 10,000 | `^` | [CLAUDE.md](3_selected/CLAUDE.md) |
+| 4_vectorized/ | Embeddings BERT | 9,753 | N/A | [CLAUDE.md](4_vectorized/CLAUDE.md) |
+| 5_unified/ | Multimodal final | 7,811 | N/A | [CLAUDE.md](5_unified/CLAUDE.md) |
+| auxiliary/ | Cache sistema | N/A | N/A | [CLAUDE.md](auxiliary/CLAUDE.md) |
 
 ---
 
 ## Flujo de Datos
 
 ```
-FUENTE 1 (sin letras)              FUENTE 2 (con letras)
-Spotify API 1.2M                   Kaggle 18K + Genius
-       |                                  |
-       v                                  v
-    0_raw/                         2_with_lyrics/
-       |                           spotify_songs_fixed.csv
-       v                                  |
-    1_cleaned/                            v
-    (solo testing)              [Pipeline clustering-aware]
-                                          |
-                                          v
-                                    3_selected/
-                               picked_data_optimal.csv
-                                    (PRODUCTION)
+2_with_lyrics/spotify_songs_fixed.csv (18,454)
+    |
+    v  Seleccion clustering-aware
+3_selected/picked_data_optimal.csv (10,000)
+    |
+    v  Vectorizacion BERT
+4_vectorized/embeddings_bert_9753x384.npy (9,753 -> 8,567 validos)
+    |
+    v  Unificacion + deduplicacion
+5_unified/unified_multimodal_7811.pkl (7,811)
 ```
+
+---
+
+## Problemas Metodologicos Identificados
+
+### Dataset Multimodal (5_unified/)
+
+El dataset de 7,811 canciones **NO fue disenado intencionalmente**. Es el resultado residual de filtros tecnicos:
+
+| Etapa | Registros | Perdida |
+|-------|-----------|---------|
+| Seleccion inicial | 10,000 | - |
+| Con letras validas | 9,753 | -247 |
+| BERT exitoso (no-zero) | 8,567 | -1,186 |
+| Post-deduplicacion | 7,811 | -756 |
+| **Perdida total** | | **-21.9%** |
+
+### Validaciones Faltantes
+
+- [ ] Hopkins Statistic post-unificacion
+- [ ] Analisis de sesgo por disponibilidad de letras
+- [ ] Validacion de representatividad vs dataset original
+- [ ] Test de estabilidad de clustering (multiples seeds)
+- [ ] Analisis de caracteristicas de canciones excluidas
+
+### Sesgos Potenciales No Caracterizados
+
+1. Canciones con letras "faciles" de procesar sobrerrepresentadas
+2. Posible sesgo hacia ciertos idiomas/generos
+3. Caracteristicas musicales de excluidas vs incluidas no comparadas
+
+---
+
+## Plan de Mejora
+
+Ver: [DATASET_IMPROVEMENT_PLAN.md](DATASET_IMPROVEMENT_PLAN.md)
 
 ---
 
@@ -97,44 +110,24 @@ clustering_features = [
 
 ---
 
-## Datasets Legacy (NO USAR)
+## Datasets Legacy
 
-Movidos a `archive/legacy_data/`. NO referenciar en codigo nuevo.
+Archivos obsoletos movidos a `archive/legacy_data/`. NO usar en codigo nuevo.
 
-### picked_data_lyrics.csv
-- **Que era**: Seleccion de 9,987 canciones con letras
-- **Por que se descarto**: Hopkins ~0.45 (muy bajo para clustering)
-- **Problema**: Pipeline de seleccion priorizaba letras sobre calidad de clustering
-- **Silhouette**: 0.177 (43% peor que baseline)
-
-### picked_data_0.csv
-- **Que era**: Seleccion de 9,677 canciones del dataset Spotify API
-- **Por que se descarto**: Proviene de Fuente 1 (sin letras)
-- **Problema**: No sirve para analisis multimodal (audio + texto)
-
-### PICKED_DATA_LYRICS_ANALYSIS.md
-- **Que era**: Documentacion del dataset picked_data_lyrics.csv
-- **Por que se descarto**: Documenta dataset obsoleto
+| Archivo | Razon de descarte |
+|---------|-------------------|
+| picked_data_0.csv | Sin letras (Fuente 1) |
+| picked_data_lyrics.csv | Hopkins ~0.45 (clustering deficiente) |
 
 ---
 
-## Directivas
+## Nota sobre Reportes JSON
 
-1. **Dataset principal**: Siempre usar `3_selected/picked_data_optimal.csv`
-2. **Testing rapido**: Usar `1_cleaned/tracks_features_500.csv` (500 registros, sin letras)
-3. **Separadores**: Verificar separador segun carpeta ANTES de cargar
-4. **Rutas en codigo**: Usar `data/3_selected/picked_data_optimal.csv`
-5. **Legacy**: NUNCA referenciar archivos en `archive/legacy_data/`
-6. **Multimodal**: El dataset production tiene audio features + letras
-7. **Clustering**: Hopkins 0.823 garantiza buena separabilidad
+Los archivos `*_report.json` en subcarpetas contienen **rutas absolutas legacy** que referencian ubicaciones anteriores a la reorganizacion:
 
----
+| Ruta en JSON | Ubicacion Actual |
+|--------------|------------------|
+| `data/with_lyrics/` | `data/2_with_lyrics/` |
+| `data/final_data/` | `data/3_selected/` |
 
-## Archivos Auxiliares
-
-| Archivo | Proposito |
-|---------|-----------|
-| `auxiliary/lyrics.db` | Cache SQLite de letras extraidas de Genius |
-| `auxiliary/lyrics_availability_cache.json` | Cache de disponibilidad de letras |
-
-Estos archivos se usaron para enriquecer el dataset de Kaggle con letras.
+Estos reportes son **artefactos historicos** del proceso de generacion. Las rutas correctas son las documentadas en cada CLAUDE.md de subcarpeta.
