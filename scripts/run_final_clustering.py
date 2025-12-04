@@ -29,7 +29,7 @@ def main():
     print("="*70)
     
     try:
-        from cluster_purification import main as run_purification
+        from scripts.cluster_purification import main as run_purification
         
         print("\n🚀 Ejecutando cluster purification...")
         success = run_purification()
