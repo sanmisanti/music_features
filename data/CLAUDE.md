@@ -53,12 +53,59 @@ df = pd.read_csv('data/3_selected/picked_data_optimal.csv', sep='^', encoding='u
     v  Seleccion clustering-aware
 3_selected/picked_data_optimal.csv (10,000)
     |
-    v  Vectorizacion BERT
-4_vectorized/embeddings_bert_9753x384.npy (9,753 -> 8,567 validos)
-    |
-    v  Unificacion + deduplicacion
-5_unified/unified_multimodal_7811.pkl (7,811)
+    ├───────────────────────────────────┐
+    |                                   |
+    v  Vectorizacion BERT               v  Caracteristicas musicales (12)
+4_vectorized/embeddings_bert_9753x384.npy    |
+    |                                   |
+    └───────────────┬───────────────────┘
+                    |
+                    v  Unificacion + StandardScaler + deduplicacion
+            5_unified/unified_multimodal_7811.pkl
+            ├── semantic_embeddings [7811, 384]
+            ├── musical_features_raw [7811, 12]
+            └── musical_features_normalized [7811, 12]
 ```
+
+---
+
+## Scripts de Generacion
+
+### Vectorizacion Semantica (BERT)
+
+| Componente | Ruta | Funcion |
+|------------|------|---------|
+| **Script principal** | `clustering/algorithms/lyrics/scripts/run_complete_vectorization.py` | Genera embeddings BERT |
+| BertVectorizer | `clustering/algorithms/lyrics/vectorization/bert_vectorizer.py` | Clase de vectorizacion |
+| TextCleaner | `clustering/algorithms/lyrics/preprocessing/text_cleaner.py` | Limpieza de letras |
+| Normalizer | `clustering/algorithms/lyrics/preprocessing/normalizer.py` | Normalizacion multilingue |
+| Loader | `4_vectorized/load_vectorization.py` | Carga rapida |
+
+**Modelo BERT**: `paraphrase-multilingual-MiniLM-L12-v2` (384 dimensiones, L2-normalizado)
+
+**Consume**: `3_selected/picked_data_optimal.csv` (10,000 canciones)
+
+**Genera**: `4_vectorized/embeddings_bert_9753x384.npy` (9,753 embeddings)
+
+### Normalizacion Musical (StandardScaler)
+
+| Componente | Ruta | Funcion |
+|------------|------|---------|
+| **Script principal** | `clustering_evaluation_project/phase1_dataset_unification/create_unified_multimodal_dataset.py` | Unifica y normaliza |
+| Intersection Audit | `clustering_evaluation_project/phase1_dataset_unification/dataset_intersection_audit.py` | Identifica 7,811 alineados |
+| Loader | `clustering_evaluation_project/phase1_dataset_unification/load_unified_dataset_20250822_004929.py` | Carga rapida |
+
+**Metodo**: `sklearn.preprocessing.StandardScaler` (mean=0, std=1)
+
+**Consume**:
+- `4_vectorized/embeddings_bert_9753x384.npy`
+- `3_selected/picked_data_optimal.csv`
+
+**Genera**: `5_unified/unified_multimodal_7811.pkl`
+
+### Seleccion de Datos
+
+Ver documentacion completa: [../data_selection/CLAUDE.md](../data_selection/CLAUDE.md)
 
 ---
 
