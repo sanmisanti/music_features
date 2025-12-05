@@ -52,7 +52,7 @@ class ExploratoryAnalysisTestRunner:
         print("=" * 80)
         print("EXPLORATORY ANALYSIS MODULE - COMPREHENSIVE TEST SUITE")
         print("=" * 80)
-        print(f"Testing dataset compatibility with picked_data_lyrics.csv")
+        print(f"Testing dataset compatibility with picked_data_optimal.csv")
         print(f"Configuration: separator='^', decimal='.', encoding='utf-8'")
         print("=" * 80)
         

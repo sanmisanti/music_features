@@ -64,8 +64,8 @@ def run_simple_validation(sample_size: int = 500) -> Dict[str, Any]:
     try:
         # 1. Encontrar dataset disponible
         possible_datasets = [
-            r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\data\final_data\picked_data_optimal.csv",
-            r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\data\final_data\picked_data_lyrics.csv",
+            r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\data\3_selected/picked_data_optimal.csv",
+            r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\data\3_selected/picked_data_optimal.csv",
             r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\data\with_lyrics\spotify_songs_fixed.csv"
         ]
         

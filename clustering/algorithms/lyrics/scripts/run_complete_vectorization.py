@@ -74,7 +74,7 @@ class CompleteVectorizer:
     """
     
     def __init__(self, 
-                 dataset_path: str = "data/final_data/picked_data_optimal.csv",
+                 dataset_path: str = "data/3_selected/picked_data_optimal.csv",
                  output_dir: str = "vectorization_complete_output"):
         """
         Inicializa vectorizador completo.

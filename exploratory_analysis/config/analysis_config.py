@@ -17,10 +17,10 @@ SCRIPTS_DIR = PROJECT_ROOT / "scripts"
 
 # Data file paths
 DATA_PATHS = {
-    'original': DATA_DIR / "original_data" / "tracks_features.csv",
-    'cleaned_full': DATA_DIR / "cleaned_data" / "tracks_features_clean.csv", 
-    'sample_500': DATA_DIR / "cleaned_data" / "tracks_features_500.csv",
-    'lyrics_dataset': DATA_DIR / "final_data" / "picked_data_lyrics.csv",
+    'original': DATA_DIR / "0_raw" / "tracks_features.csv",
+    'cleaned_full': DATA_DIR / "1_cleaned" / "tracks_features_clean.csv", 
+    'sample_500': DATA_DIR / "1_cleaned" / "tracks_features_500.csv",
+    'lyrics_dataset': DATA_DIR / "3_selected" / "picked_data_optimal.csv",
     'clustering_results': PROJECT_ROOT / "clustering" / "clustering_results.csv"
 }
 

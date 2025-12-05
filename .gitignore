@@ -1,6 +1,9 @@
 data/cleaned_data/tracks_features_clean.csv
 data/original_data/tracks_features.csv
 
+data/0_raw/tracks_features.csv
+data/1_cleaned/tracks_features_clean.csv
+
 # Ignorar archivos compilados de Python
 __pycache__/
 *.py[cod]

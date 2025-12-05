@@ -75,7 +75,7 @@ def load_metadata():
 
     metadata_paths = [
         "clustering_evaluation_project/phase1_dataset_unification/aligned_songs_multimodal_20250822_011617.csv",
-        "data/final_data/picked_data_optimal.csv"
+        "data/3_selected/picked_data_optimal.csv"
     ]
 
     for path in metadata_paths:

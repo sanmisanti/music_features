@@ -136,7 +136,7 @@ class MusicDataLoader:
         """
         if 'metadata_df' not in self._cache:
             # Usar dataset optimizado con metadatos completos
-            metadata_path = Path(__file__).parent.parent.parent / "data" / "final_data" / "picked_data_optimal.csv"
+            metadata_path = Path(__file__).parent.parent.parent / "data" / "3_selected/picked_data_optimal.csv"
             self._cache['metadata_df'] = pd.read_csv(metadata_path, sep='^')
             print(f"✅ Metadatos cargados: {len(self._cache['metadata_df'])} registros")
         

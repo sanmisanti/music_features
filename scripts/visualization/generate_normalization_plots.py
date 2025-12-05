@@ -26,7 +26,7 @@ sns.set_palette("husl")
 
 def load_dataset():
     """Cargar el dataset final unificado"""
-    dataset_path = Path("data/final_data/picked_data_optimal.csv")
+    dataset_path = Path("data/3_selected/picked_data_optimal.csv")
 
     if not dataset_path.exists():
         # Buscar alternativos

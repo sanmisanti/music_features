@@ -62,7 +62,7 @@ class ExperimentalValidator:
     """
     
     def __init__(self, 
-                 dataset_path: str = "/mnt/c/Users/sanmi/Documents/Proyectos/Tesis/music_features/data/final_data/picked_data_optimal.csv",
+                 dataset_path: str = "/mnt/c/Users/sanmi/Documents/Proyectos/Tesis/music_features/data/3_selected/picked_data_optimal.csv",
                  output_dir: str = "experimental_results"):
         """
         Inicializa validador experimental.

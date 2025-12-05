@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Análisis profundo del dataset picked_data_lyrics.csv enfocado en características musicales
+Análisis profundo del dataset picked_data_optimal.csv enfocado en características musicales
 para la implementación de clustering.
 """
 
@@ -23,7 +23,7 @@ MUSICAL_FEATURES = [
 
 def load_dataset():
     """Cargar el dataset con letras."""
-    dataset_path = Path("data/final_data/picked_data_lyrics.csv")
+    dataset_path = Path("data/3_selected/picked_data_optimal.csv")
     
     print("🔍 Cargando dataset...")
     df = pd.read_csv(dataset_path, sep='^', encoding='utf-8')

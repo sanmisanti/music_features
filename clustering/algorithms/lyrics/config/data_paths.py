@@ -16,7 +16,7 @@ LYRICS_MODULE_ROOT = CLUSTERING_ROOT / "algorithms" / "lyrics"
 # === DATOS PRINCIPALES ===
 DATA_PATHS = {
     # Dataset principal optimizado
-    "main_dataset": PROJECT_ROOT / "data" / "final_data" / "picked_data_optimal.csv",
+    "main_dataset": PROJECT_ROOT / "data" / "3_selected/picked_data_optimal.csv",
     
     # Dataset fuente con letras
     "source_dataset": PROJECT_ROOT / "data" / "with_lyrics" / "spotify_songs_fixed.csv",

@@ -437,5 +437,15 @@ readiness_comparison = compare_clustering_readiness([
 
 ---
 
-*Módulo estado: PROFESIONAL CON FUNCIONALIDAD CRÍTICA FALTANTE*  
-*Próxima actualización: Con implementación de clustering_readiness.py*
+## Resultados Generados
+
+La carpeta `results/` contiene outputs de analisis ejecutados:
+
+| Archivo | Generador | Contenido |
+|---------|-----------|-----------|
+| clustering_readiness_direct_*.json | scripts/analysis/analyze_clustering_readiness_direct.py | Hopkins 0.823, K optimo, feature ranking |
+
+---
+
+*Módulo estado: PROFESIONAL - Sistema validado*
+*Última actualización: Diciembre 2025*
