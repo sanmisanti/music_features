@@ -66,10 +66,11 @@ El cumplimiento riguroso de esta directiva asegura que toda la comunicación man
 1. **FULL_PROJECT.md** - ✅ **DOCUMENTO MAESTRO**: Proceso completo de desarrollo, metodología científica, experimentos, y resultados del breakthrough +86.1% Silhouette Score
 2. **data/CLAUDE.md** - ✅ **DATASETS**: Estructura completa de datos, rutas, formatos, y flujo de procesamiento (18,454 → 10,000 → 7,811)
 3. **data_selection/CLAUDE.md** - ✅ **SELECCION DE DATOS**: Pipeline clustering-aware, Hopkins validation, dataset generado (18,454 → 10,000)
-4. **ANALYSIS_RESULTS.md** - Comprehensive analysis results, test outcomes, technical interpretations, and progress tracking for all implemented modules
-5. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
-6. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
-7. **PROYECTO_COMPLETO_DOCUMENTACION.md** - Documentación exhaustiva paso a paso del proyecto completo con explicaciones técnicas y simples
+4. **clustering/CLAUDE.md** - ✅ **CLUSTERING**: Modulo de clustering musical y semantico, arquitectura, componentes activos y legacy
+5. **ANALYSIS_RESULTS.md** - Comprehensive analysis results, test outcomes, technical interpretations, and progress tracking for all implemented modules
+6. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
+7. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
+8. **PROYECTO_COMPLETO_DOCUMENTACION.md** - Documentación exhaustiva paso a paso del proyecto completo con explicaciones técnicas y simples
 
 The current repository focuses on the musical characteristics analysis module within the larger multimodal system. All development progress and test results are tracked in ANALYSIS_RESULTS.md, while theoretical foundations and academic explanations are maintained in DOCS.md.
 
@@ -164,10 +165,10 @@ Este repositorio implementa el **Módulo de Análisis Musical** completado - com
 - **RESULTADOS DOCUMENTADOS**: Reportes completos generados en `./results/` con análisis técnico exhaustivo
 - **ESTADO**: ✅ FASE 3 COMPLETADA EXITOSAMENTE - Objetivos científicos alcanzados
 
-#### 📁 **Sistemas Legacy** (Movidos a scripts/legacy/, notebooks/legacy/)
-- Data Selection Pipeline hibrido 1.2M (ver `scripts/legacy/data_selection/README.md`)
-- Notebooks experimentales (cluster.ipynb, pred.ipynb)
-- Scripts de analisis preliminares
+#### 📁 **Sistemas Legacy** (Movidos a scripts/legacy/)
+- **Clustering legacy**: Algoritmos baseline, modelos 0.231-0.314, recomendadores antiguos (ver `scripts/legacy/clustering/README.md`)
+- **Data Selection legacy**: Pipeline hibrido 1.2M (ver `scripts/legacy/data_selection/README.md`)
+- **Notebooks**: cluster.ipynb, pred.ipynb (archivados en scripts/legacy/)
 
 ### 📊 **DATASETS PRINCIPALES**
 
@@ -264,12 +265,11 @@ python run_music_recommender.py --benchmark        # Test performance
 python test_optimized_recommender.py              # Validación completa del sistema
 ```
 
-### 📁 **SISTEMAS LEGACY** (Movidos a legacy/, usar solo para referencia)
+### 📁 **SISTEMAS LEGACY** (Solo referencia historica)
 ```bash
-# ⚠️ LEGACY - Solo para referencia histórica
-# Data selection pipelines (scripts/legacy/)
-# Notebooks experimentales (notebooks/legacy/)
-# Scripts preliminares (deprecated/)
+# ⚠️ LEGACY - No usar en codigo nuevo
+# Clustering legacy: scripts/legacy/clustering/
+# Data selection legacy: scripts/legacy/data_selection/
 ```
 
 ## 📋 **ESPECIFICACIONES TÉCNICAS FINALES**
@@ -295,14 +295,6 @@ Resumen rápido:
 - `data/2_with_lyrics/`: sep='@@', engine='python'
 - `data/3_selected/`: sep='^'
 - `data/4_vectorized/` y `data/5_unified/`: archivos binarios (.npy, .pkl)
-
-### 🎯 **SISTEMA DE RECOMENDACIONES OPTIMIZADO** ✅ PRODUCTION-READY
-- **Artefacto**: `optimized_music_recommender.py` - Sistema completo con integración ClusterPurifier nativa
-- **Performance**: <100ms por recomendación (objetivo alcanzado, 20-50x mejora vs baseline)
-- **Integración**: ClusterPurifier +86.1% Silhouette Score nativo
-- **Estrategias**: 6 algoritmos avanzados (cluster_pure, similarity_weighted, hybrid_balanced, diversity_boosted, mood_contextual, temporal_aware)
-- **Optimizaciones**: Matriz similitud pre-computada, índices invertidos, feature weighting
-- **Scripts**: `run_music_recommender.py` (interface simple), `test_optimized_recommender.py` (validation suite)
 
 ## 🏆 **CONTEXTO DE INVESTIGACIÓN Y LOGROS**
 
@@ -333,10 +325,9 @@ Este proyecto ha demostrado exitosamente una **metodología científica completa
 - **Performance**: 75.88s analisis completo
 - **Docs**: `exploratory_analysis/CLAUDE.md`
 
-### 🎤 Lyrics Extraction
-- **Sistema**: `lyrics_extractor/` - Extraccion de letras via Genius API
-- **Arquitectura**: SQLite + resume automatico + normalizacion Unicode
-- **Docs**: `lyrics_extractor/IMPLEMENTACION_CON_LETRAS.md`
+### 🎤 Lyrics Extraction (ARCHIVADO)
+- **Estado**: Obsoleto - Dataset Kaggle (`2_with_lyrics/`) incluye letras (100% cobertura)
+- **Ubicacion**: `archive/legacy_lyrics_extractor/`
 
 ## Nota Historica: Seleccion de Datos (RESUELTO)
 
@@ -364,8 +355,8 @@ Pipeline clustering-aware genero exitosamente `data/3_selected/picked_data_optim
 #### **Documentacion de Modulos**:
 - **data_selection/CLAUDE.md** - Modulo de seleccion de datos: pipeline clustering-aware, Hopkins validation, metricas
 - **data_selection/PIPELINE.md** - Proceso detallado de seleccion 18,454 → 10,000 canciones
+- **clustering/CLAUDE.md** - Modulo clustering: arquitectura, componentes activos (lyrics/, musical/), legacy archivado
 - **exploratory_analysis/CLAUDE.md** - Modulo exploratory_analysis: capacidades, tests (82/82)
-- **clustering/README.md** - Modulo clustering: workflows actualizados
 - **clustering_evaluation_project/phase3_multimodal_clustering/README.md** - FASE 3: clustering multimodal exhaustivo
 
 #### **Analisis Historico**:
@@ -443,208 +434,12 @@ El documento debe ser de calidad **publicable** en conferencias académicas como
 **Estado actual**: ✅ FULL_PROJECT.md contiene proceso técnico completo
 **Próximo paso**: 🔄 ELEVAR A ESTÁNDAR ACADÉMICO PARA TESIS
 
-## 🎵 **SISTEMA DE RECOMENDACIONES MUSICALES HÍBRIDO - ANÁLISIS TÉCNICO COMPLETADO**
+## Sistema de Recomendaciones Hibrido
 
-### **✅ ARQUITECTURA ALGORÍTMICA IMPLEMENTADA Y VALIDADA (2025-08-31)**
+El sistema de recomendaciones musicales hibrido implementa fusion ponderada (55% musical, 45% semantico) sobre el dataset unificado de 7,811 canciones. Score de calidad: 91.5/100.
 
-#### **Metodología de Recomendación Híbrida Científicamente Fundamentada**
+**Documentacion tecnica completa**: FULL_PROJECT.md (Seccion Sistema de Recomendaciones)
 
-El sistema de recomendaciones musicales desarrollado implementa una arquitectura híbrida que combina dos espacios vectoriales complementarios mediante fusión ponderada científicamente validada. La metodología algorítmica opera sobre vectores pre-procesados y normalizados, garantizando consistencia y reproducibilidad en las recomendaciones generadas.
+**Artefacto principal**: `archive/legacy_recommender/optimized_music_recommender.py`
 
-**Proceso Algorítmico Detallado:**
-
-1. **Localización de Canción Query**: El sistema utiliza índices pre-computados para localizar el track_id en el dataset unificado de 7,811 canciones, evitando vectorización en tiempo real.
-
-2. **Extracción de Vectores Pre-procesados**: 
-   - **Vector Musical (12D)**: Características Spotify normalizadas con StandardScaler
-   - **Vector Semántico (384D)**: Embeddings BERT L2-normalizados de contenido lírico
-
-3. **Cálculo de Similitudes Duales**: Aplicación de similitud coseno en ambos espacios vectoriales simultáneamente, con opción de matrices pre-computadas para latencia <10ms o cálculo dinámico para optimización de memoria.
-
-4. **Fusión Híbrida Científicamente Validada**: 
-   ```
-   Score_final = 0.55 × Similitud_musical + 0.45 × Similitud_semántica
-   ```
-   Pesos determinados mediante experimentación FASE 3 con 56 configuraciones algorítmicas.
-
-5. **Ranking y Selección**: Ordenamiento descendente de scores híbridos con exclusión de la canción query y selección de top-K recomendaciones.
-
-#### **Optimizaciones de Performance Implementadas**
-
-**Sistema de Cache Inteligente**: Implementación de cache multinivel que evita re-cargas de vectores y permite reutilización de matrices de similitud pre-computadas.
-
-**Operaciones Vectorizadas**: Utilización de operaciones NumPy optimizadas para cálculos de similitud masivos, aprovechando instrucciones SIMD cuando están disponibles.
-
-**Gestión de Memoria Dinámica**: Arquitectura que permite alternar entre pre-computación completa (480MB, <10ms latencia) y cálculo dinámico (mínima memoria, ~50ms latencia).
-
-#### **Validación Científica del Sistema**
-
-**Métricas de Calidad Implementadas**: Sistema comprensivo de validación que incluye 15 tipos de evaluaciones científicas:
-- Precision@K y Recall@K con ground truth basado en clusters
-- Análisis de diversidad intra-lista y cross-modal
-- Validación de coherencia entre recomendaciones y explicaciones
-- Benchmarking de performance con objetivos <100ms
-
-**Score de Calidad General Alcanzado**: 91.5/100 con interpretación académica "EXCELENTE", validando la robustez técnica y científica del sistema implementado.
-
-### **⚡ PROPUESTA DE MEJORA TÉCNICA: VECTORIZACIÓN EN TIEMPO REAL**
-
-#### **Análisis de Limitaciones Arquitecturales Actuales**
-
-**Restricción de Dataset Cerrado**: La dependencia absoluta en vectores pre-procesados constituye la limitación arquitectural más significativa, restringiendo la aplicabilidad del sistema a las 7,811 canciones del dataset unificado.
-
-**Implicaciones para Escalabilidad**: Esta restricción impide la incorporación de contenido musical externo, limitando casos de uso que requieren personalización o integración con catálogos musicales dinámicos.
-
-#### **Propuesta Arquitectural para Vectorización Dinámica**
-
-**Justificación Técnica**: La implementación de capacidades de vectorización en tiempo real representaría una evolución arquitectural que expandiría substancialmente la aplicabilidad del sistema sin comprometer su fundamento científico validado.
-
-**Arquitectura Propuesta**:
-
-```python
-class HybridRecommenderWithRealtime:
-    def __init__(self):
-        self.static_recommender = HybridMusicRecommender()  # Sistema actual optimizado
-        self.musical_vectorizer = RealtimeMusicalVectorizer()  # Nuevo componente
-        self.semantic_vectorizer = RealtimeSemanticVectorizer()  # Nuevo componente
-    
-    def recommend(self, input_source, **kwargs):
-        if isinstance(input_source, str) and input_source in self.dataset:
-            # Utilizar sistema optimizado para contenido del dataset
-            return self.static_recommender.recommend(input_source, **kwargs)
-        else:
-            # Vectorización dinámica para contenido externo
-            return self._recommend_external_content(input_source, **kwargs)
-```
-
-**Consideraciones de Performance**:
-- **Vectorización Musical**: <1ms (características Spotify via API)
-- **Vectorización Semántica**: 200-500ms (procesamiento BERT)
-- **Memoria Adicional**: ~440MB (modelo BERT)
-- **Compatibilidad**: Completa con sistema existente
-
-#### **Análisis de Viabilidad y Trade-offs**
-
-**Beneficios Técnicos Significativos**:
-- Flexibilidad arquitectural para contenido musical arbitrario
-- Mantenimiento de calidad de recomendaciones validada científicamente
-- Escalabilidad operacional para aplicaciones de producción
-- Integración directa con APIs de streaming musical
-
-**Trade-offs Técnicos Evaluados**:
-- **Latencia vs Flexibilidad**: Incremento 200-500ms por consulta externa vs capacidad universal
-- **Memoria vs Funcionalidad**: +440MB footprint vs expansión significativa de casos de uso
-- **Complejidad vs Aplicabilidad**: Mayor complejidad arquitectural vs plataforma de propósito general
-
-#### **Recomendación de Implementación**
-
-**Estrategia Técnica Sugerida**: Desarrollo incremental manteniendo compatibilidad absoluta con sistema actual:
-
-1. **Fase 1**: Implementación de vectorización musical en tiempo real (simple, <1ms)
-2. **Fase 2**: Integración de vectorización semántica BERT (compleja, ~300ms)
-3. **Fase 3**: Sistema híbrido unificado con routing inteligente según fuente de input
-
-**Justificación Estratégica**: Esta mejora transformaría el sistema de herramienta de análisis de dataset específico a plataforma de recomendaciones musicales de propósito general, manteniendo todas las optimizaciones y validaciones científicas implementadas.
-
-### **📊 CONTRIBUCIONES TÉCNICAS DOCUMENTADAS**
-
-#### **Innovaciones Algorítmicas Logradas**
-
-1. **Fusión Híbrida Científicamente Validada**: Determinación experimental de pesos óptimos (55%-45%) mediante metodología multi-criterio exhaustiva.
-
-2. **Sistema de Validación Comprensivo**: Framework de 15 evaluaciones científicas para sistemas de recomendación multimodales.
-
-3. **Arquitectura de Performance Dual**: Sistema que permite alternar entre optimización de latencia y optimización de memoria según contexto de uso.
-
-4. **Metodología de Ground Truth Basada en Clusters**: Enfoque innovador para evaluación de calidad de recomendaciones usando membresía de clusters como proxy de relevancia.
-
-#### **Resultados Técnicos Validados Experimentalmente**
-
-- **Calidad del Sistema**: Score general 91.5/100 con interpretación académica "EXCELENTE"
-- **Performance de Latencia**: <100ms objetivo alcanzado con sistemas de cache
-- **Robustez Arquitectural**: 4,728 líneas de código con manejo comprensivo de errores
-- **Escalabilidad Validada**: Sistema lineal probado en datasets de 7,811+ canciones
-
-**Estado del Módulo**: ✅ SISTEMA PRODUCTION-READY con capacidades de investigación y aplicación práctica validadas científicamente.
-
-### **🎯 PRIMERA PRUEBA FUNCIONAL EXITOSA (2025-08-31)**
-
-#### **Validación Experimental Inicial Completada**
-
-**Configuración de Prueba**:
-- **Dataset Fuente**: `picked_data_optimal.csv` (metadatos completos con separador '^')
-- **Canción de Entrada**: "Move To The City - Live In Japan / 1992" - Guns N' Roses
-- **Configuración Híbrida**: 55% musical, 45% semántico (pesos FASE 3 validados)
-- **Cantidad Recomendaciones**: 3 canciones
-
-**Resultados Técnicos Obtenidos**:
-
-1. **"Out in the Cold" - Judas Priest** (Similitud Híbrida: 0.852)
-   - Coherencia de Género: Rock → Rock (exacta)
-   - Cluster Musical: 7 → 7 (idéntico, alta coherencia)
-   - Cluster Semántico: 2 → 1 (diversidad complementaria)
-
-2. **"En La Ciudad De La Furia" - Soda Stereo** (Similitud Híbrida: 0.842)
-   - Coherencia Temática: "Move To The City" → "En La Ciudad De La Furia" (semánticamente relacionada)
-   - Cluster Musical: 7 → 7 (consistencia musical)
-   - Cluster Semántico: 2 → 5 (diversidad maximizada)
-
-3. **"You Could Be Mine" - Guns N' Roses** (Similitud Híbrida: 0.837)
-   - Coherencia de Artista: Guns N' Roses → Guns N' Roses (exacta)
-   - Cluster Musical: 7 → 6 (alta similaridad)
-   - Cluster Semántico: 2 → 1 (complementariedad)
-
-**Métricas de Performance Registradas**:
-- **Tiempo de Ejecución**: 485.1ms (excede target <100ms, optimización pendiente)
-- **Calidad de Recomendaciones**: Excelente coherencia musical y diversidad semántica
-- **Arquitectura**: Sistema completamente funcional sin errores
-
-**Validación de Corrección Técnica**:
-- ✅ Problema `'track_id'` resuelto mediante uso de `picked_data_optimal.csv`
-- ✅ Problema `'track_name'` resuelto mediante dataset unificado con metadatos completos
-- ✅ Separador '^' implementado consistentemente en todo el pipeline
-- ✅ Sistema híbrido operativo con fusión ponderada científicamente validada
-
-**Implicaciones para Desarrollo Futuro**:
-La prueba confirma la robustez arquitectural del sistema y valida las decisiones técnicas implementadas. La performance puede optimizarse mediante pre-computación de matrices, mientras que la calidad de recomendaciones demuestra efectividad de la metodología híbrida.
-
-### **🔬 VALIDACIÓN EXPERIMENTAL DE CONFIGURACIONES HÍBRIDAS (2025-09-01)**
-
-#### **Experimentación Exhaustiva de Fusión Ponderada Completada**
-
-**Metodología Experimental Aplicada**: Se ejecutaron tres configuraciones de fusión ponderada sobre el dataset unificado de 7,811 canciones para validar experimentalmente el comportamiento algorítmico del sistema híbrido ante diferentes balances entre modalidades musical y semántica.
-
-**Canción de Referencia Seleccionada**: "Sister Golden Hair" - America (Género: rock, Cluster Musical: 5, Cluster Semántico: 1) utilizada como caso de prueba consistente para análisis comparativo entre configuraciones.
-
-#### **Resultados Experimentales Detallados**
-
-**Configuración Musical Dominante (70%-30%)**:
-- **Comportamiento Algorítmico**: Priorización de coherencia musical con similitudes elevadas (0.887, 0.878) que mantiene consistencia de género y características acústicas.
-- **Patrón de Recomendación**: Selección de canciones con alta similitud musical pero diversidad semántica controlada.
-- **Diversidad Cross-Modal**: Limitada, con enfoque en homogeneidad musical.
-
-**Configuración Balanceada (50%-50%)**:
-- **Comportamiento Algorítmico**: Equilibrio óptimo que permite emergencia de canciones con alta similitud semántica (0.869) compensando similitudes musicales moderadas (0.776).
-- **Patrón de Recomendación**: "Gypsy" de Fleetwood Mac emerge como recomendación, demostrando balance efectivo entre modalidades.
-- **Diversidad Cross-Modal**: Óptima para casos de uso generales.
-
-**Configuración Semántica Dominante (30%-70%)**:
-- **Comportamiento Algorítmico**: Revelación de patrones semánticos profundos con detección de covers o versiones alternativas (similitud semántica 0.989).
-- **Patrón de Recomendación**: Identificación de duplicados potenciales en dataset y coherencia temática máxima.
-- **Diversidad Cross-Modal**: Enfoque en coherencia temática y lírica.
-
-#### **Análisis Técnico de Performance y Estabilidad**
-
-**Consistencia Temporal**: Los tiempos de ejecución registrados (447-550ms) demuestran estabilidad arquitectural con variabilidad controlada del 18.7%, indicando robustez del sistema ante diferentes configuraciones de pesos.
-
-**Validación de Arquitectura**: La ausencia de errores computacionales o inconsistencias algorítmicas confirma la solidez de la implementación híbrida bajo múltiples configuraciones operacionales.
-
-#### **Conclusiones Científicas Derivadas**
-
-**Configuración Óptima Validada**: Los experimentos confirman que la configuración balanceada (50%-50%) proporciona el equilibrio óptimo entre coherencia musical y diversidad semántica para aplicaciones de propósito general.
-
-**Adaptabilidad Contextual**: Las configuraciones asimétricas (70%-30% y 30%-70%) demuestran utilidad para contextos específicos que requieren dominancia de una modalidad particular.
-
-**Robustez Experimental**: El sistema mantiene comportamiento predecible y consistente independientemente de la configuración de pesos, validando la arquitectura híbrida implementada.
-
-**Estado de Validación**: ✅ EXPERIMENTACIÓN HÍBRIDA COMPLETADA - Sistema validado científicamente para múltiples configuraciones operacionales
+**Comando de ejecucion**: `python run_music_recommender.py`
