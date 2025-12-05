@@ -36,7 +36,7 @@ def main():
         
         if success:
             print("\n🎉 ¡CLUSTERING COMPLETADO EXITOSAMENTE!")
-            print("📁 Resultados guardados en: outputs/fase4_purification/")
+            print("📁 Resultados guardados en: scripts/results/purification/")
             print("📊 Sistema listo para recomendaciones musicales")
         else:
             print("\n❌ Error en la ejecución del clustering")

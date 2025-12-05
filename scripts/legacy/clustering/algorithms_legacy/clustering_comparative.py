@@ -113,7 +113,7 @@ class ClusteringComparator:
         }
         
         # Configuración de salida
-        self.output_dir = base_path / 'outputs' / 'fase2_clustering'
+        self.output_dir = base_path / 'scripts' / 'legacy' / 'clustering' / 'results'
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
         print(f"🔧 ClusteringComparator inicializado")

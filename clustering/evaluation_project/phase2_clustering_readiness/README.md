@@ -77,13 +77,13 @@ El módulo está compuesto por seis componentes especializados que trabajan en c
 
 ```bash
 # Ejecutar evaluación completa desde raíz del proyecto
-python clustering_evaluation_project/phase2_clustering_readiness/evaluate_clustering_readiness_comparative.py
+python clustering/evaluation_project/phase2_clustering_readiness/evaluate_clustering_readiness_comparative.py
 ```
 
 ### Requisitos Previos
 
 1. **Dataset Unificado**: Debe existir dataset generado en FASE 1
-   - Ubicación: `clustering_evaluation_project/phase1_dataset_unification/unified_multimodal_dataset_*.pkl`
+   - Ubicación: `clustering/evaluation_project/phase1_dataset_unification/unified_multimodal_dataset_*.pkl`
    - Contenido: 7,811 canciones con embeddings BERT (384D) y características musicales (12D)
 
 2. **Dependencias Python**:

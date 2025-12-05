@@ -81,3 +81,15 @@ python scripts/run_final_clustering.py
 | Optimized baseline | 0.231 | LEGACY |
 
 **Nota**: El Silhouette 0.314 de PCA5 fue sobre un dataset diferente (9,677 canciones sin letras). El sistema actual opera sobre 10,000 canciones optimizadas con Hopkins 0.823.
+
+## results/ - Resultados Experimentales
+
+Outputs de algoritmos legacy (FASE 2):
+
+| Archivo | Contenido |
+|---------|-----------|
+| clustering_comparison_*_validation_test.json/.md | Test KMeans, Silhouette 0.1138 |
+| clustering_comparison_*_kmeans_complete.json/.md | KMeans completo |
+| clustering_comparison_*_hierarchical_complete.json/.md | Hierarchical completo |
+
+Fecha: 2025-08-12. Superados por Hybrid Purification (+86.1%).

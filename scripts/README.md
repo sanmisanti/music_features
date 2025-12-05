@@ -285,5 +285,18 @@ Para problemas o dudas:
 
 ---
 
-*Scripts desarrollados como parte del Sistema de Recomendación Musical Multimodal*  
-*Versión: 1.0 | Fecha: Enero 2025*
+## results/purification/ - Resultados Hybrid Purification
+
+Outputs del sistema cluster_purification.py (+86.1% Silhouette):
+
+| Archivo | Contenido |
+|---------|-----------|
+| purification_results_*_full_dataset.json | Resultado principal: 16,081 canciones, Silhouette 0.2893 |
+| purification_results_*_test.json | Tests de validacion intermedios |
+
+Fecha: 2025-08-12. Generados por `cluster_purification.py`.
+
+---
+
+*Scripts desarrollados como parte del Sistema de Recomendación Musical Multimodal*
+*Versión: 1.0 | Fecha: Diciembre 2025*

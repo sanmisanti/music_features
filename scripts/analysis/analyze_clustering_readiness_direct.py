@@ -395,7 +395,7 @@ def main():
     
     # Guardar resultados
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_dir = "outputs/clustering_readiness"
+    results_dir = "exploratory_analysis/results"
     os.makedirs(results_dir, exist_ok=True)
     
     results_data = {

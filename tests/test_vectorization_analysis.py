@@ -330,7 +330,7 @@ def main():
         analyze_similarity_index(similarity_index, track_ids[valid_mask])
         
         # Crear visualizaciones
-        output_dir = Path(__file__).parent.parent / "outputs" / "vectorization_analysis"
+        output_dir = Path(__file__).parent.parent / "clustering" / "algorithms" / "lyrics" / "results"
         create_visualizations(valid_embeddings, labels, output_dir)
         
         # Generar reporte final

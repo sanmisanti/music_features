@@ -186,9 +186,9 @@ def main():
     # Detectar si estamos en Windows o Linux y usar la ruta apropiada
     import os
     if os.name == 'nt':  # Windows
-        unified_dir = Path(r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\clustering_evaluation_project\phase1_dataset_unification")
+        unified_dir = Path(r"C:\Users\sanmi\Documents\Proyectos\Tesis\music_features\clustering/evaluation_project\phase1_dataset_unification")
     else:  # Linux/WSL
-        unified_dir = Path("/mnt/c/Users/sanmi/Documents/Proyectos/Tesis/music_features/clustering_evaluation_project/phase1_dataset_unification")
+        unified_dir = Path("/mnt/c/Users/sanmi/Documents/Proyectos/Tesis/music_features/clustering/evaluation_project/phase1_dataset_unification")
     
     print(f"Buscando en directorio: {unified_dir}")
     

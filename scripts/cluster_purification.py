@@ -90,7 +90,7 @@ class ClusterPurifier:
         self.analysis_history = []
         
         # Configuración de salida
-        self.output_dir = base_path / 'outputs' / 'fase4_purification'
+        self.output_dir = base_path / 'scripts' / 'results' / 'purification'
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
         print(f"🔧 ClusterPurifier inicializado")
