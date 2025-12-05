@@ -65,10 +65,11 @@ El cumplimiento riguroso de esta directiva asegura que toda la comunicación man
 **🔗 ALWAYS READ THESE FILES FIRST**:
 1. **FULL_PROJECT.md** - ✅ **DOCUMENTO MAESTRO**: Proceso completo de desarrollo, metodología científica, experimentos, y resultados del breakthrough +86.1% Silhouette Score
 2. **data/CLAUDE.md** - ✅ **DATASETS**: Estructura completa de datos, rutas, formatos, y flujo de procesamiento (18,454 → 10,000 → 7,811)
-3. **ANALYSIS_RESULTS.md** - Comprehensive analysis results, test outcomes, technical interpretations, and progress tracking for all implemented modules
-4. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
-5. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
-6. **PROYECTO_COMPLETO_DOCUMENTACION.md** - Documentación exhaustiva paso a paso del proyecto completo con explicaciones técnicas y simples
+3. **data_selection/CLAUDE.md** - ✅ **SELECCION DE DATOS**: Pipeline clustering-aware, Hopkins validation, dataset generado (18,454 → 10,000)
+4. **ANALYSIS_RESULTS.md** - Comprehensive analysis results, test outcomes, technical interpretations, and progress tracking for all implemented modules
+5. **DOCS.md** - Academic technical documentation with theoretical foundations, methodologies, algorithms, and formal analysis for thesis-level understanding
+6. **DIRECTIVAS.md** - Development workflow guidelines, documentation requirements, and mandatory procedures for consistent project execution
+7. **PROYECTO_COMPLETO_DOCUMENTACION.md** - Documentación exhaustiva paso a paso del proyecto completo con explicaciones técnicas y simples
 
 The current repository focuses on the musical characteristics analysis module within the larger multimodal system. All development progress and test results are tracked in ANALYSIS_RESULTS.md, while theoretical foundations and academic explanations are maintained in DOCS.md.
 
@@ -163,10 +164,10 @@ Este repositorio implementa el **Módulo de Análisis Musical** completado - com
 - **RESULTADOS DOCUMENTADOS**: Reportes completos generados en `./results/` con análisis técnico exhaustivo
 - **ESTADO**: ✅ FASE 3 COMPLETADA EXITOSAMENTE - Objetivos científicos alcanzados
 
-#### 📁 **Sistemas Legacy** (Movidos a docs/legacy/, scripts/legacy/)
-- Data Selection Pipeline (reemplazado por clustering optimizado)
+#### 📁 **Sistemas Legacy** (Movidos a scripts/legacy/, notebooks/legacy/)
+- Data Selection Pipeline hibrido 1.2M (ver `scripts/legacy/data_selection/README.md`)
 - Notebooks experimentales (cluster.ipynb, pred.ipynb)
-- Scripts de análisis preliminares
+- Scripts de analisis preliminares
 
 ### 📊 **DATASETS PRINCIPALES**
 
@@ -337,13 +338,11 @@ Este proyecto ha demostrado exitosamente una **metodología científica completa
 - **Arquitectura**: SQLite + resume automatico + normalizacion Unicode
 - **Docs**: `lyrics_extractor/IMPLEMENTACION_CON_LETRAS.md`
 
-## Nota Historica: Seleccion de Datos (2025-08-06, RESUELTO)
+## Nota Historica: Seleccion de Datos (RESUELTO)
 
-Se identifico degradacion de clustering (Silhouette 0.177 vs 0.314 baseline) causada por sesgo hacia canciones mainstream. **Solucion implementada**: Cambio a dataset fuente de 18K canciones con Hopkins 0.823.
+Pipeline clustering-aware genero exitosamente `data/3_selected/picked_data_optimal.csv` (10,000 canciones) desde dataset fuente de 18,454 con Hopkins 0.823.
 
-**Resultado**: `data/3_selected/picked_data_optimal.csv` (10,000 canciones optimizadas)
-
-**Documentacion tecnica**: `DATA_SELECTION_ANALYSIS.md`, `CLUSTERING_READINESS_RECOMMENDATIONS.md`
+**Documentacion completa**: `data_selection/CLAUDE.md`, `data_selection/PIPELINE.md`
 
 ## 📝 **DIRECTIVA: AUTO-REFERENCIA DE DOCUMENTACIÓN**
 
@@ -362,13 +361,16 @@ Se identifico degradacion de clustering (Silhouette 0.177 vs 0.314 baseline) cau
 - **DOCS.md** - Documentación académica con fundamentos teóricos y metodologías
 - **DIRECTIVAS.md** - Guidelines de desarrollo y procedimientos obligatorios
 
-#### **Análisis Técnico Especializado**:
-- **DATA_SELECTION_ANALYSIS.md** - Análisis completo del proceso de selección de datos y problemas de clustering
-- **data_selection/PIPELINE.md** - Documentación completa del pipeline clustering-aware con estrategias y workflows
-- **CLUSTERING_READINESS_RECOMMENDATIONS.md** - Plan estratégico para selección optimizada basada en análisis Hopkins
-- **clustering/README.md** - Documentación del módulo clustering con workflows actualizados
-- **exploratory_analysis/CLAUDE.md** - Análisis del módulo exploratory_analysis y capacidades (82/82 tests)
-- **clustering_evaluation_project/phase3_multimodal_clustering/README.md** - Sistema FASE 3 completo de clustering multimodal exhaustivo con experimentación algorítmica, función objetivo multi-criterio, validación de interpretabilidad automática y análisis cross-modal
+#### **Documentacion de Modulos**:
+- **data_selection/CLAUDE.md** - Modulo de seleccion de datos: pipeline clustering-aware, Hopkins validation, metricas
+- **data_selection/PIPELINE.md** - Proceso detallado de seleccion 18,454 → 10,000 canciones
+- **exploratory_analysis/CLAUDE.md** - Modulo exploratory_analysis: capacidades, tests (82/82)
+- **clustering/README.md** - Modulo clustering: workflows actualizados
+- **clustering_evaluation_project/phase3_multimodal_clustering/README.md** - FASE 3: clustering multimodal exhaustivo
+
+#### **Analisis Historico**:
+- **DATA_SELECTION_ANALYSIS.md** - Analisis historico del proceso de seleccion y problemas identificados
+- **CLUSTERING_READINESS_RECOMMENDATIONS.md** - Plan estrategico basado en analisis Hopkins
 
 #### **Formato de Referencia**:
 ```markdown
