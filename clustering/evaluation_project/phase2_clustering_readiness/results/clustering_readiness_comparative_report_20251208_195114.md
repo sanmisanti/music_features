@@ -1,6 +1,6 @@
 # Clustering Readiness Comparative Assessment - FASE 2
 
-**Fecha de Evaluación**: 20250824_181739  
+**Fecha de Evaluación**: 20251208_195114  
 **Dataset Evaluado**: 7811 canciones alineadas  
 **Dimensionalidades**: 384D semántico vs 12D musical
 

@@ -39,8 +39,16 @@ Archivo de configuracion para Claude Code en este repositorio.
 | Datos | `data/CLAUDE.md` | Estructura datasets, rutas, formatos, flujo 18,454 -> 10,000 -> 7,811 |
 | Seleccion | `data_selection/CLAUDE.md` | Pipeline clustering-aware, Hopkins validation |
 | Clustering | `clustering/CLAUDE.md` | Arquitectura musical/semantico, componentes activos |
-| Exploratorio | `exploratory_analysis/CLAUDE.md` | Capacidades, tests 82/82 |
-| FASE 3 | `clustering_evaluation_project/phase3_multimodal_clustering/README.md` | Clustering multimodal exhaustivo |
+| Exploratorio | `exploratory_analysis/CLAUDE.md` | Analisis exploratorio, Hopkins, PCA |
+| Recomendacion | `recommendation_system/CLAUDE.md` | Sistema hibrido 55%/45%, API, CLI (Dic 2025) |
+
+### Evaluation Project (clustering/evaluation_project/)
+
+| Fase | Archivo | Contenido |
+|------|---------|-----------|
+| FASE 1 | `phase1_dataset_unification/CLAUDE.md` | Unificacion datasets: 7,811 canciones alineadas, pipeline 4 scripts |
+| FASE 2 | `phase2_clustering_readiness/CLAUDE.md` | Hopkins comparativo, validacion estadistica, 6 modulos |
+| FASE 3 | `phase3_multimodal_clustering/CLAUDE.md` | Clustering multimodal exhaustivo, 56 configuraciones, funcion multi-criterio |
 
 ### Documentacion Archivada
 
@@ -59,6 +67,11 @@ Documentos historicos movidos a `archive/docs_legacy/`:
 - **Dataset Final**: 7,811 canciones multimodal unificado
 - **Metodologia**: Hybrid Purification Strategy
 
+**Hopkins Statistic Post-Unificacion (FASE 2 - Dic 2025)**:
+- Semantico (384D): 0.7752 ± 0.0015 (Excellent clustering tendency)
+- Musical (12D): 0.7871 ± 0.0022 (Excellent clustering tendency)
+- Validacion estadistica: p < 0.001, Cohen's d = 4.02
+
 **Consultar docs/FULL_PROJECT.md para detalles completos.**
 
 ---
@@ -66,18 +79,15 @@ Documentos historicos movidos a `archive/docs_legacy/`:
 ## COMANDOS PRINCIPALES
 
 ```bash
+# Recomendador musical (<100ms) - Ver recommendation_system/CLAUDE.md
+cd recommendation_system
+python scripts/recommend_songs.py --interactive
+
 # Clustering completo (8-10 segundos)
-python run_final_clustering.py
+python scripts/run_final_clustering.py
 
 # Analisis rapido de datasets
-python quick_analysis.py --dataset optimal
-
-# Recomendador musical (<100ms)
-python run_music_recommender.py
-
-# FASE 3: Evaluacion multimodal
-cd clustering_evaluation_project/phase3_multimodal_clustering
-python run_multimodal_clustering_evaluation.py --dataset ../phase1_dataset_unification/unified_multimodal_dataset_20250822_004929.pkl --output ./results
+python scripts/quick_analysis.py --dataset optimal
 ```
 
 ---
@@ -98,9 +108,10 @@ python run_multimodal_clustering_evaluation.py --dataset ../phase1_dataset_unifi
 ## ARQUITECTURA
 
 ### Sistemas Activos
-- `cluster_purification.py` - Sistema clustering musical (800+ lineas)
+- `recommendation_system/` - Sistema recomendacion hibrido (ver CLAUDE.md del modulo)
+- `scripts/cluster_purification.py` - Sistema clustering musical (800+ lineas)
 - `clustering/algorithms/lyrics/` - Clustering semantico BERT
-- `clustering_evaluation_project/` - Evaluacion multimodal
+- `clustering/evaluation_project/` - Evaluacion multimodal (ver seccion Evaluation Project arriba)
 
 ### Sistemas Legacy
 - `scripts/legacy/clustering/` - Algoritmos baseline

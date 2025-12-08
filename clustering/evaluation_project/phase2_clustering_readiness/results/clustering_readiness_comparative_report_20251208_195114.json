@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "evaluation_timestamp": "20250824_182140",
-    "dataset_source": "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase1_dataset_unification\\unified_multimodal_dataset_20250822_004929.pkl",
+    "evaluation_timestamp": "20251208_195114",
+    "dataset_source": "data\\5_unified\\unified_multimodal_7811.pkl",
     "sample_size": 7811,
     "semantic_dimensions": 384,
     "musical_dimensions": 12
@@ -530,7 +530,7 @@
             "silhouette_score": 0.10737235966422497,
             "calinski_harabasz_score": 940.4223118211194,
             "davies_bouldin_score": 2.4739976518189546,
-            "inertia": 75536.31507490246
+            "inertia": 75536.31507490248
           },
           "k_4": {
             "silhouette_score": 0.11696617944522446,
@@ -1042,20 +1042,20 @@
     },
     "visualizations": {
       "hopkins_analysis": [
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\hopkins_comparison_20250824_182140.png",
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\hopkins_distribution_20250824_182140.png"
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\hopkins_comparison_20251208_195114.png",
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\hopkins_distribution_20251208_195114.png"
       ],
       "dimensionality_comparison": [
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\dimensionality_analysis_20250824_182140.png"
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\dimensionality_analysis_20251208_195114.png"
       ],
       "pca_analysis": [
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\pca_comparative_analysis_20250824_182140.png"
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\pca_comparative_analysis_20251208_195114.png"
       ],
       "distance_distributions": [
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\distance_distributions_20250824_182140.png"
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\distance_distributions_20251208_195114.png"
       ],
       "clustering_readiness_summary": [
-        "C:\\Users\\sanmi\\Documents\\Proyectos\\Tesis\\music_features\\clustering_evaluation_project\\phase2_clustering_readiness\\visualizations_20250824_182140\\clustering_readiness_summary_20250824_182140.png"
+        "clustering\\evaluation_project\\phase2_clustering_readiness\\results\\visualizations_20251208_195114\\clustering_readiness_summary_20251208_195114.png"
       ]
     }
   },
