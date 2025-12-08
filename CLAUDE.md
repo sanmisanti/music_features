@@ -39,8 +39,9 @@ Archivo de configuracion para Claude Code en este repositorio.
 | Datos | `data/CLAUDE.md` | Estructura datasets, rutas, formatos, flujo 18,454 -> 10,000 -> 7,811 |
 | Seleccion | `data_selection/CLAUDE.md` | Pipeline clustering-aware, Hopkins validation |
 | Clustering | `clustering/CLAUDE.md` | Arquitectura musical/semantico, componentes activos |
-| Exploratorio | `exploratory_analysis/CLAUDE.md` | Capacidades, tests 82/82 |
-| FASE 2 | `clustering/evaluation_project/phase2_clustering_readiness/` | Hopkins comparativo post-unificacion (Dic 2025) |
+| Exploratorio | `exploratory_analysis/CLAUDE.md` | Analisis exploratorio, Hopkins, PCA |
+| Recomendacion | `recommendation_system/CLAUDE.md` | Sistema hibrido 55%/45%, API, CLI (Dic 2025) |
+| FASE 2 | `clustering/evaluation_project/phase2_clustering_readiness/` | Hopkins comparativo post-unificacion |
 | FASE 3 | `clustering/evaluation_project/phase3_multimodal_clustering/README.md` | Clustering multimodal exhaustivo |
 
 ### Documentacion Archivada
@@ -72,18 +73,15 @@ Documentos historicos movidos a `archive/docs_legacy/`:
 ## COMANDOS PRINCIPALES
 
 ```bash
+# Recomendador musical (<100ms) - Ver recommendation_system/CLAUDE.md
+cd recommendation_system
+python scripts/recommend_songs.py --interactive
+
 # Clustering completo (8-10 segundos)
-python run_final_clustering.py
+python scripts/run_final_clustering.py
 
 # Analisis rapido de datasets
-python quick_analysis.py --dataset optimal
-
-# Recomendador musical (<100ms)
-python run_music_recommender.py
-
-# FASE 3: Evaluacion multimodal
-cd clustering_evaluation_project/phase3_multimodal_clustering
-python run_multimodal_clustering_evaluation.py --dataset ../phase1_dataset_unification/unified_multimodal_dataset_20250822_004929.pkl --output ./results
+python scripts/quick_analysis.py --dataset optimal
 ```
 
 ---
@@ -104,7 +102,8 @@ python run_multimodal_clustering_evaluation.py --dataset ../phase1_dataset_unifi
 ## ARQUITECTURA
 
 ### Sistemas Activos
-- `cluster_purification.py` - Sistema clustering musical (800+ lineas)
+- `recommendation_system/` - Sistema recomendacion hibrido (ver CLAUDE.md del modulo)
+- `scripts/cluster_purification.py` - Sistema clustering musical (800+ lineas)
 - `clustering/algorithms/lyrics/` - Clustering semantico BERT
 - `clustering/evaluation_project/` - Evaluacion multimodal (FASE 1, 2, 3)
 

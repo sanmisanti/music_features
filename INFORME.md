@@ -56,10 +56,11 @@ music_features/
 │   └── reporting/               # Generacion de reportes
 │
 ├── recommendation_system/       # Sistema de recomendacion final
-│   ├── data/                    # Vectores y metadatos
-│   ├── clusters/                # Asignaciones de clusters
+│   ├── data/                    # Vectores y metadatos (~25 MB)
+│   ├── clusters/                # Asignaciones K=10, K=6
 │   ├── config/                  # Configuracion validada FASE 3
-│   └── scripts/                 # Motor de recomendacion
+│   ├── scripts/                 # Motor hibrido (4,828 lineas)
+│   └── CLAUDE.md                # Documentacion del modulo
 │
 ├── scripts/                     # Scripts ejecutables
 │   ├── cluster_purification.py  # Sistema Hybrid Purification
@@ -269,15 +270,20 @@ clustering_features = [
 | `clustering/` | CLAUDE.md | Arquitectura de clustering |
 | `exploratory_analysis/` | CLAUDE.md | Analisis exploratorio (actualizado Dic 2025) |
 
-### 5.2 Modulos con README (sin CLAUDE.md) - A COMPLETAR
+### 5.2 Modulos con CLAUDE.md (actualizados Dic 2025)
+
+| Modulo | Archivo | Contenido |
+|--------|---------|-----------|
+| `recommendation_system/` | CLAUDE.md | Sistema hibrido, API, CLI, 4,828 lineas |
+
+### 5.3 Modulos con README (sin CLAUDE.md) - A COMPLETAR
 
 | Modulo | Archivo | Estado |
 |--------|---------|--------|
-| `recommendation_system/` | README.md | Completo y actualizado |
 | `clustering/evaluation_project/phase3_multimodal_clustering/` | README.md | Completo |
 | `scripts/` | README.md | DESACTUALIZADO (ver seccion 7) |
 
-### 5.3 Documentacion Tecnica Principal
+### 5.4 Documentacion Tecnica Principal
 
 | Documento | Ubicacion | Contenido | Estado |
 |-----------|-----------|-----------|--------|
@@ -537,5 +543,5 @@ joblib>=1.1.0
 ---
 
 *Documento generado: Diciembre 2025*
-*Ultima actualizacion: 8 Diciembre 2025 (Hopkins FASE 2 completado)*
+*Ultima actualizacion: 8 Diciembre 2025 (Hopkins FASE 2, limpieza recommendation_system)*
 *Estado del proyecto: Sistema funcional con componentes principales completados*
