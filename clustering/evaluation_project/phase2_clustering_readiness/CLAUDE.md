@@ -26,6 +26,10 @@ phase2_clustering_readiness/
 ├── README.md                                     # Documentacion general
 ├── CLAUDE.md                                     # Este archivo
 └── results/                                      # Outputs de ejecucion
+    ├── clustering_readiness_comparative_report_*.json
+    ├── clustering_readiness_comparative_report_*.md
+    ├── clustering_readiness_evaluation_*.log
+    └── visualizations_*/
 ```
 
 ---
@@ -234,20 +238,18 @@ La hipotesis original era:
 
 ## Outputs Generados
 
-### Por Ejecucion
+### Estructura de Salida
 
 | Archivo | Formato | Contenido |
 |---------|---------|-----------|
-| `clustering_readiness_comparative_report_*.json` | JSON | Todas las metricas numericas |
-| `clustering_readiness_comparative_report_*.md` | Markdown | Reporte formateado |
-| `clustering_readiness_evaluation_*.log` | Log | Trazabilidad de ejecucion |
-| `visualizations_*/` | PNG | 6 graficos cientificos |
+| `results/clustering_readiness_comparative_report_*.json` | JSON | Todas las metricas numericas |
+| `results/clustering_readiness_comparative_report_*.md` | Markdown | Reporte formateado |
+| `results/clustering_readiness_evaluation_*.log` | Log | Trazabilidad de ejecucion |
+| `results/visualizations_*/` | PNG | 6 graficos cientificos |
 
-### Multiples Ejecuciones Disponibles
+### Ejecucion Actual
 
-- 20250824_181054, 20250824_181359, 20250824_181739
-- 20250824_182140, 20250824_182338
-- 20251208_195114 (mas reciente, en results/)
+- **20251208_195114** - Resultados vigentes en `results/`
 
 ---
 

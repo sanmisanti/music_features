@@ -41,8 +41,14 @@ Archivo de configuracion para Claude Code en este repositorio.
 | Clustering | `clustering/CLAUDE.md` | Arquitectura musical/semantico, componentes activos |
 | Exploratorio | `exploratory_analysis/CLAUDE.md` | Analisis exploratorio, Hopkins, PCA |
 | Recomendacion | `recommendation_system/CLAUDE.md` | Sistema hibrido 55%/45%, API, CLI (Dic 2025) |
-| FASE 2 | `clustering/evaluation_project/phase2_clustering_readiness/` | Hopkins comparativo post-unificacion |
-| FASE 3 | `clustering/evaluation_project/phase3_multimodal_clustering/README.md` | Clustering multimodal exhaustivo |
+
+### Evaluation Project (clustering/evaluation_project/)
+
+| Fase | Archivo | Contenido |
+|------|---------|-----------|
+| FASE 1 | `phase1_dataset_unification/CLAUDE.md` | Unificacion datasets: 7,811 canciones alineadas, pipeline 4 scripts |
+| FASE 2 | `phase2_clustering_readiness/CLAUDE.md` | Hopkins comparativo, validacion estadistica, 6 modulos |
+| FASE 3 | `phase3_multimodal_clustering/CLAUDE.md` | Clustering multimodal exhaustivo, 56 configuraciones, funcion multi-criterio |
 
 ### Documentacion Archivada
 
@@ -105,7 +111,7 @@ python scripts/quick_analysis.py --dataset optimal
 - `recommendation_system/` - Sistema recomendacion hibrido (ver CLAUDE.md del modulo)
 - `scripts/cluster_purification.py` - Sistema clustering musical (800+ lineas)
 - `clustering/algorithms/lyrics/` - Clustering semantico BERT
-- `clustering/evaluation_project/` - Evaluacion multimodal (FASE 1, 2, 3)
+- `clustering/evaluation_project/` - Evaluacion multimodal (ver seccion Evaluation Project arriba)
 
 ### Sistemas Legacy
 - `scripts/legacy/clustering/` - Algoritmos baseline
