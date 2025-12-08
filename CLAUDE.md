@@ -40,7 +40,8 @@ Archivo de configuracion para Claude Code en este repositorio.
 | Seleccion | `data_selection/CLAUDE.md` | Pipeline clustering-aware, Hopkins validation |
 | Clustering | `clustering/CLAUDE.md` | Arquitectura musical/semantico, componentes activos |
 | Exploratorio | `exploratory_analysis/CLAUDE.md` | Capacidades, tests 82/82 |
-| FASE 3 | `clustering_evaluation_project/phase3_multimodal_clustering/README.md` | Clustering multimodal exhaustivo |
+| FASE 2 | `clustering/evaluation_project/phase2_clustering_readiness/` | Hopkins comparativo post-unificacion (Dic 2025) |
+| FASE 3 | `clustering/evaluation_project/phase3_multimodal_clustering/README.md` | Clustering multimodal exhaustivo |
 
 ### Documentacion Archivada
 
@@ -58,6 +59,11 @@ Documentos historicos movidos a `archive/docs_legacy/`:
 - **Resultado Principal**: Silhouette Score 0.1554 -> 0.2893 (+86.1%)
 - **Dataset Final**: 7,811 canciones multimodal unificado
 - **Metodologia**: Hybrid Purification Strategy
+
+**Hopkins Statistic Post-Unificacion (FASE 2 - Dic 2025)**:
+- Semantico (384D): 0.7752 ± 0.0015 (Excellent clustering tendency)
+- Musical (12D): 0.7871 ± 0.0022 (Excellent clustering tendency)
+- Validacion estadistica: p < 0.001, Cohen's d = 4.02
 
 **Consultar docs/FULL_PROJECT.md para detalles completos.**
 
@@ -100,7 +106,7 @@ python run_multimodal_clustering_evaluation.py --dataset ../phase1_dataset_unifi
 ### Sistemas Activos
 - `cluster_purification.py` - Sistema clustering musical (800+ lineas)
 - `clustering/algorithms/lyrics/` - Clustering semantico BERT
-- `clustering_evaluation_project/` - Evaluacion multimodal
+- `clustering/evaluation_project/` - Evaluacion multimodal (FASE 1, 2, 3)
 
 ### Sistemas Legacy
 - `scripts/legacy/clustering/` - Algoritmos baseline
