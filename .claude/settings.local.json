@@ -15,7 +15,9 @@
       "Bash(true)",
       "Bash(grep:*)",
       "Bash(chmod:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebSearch",
+      "Bash(python:*)"
     ],
     "deny": []
   }

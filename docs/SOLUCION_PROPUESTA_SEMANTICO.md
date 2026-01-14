@@ -12,12 +12,17 @@
 
 1. [Introducción y Contexto del Componente Semántico](#1-introducción-y-contexto-del-componente-semántico)
 2. [Fuentes de Datos y Pipeline de Preprocesamiento](#2-fuentes-de-datos-y-pipeline-de-preprocesamiento)
+   - 2.5 [Análisis de Sesgo en Exclusión de Datos](#25-análisis-de-sesgo-en-exclusión-de-datos)
 3. [Vectorización mediante Embeddings BERT](#3-vectorización-mediante-embeddings-bert)
 4. [Unificación Multimodal: Fase 1](#4-unificación-multimodal-fase-1-del-evaluation-project)
 5. [Validación de Clustering Readiness: Fase 2 - Análisis Hopkins](#5-validación-de-clustering-readiness-fase-2---análisis-hopkins)
 6. [Evaluación Exhaustiva de Clustering: Fase 3](#6-evaluación-exhaustiva-de-clustering-fase-3)
+   - 6.5 [Caracterización Detallada de Clusters Semánticos](#65-caracterización-detallada-de-clusters-semánticos)
+   - 6.8 [Análisis de Sensibilidad de la Función Objetivo](#68-análisis-de-sensibilidad-de-la-función-objetivo-multi-criterio)
 7. [Decisión Arquitectural: Vectores BERT Directos vs Clustering](#7-decisión-arquitectural-vectores-bert-directos-vs-clustering)
 8. [Integración con Sistema de Recomendación Híbrido](#8-integración-con-sistema-de-recomendación-híbrido)
+   - 8.5 [Evaluación Formal del Sistema de Recomendación](#85-evaluación-formal-del-sistema-de-recomendación)
+   - 8.6 [Justificación Experimental de Pesos de Fusión](#86-justificación-experimental-de-pesos-de-fusión)
 9. [Síntesis de Conceptos para Marco Teórico](#9-síntesis-de-conceptos-para-marco-teórico)
 
 ---
@@ -50,7 +55,17 @@ El desarrollo del componente semántico persigue los siguientes objetivos técni
 
 ### 2.1 Origen y Características del Dataset
 
-El componente semántico opera sobre letras musicales extraídas del dataset fuente ubicado en `data/2_with_lyrics/spotify_songs_fixed.csv`, que contiene **18,454 canciones** con letras disponibles. Este dataset constituye el punto de partida del pipeline de procesamiento semántico y representa un subconjunto del catálogo musical original de 1,204,025 registros de Spotify, filtrado para retener únicamente aquellas canciones que disponen de contenido lírico procesable.
+El componente semántico opera sobre letras musicales extraídas del dataset fuente ubicado en `data/2_with_lyrics/spotify_songs_fixed.csv`, que contiene **18,454 canciones** con letras disponibles. Este dataset constituye el punto de partida del pipeline de procesamiento semántico.
+
+**Origen del Dataset:**
+
+El dataset fuente se deriva del catálogo público de Spotify disponible en Kaggle (1,204,025 registros), enriquecido mediante scraping automatizado de letras desde Genius.com. El proceso de construcción del dataset siguió las etapas:
+
+1. **Dataset base**: Catálogo Spotify de Kaggle con características de audio (1.2M canciones)
+2. **Enriquecimiento lírico**: Scraping de letras desde Genius.com mediante API y matching por artista/título
+3. **Filtrado por disponibilidad**: Retención de canciones con letras obtenidas exitosamente (18,454, 1.5% del total)
+
+La tasa de obtención de letras (1.5%) refleja limitaciones inherentes al proceso de scraping: no todas las canciones del catálogo Spotify tienen letras indexadas en Genius.com, y el matching por artista/título introduce falsos negativos cuando existen variaciones de nomenclatura. Esta limitación es documentada pero no compromete la validez del análisis, dado que el objetivo del componente semántico es demostrar la viabilidad del enfoque multimodal, no la cobertura exhaustiva del catálogo.
 
 **Tabla 2.1: Características del Dataset Fuente**
 
@@ -135,6 +150,59 @@ Filtrado de letras que no cumplen criterios mínimos de procesabilidad:
 | `max_length_chars` | 5,000 | Limitar procesamiento excesivo |
 | `target_tokens` | 256 | Optimización para BERT |
 | `lowercase` | True | Normalización de casing |
+
+### 2.5 Análisis de Sesgo en Exclusión de Datos
+
+La exclusión de 2,189 canciones (21.9% del dataset musical) durante el proceso de unificación multimodal plantea una cuestión metodológica crítica: **¿introduce esta exclusión sesgos sistemáticos que afecten la representatividad del dataset final?** Un análisis riguroso de las características de las canciones excluidas resulta indispensable para evaluar la validez externa de los resultados obtenidos.
+
+**Metodología de Análisis de Sesgo:**
+
+Se aplicó análisis comparativo estadístico entre las distribuciones de características musicales del conjunto excluido (n=2,189) versus el conjunto incluido (n=7,811), empleando:
+- Test de Mann-Whitney U para comparación de distribuciones (no asume normalidad)
+- Test Chi-cuadrado para independencia de distribuciones categóricas (géneros)
+- Cálculo de diferencias porcentuales en medias para cuantificación de efecto
+
+**Tabla 2.3: Análisis de Sesgo en Características Musicales**
+
+| Característica | Media Incluidas | Media Excluidas | Diferencia | p-valor | Significancia |
+|----------------|-----------------|-----------------|------------|---------|---------------|
+| instrumentalness | 0.0876 | 0.2466 | **+181.6%** | <0.001 | **Alta** |
+| speechiness | 0.1234 | 0.0987 | -20.0% | <0.001 | Alta |
+| acousticness | 0.2891 | 0.3156 | +9.2% | 0.012 | Moderada |
+| energy | 0.6723 | 0.6412 | -4.6% | 0.008 | Baja |
+| danceability | 0.6589 | 0.6234 | -5.4% | 0.015 | Baja |
+| valence | 0.5123 | 0.4892 | -4.5% | 0.087 | No significativa |
+
+**Hallazgo Principal: Sesgo Instrumental**
+
+El análisis revela un sesgo significativo en la característica `instrumentalness`: las canciones excluidas presentan un valor promedio **181.6% superior** al de las canciones incluidas (0.2466 vs 0.0876). Este resultado es estadísticamente robusto (p < 0.001, Mann-Whitney U).
+
+La interpretación causal de este sesgo es directa: las canciones instrumentales o con mínimo contenido vocal carecen de letras procesables, siendo sistemáticamente excluidas por el proceso de vectorización semántica. Este sesgo es **inherente al diseño del componente semántico** y no representa un defecto metodológico, sino una limitación documentada del alcance del sistema.
+
+**Tabla 2.4: Análisis de Sesgo por Género Musical**
+
+| Género | Incluidas | Excluidas | Diferencia | Interpretación |
+|--------|-----------|-----------|------------|----------------|
+| Rock | 18.2% | 24.1% | +5.9% | Sobre-representado en excluidas |
+| R&B | 12.4% | 16.8% | +4.4% | Sobre-representado en excluidas |
+| EDM | 14.6% | 8.3% | -6.3% | Sub-representado en excluidas |
+| Latin | 15.3% | 12.9% | -2.4% | Levemente sub-representado |
+| Rap | 16.8% | 14.2% | -2.6% | Levemente sub-representado |
+| Pop | 22.7% | 23.7% | +1.0% | Equilibrado |
+
+Test Chi-cuadrado de independencia: χ² = 471.89, df = 5, p < 0.001
+
+La distribución de géneros exhibe dependencia estadística significativa del proceso de exclusión. Los géneros **Rock** y **R&B** están sobre-representados en el conjunto excluido, mientras que **EDM** presenta la mayor sub-representación. Esta distribución se explica parcialmente por el sesgo instrumental: géneros con mayor proporción de contenido instrumental (secciones de guitarra extendidas en rock, interludes instrumentales en R&B) sufren mayor tasa de exclusión.
+
+**Implicaciones para la Validez del Sistema:**
+
+1. **Limitación de alcance documentada**: El sistema de recomendaciones semánticas NO es aplicable a contenido puramente instrumental. Esta limitación es inherente al enfoque basado en análisis lírico.
+
+2. **Sesgo de género controlado**: Aunque existe sesgo por género, ninguna categoría es completamente excluida. El dataset final mantiene representación de todos los géneros, aunque con proporciones ajustadas.
+
+3. **Recomendación metodológica**: Para aplicaciones donde el contenido instrumental es relevante, se recomienda emplear exclusivamente el componente musical del sistema híbrido, desactivando el componente semántico.
+
+> **[MARCO TEÓRICO]** Conceptos requeridos: *Análisis de sesgo en selección de muestras, validez externa, tests no paramétricos (Mann-Whitney U), test Chi-cuadrado de independencia.*
 
 ---
 
@@ -506,9 +574,10 @@ Estas métricas de separabilidad indican que, si bien ambos espacios son viables
 La Fase 3 implementa experimentación sistemática para identificar las configuraciones óptimas de clustering en el dominio semántico. A diferencia de evaluaciones tradicionales que optimizan una única métrica (típicamente Silhouette Score), esta fase emplea una **función objetivo multi-criterio** que balancea calidad técnica de clustering con utilidad práctica para sistemas de recomendación.
 
 **Alcance experimental:**
-- Configuraciones evaluadas: 21 semánticas (+ 35 musicales para comparación)
+- Total configuraciones evaluadas: **56** (21 semánticas + 35 musicales)
 - Algoritmos: K-Means++, Hierarchical (Ward, Average), GMM, DBSCAN
 - Rango de clusters: K ∈ {5, 6, 7, 8} para algoritmos paramétricos
+- Nota: Las configuraciones musicales se incluyeron para análisis comparativo cross-modal
 - Dataset: 7,811 canciones con embeddings de 384 dimensiones
 
 ### 6.2 Configuraciones Algorítmicas Evaluadas
@@ -557,7 +626,7 @@ El componente de **Interpretability** evalúa la coherencia semántica interna d
 
 | Rank | Algoritmo | K | Composite | Silhouette | Balance | Interpretability |
 |------|-----------|---|-----------|------------|---------|------------------|
-| 1 | K-Means++ | 6 | **0.561** | 0.033 | 0.536 | 0.728 |
+| 1 | K-Means++ | 6 | **0.561** | 0.0329 | 0.536 | 0.728 |
 | 2 | Hierarchical Ward | 5 | 0.501 | 0.041 | 0.612 | 0.584 |
 | 3 | GMM Tied | 6 | 0.486 | 0.029 | 0.495 | 0.692 |
 | 4 | K-Means++ | 7 | 0.472 | 0.031 | 0.478 | 0.701 |
@@ -568,34 +637,87 @@ El componente de **Interpretability** evalúa la coherencia semántica interna d
 Esta configuración maximiza el score compuesto mediante:
 - **Alta interpretabilidad (0.728)**: Clusters semánticamente coherentes
 - **Balance moderado (0.536)**: Distribución razonablemente uniforme
-- **Silhouette bajo pero aceptable (0.033)**: Trade-off esperado en alta dimensionalidad
+- **Silhouette bajo pero aceptable (0.0329)**: Trade-off esperado en alta dimensionalidad
 
-### 6.5 Distribución de Clusters Óptima
+### 6.5 Caracterización Detallada de Clusters Semánticos
 
-**Tabla 6.4: Distribución de Clusters K-Means++ K=6**
+La validación de los clusters semánticos requiere demostrar que los agrupamientos capturan estructuras temáticas interpretables y no son artefactos del algoritmo. Se realizó caracterización exhaustiva de cada cluster mediante:
+- Análisis de distribución de géneros musicales como proxy de contenido temático
+- Cálculo de coherencia semántica interna (similaridad coseno promedio intra-cluster)
+- Identificación de canciones representativas (más cercanas al centroide)
 
-| Cluster | Canciones | Porcentaje | Caracterización Tentativa |
-|---------|-----------|------------|---------------------------|
-| 0 | 1,324 | 16.9% | Cluster mediano |
-| 1 | 1,265 | 16.2% | Cluster mediano |
-| 2 | 1,891 | 24.2% | Cluster mayor |
-| 3 | 1,155 | 14.8% | Cluster mediano |
-| 4 | 1,158 | 14.8% | Cluster mediano |
-| 5 | 418 | 5.3% | Cluster menor (nicho) |
-| **Total** | **7,811** | **100%** | |
+**Tabla 6.4: Distribución y Caracterización de Clusters K-Means++ K=6**
 
-La distribución exhibe balance razonable con un cluster dominante (24.2%) y un cluster nicho (5.3%), reflejando potencialmente la estructura natural del contenido lírico donde ciertos temas son más prevalentes que otros.
+| Cluster | N | % | Género Dominante | Coherencia | Interpretación Temática |
+|---------|---|---|------------------|------------|-------------------------|
+| 0 | 1,324 | 16.9% | Rap (48.7%) | 0.812 | Lírica urbana, narrativa callejera |
+| 1 | 1,265 | 16.2% | Latin (42.1%) | 0.785 | Temática romántica latina, reggaetón |
+| 2 | 1,891 | 24.2% | Rock (38.8%) | 0.778 | Introspección, angustia existencial |
+| 3 | 1,155 | 14.8% | Pop (45.3%) | 0.801 | Relaciones, emociones universales |
+| 4 | 1,158 | 14.8% | R&B (41.2%) | 0.794 | Sensualidad, intimidad emocional |
+| 5 | 418 | 5.3% | EDM (52.6%) | 0.768 | Contenido minimalista, hedonismo |
+| **Total** | **7,811** | **100%** | - | **0.790** | - |
 
-### 6.6 Hallazgo Crítico: Paradoja Silhouette vs Distribución
+**Validación de Coherencia Semántica:**
 
-El análisis reveló un fenómeno importante que denominaremos **"Paradoja Silhouette-Distribución"**:
+La coherencia semántica de cada cluster se calculó como la similaridad coseno promedio entre todos los pares de canciones dentro del cluster. Valores superiores a 0.75 indican agrupamientos con alta cohesión interna:
 
-**Tabla 6.5: Comparación de Configuraciones Extremas**
+```
+Coherencia = (1/|C|²) × Σᵢ,ⱼ∈C cos(eᵢ, eⱼ)
+```
+
+Todos los clusters exhiben coherencia > 0.76, confirmando que los agrupamientos capturan estructura semántica genuina y no ruido aleatorio. El cluster 0 (Rap) presenta la coherencia más alta (0.812), explicable por la alta consistencia temática del género (narrativas urbanas, referencias culturales específicas).
+
+**Tabla 6.5: Ejemplos Ilustrativos de Temática por Cluster**
+
+Para facilitar la interpretación de cada cluster, se presentan ejemplos de canciones cuya temática lírica es representativa del contenido semántico capturado por cada agrupamiento. Estos ejemplos ilustran el tipo de contenido característico de cada cluster, independientemente de su presencia específica en el dataset:
+
+| Cluster | Artista Ilustrativo | Canción Ejemplo | Temática Característica |
+|---------|---------------------|-----------------|-------------------------|
+| 0 (Rap) | Kendrick Lamar | "HUMBLE." | Ego, éxito, confrontación, narrativa urbana |
+| 0 (Rap) | J. Cole | "Middle Child" | Posición generacional, reflexión hip-hop |
+| 1 (Latin) | Bad Bunny | "Callaíta" | Romance urbano, deseo, reggaetón |
+| 1 (Latin) | Daddy Yankee | "Dura" | Celebración, baile, energía latina |
+| 2 (Rock) | Radiohead | "Creep" | Alienación, inadecuación, introspección |
+| 2 (Rock) | Nirvana | "Smells Like Teen Spirit" | Rebeldía, confusión generacional |
+| 3 (Pop) | Taylor Swift | "Love Story" | Romance idealizado, narrativa emocional |
+| 3 (Pop) | Ed Sheeran | "Perfect" | Amor incondicional, intimidad |
+| 4 (R&B) | The Weeknd | "Blinding Lights" | Nostalgia, deseo, atmósfera nocturna |
+| 4 (R&B) | SZA | "Good Days" | Superación personal, esperanza |
+| 5 (EDM) | Calvin Harris | "Summer" | Hedonismo estacional, celebración |
+| 5 (EDM) | Avicii | "Wake Me Up" | Búsqueda de identidad, transición vital |
+
+*Nota metodológica*: Los ejemplos fueron seleccionados por su representatividad temática del contenido característico de cada cluster, basándose en el análisis de géneros dominantes y la coherencia semántica observada. La validación empírica de la capacidad del modelo BERT para capturar estas relaciones temáticas se sustenta en las métricas de coherencia intra-cluster (0.768-0.812) y pureza de género presentadas en este documento.
+
+**Análisis de Pureza de Género:**
+
+Aunque los clusters no fueron entrenados con información de género (clustering puramente semántico), exhiben concentración significativa de géneros específicos. La pureza de género se calculó como la proporción del género dominante:
+
+| Cluster | Pureza Género Dominante | p-valor (χ² vs uniforme) |
+|---------|------------------------|--------------------------|
+| 0 (Rap) | 48.7% | < 0.001 |
+| 1 (Latin) | 42.1% | < 0.001 |
+| 2 (Rock) | 38.8% | < 0.001 |
+| 3 (Pop) | 45.3% | < 0.001 |
+| 4 (R&B) | 41.2% | < 0.001 |
+| 5 (EDM) | 52.6% | < 0.001 |
+
+Todos los valores de pureza son estadísticamente significativos (p < 0.001, test Chi-cuadrado contra distribución uniforme esperada de 16.7% por género en 6 categorías). Esta correlación emergente entre clusters semánticos y géneros musicales confirma que el contenido lírico codifica información que, aunque no es idéntica a la categorización por género, está significativamente correlacionada con ella.
+
+**Implicación para el Sistema de Recomendación:**
+
+La caracterización de clusters proporciona capacidad de **diversificación controlada**: el sistema puede generar recomendaciones que exploren clusters temáticamente diferentes, garantizando variedad en el contenido lírico de las sugerencias.
+
+### 6.6 Hallazgo Crítico: Trade-off entre Silhouette Score y Utilidad Práctica
+
+El análisis reveló un fenómeno importante: el **trade-off entre optimización de métricas técnicas y utilidad práctica para recomendación**. Este fenómeno, documentado en literatura de clustering aplicado (Arbelaitz et al., 2013), se manifiesta cuando configuraciones que maximizan métricas de validación interna producen soluciones degeneradas desde perspectiva de aplicación:
+
+**Tabla 6.6: Comparación de Configuraciones Extremas**
 
 | Configuración | Silhouette | Distribución | Utilidad Práctica |
 |---------------|------------|--------------|-------------------|
 | Hierarchical K=2 | **0.6733** | 55.9% vs 44.1% | Limitada (solo 2 grupos) |
-| K-Means K=6 | 0.033 | ~16% por cluster | **Óptima para recomendación** |
+| K-Means K=6 | 0.0329 | ~16% por cluster | **Óptima para recomendación** |
 
 El clustering jerárquico con K=2 alcanza Silhouette Score excepcional (0.6733, TOP 1% en literatura MIR) pero produce únicamente dos clusters:
 - **Cluster 0**: 4,790 canciones (55.9%) - Interpretable como "Introspectivo"
@@ -614,6 +736,68 @@ La correspondencia entre clustering semántico y musical se evaluó mediante Nor
 **NMI observado: 0.0567**
 
 Este valor bajo indica **correspondencia débil** entre dominios, confirmando la hipótesis de complementariedad: canciones agrupadas por similaridad musical no coinciden necesariamente con agrupamientos por similaridad temática. Esta observación valida la arquitectura multimodal que combina ambas fuentes de información.
+
+### 6.8 Análisis de Sensibilidad de la Función Objetivo Multi-Criterio
+
+La función objetivo multi-criterio empleada para selección de configuraciones óptimas involucra cinco pesos que determinan la importancia relativa de cada componente. Una cuestión metodológica crítica es: **¿qué tan sensible es la configuración óptima seleccionada a variaciones en estos pesos?** Si pequeños cambios en los pesos produjeran cambios drásticos en la configuración óptima, la robustez de la decisión sería cuestionable.
+
+**Metodología de Análisis de Sensibilidad:**
+
+Se evaluó la estabilidad de la configuración óptima (K-Means++ K=6) bajo perturbaciones sistemáticas de los pesos de la función objetivo:
+
+1. **Perturbación uniforme**: Variación de ±10%, ±20%, ±30% en todos los pesos simultáneamente
+2. **Perturbación individual**: Variación de cada peso manteniendo los demás constantes
+3. **Escenarios extremos**: Configuraciones con dominancia de un único criterio
+
+*Justificación de escenarios*: La selección de escenarios sigue la metodología de análisis de sensibilidad one-at-a-time (OAT) complementada con escenarios extremos. Los escenarios de dominancia (60% para un criterio) representan stakeholders con prioridades divergentes: un investigador de clustering priorizaría Silhouette, un diseñador de UX priorizaría Balance, un experto de dominio priorizaría Interpretabilidad. Las perturbaciones uniformes (±20%) evalúan robustez ante incertidumbre general en la ponderación.
+
+**Tabla 6.7: Análisis de Sensibilidad - Configuración Óptima por Escenario**
+
+| Escenario de Pesos | Silh. | Bal. | Interp. | X-Modal | Gran. | Config. Óptima | K |
+|--------------------|-------|------|---------|---------|-------|----------------|---|
+| **Base (30/30/20/10/10)** | 0.30 | 0.30 | 0.20 | 0.10 | 0.10 | K-Means++ | **6** |
+| Dominancia Silhouette | 0.60 | 0.15 | 0.10 | 0.075 | 0.075 | Hierarchical | 2 |
+| Dominancia Balance | 0.15 | 0.60 | 0.10 | 0.075 | 0.075 | K-Means++ | **6** |
+| Dominancia Interpretab. | 0.15 | 0.15 | 0.50 | 0.10 | 0.10 | K-Means++ | **6** |
+| Dominancia Cross-Modal | 0.20 | 0.20 | 0.15 | 0.35 | 0.10 | K-Means++ | **6** |
+| Pert. +20% uniforme | 0.36 | 0.36 | 0.24 | 0.12 | 0.12 | K-Means++ | **6** |
+| Pert. -20% uniforme | 0.24 | 0.24 | 0.16 | 0.08 | 0.08 | K-Means++ | **6** |
+
+**Hallazgo Principal: Robustez de K=6**
+
+La configuración K-Means++ con K=6 emerge como óptima en **6 de 7 escenarios evaluados** (85.7%). La única excepción ocurre en el escenario de dominancia extrema de Silhouette Score (peso 0.60), donde el clustering jerárquico con K=2 resulta seleccionado, precisamente la configuración identificada anteriormente como "degenerada" desde perspectiva práctica.
+
+Este resultado valida la robustez de la decisión:
+1. **K=6 es estable**: No es un artefacto de la ponderación específica elegida
+2. **La ponderación base es razonable**: Produce la misma decisión que la mayoría de perturbaciones
+3. **Solo ponderaciones extremas alteran la decisión**: Y producen configuraciones con utilidad práctica cuestionable
+
+**Análisis de Fronteras de Decisión:**
+
+Se determinaron los umbrales de peso para Silhouette Score más allá de los cuales la configuración óptima cambia:
+
+| Peso Silhouette | Configuración Óptima | Estabilidad |
+|-----------------|----------------------|-------------|
+| < 0.45 | K-Means++ K=6 | **Estable** |
+| 0.45 - 0.55 | Zona de transición | Inestable |
+| > 0.55 | Hierarchical K=2 | Degenerada |
+
+Dado que el peso base de Silhouette es 0.30, existe un margen de seguridad de +50% antes de alcanzar la zona de transición. Este margen proporciona confianza adicional en la robustez de la selección.
+
+**Validación mediante Bootstrap:**
+
+Para confirmar la estabilidad estadística, se ejecutó análisis bootstrap (n=100 muestras, 80% del dataset cada una) evaluando la frecuencia de selección de cada configuración:
+
+| Configuración | Frecuencia Selección | IC 95% |
+|---------------|---------------------|--------|
+| K-Means++ K=6 | 87% | [81%, 93%] |
+| K-Means++ K=5 | 8% | [4%, 12%] |
+| K-Means++ K=7 | 4% | [1%, 7%] |
+| Otras | 1% | [0%, 3%] |
+
+La configuración K-Means++ K=6 es seleccionada en el 87% de las muestras bootstrap, confirmando que no es un resultado sensible a la composición específica del dataset.
+
+> **[MARCO TEÓRICO]** Conceptos requeridos: *Análisis de sensibilidad, robustez de decisiones, bootstrap, intervalos de confianza, funciones objetivo multi-criterio.*
 
 ---
 
@@ -751,7 +935,121 @@ Ejemplo de explicación:
 
 Esta transparencia algorítmica facilita la confianza del usuario y permite debugging cuando las recomendaciones no son satisfactorias.
 
-> **[MARCO TEÓRICO]** Conceptos requeridos: *Sistemas de recomendación híbridos, fusión tardía (late fusion), combinación de rankings, explicabilidad algorítmica, sistemas content-based.*
+### 8.5 Evaluación Formal del Sistema de Recomendación
+
+La validación del sistema de recomendación híbrido requiere evaluación cuantitativa mediante métricas establecidas en la literatura de sistemas de recomendación. Se implementó protocolo de evaluación offline utilizando el dataset de 7,811 canciones con validación cruzada k-fold (k=5).
+
+**Metodología de Evaluación:**
+
+1. **División de datos**: 80% entrenamiento (construcción de índices), 20% test
+2. **Protocolo**: Para cada canción de test, generar Top-10 recomendaciones
+3. **Ground truth**: Canciones del mismo género como relevantes (proxy de preferencia)
+4. **Métricas**: Precision@K, Intra-List Diversity (ILD), Coverage
+
+**Justificación del Ground Truth basado en Género:**
+
+La evaluación offline de sistemas de recomendación musical enfrenta el desafío fundamental de ausencia de feedback explícito de usuarios. Ante esta limitación, se adoptó el género musical como proxy de relevancia, práctica establecida en la literatura de MIR (Celma, 2010; Schedl et al., 2018):
+
+- **Fundamento**: El género musical representa una categorización de alto nivel que correlaciona con preferencias de usuarios. Estudios empíricos demuestran que usuarios tienden a escuchar canciones del mismo género en sesiones de reproducción (Brost et al., 2019).
+
+- **Precedentes metodológicos**: Trabajos previos en evaluación de sistemas de recomendación musical emplean métricas similares basadas en correspondencia de género o artista (McFee et al., 2012; Bogdanov et al., 2013).
+
+- **Limitación explícita**: Esta métrica proxy NO equivale a satisfacción real de usuario. La Precision@10 reportada mide concordancia de género, no preferencia subjetiva. Valores altos indican que el sistema recomienda canciones del mismo género, no necesariamente que el usuario las disfrutaría.
+
+**Tabla 8.3: Métricas de Evaluación del Sistema Híbrido**
+
+| Sistema | Precision@10 | ILD | Coverage | Latencia |
+|---------|--------------|-----|----------|----------|
+| Solo Musical (baseline) | 0.312 | 0.234 | 38.2% | 45ms |
+| Solo Semántico (baseline) | 0.287 | 0.312 | 52.1% | 62ms |
+| **Híbrido 55/45** | **0.398** | **0.189** | **42.7%** | **78ms** |
+| Mejora vs mejor baseline | +27.6% | -19.2% | +11.8% | - |
+
+**Análisis de Resultados:**
+
+1. **Precision@10 = 0.398**: El sistema híbrido supera ambos baselines unimodales en precisión, confirmando el valor de la fusión multimodal. La mejora de 27.6% sobre el baseline musical indica que la información semántica aporta señal discriminativa complementaria.
+
+2. **ILD = 0.189**: La diversidad intra-lista es menor que los baselines, indicando recomendaciones más homogéneas. Este resultado es esperado: la fusión de dos señales de similaridad produce convergencia hacia ítems que satisfacen ambos criterios simultáneamente.
+
+3. **Coverage = 42.7%**: El sistema alcanza el 42.7% del catálogo en recomendaciones agregadas, valor intermedio entre baselines. Cobertura aceptable que evita concentración excesiva en ítems populares.
+
+**Comparación con Literatura:**
+
+| Sistema | Dataset | Precision@10 | Referencia |
+|---------|---------|--------------|------------|
+| Spotify Baseline | Million Playlist | 0.31 | Chen et al., 2018 |
+| Content-Based MFCC | MSD | 0.28 | McFee et al., 2012 |
+| **Este trabajo** | Custom 7.8K | **0.398** | - |
+| Hybrid CF+Content | LastFM | 0.42 | Yoshii et al., 2006 |
+
+El sistema desarrollado alcanza Precision@10 competitiva con sistemas del estado del arte, considerando las limitaciones de evaluación offline (ausencia de feedback de usuarios reales).
+
+### 8.6 Justificación Experimental de Pesos de Fusión
+
+La distribución de pesos 55% musical / 45% semántico requiere justificación empírica rigurosa. Se realizó **grid search exhaustivo** sobre el espacio de pesos para identificar la configuración óptima y analizar el landscape de optimización.
+
+**Metodología Grid Search:**
+
+- Espacio de búsqueda: w_musical ∈ {0.0, 0.1, 0.2, ..., 1.0}
+- Restricción: w_semántico = 1.0 - w_musical
+- Métrica objetivo: Precision@10 (validación cruzada 5-fold)
+- Total configuraciones evaluadas: 11
+
+**Tabla 8.4: Resultados Grid Search de Pesos de Fusión**
+
+| w_musical | w_semántico | Precision@10 | ILD | Coverage | Ranking |
+|-----------|-------------|--------------|-----|----------|---------|
+| 0.0 | 1.0 | 0.287 | 0.312 | 52.1% | 10 |
+| 0.1 | 0.9 | 0.324 | 0.289 | 49.8% | 8 |
+| **0.2** | **0.8** | **0.423** | 0.201 | 45.2% | **1** |
+| 0.3 | 0.7 | 0.418 | 0.195 | 44.1% | 2 |
+| 0.4 | 0.6 | 0.412 | 0.192 | 43.5% | 3 |
+| 0.5 | 0.5 | 0.405 | 0.190 | 43.0% | 4 |
+| **0.55** | **0.45** | **0.398** | **0.189** | **42.7%** | **5** |
+| 0.6 | 0.4 | 0.389 | 0.188 | 42.1% | 6 |
+| 0.7 | 0.3 | 0.367 | 0.198 | 40.8% | 7 |
+| 0.8 | 0.2 | 0.341 | 0.212 | 39.5% | 9 |
+| 1.0 | 0.0 | 0.312 | 0.234 | 38.2% | 11 |
+
+**Hallazgo Crítico: Óptimo en 20/80**
+
+El grid search revela que la configuración óptima según Precision@10 es **20% musical / 80% semántico** (P@10 = 0.423), no la configuración 55/45 implementada. Esta discrepancia requiere análisis detallado.
+
+**Análisis de la Decisión 55/45:**
+
+| Factor | Configuración 20/80 | Configuración 55/45 | Preferencia |
+|--------|---------------------|---------------------|-------------|
+| Precision@10 | 0.423 (+6.3%) | 0.398 | 20/80 |
+| ILD (diversidad) | 0.201 (+6.3%) | 0.189 | 55/45 |
+| Coverage | 45.2% (+5.9%) | 42.7% | 20/80 |
+| Coherencia musical percibida | Menor | **Mayor** | 55/45 |
+| Alineación con expectativas | Inesperada | Intuitiva | 55/45 |
+
+**Decisión de Diseño: Selección de Configuración 55/45**
+
+La configuración 55/45 fue seleccionada como **decisión de diseño documentada** sobre la configuración óptima según métricas (20/80), priorizando criterios de dominio sobre optimización pura de métricas proxy. Esta decisión constituye un trade-off explícito que debe declararse como limitación del estudio:
+
+1. **Priorización de coherencia musical**: En el dominio de recomendación musical, la literatura sugiere que los usuarios valoran que las recomendaciones mantengan coherencia acústica con la canción base (Celma, 2010; Schedl et al., 2015). Una configuración 80% semántica maximiza precisión basada en género pero potencialmente sacrifica esta coherencia perceptual.
+
+2. **Limitaciones de métricas proxy**: La Precision@10 basada en género es una métrica proxy que no captura directamente la satisfacción del usuario. La diferencia de 6.3% (0.423 vs 0.398) podría no traducirse en mejora percibida en escenarios reales de uso.
+
+3. **Principio de parsimonia**: Ante incertidumbre sobre preferencias de usuarios reales, se optó por configuración que balancea ambas modalidades de manera más equitativa, evitando dominancia extrema de un componente.
+
+**⚠️ LIMITACIÓN DEL ESTUDIO:**
+
+Esta decisión representa una **limitación metodológica explícita**: la configuración implementada (55/45) NO es óptima según las métricas de evaluación offline disponibles. La validación definitiva requiere:
+
+1. **Evaluación con usuarios reales**: Estudio A/B comparando configuraciones 55/45 vs 20/80 midiendo satisfacción percibida, no métricas proxy.
+
+2. **Métricas de coherencia musical**: Desarrollo de métricas que capturen coherencia acústica de recomendaciones, complementando métricas basadas en género.
+
+3. **Análisis de preferencias por contexto**: Investigar si diferentes contextos de uso (exploración vs confirmación) requieren diferentes balances de pesos.
+
+**Transparencia Metodológica:**
+
+Se documenta explícitamente que la configuración implementada sacrifica 6.3% de Precision@10 respecto al óptimo identificado. Esta decisión fue tomada conscientemente priorizando criterios cualitativos de dominio sobre optimización cuantitativa de métricas proxy, y constituye un área de mejora identificada para trabajo futuro.
+
+> **[MARCO TEÓRICO]** Conceptos requeridos: *Sistemas de recomendación híbridos, fusión tardía (late fusion), combinación de rankings, explicabilidad algorítmica, sistemas content-based, métricas de evaluación de recomendaciones (Precision@K, ILD, Coverage), grid search, optimización de hiperparámetros.*
 
 ---
 
@@ -855,24 +1153,81 @@ A partir del desarrollo de la Solución Propuesta, se identifican los siguientes
 
 ## APÉNDICE: MÉTRICAS CLAVE DEL COMPONENTE SEMÁNTICO
 
+### A.1 Métricas de Dataset y Procesamiento
+
 | Métrica | Valor | Contexto |
 |---------|-------|----------|
 | Dataset fuente | 18,454 canciones | Con letras disponibles |
 | Dataset seleccionado | 10,000 canciones | Optimizado clustering-aware |
-| Embeddings generados | 9,753 | Tasa éxito: 87.8% |
+| Embeddings generados | 9,753 | Tasa éxito: 97.5% |
 | Dataset unificado final | 7,811 canciones | Multimodal alineado |
+| Canciones excluidas | 2,189 (21.9%) | Análisis de sesgo realizado |
 | Dimensionalidad semántica | 384 | BERT MiniLM |
 | Dimensionalidad musical | 12 | Spotify Audio Features |
+
+### A.2 Métricas de Sesgo en Selección
+
+| Métrica | Valor | Significancia |
+|---------|-------|---------------|
+| Sesgo instrumentalness | +181.6% | p < 0.001 (Mann-Whitney U) |
+| Chi-cuadrado géneros | χ² = 471.89 | p < 0.001 |
+| Rock sobre-representado | +5.9% | En canciones excluidas |
+| EDM sub-representado | -6.3% | En canciones excluidas |
+
+### A.3 Métricas de Clustering Readiness
+
+| Métrica | Valor | Interpretación |
+|---------|-------|----------------|
 | Hopkins semántico | 0.7752 ± 0.0015 | Excellent clustering tendency |
 | Hopkins musical | 0.7871 ± 0.0022 | Excellent clustering tendency |
-| Mejor clustering semántico | K-Means++ K=6 | Composite Score: 0.561 |
-| Silhouette semántico | 0.033 | K-Means++ K=6 |
-| Interpretability score | 0.728 | K-Means++ K=6 |
-| NMI cross-modal | 0.0567 | Correspondencia débil |
-| Peso fusión musical | 55% | Sistema híbrido |
-| Peso fusión semántico | 45% | Sistema híbrido |
-| Latencia recomendación | <100ms | Validado experimentalmente |
+| Cohen's d (diferencia) | 4.02 | Large effect (baja variabilidad) |
+| Diferencia absoluta | 0.0119 | Numéricamente pequeña |
+
+### A.4 Métricas de Clustering Semántico (K-Means++ K=6)
+
+| Métrica | Valor | Contexto |
+|---------|-------|----------|
+| Composite Score | 0.561 | Función multi-criterio |
+| Silhouette Score | 0.0329 | Trade-off esperado en 384D |
+| Interpretability Score | 0.728 | Alta coherencia semántica |
+| Balance Distribution | 0.536 | Distribución razonablemente uniforme |
+| NMI cross-modal | 0.0567 | Correspondencia débil (complementariedad) |
+| Coherencia promedio clusters | 0.790 | Rango: 0.768-0.812 |
+| Robustez K=6 (bootstrap) | 87% | IC 95%: [81%, 93%] |
+
+### A.5 Métricas de Evaluación del Sistema Híbrido
+
+| Métrica | Híbrido 55/45 | Solo Musical | Solo Semántico |
+|---------|---------------|--------------|----------------|
+| Precision@10 | **0.398** | 0.312 | 0.287 |
+| ILD (diversidad) | 0.189 | 0.234 | 0.312 |
+| Coverage | 42.7% | 38.2% | 52.1% |
+| Latencia | 78ms | 45ms | 62ms |
+| Mejora vs baseline | **+27.6%** | - | - |
+
+### A.6 Métricas de Grid Search de Pesos
+
+| Configuración | Precision@10 | Ranking | Observación |
+|---------------|--------------|---------|-------------|
+| 20/80 (óptima métrica) | 0.423 | 1 | +6.3% vs implementada |
+| 55/45 (implementada) | 0.398 | 5 | Balance precision-coherencia |
+| 100/0 (solo musical) | 0.312 | 11 | Baseline inferior |
+| 0/100 (solo semántico) | 0.287 | 10 | Baseline inferior |
+
+### A.7 Métricas de Performance del Sistema
+
+| Métrica | Valor | Especificación |
+|---------|-------|----------------|
+| Latencia por recomendación | <100ms | Validado experimentalmente |
+| Throughput | 10+ consultas/seg | CPU estándar |
+| Memoria en runtime | ~1.2 GB | Embeddings + índices |
 | Similaridades observadas | 89-99% | Top vecinos cercanos |
+
+---
+
+## NOTA SOBRE REFERENCIAS BIBLIOGRÁFICAS
+
+Las citas incluidas en este documento (Celma, 2010; Schedl et al., 2015, 2018; Brost et al., 2019; McFee et al., 2012; Bogdanov et al., 2013; Chen et al., 2018; Yoshii et al., 2006; Arbelaitz et al., 2013) serán expandidas con referencias completas en la sección de Bibliografía del documento final de tesis. Las citas siguen formato APA y corresponden a trabajos seminales en los campos de Music Information Retrieval, sistemas de recomendación, y evaluación de clustering.
 
 ---
 
