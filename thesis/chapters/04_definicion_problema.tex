@@ -14,3 +14,52 @@
 
 \section{Justificación}
 \label{sec:justificacion}
+
+\section{Objetivo General}
+\label{sec:objetivo-general}
+
+Desarrollar e implementar un sistema de recomendación musical multimodal que combine clustering optimizado de features acústicas con análisis semántico de letras mediante embeddings BERT, y validar experimentalmente que la integración de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales.
+
+\section{Objetivos Específicos}
+\label{sec:objetivos-especificos}
+
+\begin{enumerate}
+    \item Diseñar e implementar una metodología de purificación híbrida post-clustering que mejore significativamente las métricas de calidad de agrupamiento (Silhouette Score, Calinski-Harabasz, Davies-Bouldin) sobre datasets musicales reales.
+
+    \item Realizar una evaluación comparativa sistemática de algoritmos de clustering (K-Means, Jerárquico Aglomerativo, Spectral, DBSCAN) en los espacios musical (12 dimensiones) y semántico (384 dimensiones), incluyendo análisis de sensibilidad a hiperparámetros.
+
+    \item Desarrollar una arquitectura de integración multimodal que fusione el clustering musical optimizado con la vectorización semántica BERT, incorporando estrategias de normalización y ponderación adaptativa.
+
+    \item Ejecutar un protocolo de validación experimental riguroso que incluya validación cruzada, pruebas de significancia estadística, comparación con baselines unimodales y evaluación de robustez mediante múltiples semillas aleatorias.
+
+    \item Documentar las contribuciones, limitaciones y decisiones metodológicas del trabajo de forma que los resultados sean reproducibles.
+\end{enumerate}
+
+\section{Alcance y Limitaciones}
+\label{sec:alcance-limitaciones}
+
+El alcance del presente trabajo se circunscribe a los siguientes elementos:
+
+\begin{itemize}
+    \item \textbf{Dataset}: El sistema opera sobre un catálogo de 18.454 canciones provenientes del dataset público de Spotify en Kaggle, enriquecido con letras obtenidas de Genius.com. No se utilizan datos de interacción de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido.
+
+    \item \textbf{Features acústicas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration).
+
+    \item \textbf{Features semánticas}: Las letras se vectorizan mediante el modelo \texttt{paraphrase-multilingual-MiniLM-L12-v2} de Sentence-BERT, produciendo embeddings de 384 dimensiones. Se emplea un modelo multilingüe sin traducción previa de las letras.
+
+    \item \textbf{Algoritmos de clustering}: Se evalúan K-Means, Jerárquico Aglomerativo, Spectral Clustering y DBSCAN. No se incluyen enfoques de deep clustering ni modelos generativos.
+
+    \item \textbf{Evaluación}: La validación utiliza el género musical como ground truth proxy para las métricas de recomendación. Se reconoce explícitamente que el género es una aproximación imperfecta de la preferencia musical real, no una verdad absoluta.
+\end{itemize}
+
+Las principales limitaciones identificadas a priori son:
+
+\begin{enumerate}
+    \item La disponibilidad de letras cubre una fracción del catálogo de Spotify, lo cual restringe el universo de canciones recomendables. El presupuesto de pérdida de datos en cada etapa del pipeline se documenta explícitamente.
+
+    \item El modelo multilingüe de BERT procesa letras en múltiples idiomas sin traducción, lo cual preserva la fidelidad semántica pero puede introducir sesgos asociados a la distribución lingüística del corpus de entrenamiento del modelo.
+
+    \item La ausencia de datos de interacción de usuarios impide evaluar la satisfacción real del usuario final. Las métricas reportadas son intrínsecas (calidad de clustering) y basadas en el proxy de género.
+
+    \item Los experimentos se ejecutan sobre un dataset de escala moderada. La escalabilidad del sistema a catálogos de millones de canciones no se valida en este trabajo.
+\end{enumerate}

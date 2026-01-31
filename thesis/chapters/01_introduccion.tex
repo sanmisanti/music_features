@@ -1,19 +1,16 @@
 \chapter{Introducción}
 \label{ch:introduccion}
 
-% TODO: Redactar durante Etapa 1
-
 \section{Contexto y Motivación}
 \label{sec:contexto-motivacion}
 
-\section{Objetivo General}
-\label{sec:objetivo-general}
+Los sistemas de recomendación musical han experimentado una evolución significativa desde los primeros enfoques basados en contenido, como el Music Genome Project de Pandora en el año 2000, que caracterizaba canciones mediante aproximadamente 450 atributos asignados manualmente por analistas musicales, hasta los sistemas contemporáneos que integran técnicas de aprendizaje automático y procesamiento de lenguaje natural. Sin embargo, a pesar de los avances en técnicas individuales, la integración efectiva de múltiples fuentes de información musical continúa siendo un problema abierto en el campo de Music Information Retrieval (MIR).
 
-\section{Objetivos Específicos}
-\label{sec:objetivos-especificos}
+En la actualidad, las plataformas de streaming musical disponen de dos fuentes de información complementarias pero metodológicamente distintas para caracterizar una canción. Por un lado, los descriptores acústicos ---como la energía, la valencia emocional, la bailabilidad o el tempo--- capturan propiedades objetivas de la señal de audio. Por otro lado, las letras de las canciones contienen información semántica ---temáticas, emociones expresadas, narrativas--- que no es accesible a través del análisis acústico. Un oyente selecciona música tanto por cómo suena como por lo que dice, pero los sistemas de recomendación rara vez explotan ambas dimensiones de forma conjunta.
 
-\section{Alcance y Limitaciones}
-\label{sec:alcance-limitaciones}
+Los sistemas de recomendación musical existentes operan, en su gran mayoría, sobre dos fuentes de información: el comportamiento de los usuarios y las propiedades acústicas de las canciones. El filtrado colaborativo infiere preferencias a partir de patrones de escucha compartidos entre usuarios, mientras que los enfoques basados en contenido caracterizan cada canción mediante descriptores acústicos numéricos ---energía, tempo, valencia emocional, bailabilidad, entre otros--- y calculan similitud en ese espacio de features. Algunas plataformas, como Spotify, han comenzado a incorporar el análisis de letras como señal complementaria dentro de sus pipelines de procesamiento de lenguaje natural. Sin embargo, las letras no constituyen una señal primaria de recomendación en ningún sistema comercial de uso masivo, y la literatura académica reciente identifica explícitamente el contenido lírico como una modalidad subexplorada en los sistemas de recuperación de información musical \parencite{choudhary2025lyrics, agrawal2021lyrics}.
 
-\section{Estructura del Documento}
-\label{sec:estructura-documento}
+Esta ausencia representa una oportunidad. Las letras contienen información semántica ---temáticas, narrativas, emociones expresadas--- que no es accesible mediante el análisis de la señal de audio ni inferible a partir del comportamiento de otros usuarios. Los avances recientes en modelos de lenguaje basados en transformers permiten calcular representaciones vectoriales densas (embeddings) de textos, capturando relaciones semánticas de forma cuantificable. Aplicar estas técnicas a las letras de canciones abre un enfoque de recomendación hasta ahora poco explorado: la similitud semántica entre canciones como criterio complementario a la similitud acústica.
+
+El presente trabajo desarrolla un sistema de recomendación musical que integra ambas modalidades. Por un lado, aplica técnicas de clustering sobre features acústicas para agrupar canciones por similitud sonora. Por otro lado, genera embeddings semánticos de las letras mediante un modelo de lenguaje preentrenado, habilitando la recomendación por similitud de contenido lírico. Una estrategia de fusión ponderada combina las recomendaciones de ambos componentes en una lista unificada.
+

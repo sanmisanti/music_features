@@ -144,9 +144,9 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 |---------|----------|
 | `thesis/main.tex` | Documento maestro (preambulo, portada, inputs) |
 | `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion |
-| `thesis/chapters/02_marco_teorico.tex` | Cap 2: Marco Teorico |
-| `thesis/chapters/03_estado_cuestion.tex` | Cap 3: Estado de la Cuestion |
-| `thesis/chapters/04_definicion_problema.tex` | Cap 4: Definicion del Problema |
+| `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion |
+| `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema |
+| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico |
 | `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta |
 | `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales |
 | `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas |
@@ -154,6 +154,8 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 | `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas |
 | `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad |
 | `thesis/bibliography.bib` | Referencias bibliograficas |
+
+**Nota**: Los nombres de archivo (01\_, 02\_, etc.) no corresponden al orden de capitulos. El orden real esta definido por la secuencia de `\input` en `main.tex`.
 
 ### Configuracion centralizada
 
