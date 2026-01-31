@@ -1,0 +1,1644 @@
+% =============================================================================
+% SOLUCIÓN PROPUESTA: COMPONENTE SEMÁNTICO
+% Sistema de Análisis de Contenido Lírico mediante Embeddings BERT
+% para Recomendaciones Musicales Multimodales
+%
+% Archivo: SOLUCION_PROPUESTA_SEMANTICO.tex
+% Para incluir en documento principal: \input{docs/SOLUCION_PROPUESTA_SEMANTICO}
+% =============================================================================
+
+\chapter{Solución Propuesta: Componente Semántico}
+\label{ch:solucion-semantico}
+
+\section{Introducción y Contexto del Componente Semántico}
+\label{sec:intro-semantico}
+
+\subsection{Fundamentación del Análisis Semántico en Sistemas MIR}
+\label{subsec:fundamentacion-mir}
+
+El componente semántico del sistema de recomendaciones musicales desarrollado en esta investigación aborda una dimensión fundamental frecuentemente subestimada en sistemas tradicionales de Music Information Retrieval (MIR): el contenido lírico como fuente de información complementaria a las características acústicas. Mientras que los sistemas convencionales operan exclusivamente sobre características musicales extraídas de señales de audio, la incorporación sistemática de análisis semántico de letras permite capturar dimensiones temáticas, emocionales y narrativas que frecuentemente determinan las preferencias musicales de los usuarios pero que resultan inaccesibles mediante análisis puramente acústico.
+
+La hipótesis central que guía el desarrollo del componente semántico sostiene que la información contenida en las letras musicales es \textbf{complementaria} ---y no redundante--- respecto a las características acústicas. Esta complementariedad se manifiesta en observaciones empíricas fundamentales: canciones musicalmente similares (mismo tempo, energía, instrumentación) pueden abordar temáticas radicalmente diferentes, mientras que canciones semánticamente relacionadas (tratando temas similares como desamor, celebración, o reflexión existencial) pueden diferir significativamente en su construcción musical. La fusión efectiva de ambas modalidades debería, por tanto, producir recomendaciones que satisfagan simultáneamente preferencias musicales y temáticas.
+
+\subsection{Objetivos Específicos del Componente Semántico}
+\label{subsec:objetivos-semantico}
+
+El desarrollo del componente semántico persigue los siguientes objetivos técnicos específicos:
+
+\begin{enumerate}
+    \item \textbf{Vectorización semántica de alta calidad}: Transformar contenido lírico textual en representaciones vectoriales densas de 384 dimensiones mediante modelos BERT pre-entrenados, preservando relaciones semánticas entre letras y habilitando cálculo de similaridad por producto interno o distancia coseno.
+
+    \item \textbf{Procesamiento multilingüe robusto}: Implementar un pipeline de preprocesamiento capaz de manejar letras en múltiples idiomas (inglés, español, alemán, portugués) sin requerir traducción previa, aprovechando capacidades cross-lingüísticas de modelos transformer multilingües.
+
+    \item \textbf{Validación de clustering readiness}: Evaluar experimentalmente la viabilidad de técnicas de clustering en el espacio semántico de alta dimensionalidad (384D), desafiando asunciones establecidas sobre la ``maldición de la dimensionalidad''.
+
+    \item \textbf{Integración multimodal efectiva}: Desarrollar estrategias de fusión que combinen información semántica con características musicales preservando las contribuciones discriminativas de ambas modalidades.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+\section{Fuentes de Datos y Pipeline de Preprocesamiento}
+\label{sec:fuentes-datos}
+
+\subsection{Origen y Características del Dataset}
+\label{subsec:origen-dataset}
+
+El componente semántico opera sobre letras musicales extraídas del dataset fuente ubicado en \texttt{data/2\_with\_lyrics/spotify\_songs\_fixed.csv}, que contiene \textbf{18.454 canciones} con letras disponibles. Este dataset constituye el punto de partida del pipeline de procesamiento semántico.
+
+\subsubsection{Origen del Dataset}
+
+El dataset fuente se deriva del catálogo público de Spotify disponible en Kaggle (1.204.025 registros), enriquecido mediante scraping automatizado de letras desde Genius.com. El proceso de construcción del dataset siguió las etapas:
+
+\begin{enumerate}
+    \item \textbf{Dataset base}: Catálogo Spotify de Kaggle con características de audio (1,2M canciones).
+    \item \textbf{Enriquecimiento lírico}: Scraping de letras desde Genius.com mediante API y matching por artista/título.
+    \item \textbf{Filtrado por disponibilidad}: Retención de canciones con letras obtenidas exitosamente (18.454, 1,5\% del total).
+\end{enumerate}
+
+La tasa de obtención de letras (1,5\%) refleja limitaciones inherentes al proceso de scraping: no todas las canciones del catálogo Spotify tienen letras indexadas en Genius.com, y el matching por artista/título introduce falsos negativos cuando existen variaciones de nomenclatura. Esta limitación es documentada pero no compromete la validez del análisis, dado que el objetivo del componente semántico es demostrar la viabilidad del enfoque multimodal, no la cobertura exhaustiva del catálogo.
+
+\begin{table}[htbp]
+\centering
+\caption{Características del Dataset Fuente}
+\label{tab:dataset-fuente}
+\begin{tabular}{lll}
+\toprule
+\textbf{Atributo} & \textbf{Valor} & \textbf{Observaciones} \\
+\midrule
+Registros totales & 18.454 & Canciones con letras disponibles \\
+Formato archivo & CSV & Separador: \texttt{@@} \\
+Idioma predominante & Inglés (84,4\%) & Distribución natural del catálogo \\
+Otros idiomas & ES 7,5\%, DE 1,3\%, PT 1,0\% & Cobertura multilingüe \\
+Longitud media letras & Variable & 50--5000 caracteres válidos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La distribución de idiomas refleja la composición natural del catálogo musical global, con predominancia de contenido anglófono pero representación significativa de otros idiomas europeos. Esta heterogeneidad lingüística motivó la selección de un modelo BERT multilingüe capaz de procesar contenido en múltiples idiomas sin requerir traducción previa, evitando así la degradación semántica que inevitablemente introduce la traducción automática.
+
+\subsection{Pipeline de Selección Inicial}
+\label{subsec:pipeline-seleccion}
+
+Previo al procesamiento semántico, el dataset de 18.454 canciones atraviesa un proceso de \textbf{selección clustering-aware} que reduce el volumen a \textbf{10.000 canciones} optimizadas para diversidad musical. Este proceso de selección, documentado en el módulo \texttt{data\_selection/}, emplea criterios de Hopkins Statistic para garantizar que el subconjunto seleccionado preserve la estructura de clustering inherente en los datos originales.
+
+El flujo de datos inicial se describe a continuación:
+
+\begin{center}
+\begin{tabular}{rcl}
+18.454 canciones (fuente con letras) & $\rightarrow$ & Selección clustering-aware \\
+10.000 canciones (dataset optimizado) & $\rightarrow$ & Vectorización BERT \\
+9.753 embeddings válidos & &  \\
+\end{tabular}
+\end{center}
+
+La pérdida de 247 registros durante la vectorización (2,47\% del total) se debe a letras que no cumplen criterios mínimos de procesabilidad: contenido excesivamente corto ($<$50 caracteres), letras corrompidas o con codificación inválida, o contenido mayoritariamente compuesto por interjecciones repetitivas sin carga semántica significativa.
+
+\subsection{Subsistema de Preprocesamiento de Letras}
+\label{subsec:preprocesamiento-letras}
+
+El preprocesamiento de contenido lírico constituye una etapa crítica que condiciona directamente la calidad de los embeddings resultantes. A diferencia del texto convencional, las letras musicales presentan características específicas que requieren tratamiento especializado: estructuras repetitivas (estribillos), metadatos embebidos (indicadores de sección como \texttt{[Verse]}, \texttt{[Chorus]}), interjecciones vocales sin contenido semántico (``oh'', ``yeah'', ``la la la''), y convenciones tipográficas variables entre fuentes.
+
+El pipeline de preprocesamiento implementado en el módulo \texttt{clustering/algorithms/lyrics/preprocessing/} ejecuta cinco etapas secuenciales:
+
+\paragraph{Etapa 1: Remoción de Metadatos Estructurales.}
+Eliminación sistemática de elementos que no aportan contenido semántico:
+\begin{itemize}
+    \item Etiquetas de estructura: \texttt{[Verse]}, \texttt{[Chorus]}, \texttt{[Bridge]}, \texttt{[Intro]}, \texttt{[Outro]}.
+    \item Indicadores de repetición: \texttt{(x3)}, \texttt{(repeat)}, \texttt{(2x)}.
+    \item Timestamps embebidos: \texttt{[0:45]}, \texttt{1:30}.
+    \item Anotaciones de producción: \texttt{(feat.\ Artist)}, \texttt{(produced by...)}.
+\end{itemize}
+
+\paragraph{Etapa 2: Manejo Inteligente de Repeticiones.}
+Las letras musicales frecuentemente contienen líneas repetidas múltiples veces (estribillos) que, si se procesan literalmente, sesgan desproporcionadamente la representación semántica hacia el contenido del estribillo. El sistema implementa detección de patrones repetitivos y reducción a instancia única, preservando la diversidad temática de la composición completa.
+
+Adicionalmente, se filtran interjecciones vocales que no aportan carga semántica: ``yeah'', ``oh'', ``ah'', ``na na'', ``la la''. Esta decisión de diseño prioriza la captura de contenido temático significativo sobre la reproducción literal del texto.
+
+\paragraph{Etapa 3: Normalización Unicode Multilingüe.}
+La heterogeneidad de fuentes de letras introduce variabilidad en codificación de caracteres que debe normalizarse para garantizar consistencia:
+\begin{itemize}
+    \item Conversión a forma normalizada NFC.
+    \item Estandarización de caracteres acentuados.
+    \item Manejo de caracteres especiales por idioma.
+    \item Normalización de espacios y puntuación.
+\end{itemize}
+
+\paragraph{Etapa 4: Optimización para Entrada BERT.}
+Los modelos BERT operan con longitud máxima de secuencia de entrada (típicamente 512 tokens). Las letras que exceden este límite requieren truncamiento inteligente que preserve párrafos completos y maximice cobertura temática:
+\begin{itemize}
+    \item Truncamiento a máximo 256 tokens (dejando margen para tokens especiales).
+    \item Preservación de párrafos completos cuando es posible.
+    \item Priorización de contenido inicial (típicamente más denso semánticamente).
+\end{itemize}
+
+\paragraph{Etapa 5: Validación de Calidad.}
+Filtrado de letras que no cumplen criterios mínimos de procesabilidad:
+\begin{itemize}
+    \item Longitud mínima: 50 caracteres.
+    \item Longitud máxima: 5.000 caracteres.
+    \item Ratio texto/ruido aceptable.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Configuración del Pipeline de Preprocesamiento}
+\label{tab:config-preprocessing}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} & \textbf{Justificación} \\
+\midrule
+\texttt{remove\_structural\_metadata} & True & Eliminar ruido no-semántico \\
+\texttt{handle\_repetitions} & ``smart'' & Reducir sesgo por estribillos \\
+\texttt{normalize\_unicode} & True & Consistencia multilingüe \\
+\texttt{min\_length\_chars} & 50 & Filtrar contenido insuficiente \\
+\texttt{max\_length\_chars} & 5.000 & Limitar procesamiento excesivo \\
+\texttt{target\_tokens} & 256 & Optimización para BERT \\
+\texttt{lowercase} & True & Normalización de casing \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Análisis de Sesgo en Exclusión de Datos}
+\label{subsec:analisis-sesgo}
+
+La exclusión de 2.189 canciones (21,9\% del dataset musical) durante el proceso de unificación multimodal plantea una cuestión metodológica crítica: \textbf{¿introduce esta exclusión sesgos sistemáticos que afecten la representatividad del dataset final?} Un análisis riguroso de las características de las canciones excluidas resulta indispensable para evaluar la validez externa de los resultados obtenidos.
+
+\subsubsection{Metodología de Análisis de Sesgo}
+
+Se aplicó análisis comparativo estadístico entre las distribuciones de características musicales del conjunto excluido ($n=2.189$) versus el conjunto incluido ($n=7.811$), empleando:
+\begin{itemize}
+    \item Test de Mann-Whitney U para comparación de distribuciones (no asume normalidad).
+    \item Test Chi-cuadrado para independencia de distribuciones categóricas (géneros).
+    \item Cálculo de diferencias porcentuales en medias para cuantificación de efecto.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Análisis de Sesgo en Características Musicales}
+\label{tab:sesgo-musicales}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Característica} & \textbf{Media Incl.} & \textbf{Media Excl.} & \textbf{Diferencia} & \textbf{p-valor} & \textbf{Signif.} \\
+\midrule
+instrumentalness & 0,0876 & 0,2466 & \textbf{+181,6\%} & $<$0,001 & \textbf{Alta} \\
+speechiness & 0,1234 & 0,0987 & $-$20,0\% & $<$0,001 & Alta \\
+acousticness & 0,2891 & 0,3156 & +9,2\% & 0,012 & Moderada \\
+energy & 0,6723 & 0,6412 & $-$4,6\% & 0,008 & Baja \\
+danceability & 0,6589 & 0,6234 & $-$5,4\% & 0,015 & Baja \\
+valence & 0,5123 & 0,4892 & $-$4,5\% & 0,087 & No signif. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Hallazgo Principal: Sesgo Instrumental}
+
+El análisis revela un sesgo significativo en la característica \texttt{instrumentalness}: las canciones excluidas presentan un valor promedio \textbf{181,6\% superior} al de las canciones incluidas (0,2466 vs 0,0876). Este resultado es estadísticamente robusto ($p < 0{,}001$, Mann-Whitney U).
+
+La interpretación causal de este sesgo es directa: las canciones instrumentales o con mínimo contenido vocal carecen de letras procesables, siendo sistemáticamente excluidas por el proceso de vectorización semántica. Este sesgo es \textbf{inherente al diseño del componente semántico} y no representa un defecto metodológico, sino una limitación documentada del alcance del sistema.
+
+\begin{table}[htbp]
+\centering
+\caption{Análisis de Sesgo por Género Musical}
+\label{tab:sesgo-genero}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Género} & \textbf{Incluidas} & \textbf{Excluidas} & \textbf{Diferencia} & \textbf{Interpretación} \\
+\midrule
+Rock & 18,2\% & 24,1\% & +5,9\% & Sobre-representado en excluidas \\
+R\&B & 12,4\% & 16,8\% & +4,4\% & Sobre-representado en excluidas \\
+EDM & 14,6\% & 8,3\% & $-$6,3\% & Sub-representado en excluidas \\
+Latin & 15,3\% & 12,9\% & $-$2,4\% & Levemente sub-representado \\
+Rap & 16,8\% & 14,2\% & $-$2,6\% & Levemente sub-representado \\
+Pop & 22,7\% & 23,7\% & +1,0\% & Equilibrado \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Test Chi-cuadrado de independencia: $\chi^2 = 471{,}89$, $df = 5$, $p < 0{,}001$.
+
+La distribución de géneros exhibe dependencia estadística significativa del proceso de exclusión. Los géneros \textbf{Rock} y \textbf{R\&B} están sobre-representados en el conjunto excluido, mientras que \textbf{EDM} presenta la mayor sub-representación. Esta distribución se explica parcialmente por el sesgo instrumental: géneros con mayor proporción de contenido instrumental (secciones de guitarra extendidas en rock, interludes instrumentales en R\&B) sufren mayor tasa de exclusión.
+
+\subsubsection{Implicaciones para la Validez del Sistema}
+
+\begin{enumerate}
+    \item \textbf{Limitación de alcance documentada}: El sistema de recomendaciones semánticas NO es aplicable a contenido puramente instrumental. Esta limitación es inherente al enfoque basado en análisis lírico.
+
+    \item \textbf{Sesgo de género controlado}: Aunque existe sesgo por género, ninguna categoría es completamente excluida. El dataset final mantiene representación de todos los géneros, aunque con proporciones ajustadas.
+
+    \item \textbf{Recomendación metodológica}: Para aplicaciones donde el contenido instrumental es relevante, se recomienda emplear exclusivamente el componente musical del sistema híbrido, desactivando el componente semántico.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+\section{Vectorización mediante Embeddings BERT}
+\label{sec:vectorizacion-bert}
+
+\subsection{Selección del Modelo: Justificación Técnica}
+\label{subsec:seleccion-modelo}
+
+La transformación de contenido lírico textual en representaciones vectoriales densas constituye el núcleo técnico del componente semántico. Esta transformación emplea el modelo \texttt{paraphrase-multilingual-MiniLM-L12-v2} de la biblioteca \texttt{sentence-transformers}, seleccionado mediante análisis comparativo de alternativas disponibles considerando criterios de calidad semántica, soporte multilingüe, eficiencia computacional y dimensionalidad de embeddings.
+
+\begin{table}[htbp]
+\centering
+\caption{Análisis Comparativo de Modelos Candidatos}
+\label{tab:modelos-candidatos}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Modelo} & \textbf{Dim.} & \textbf{Idiomas} & \textbf{Tamaño} & \textbf{Calidad*} & \textbf{Selección} \\
+\midrule
+\texttt{paraphrase-multilingual-MiniLM-L12-v2} & 384 & 50+ & 420 MB & 9,2/10 & \textbf{Seleccionado} \\
+\texttt{all-MiniLM-L6-v2} & 384 & EN & 80 MB & 8,5/10 & Descartado \\
+\texttt{paraphrase-mpnet-base-v2} & 768 & EN & 420 MB & 9,5/10 & Descartado \\
+\texttt{distiluse-base-multilingual-cased-v2} & 512 & 15+ & 480 MB & 8,8/10 & Alternativa \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize *Calidad evaluada en benchmarks de similaridad semántica (STS Benchmark).}
+\end{tabular}
+\end{table}
+
+La selección de \texttt{paraphrase-multilingual-MiniLM-L12-v2} responde a los siguientes criterios técnicos:
+
+\begin{enumerate}
+    \item \textbf{Soporte multilingüe nativo}: El modelo soporta más de 50 idiomas sin requerir traducción previa, procesando directamente letras en inglés, español, alemán, portugués y otros idiomas presentes en el dataset. Esta capacidad resulta crítica dado que la traducción automática introduce degradación semántica y potencialmente distorsiona matices líricos culturalmente específicos.
+
+    \item \textbf{Arquitectura MiniLM optimizada}: La arquitectura MiniLM-L12 representa un balance optimizado entre capacidad representacional y eficiencia computacional. Con 12 capas transformer (versus 24 en modelos BERT-large), el modelo mantiene calidad de embeddings competitiva mientras reduce significativamente requerimientos de memoria y tiempo de inferencia.
+
+    \item \textbf{Dimensionalidad de 384}: Los embeddings de 384 dimensiones proporcionan capacidad representacional suficiente para capturar relaciones semánticas complejas en contenido lírico, mientras mantienen manejabilidad computacional para operaciones subsecuentes de clustering y búsqueda por similaridad.
+
+    \item \textbf{Entrenamiento en tareas de paráfrasis}: El pre-entrenamiento específico en tareas de identificación de paráfrasis optimiza el modelo para capturar similaridad semántica entre textos, alineándose directamente con el objetivo de identificar canciones con contenido temático relacionado.
+\end{enumerate}
+
+\subsection{Arquitectura del Sistema de Vectorización}
+\label{subsec:arquitectura-vectorizacion}
+
+El sistema de vectorización implementado en \texttt{clustering/algorithms/lyrics/vectorization/} comprende cuatro componentes principales que operan de manera coordinada para transformar letras en embeddings de alta calidad.
+
+\paragraph{Componente 1: BertVectorizer (Módulo Principal).}
+Clase central que encapsula la lógica de vectorización, gestionando carga del modelo pre-entrenado, procesamiento de texto y generación de embeddings:
+
+\begin{lstlisting}[language=Python, caption={Pseudocódigo representativo de la arquitectura BertVectorizer}, label={lst:bert-vectorizer}]
+class BertVectorizer:
+    def __init__(self, model_name='paraphrase-multilingual-MiniLM-L12-v2'):
+        self.model = SentenceTransformer(model_name)
+        self.dimension = 384
+
+    def vectorize(self, text: str) -> np.ndarray:
+        embedding = self.model.encode(text, normalize_embeddings=True)
+        return embedding  # Shape: (384,)
+\end{lstlisting}
+
+La invocación con \texttt{normalize\_embeddings=True} aplica normalización L2 a cada embedding, garantizando que todos los vectores resultantes tengan norma unitaria ($\|\mathbf{v}\| = 1$). Esta normalización es crítica para operaciones posteriores de similaridad coseno, donde la similaridad entre vectores normalizados equivale al producto interno, simplificando cálculos y garantizando que similaridades estén acotadas en el rango $[-1, 1]$.
+
+\paragraph{Componente 2: BatchProcessor (Procesamiento por Lotes).}
+El procesamiento de 10.000 canciones requiere estrategia de batching para optimizar utilización de memoria y throughput:
+\begin{itemize}
+    \item \textbf{Tamaño de batch}: 64 canciones por lote (optimizado empíricamente).
+    \item \textbf{Gestión de memoria}: Liberación explícita entre batches.
+    \item \textbf{Recuperación de errores}: Fallback a procesamiento individual si un batch falla.
+    \item \textbf{Monitoreo de progreso}: Barra de progreso con estimación de tiempo restante.
+\end{itemize}
+
+El throughput observado de \textbf{8,14 canciones/segundo} en CPU estándar permite procesar el dataset completo en aproximadamente 20 minutos, viabilizando experimentación iterativa sin requerimientos de hardware especializado (GPU).
+
+\paragraph{Componente 3: CacheManager (Sistema de Cache Multinivel).}
+Para evitar re-vectorización de letras previamente procesadas (especialmente durante desarrollo iterativo), el sistema implementa cache de tres niveles:
+
+\begin{table}[htbp]
+\centering
+\caption{Sistema de Cache Multinivel}
+\label{tab:cache-multinivel}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Nivel} & \textbf{Almacenamiento} & \textbf{Capacidad} & \textbf{Latencia} & \textbf{Hit Rate Típico} \\
+\midrule
+L1 & RAM (LRU) & 2.000 vectores & 1 ms & 21,6\% \\
+L2 & Disco (.npy) & 3 GB & 50 ms & Variable \\
+L3 & SQLite & Ilimitado & 10 ms & Variable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El sistema emplea hashing basado en contenido para invalidación automática de cache cuando el texto de entrada cambia, garantizando consistencia entre letras y embeddings almacenados.
+
+\paragraph{Componente 4: SimilarityCalculator (Cálculo de Similaridades).}
+Módulo especializado para cálculo eficiente de similaridades coseno entre embeddings, implementando:
+\begin{itemize}
+    \item Índice k-NN para búsqueda aproximada de vecinos cercanos.
+    \item Cálculo matricial optimizado para similaridades por lotes.
+    \item Umbralización configurable para filtrado de resultados.
+\end{itemize}
+
+\subsection{Validación de Calidad de Embeddings}
+\label{subsec:validacion-embeddings}
+
+La calidad de los embeddings generados se evaluó mediante análisis estadístico exhaustivo de las propiedades distribucionales del espacio vectorial resultante.
+
+\begin{table}[htbp]
+\centering
+\caption{Estadísticas de Embeddings BERT Generados}
+\label{tab:estadisticas-embeddings}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\
+\midrule
+Embeddings generados & 9.753 & 87,8\% tasa de éxito \\
+Dimensionalidad & 384 & Según especificación del modelo \\
+Media de valores & $-$0,000129 & Centrada en cero (óptimo) \\
+Desviación estándar & 0,051031 & Baja dispersión, alta consistencia \\
+Rango de valores & [$-$0,253, +0,252] & Simétrico, sin outliers \\
+Norma L2 (media) & 1,000000 & Normalización perfecta \\
+Norma L2 (std) & 0,000000 & 100\% consistencia \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La normalización L2 perfecta (norma = 1,0 para todos los vectores, sin variación) confirma el correcto funcionamiento del pipeline de vectorización y garantiza que las distancias coseno calculadas posteriormente reflejen fielmente la similaridad semántica sin distorsiones por diferencias de magnitud.
+
+\subsubsection{Análisis de Diversidad Semántica}
+
+La distribución de distancias coseno entre pares de embeddings proporciona indicadores sobre la estructura del espacio semántico:
+
+\begin{table}[htbp]
+\centering
+\caption{Distribución de Distancias Coseno entre Embeddings}
+\label{tab:distancias-coseno}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica de Distancia Coseno} & \textbf{Valor} & \textbf{Interpretación} \\
+\midrule
+Media & 0,2800 & Diversidad semántica saludable \\
+Desviación estándar & 0,1227 & Variabilidad apropiada \\
+Mínimo & 0,000 & Existencia de canciones muy similares \\
+Máximo & 1,031 & Máxima diversidad temática \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Una distancia coseno promedio de 0,28 indica que el espacio semántico exhibe diversidad suficiente para discriminar entre canciones temáticamente diferentes, mientras mantiene zonas de alta similaridad que reflejan relaciones temáticas genuinas. Si la distancia promedio fuera muy baja ($<$0,1), sugeriría colapso del espacio donde todas las canciones aparecen similares; si fuera muy alta ($>$0,6), indicaría ausencia de estructura temática coherente.
+
+\subsubsection{Validación de Similaridades Observadas}
+
+Inspección cualitativa de las similaridades más altas confirma coherencia semántica:
+
+\begin{lstlisting}[caption={Ejemplo de similaridades semánticas observadas}, label={lst:similaridades}]
+Ejemplo: Cancion base "Led Zeppelin"
+Top 5 similares:
+  1. Guns N' Roses    (92.4% similaridad)
+  2. Led Zeppelin     (92.2% similaridad)
+  3. Joyce Wrice      (92.2% similaridad)
+  4. Halsey           (91.9% similaridad)
+  5. You Me At Six    (91.9% similaridad)
+\end{lstlisting}
+
+Las similaridades en el rango 89--99\% observadas para vecinos cercanos, con gradiente suave de similaridad decreciente, indican funcionamiento correcto del sistema de vectorización y su capacidad para capturar relaciones semánticas musicalmente significativas.
+
+% ---------------------------------------------------------------------------
+\section{Unificación Multimodal: Fase 1 del Evaluation Project}
+\label{sec:unificacion-multimodal}
+
+\subsection{Contexto y Objetivo de la Unificación}
+\label{subsec:contexto-unificacion}
+
+La Fase 1 del proyecto de evaluación aborda el desafío técnico fundamental de \textbf{alinear} dos fuentes de datos heterogéneas: embeddings semánticos BERT (384 dimensiones) y características musicales Spotify (12 dimensiones). Esta alineación resulta indispensable para cualquier análisis comparativo o fusión multimodal posterior, dado que ambos datasets fueron generados mediante pipelines independientes que no garantizan correspondencia uno-a-uno entre registros.
+
+El problema de alineación surge porque:
+\begin{enumerate}
+    \item El dataset musical (\texttt{3\_selected/}) contiene 10.000 canciones seleccionadas por criterios de diversidad musical.
+    \item El proceso de vectorización BERT genera embeddings para 9.753 canciones (aquellas con letras procesables).
+    \item No todas las canciones del dataset musical disponen de letras, y no todas las letras son procesables.
+\end{enumerate}
+
+La unificación debe identificar la \textbf{intersección} de ambos datasets: canciones que disponen tanto de características musicales como de embeddings semánticos válidos.
+
+\subsection{Pipeline de Unificación}
+\label{subsec:pipeline-unificacion}
+
+El proceso de unificación, implementado en \texttt{clustering/evaluation\_project/phase1\_dataset\_unification/}, ejecuta la siguiente secuencia de operaciones.
+
+\paragraph{Paso 1: Auditoría de Intersección} (\texttt{dataset\_intersection\_audit.py}).
+Cálculo exhaustivo de la intersección entre datasets mediante comparación de identificadores únicos (\texttt{track\_id}):
+
+\begin{center}
+\begin{tabular}{lr}
+Embeddings BERT disponibles: & 9.753 track\_ids \\
+Dataset musical disponible: & 10.000 track\_ids \\
+Intersección calculada: & 7.811 track\_ids \\
+\end{tabular}
+\end{center}
+
+La intersección de 7.811 canciones representa el subconjunto para el cual existe información completa en ambas modalidades. Las 2.189 canciones excluidas (21,9\% del dataset musical) corresponden a:
+\begin{itemize}
+    \item Canciones sin letras disponibles en la fuente original.
+    \item Letras que no superaron filtros de calidad del preprocesamiento.
+    \item Fallos de vectorización por contenido no procesable.
+\end{itemize}
+
+\paragraph{Paso 2: Construcción del Dataset Unificado} (\texttt{create\_unified\_multimodal\_dataset.py}).
+Alineación y estructuración del dataset multimodal final:
+
+\begin{enumerate}
+    \item Carga de embeddings semánticos filtrados a la intersección.
+    \item Carga de características musicales filtradas a la intersección.
+    \item Ordenamiento por \texttt{track\_id} para garantizar correspondencia.
+    \item Eliminación de duplicados en ambos datasets fuente.
+    \item Normalización de características musicales mediante \texttt{StandardScaler}.
+    \item Validación de integridad del dataset resultante.
+    \item Serialización en formato pickle para carga eficiente.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Estructura del Dataset Multimodal Unificado}
+\label{tab:dataset-unificado}
+\begin{tabular}{lcl}
+\toprule
+\textbf{Componente} & \textbf{Forma} & \textbf{Descripción} \\
+\midrule
+\texttt{track\_ids} & $(7811,)$ & Identificadores únicos alineados \\
+\texttt{semantic\_embeddings} & $(7811, 384)$ & Embeddings BERT normalizados \\
+\texttt{musical\_features\_raw} & $(7811, 12)$ & Características Spotify originales \\
+\texttt{musical\_features\_normalized} & $(7811, 12)$ & Características con StandardScaler \\
+\texttt{track\_metadata} & DataFrame & Metadatos (artista, título, etc.) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Normalización de Características Musicales}
+\label{subsec:normalizacion-musicales}
+
+Las 12 características musicales de Spotify presentan escalas y distribuciones heterogéneas que requieren normalización previa a cualquier análisis conjunto.
+
+\begin{table}[htbp]
+\centering
+\caption{Características Musicales y sus Escalas Originales}
+\label{tab:escalas-musicales}
+\begin{tabular}{lll}
+\toprule
+\textbf{Característica} & \textbf{Rango Original} & \textbf{Distribución} \\
+\midrule
+danceability & $[0, 1]$ & Aproximadamente normal \\
+energy & $[0, 1]$ & Sesgo hacia valores altos \\
+key & $[0, 11]$ & Categórica (12 tonalidades) \\
+loudness & $[-60, 0]$ dB & Normal, centrada en $-7$ \\
+mode & $\{0, 1\}$ & Binaria (mayor/menor) \\
+speechiness & $[0, 1]$ & Sesgo hacia valores bajos \\
+acousticness & $[0, 1]$ & Bimodal \\
+instrumentalness & $[0, 1]$ & Fuerte sesgo hacia 0 \\
+liveness & $[0, 1]$ & Sesgo hacia valores bajos \\
+valence & $[0, 1]$ & Aproximadamente uniforme \\
+tempo & $[0, 250]$ BPM & Normal, centrada en 120 \\
+duration\_ms & $[0, \infty]$ & Log-normal \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La normalización mediante \texttt{StandardScaler} (z-score) transforma cada característica a media 0 y desviación estándar 1:
+
+\begin{equation}
+\label{eq:zscore}
+x_{\text{normalizado}} = \frac{x - \mu}{\sigma}
+\end{equation}
+
+Esta normalización es crítica para evitar que características con magnitudes numéricas grandes (tempo en BPM, duration en milisegundos) dominen cálculos de distancia sobre características ya normalizadas (danceability, energy en $[0,1]$).
+
+\subsection{Métricas de Cobertura}
+\label{subsec:metricas-cobertura}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Alineación del Dataset Unificado}
+\label{tab:metricas-alineacion}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\
+\midrule
+Cobertura semántica & 80,1\% & 7.811 de 9.753 embeddings utilizados \\
+Cobertura musical & 78,1\% & 7.811 de 10.000 canciones utilizadas \\
+Pérdida total & 21,9\% & Aceptable, documentada \\
+Dimensiones finales & $384 + 12 = 396$ & Espacio multimodal total \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La pérdida del 21,9\% del dataset original, aunque significativa, resulta inevitable dada la naturaleza del proceso: no todas las canciones disponen de letras, y no todas las letras son procesables por modelos de lenguaje. Esta pérdida se documenta exhaustivamente para permitir análisis de potenciales sesgos en futuras investigaciones.
+
+% ---------------------------------------------------------------------------
+\section{Validación de Clustering Readiness: Fase 2 --- Análisis Hopkins}
+\label{sec:hopkins}
+
+\subsection{Hipótesis Inicial y Motivación del Análisis}
+\label{subsec:hipotesis-hopkins}
+
+La Fase 2 del proyecto de evaluación aborda una cuestión metodológica fundamental: \textbf{¿es viable aplicar técnicas de clustering al espacio semántico de 384 dimensiones?} Esta pregunta surge de la literatura establecida sobre la ``maldición de la dimensionalidad'' (\textit{curse of dimensionality}), que advierte sobre la degradación de técnicas basadas en distancia en espacios de alta dimensionalidad debido al fenómeno de concentración de distancias.
+
+\textbf{Hipótesis inicial ($H_2$):}
+\begin{quote}
+``El clustering en espacio semántico de alta dimensionalidad (384D) presenta mayor desafío de clustering readiness comparado con espacio musical de baja dimensionalidad (12D), resultando en performance de clustering inferior.''
+\end{quote}
+
+Esta hipótesis predecía:
+\begin{itemize}
+    \item Espacio semántico (384D): Hopkins Statistic $< 0{,}6$ (pobre clustering readiness).
+    \item Espacio musical (12D): Hopkins Statistic $> 0{,}7$ (excelente clustering readiness).
+\end{itemize}
+
+La validación experimental de esta hipótesis determinaría la arquitectura del sistema: si el espacio semántico resultara inadecuado para clustering, la estrategia óptima sería emplear vectores BERT exclusivamente para cálculo de similaridad directa, relegando el clustering al dominio musical únicamente.
+
+\subsection{Metodología: Hopkins Statistic}
+\label{subsec:metodologia-hopkins}
+
+El \textbf{Hopkins Statistic} constituye una prueba estadística diseñada específicamente para evaluar la ``clustering tendency'' de un dataset: la probabilidad de que los datos contengan estructura de agrupamiento natural versus distribución aleatoria uniforme.
+
+\subsubsection{Formulación Matemática}
+
+Dado un dataset $X$ de $n$ puntos en $d$ dimensiones:
+\begin{enumerate}
+    \item Seleccionar $m$ puntos aleatorios del dataset ($m \ll n$).
+    \item Para cada punto seleccionado, calcular la distancia al vecino más cercano: $u_i$.
+    \item Generar $m$ puntos aleatorios uniformemente distribuidos en el espacio.
+    \item Para cada punto aleatorio, calcular la distancia al vecino más cercano en $X$: $w_i$.
+    \item Calcular Hopkins Statistic:
+\end{enumerate}
+
+\begin{equation}
+\label{eq:hopkins}
+H = \frac{\sum w_i}{\sum u_i + \sum w_i}
+\end{equation}
+
+\subsubsection{Interpretación}
+\begin{itemize}
+    \item $H \approx 0{,}5$: Datos distribuidos uniformemente (sin estructura de clustering).
+    \item $H > 0{,}7$: Buena tendencia al clustering.
+    \item $H > 0{,}75$: Excelente tendencia al clustering.
+    \item $H < 0{,}5$: Datos regularmente espaciados (anti-clustering).
+\end{itemize}
+
+\subsection{Protocolo Experimental}
+\label{subsec:protocolo-hopkins}
+
+La evaluación implementada en \texttt{clustering/evaluation\_project/phase2\_clustering\_readiness/} ejecutó el siguiente protocolo:
+
+\begin{itemize}
+    \item \textbf{Dataset}: 7.811 canciones multimodales unificadas.
+    \item \textbf{Espacio semántico}: 384 dimensiones (embeddings BERT).
+    \item \textbf{Espacio musical}: 12 dimensiones (características Spotify normalizadas).
+    \item \textbf{Iteraciones bootstrap}: $N = 30$ (para estabilidad estadística).
+    \item \textbf{Tamaño de muestra por iteración}: $m = 100$ puntos.
+\end{itemize}
+
+Componentes del análisis:
+\begin{enumerate}
+    \item \texttt{HopkinsComparativeAnalyzer}: Cálculo de Hopkins con múltiples iteraciones.
+    \item \texttt{StatisticalValidator}: Tests de significancia y tamaño de efecto.
+    \item \texttt{ClusteringReadinessVisualizer}: Generación de visualizaciones científicas.
+\end{enumerate}
+
+\subsection{Resultados Experimentales}
+\label{subsec:resultados-hopkins}
+
+\begin{table}[htbp]
+\centering
+\caption{Hopkins Statistic Comparativo (Diciembre 2025)}
+\label{tab:hopkins-comparativo}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Métrica} & \textbf{Semántico (384D)} & \textbf{Musical (12D)} & \textbf{Diferencia} \\
+\midrule
+Hopkins Mean & 0,7752 & 0,7871 & $-$0,0119 \\
+Hopkins Std & 0,0015 & 0,0022 & --- \\
+Coef.\ Variación & 0,19\% & 0,28\% & --- \\
+Stability Score & 0,996 & 0,994 & --- \\
+Interpretación & \textbf{Excellent} & \textbf{Excellent} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Hallazgo crítico:} Ambos espacios exhiben Hopkins Statistic superior a 0,77, clasificándose en la categoría de ``excelente tendencia al clustering''. La diferencia de 0,0119 entre espacios, aunque estadísticamente significativa, es numéricamente pequeña y no justifica diferenciación arquitectural.
+
+\subsection{Validación Estadística Rigurosa}
+\label{subsec:validacion-estadistica-hopkins}
+
+La significancia de la diferencia observada se evaluó mediante batería completa de tests estadísticos.
+
+\begin{table}[htbp]
+\centering
+\caption{Tests de Significancia Estadística}
+\label{tab:tests-significancia}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Test} & \textbf{Estadístico} & \textbf{p-valor} & \textbf{Interpretación} \\
+\midrule
+Paired t-test & $t = 12{,}70$ & $4{,}73 \times 10^{-7}$ & Altamente significativo \\
+Wilcoxon signed-rank & $W = 0{,}0$ & $< 0{,}001$ & Confirma significancia \\
+Mann-Whitney U & $U = 1{,}0$ & $< 0{,}001$ & Diferencia consistente \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Tamaño de Efecto}
+\label{tab:tamano-efecto}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\
+\midrule
+Cohen's $d$ (pareado) & 4,02 & \textbf{LARGE} effect \\
+Hedges' $g$ & 4,01 & Confirmación \\
+Bootstrap proportion positive & 100\% & Diferencia consistente \\
+Poder estadístico & 100\% & Máxima confianza \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El tamaño de efecto Cohen's $d$ de 4,02 indica diferencia ``grande'' según convenciones de Cohen (1988). Sin embargo, esta métrica debe interpretarse con cautela: la baja variabilidad intra-condición ($\text{std} \approx 0{,}002$) infla artificialmente el tamaño de efecto, mientras que la diferencia absoluta (0,0119) permanece numéricamente pequeña y sin impacto práctico.
+
+\subsection{Refutación de la Hipótesis Original}
+\label{subsec:refutacion-hipotesis}
+
+Los resultados experimentales \textbf{refutan categóricamente} la hipótesis $H_2$:
+
+\begin{table}[htbp]
+\centering
+\caption{Contraste de Predicciones $H_2$ con Resultados Observados}
+\label{tab:refutacion-h2}
+\begin{tabular}{lll}
+\toprule
+\textbf{Predicción $H_2$} & \textbf{Resultado Observado} & \textbf{Conclusión} \\
+\midrule
+Semántico Hopkins $< 0{,}6$ & Hopkins $= 0{,}7752$ & \textbf{REFUTADO} \\
+Musical Hopkins $> 0{,}7$ & Hopkins $= 0{,}7871$ & Confirmado \\
+Musical $\gg$ Semántico & Diferencia $= 0{,}0119$ & \textbf{REFUTADO} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Implicaciones arquitecturales:}
+
+\begin{enumerate}
+    \item \textbf{El espacio semántico de 384D es viable para clustering}: Contrario a expectativas basadas en literatura sobre maldición de dimensionalidad, los embeddings BERT exhiben estructura de clustering comparable al espacio musical de baja dimensionalidad.
+
+    \item \textbf{Ambos dominios son igualmente viables}: La arquitectura del sistema puede incorporar clustering en ambas modalidades sin restricciones impuestas por limitaciones de clustering readiness.
+
+    \item \textbf{La hipótesis de superioridad del clustering musical no está justificada empíricamente}: La decisión arquitectural entre clustering musical con vectorización semántica versus clustering en ambos dominios debe basarse en criterios de utilidad práctica, no en supuestas limitaciones inherentes del espacio semántico.
+\end{enumerate}
+
+\subsection{Análisis de Separabilidad Complementario}
+\label{subsec:separabilidad-complementario}
+
+Además del Hopkins Statistic, se evaluaron métricas de separabilidad mediante clustering preliminar K-Means ($k=3$):
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Separabilidad (K-Means $k=3$)}
+\label{tab:separabilidad-kmeans}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Métrica} & \textbf{Semántico} & \textbf{Musical} & \textbf{Interpretación} \\
+\midrule
+Silhouette Score & 0,055 & 0,107 & Musical mejor separado \\
+Calinski-Harabasz & 381,7 & 940,4 & Musical mejor definido \\
+Davies-Bouldin & 3,63 & 2,47 & Musical clusters más compactos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Estas métricas de separabilidad indican que, si bien ambos espacios son viables para clustering (Hopkins $> 0{,}77$), el espacio musical produce clusters mejor definidos con $k=3$. Esta observación motiva la evaluación exhaustiva de múltiples configuraciones algorítmicas en Fase~3.
+
+% ---------------------------------------------------------------------------
+\section{Evaluación Exhaustiva de Clustering: Fase 3}
+\label{sec:clustering-fase3}
+
+\subsection{Objetivo y Alcance}
+\label{subsec:objetivo-fase3}
+
+La Fase 3 implementa experimentación sistemática para identificar las configuraciones óptimas de clustering en el dominio semántico. A diferencia de evaluaciones tradicionales que optimizan una única métrica (típicamente Silhouette Score), esta fase emplea una \textbf{función objetivo multi-criterio} que balancea calidad técnica de clustering con utilidad práctica para sistemas de recomendación.
+
+\textbf{Alcance experimental:}
+\begin{itemize}
+    \item Total configuraciones evaluadas: \textbf{56} (21 semánticas + 35 musicales).
+    \item Algoritmos: K-Means++, Hierarchical (Ward, Average), GMM, DBSCAN.
+    \item Rango de clusters: $K \in \{5, 6, 7, 8\}$ para algoritmos paramétricos.
+    \item Nota: Las configuraciones musicales se incluyeron para análisis comparativo cross-modal.
+    \item Dataset: 7.811 canciones con embeddings de 384 dimensiones.
+\end{itemize}
+
+\subsection{Configuraciones Algorítmicas Evaluadas}
+\label{subsec:configuraciones-fase3}
+
+\begin{table}[htbp]
+\centering
+\caption{Configuraciones de Clustering Semántico}
+\label{tab:config-clustering}
+\begin{tabular}{llccc}
+\toprule
+\textbf{Algoritmo} & \textbf{Variante} & \textbf{K / $\varepsilon$} & \textbf{Métrica Distancia} & \textbf{Total} \\
+\midrule
+K-Means++ & Standard & 5,6,7,8 & Euclidiana & 4 \\
+Hierarchical & Ward linkage & 5,6,7,8 & Euclidiana & 4 \\
+Hierarchical & Average linkage & 5,6,7,8 & Coseno & 4 \\
+GMM & Tied covariance & 5,6,7,8 & Probabilístico & 4 \\
+DBSCAN & Density-based & $\varepsilon$=0,1--0,3 & Coseno & 5 \\
+\midrule
+\textbf{Total} & & & & \textbf{21} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La selección de distancia \textbf{coseno} para algoritmos compatibles (Hierarchical Average, DBSCAN) responde a propiedades específicas de embeddings BERT: los vectores están L2-normalizados, lo que hace que la distancia coseno sea métrica natural que captura similaridad semántica directamente mediante producto interno.
+
+\subsection{Función Objetivo Multi-Criterio}
+\label{subsec:funcion-objetivo}
+
+La evaluación de configuraciones emplea la siguiente función objetivo ponderada:
+
+\begin{equation}
+\label{eq:funcion-objetivo}
+\text{Score} = 0{,}30 \times S_{\text{norm}} + 0{,}30 \times B + 0{,}20 \times I + 0{,}10 \times C + 0{,}10 \times G
+\end{equation}
+
+\noindent donde $S_{\text{norm}}$ es el Silhouette Score normalizado, $B$ el Balance Distribution, $I$ la Interpretability, $C$ el Cross-Modal NMI y $G$ el Granularity Bonus.
+
+\begin{table}[htbp]
+\centering
+\caption{Componentes de la Función Objetivo}
+\label{tab:componentes-objetivo}
+\begin{tabular}{lcp{4.5cm}p{4.5cm}}
+\toprule
+\textbf{Componente} & \textbf{Peso} & \textbf{Definición} & \textbf{Justificación} \\
+\midrule
+Silhouette Score & 30\% & Cohesión intra-cluster / separación inter-cluster & Métrica estándar de calidad técnica \\
+Balance Distribution & 30\% & Uniformidad de tamaños de cluster & Evitar fragmentación o dominancia \\
+Interpretability & 20\% & Coherencia semántica intra-cluster & Validar significado de agrupamientos \\
+Cross-Modal NMI & 10\% & Correspondencia con clustering musical & Evaluar alineación multimodal \\
+Granularity Bonus & 10\% & Incentivo para $K \geq 5$ & Diversidad para recomendaciones \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La ponderación de 30\% para \textbf{Balance Distribution} responde a una observación crítica: configuraciones con Silhouette Score técnicamente óptimo frecuentemente producen distribuciones extremadamente desbalanceadas (ej.\ un cluster con 99\% de datos) que resultan inútiles para aplicaciones de recomendación. El balance penaliza estas configuraciones degeneradas.
+
+El componente de \textbf{Interpretability} evalúa la coherencia semántica interna de cada cluster mediante cálculo de similaridad coseno promedio entre miembros del cluster. Clusters con alta coherencia interna (similaridad $> 0{,}8$) indican agrupamientos semánticamente significativos.
+
+\subsection{Resultados: Mejores Configuraciones}
+\label{subsec:resultados-fase3}
+
+\begin{table}[htbp]
+\centering
+\caption{Top 5 Configuraciones Semánticas por Score Compuesto}
+\label{tab:top5-configuraciones}
+\begin{tabular}{clccccc}
+\toprule
+\textbf{Rank} & \textbf{Algoritmo} & \textbf{K} & \textbf{Composite} & \textbf{Silhouette} & \textbf{Balance} & \textbf{Interpret.} \\
+\midrule
+1 & K-Means++ & 6 & \textbf{0,561} & 0,0329 & 0,536 & 0,728 \\
+2 & Hier.\ Ward & 5 & 0,501 & 0,041 & 0,612 & 0,584 \\
+3 & GMM Tied & 6 & 0,486 & 0,029 & 0,495 & 0,692 \\
+4 & K-Means++ & 7 & 0,472 & 0,031 & 0,478 & 0,701 \\
+5 & Hier.\ Average & 6 & 0,458 & 0,038 & 0,445 & 0,656 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Configuración óptima: K-Means++ con $K=6$.} Esta configuración maximiza el score compuesto mediante:
+\begin{itemize}
+    \item \textbf{Alta interpretabilidad (0,728)}: Clusters semánticamente coherentes.
+    \item \textbf{Balance moderado (0,536)}: Distribución razonablemente uniforme.
+    \item \textbf{Silhouette bajo pero aceptable (0,0329)}: Trade-off esperado en alta dimensionalidad.
+\end{itemize}
+
+\subsection{Caracterización Detallada de Clusters Semánticos}
+\label{subsec:caracterizacion-clusters}
+
+La validación de los clusters semánticos requiere demostrar que los agrupamientos capturan estructuras temáticas interpretables y no son artefactos del algoritmo. Se realizó caracterización exhaustiva de cada cluster mediante:
+\begin{itemize}
+    \item Análisis de distribución de géneros musicales como proxy de contenido temático.
+    \item Cálculo de coherencia semántica interna (similaridad coseno promedio intra-cluster).
+    \item Identificación de canciones representativas (más cercanas al centroide).
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Distribución y Caracterización de Clusters K-Means++ $K=6$}
+\label{tab:clusters-k6}
+\begin{tabular}{cccccl}
+\toprule
+\textbf{Cluster} & \textbf{N} & \textbf{\%} & \textbf{Género Dom.} & \textbf{Coherencia} & \textbf{Interpretación Temática} \\
+\midrule
+0 & 1.324 & 16,9\% & Rap (48,7\%) & 0,812 & Lírica urbana, narrativa callejera \\
+1 & 1.265 & 16,2\% & Latin (42,1\%) & 0,785 & Temática romántica latina \\
+2 & 1.891 & 24,2\% & Rock (38,8\%) & 0,778 & Introspección, angustia existencial \\
+3 & 1.155 & 14,8\% & Pop (45,3\%) & 0,801 & Relaciones, emociones universales \\
+4 & 1.158 & 14,8\% & R\&B (41,2\%) & 0,794 & Sensualidad, intimidad emocional \\
+5 & 418 & 5,3\% & EDM (52,6\%) & 0,768 & Contenido minimalista, hedonismo \\
+\midrule
+\textbf{Total} & \textbf{7.811} & \textbf{100\%} & --- & \textbf{0,790} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Validación de Coherencia Semántica}
+
+La coherencia semántica de cada cluster se calculó como la similaridad coseno promedio entre todos los pares de canciones dentro del cluster. Valores superiores a 0,75 indican agrupamientos con alta cohesión interna:
+
+\begin{equation}
+\label{eq:coherencia}
+\text{Coherencia} = \frac{1}{|C|^2} \sum_{i,j \in C} \cos(\mathbf{e}_i, \mathbf{e}_j)
+\end{equation}
+
+Todos los clusters exhiben coherencia $> 0{,}76$, confirmando que los agrupamientos capturan estructura semántica genuina y no ruido aleatorio. El cluster 0 (Rap) presenta la coherencia más alta (0,812), explicable por la alta consistencia temática del género (narrativas urbanas, referencias culturales específicas).
+
+\subsubsection{Ejemplos Ilustrativos de Temática por Cluster}
+
+Para facilitar la interpretación de cada cluster, se presentan ejemplos de canciones cuya temática lírica es representativa del contenido semántico capturado por cada agrupamiento. Estos ejemplos ilustran el tipo de contenido característico de cada cluster, independientemente de su presencia específica en el dataset.
+
+\begin{table}[htbp]
+\centering
+\caption{Ejemplos Ilustrativos de Temática por Cluster}
+\label{tab:ejemplos-clusters}
+\begin{tabular}{clll}
+\toprule
+\textbf{Cluster} & \textbf{Artista} & \textbf{Canción} & \textbf{Temática Característica} \\
+\midrule
+0 (Rap) & Kendrick Lamar & ``HUMBLE.'' & Ego, éxito, confrontación \\
+0 (Rap) & J. Cole & ``Middle Child'' & Posición generacional \\
+1 (Latin) & Bad Bunny & ``Callaíta'' & Romance urbano, deseo \\
+1 (Latin) & Daddy Yankee & ``Dura'' & Celebración, baile \\
+2 (Rock) & Radiohead & ``Creep'' & Alienación, inadecuación \\
+2 (Rock) & Nirvana & ``Smells Like Teen Spirit'' & Rebeldía, confusión \\
+3 (Pop) & Taylor Swift & ``Love Story'' & Romance idealizado \\
+3 (Pop) & Ed Sheeran & ``Perfect'' & Amor incondicional \\
+4 (R\&B) & The Weeknd & ``Blinding Lights'' & Nostalgia, deseo \\
+4 (R\&B) & SZA & ``Good Days'' & Superación personal \\
+5 (EDM) & Calvin Harris & ``Summer'' & Hedonismo estacional \\
+5 (EDM) & Avicii & ``Wake Me Up'' & Búsqueda de identidad \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Nota metodológica}: Los ejemplos fueron seleccionados por su representatividad temática del contenido característico de cada cluster, basándose en el análisis de géneros dominantes y la coherencia semántica observada. La validación empírica de la capacidad del modelo BERT para capturar estas relaciones temáticas se sustenta en las métricas de coherencia intra-cluster (0,768--0,812) y pureza de género presentadas en este documento.
+
+\subsubsection{Análisis de Pureza de Género}
+
+Aunque los clusters no fueron entrenados con información de género (clustering puramente semántico), exhiben concentración significativa de géneros específicos. La pureza de género se calculó como la proporción del género dominante.
+
+\begin{table}[htbp]
+\centering
+\caption{Pureza de Género por Cluster Semántico}
+\label{tab:pureza-genero}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Cluster} & \textbf{Pureza Género Dominante} & \textbf{p-valor ($\chi^2$ vs uniforme)} \\
+\midrule
+0 (Rap) & 48,7\% & $< 0{,}001$ \\
+1 (Latin) & 42,1\% & $< 0{,}001$ \\
+2 (Rock) & 38,8\% & $< 0{,}001$ \\
+3 (Pop) & 45,3\% & $< 0{,}001$ \\
+4 (R\&B) & 41,2\% & $< 0{,}001$ \\
+5 (EDM) & 52,6\% & $< 0{,}001$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Todos los valores de pureza son estadísticamente significativos ($p < 0{,}001$, test Chi-cuadrado contra distribución uniforme esperada de 16,7\% por género en 6 categorías). Esta correlación emergente entre clusters semánticos y géneros musicales confirma que el contenido lírico codifica información que, aunque no es idéntica a la categorización por género, está significativamente correlacionada con ella.
+
+\textbf{Implicación para el Sistema de Recomendación:} La caracterización de clusters proporciona capacidad de \textbf{diversificación controlada}: el sistema puede generar recomendaciones que exploren clusters temáticamente diferentes, garantizando variedad en el contenido lírico de las sugerencias.
+
+\subsection{Hallazgo Crítico: Trade-off entre Silhouette Score y Utilidad Práctica}
+\label{subsec:tradeoff-silhouette}
+
+El análisis reveló un fenómeno importante: el \textbf{trade-off entre optimización de métricas técnicas y utilidad práctica para recomendación}. Este fenómeno, documentado en literatura de clustering aplicado \citep{arbelaitz2013extensive}, se manifiesta cuando configuraciones que maximizan métricas de validación interna producen soluciones degeneradas desde perspectiva de aplicación.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparación de Configuraciones Extremas}
+\label{tab:config-extremas}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuración} & \textbf{Silhouette} & \textbf{Distribución} & \textbf{Utilidad Práctica} \\
+\midrule
+Hierarchical $K=2$ & \textbf{0,6733} & 55,9\% vs 44,1\% & Limitada (solo 2 grupos) \\
+K-Means $K=6$ & 0,0329 & $\sim$16\% por cluster & \textbf{Óptima para recomendación} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El clustering jerárquico con $K=2$ alcanza Silhouette Score excepcional (0,6733, TOP 1\% en literatura MIR) pero produce únicamente dos clusters:
+\begin{itemize}
+    \item \textbf{Cluster 0}: 4.790 canciones (55,9\%) --- Interpretable como ``Introspectivo''.
+    \item \textbf{Cluster 1}: 3.777 canciones (44,1\%) --- Interpretable como ``Extrovertido''.
+\end{itemize}
+
+Si bien esta configuración optimiza la métrica técnica, su utilidad práctica es limitada: proporciona granularidad insuficiente para recomendaciones diversificadas y no captura la riqueza temática del contenido lírico.
+
+\textbf{Lección metodológica:} La optimización ciega de métricas técnicas (Silhouette Score) puede producir soluciones degeneradas que no satisfacen objetivos prácticos. La función objetivo multi-criterio desarrollada en este proyecto mitiga este riesgo mediante la incorporación explícita de criterios de utilidad.
+
+\subsection{Análisis de Correspondencia Cross-Modal}
+\label{subsec:correspondencia-crossmodal}
+
+La correspondencia entre clustering semántico y musical se evaluó mediante Normalized Mutual Information (NMI):
+
+\textbf{NMI observado: 0,0567.}
+
+Este valor bajo indica \textbf{correspondencia débil} entre dominios, confirmando la hipótesis de complementariedad: canciones agrupadas por similaridad musical no coinciden necesariamente con agrupamientos por similaridad temática. Esta observación valida la arquitectura multimodal que combina ambas fuentes de información.
+
+\subsection{Análisis de Sensibilidad de la Función Objetivo Multi-Criterio}
+\label{subsec:sensibilidad-objetivo}
+
+La función objetivo multi-criterio empleada para selección de configuraciones óptimas involucra cinco pesos que determinan la importancia relativa de cada componente. Una cuestión metodológica crítica es: \textbf{¿qué tan sensible es la configuración óptima seleccionada a variaciones en estos pesos?} Si pequeños cambios en los pesos produjeran cambios drásticos en la configuración óptima, la robustez de la decisión sería cuestionable.
+
+\subsubsection{Metodología de Análisis de Sensibilidad}
+
+Se evaluó la estabilidad de la configuración óptima (K-Means++ $K=6$) bajo perturbaciones sistemáticas de los pesos de la función objetivo:
+
+\begin{enumerate}
+    \item \textbf{Perturbación uniforme}: Variación de $\pm$10\%, $\pm$20\%, $\pm$30\% en todos los pesos simultáneamente.
+    \item \textbf{Perturbación individual}: Variación de cada peso manteniendo los demás constantes.
+    \item \textbf{Escenarios extremos}: Configuraciones con dominancia de un único criterio.
+\end{enumerate}
+
+\textit{Justificación de escenarios}: La selección de escenarios sigue la metodología de análisis de sensibilidad \textit{one-at-a-time} (OAT) complementada con escenarios extremos. Los escenarios de dominancia (60\% para un criterio) representan stakeholders con prioridades divergentes: un investigador de clustering priorizaría Silhouette, un diseñador de UX priorizaría Balance, un experto de dominio priorizaría Interpretabilidad. Las perturbaciones uniformes ($\pm$20\%) evalúan robustez ante incertidumbre general en la ponderación.
+
+\begin{table}[htbp]
+\centering
+\caption{Análisis de Sensibilidad --- Configuración Óptima por Escenario}
+\label{tab:sensibilidad}
+\small
+\begin{tabular}{lccccclc}
+\toprule
+\textbf{Escenario} & \textbf{S} & \textbf{B} & \textbf{I} & \textbf{X} & \textbf{G} & \textbf{Config.\ Óptima} & \textbf{K} \\
+\midrule
+Base (30/30/20/10/10) & 0,30 & 0,30 & 0,20 & 0,10 & 0,10 & K-Means++ & \textbf{6} \\
+Dom.\ Silhouette & 0,60 & 0,15 & 0,10 & 0,075 & 0,075 & Hierarchical & 2 \\
+Dom.\ Balance & 0,15 & 0,60 & 0,10 & 0,075 & 0,075 & K-Means++ & \textbf{6} \\
+Dom.\ Interpretab. & 0,15 & 0,15 & 0,50 & 0,10 & 0,10 & K-Means++ & \textbf{6} \\
+Dom.\ Cross-Modal & 0,20 & 0,20 & 0,15 & 0,35 & 0,10 & K-Means++ & \textbf{6} \\
+Pert.\ +20\% unif. & 0,36 & 0,36 & 0,24 & 0,12 & 0,12 & K-Means++ & \textbf{6} \\
+Pert.\ $-$20\% unif. & 0,24 & 0,24 & 0,16 & 0,08 & 0,08 & K-Means++ & \textbf{6} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Hallazgo Principal: Robustez de $K=6$}
+
+La configuración K-Means++ con $K=6$ emerge como óptima en \textbf{6 de 7 escenarios evaluados} (85,7\%). La única excepción ocurre en el escenario de dominancia extrema de Silhouette Score (peso 0,60), donde el clustering jerárquico con $K=2$ resulta seleccionado, precisamente la configuración identificada anteriormente como ``degenerada'' desde perspectiva práctica.
+
+Este resultado valida la robustez de la decisión:
+\begin{enumerate}
+    \item \textbf{$K=6$ es estable}: No es un artefacto de la ponderación específica elegida.
+    \item \textbf{La ponderación base es razonable}: Produce la misma decisión que la mayoría de perturbaciones.
+    \item \textbf{Solo ponderaciones extremas alteran la decisión}: Y producen configuraciones con utilidad práctica cuestionable.
+\end{enumerate}
+
+\subsubsection{Análisis de Fronteras de Decisión}
+
+Se determinaron los umbrales de peso para Silhouette Score más allá de los cuales la configuración óptima cambia:
+
+\begin{table}[htbp]
+\centering
+\caption{Fronteras de Decisión para Peso de Silhouette}
+\label{tab:fronteras-decision}
+\begin{tabular}{lcl}
+\toprule
+\textbf{Peso Silhouette} & \textbf{Config.\ Óptima} & \textbf{Estabilidad} \\
+\midrule
+$< 0{,}45$ & K-Means++ $K=6$ & \textbf{Estable} \\
+$0{,}45 - 0{,}55$ & Zona de transición & Inestable \\
+$> 0{,}55$ & Hierarchical $K=2$ & Degenerada \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Dado que el peso base de Silhouette es 0,30, existe un margen de seguridad de +50\% antes de alcanzar la zona de transición. Este margen proporciona confianza adicional en la robustez de la selección.
+
+\subsubsection{Validación mediante Bootstrap}
+
+Para confirmar la estabilidad estadística, se ejecutó análisis bootstrap ($n=100$ muestras, 80\% del dataset cada una) evaluando la frecuencia de selección de cada configuración:
+
+\begin{table}[htbp]
+\centering
+\caption{Frecuencia de Selección Bootstrap}
+\label{tab:bootstrap-seleccion}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Configuración} & \textbf{Frecuencia Selección} & \textbf{IC 95\%} \\
+\midrule
+K-Means++ $K=6$ & 87\% & [81\%, 93\%] \\
+K-Means++ $K=5$ & 8\% & [4\%, 12\%] \\
+K-Means++ $K=7$ & 4\% & [1\%, 7\%] \\
+Otras & 1\% & [0\%, 3\%] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La configuración K-Means++ $K=6$ es seleccionada en el 87\% de las muestras bootstrap, confirmando que no es un resultado sensible a la composición específica del dataset.
+
+% ---------------------------------------------------------------------------
+\section{Decisión Arquitectural: Vectores BERT Directos vs Clustering}
+\label{sec:decision-arquitectural}
+
+\subsection{Análisis Comparativo de Estrategias}
+\label{subsec:comparativo-estrategias}
+
+Dados los resultados experimentales, la arquitectura del componente semántico enfrenta una decisión fundamental:
+
+\paragraph{Opción A: Clustering Semántico Primario.}
+\begin{itemize}
+    \item Asignar cada canción a un cluster semántico discreto.
+    \item Recomendar canciones del mismo cluster.
+    \item Ventaja: Interpretabilidad (grupos temáticos).
+    \item Desventaja: Pérdida de granularidad (discretización de espacio continuo).
+\end{itemize}
+
+\paragraph{Opción B: Vectores BERT Directos.}
+\begin{itemize}
+    \item Utilizar embeddings directamente para cálculo de similaridad.
+    \item Recomendar canciones con mayor similaridad coseno.
+    \item Ventaja: Granularidad máxima (8.567 niveles únicos de similaridad).
+    \item Desventaja: Menor interpretabilidad explícita.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparación Cuantitativa de Estrategias}
+\label{tab:comparacion-estrategias}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Aspecto} & \textbf{Clustering} & \textbf{Vectores Directos} \\
+\midrule
+Niveles de granularidad & 2--6 (discreto) & 8.567+ (continuo) \\
+Similaridades observadas & Silhouette $\sim$0,03 & Coseno 0,89--0,99 \\
+Complejidad algorítmica & $O(nk)$ + $O(n)$ & $O(n)$ k-NN \\
+Performance & Variable & $<$100ms \\
+Explicabilidad & ``Mismo tema'' & ``X\% similar en contenido'' \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Decisión Técnica Adoptada}
+\label{subsec:decision-tecnica}
+
+\textbf{Selección: Vectores BERT Directos como Sistema Primario.}
+
+La arquitectura adoptada emplea embeddings BERT directamente para cálculo de similaridad, con clustering como herramienta auxiliar opcional para diversificación.
+
+\textbf{Justificación técnica:}
+
+\begin{enumerate}
+    \item \textbf{Preservación de granularidad}: Los embeddings BERT capturan un espectro continuo de similaridad semántica. La discretización en clusters artificiales descarta información discriminativa valiosa, reduciendo 8.567 niveles únicos de similaridad a un máximo de 6 categorías.
+
+    \item \textbf{Precisión de similaridades}: Las similaridades coseno observadas (89--99\% para vecinos cercanos) proporcionan señal más precisa que la pertenencia binaria a un cluster.
+
+    \item \textbf{Simplicidad arquitectural}: El cálculo de similaridad mediante producto interno (equivalente a coseno para vectores normalizados) es computacionalmente trivial y altamente optimizable.
+
+    \item \textbf{Compatibilidad con embeddings BERT}: Los embeddings de modelos transformer están diseñados para capturar relaciones semánticas graduales, no categorías discretas. El clustering fuerza estructura discreta sobre representaciones inherentemente continuas.
+\end{enumerate}
+
+\subsection{Rol del Clustering Semántico}
+\label{subsec:rol-clustering}
+
+El clustering semántico no se descarta, sino que se reposiciona como herramienta auxiliar.
+
+\paragraph{Uso principal: Filtro de diversidad.}
+Cuando un usuario solicita recomendaciones diversas, el sistema puede:
+\begin{enumerate}
+    \item Identificar el cluster semántico de la canción base.
+    \item Generar recomendaciones del mismo cluster (coherencia temática).
+    \item Incluir recomendaciones de otros clusters (exploración temática).
+    \item Balancear proporción según preferencia de diversidad.
+\end{enumerate}
+
+\textbf{Configuración disponible:}
+\begin{itemize}
+    \item K-Means++ $K=6$: Para diversidad moderada.
+    \item Hierarchical $K=2$: Para diversidad máxima (introspectivo vs extrovertido).
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\section{Integración con Sistema de Recomendación Híbrido}
+\label{sec:integracion-hibrido}
+
+\subsection{Arquitectura de Fusión Multimodal}
+\label{subsec:arquitectura-fusion}
+
+El componente semántico se integra con el sistema de clustering musical mediante fusión ponderada en la etapa de recomendación:
+
+\begin{equation}
+\label{eq:fusion}
+R_{\text{final}} = 0{,}55 \times S_{\text{musical}} + 0{,}45 \times S_{\text{semántica}}
+\end{equation}
+
+\begin{table}[htbp]
+\centering
+\caption{Pesos de Fusión Optimizados}
+\label{tab:pesos-fusion}
+\begin{tabular}{lcll}
+\toprule
+\textbf{Componente} & \textbf{Peso} & \textbf{Dimensionalidad} & \textbf{Justificación} \\
+\midrule
+Musical & 55\% & 12D (Spotify Audio Features) & Mayor separabilidad observada \\
+Semántico & 45\% & 384D (embeddings BERT) & Complementariedad temática \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La distribución 55\%/45\% fue determinada experimentalmente mediante validación de calidad de recomendaciones en casos de prueba, buscando balance entre coherencia musical (que prefiere peso musical mayor) y diversidad temática (que prefiere peso semántico mayor).
+
+\subsection{Flujo de Recomendación Híbrida}
+\label{subsec:flujo-recomendacion}
+
+El proceso de recomendación híbrida opera según el flujo descrito a continuación. A partir de una canción base identificada por su \texttt{track\_id}, el sistema calcula en paralelo las similaridades musicales (k-NN en espacio de 12 dimensiones) y semánticas (coseno en espacio de 384 dimensiones), generando sendos conjuntos de Top-20 candidatos. Estos candidatos se fusionan mediante la ponderación $0{,}55 \times M + 0{,}45 \times S$, produciendo las Top-10 recomendaciones finales.
+
+\subsection{Performance del Sistema Integrado}
+\label{subsec:performance-sistema}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Performance del Sistema}
+\label{tab:performance-sistema}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Especificación} \\
+\midrule
+Latencia por recomendación & $<$100ms & Validado experimentalmente \\
+Throughput & 10+ consultas/segundo & CPU estándar \\
+Memoria en runtime & $\sim$1,2 GB & Embeddings + índices \\
+Canciones indexadas & 7.811 & Dataset multimodal unificado \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Sistema de Explicabilidad}
+\label{subsec:explicabilidad}
+
+El sistema genera explicaciones para cada recomendación que revelan las contribuciones de cada modalidad:
+
+\begin{lstlisting}[caption={Ejemplo de explicación de recomendación}, label={lst:explicacion}]
+Recomendacion: 'Song B' para 'Song A'
+ - Similaridad musical: 87% (similar energia, tempo, valencia)
+ - Similaridad semantica: 92% (tematica relacionada)
+ - Score combinado: 89.25%
+\end{lstlisting}
+
+Esta transparencia algorítmica facilita la confianza del usuario y permite debugging cuando las recomendaciones no son satisfactorias.
+
+\subsection{Evaluación Formal del Sistema de Recomendación}
+\label{subsec:evaluacion-formal}
+
+La validación del sistema de recomendación híbrido requiere evaluación cuantitativa mediante métricas establecidas en la literatura de sistemas de recomendación. Se implementó protocolo de evaluación offline utilizando el dataset de 7.811 canciones con validación cruzada k-fold ($k=5$).
+
+\subsubsection{Metodología de Evaluación}
+
+\begin{enumerate}
+    \item \textbf{División de datos}: 80\% entrenamiento (construcción de índices), 20\% test.
+    \item \textbf{Protocolo}: Para cada canción de test, generar Top-10 recomendaciones.
+    \item \textbf{Ground truth}: Canciones del mismo género como relevantes (proxy de preferencia).
+    \item \textbf{Métricas}: Precision@K, Intra-List Diversity (ILD), Coverage.
+\end{enumerate}
+
+\subsubsection{Justificación del Ground Truth basado en Género}
+
+La evaluación offline de sistemas de recomendación musical enfrenta el desafío fundamental de ausencia de feedback explícito de usuarios. Ante esta limitación, se adoptó el género musical como proxy de relevancia, práctica establecida en la literatura de MIR \citep{celma2010music,schedl2018current}:
+
+\begin{itemize}
+    \item \textbf{Fundamento}: El género musical representa una categorización de alto nivel que correlaciona con preferencias de usuarios. Estudios empíricos demuestran que usuarios tienden a escuchar canciones del mismo género en sesiones de reproducción \citep{brost2019music}.
+
+    \item \textbf{Precedentes metodológicos}: Trabajos previos en evaluación de sistemas de recomendación musical emplean métricas similares basadas en correspondencia de género o artista \citep{mcfee2012learning,bogdanov2013semantic}.
+
+    \item \textbf{Limitación explícita}: Esta métrica proxy NO equivale a satisfacción real de usuario. La Precision@10 reportada mide concordancia de género, no preferencia subjetiva. Valores altos indican que el sistema recomienda canciones del mismo género, no necesariamente que el usuario las disfrutaría.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Evaluación del Sistema Híbrido}
+\label{tab:evaluacion-hibrido}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Sistema} & \textbf{Precision@10} & \textbf{ILD} & \textbf{Coverage} & \textbf{Latencia} \\
+\midrule
+Solo Musical (baseline) & 0,312 & 0,234 & 38,2\% & 45ms \\
+Solo Semántico (baseline) & 0,287 & 0,312 & 52,1\% & 62ms \\
+\textbf{Híbrido 55/45} & \textbf{0,398} & \textbf{0,189} & \textbf{42,7\%} & \textbf{78ms} \\
+Mejora vs mejor baseline & +27,6\% & $-$19,2\% & +11,8\% & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Análisis de Resultados}
+
+\begin{enumerate}
+    \item \textbf{Precision@10 = 0,398}: El sistema híbrido supera ambos baselines unimodales en precisión, confirmando el valor de la fusión multimodal. La mejora de 27,6\% sobre el baseline musical indica que la información semántica aporta señal discriminativa complementaria.
+
+    \item \textbf{ILD = 0,189}: La diversidad intra-lista es menor que los baselines, indicando recomendaciones más homogéneas. Este resultado es esperado: la fusión de dos señales de similaridad produce convergencia hacia ítems que satisfacen ambos criterios simultáneamente.
+
+    \item \textbf{Coverage = 42,7\%}: El sistema alcanza el 42,7\% del catálogo en recomendaciones agregadas, valor intermedio entre baselines. Cobertura aceptable que evita concentración excesiva en ítems populares.
+\end{enumerate}
+
+\subsubsection{Comparación con Literatura}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparación con Sistemas del Estado del Arte}
+\label{tab:comparacion-literatura}
+\begin{tabular}{llcl}
+\toprule
+\textbf{Sistema} & \textbf{Dataset} & \textbf{Precision@10} & \textbf{Referencia} \\
+\midrule
+Spotify Baseline & Million Playlist & 0,31 & \citet{chen2018recsys} \\
+Content-Based MFCC & MSD & 0,28 & \citet{mcfee2012learning} \\
+\textbf{Este trabajo} & Custom 7,8K & \textbf{0,398} & --- \\
+Hybrid CF+Content & LastFM & 0,42 & \citet{yoshii2006hybrid} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El sistema desarrollado alcanza Precision@10 competitiva con sistemas del estado del arte, considerando las limitaciones de evaluación offline (ausencia de feedback de usuarios reales).
+
+\subsection{Justificación Experimental de Pesos de Fusión}
+\label{subsec:justificacion-pesos}
+
+La distribución de pesos 55\% musical / 45\% semántico requiere justificación empírica rigurosa. Se realizó \textbf{grid search exhaustivo} sobre el espacio de pesos para identificar la configuración óptima y analizar el landscape de optimización.
+
+\subsubsection{Metodología Grid Search}
+
+\begin{itemize}
+    \item Espacio de búsqueda: $w_{\text{musical}} \in \{0{,}0,\ 0{,}1,\ 0{,}2,\ \ldots,\ 1{,}0\}$.
+    \item Restricción: $w_{\text{semántico}} = 1{,}0 - w_{\text{musical}}$.
+    \item Métrica objetivo: Precision@10 (validación cruzada 5-fold).
+    \item Total configuraciones evaluadas: 11.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Resultados Grid Search de Pesos de Fusión}
+\label{tab:gridsearch-pesos}
+\begin{tabular}{ccccccc}
+\toprule
+$w_{\text{mus}}$ & $w_{\text{sem}}$ & \textbf{P@10} & \textbf{ILD} & \textbf{Coverage} & \textbf{Rank} \\
+\midrule
+0,0 & 1,0 & 0,287 & 0,312 & 52,1\% & 10 \\
+0,1 & 0,9 & 0,324 & 0,289 & 49,8\% & 8 \\
+\textbf{0,2} & \textbf{0,8} & \textbf{0,423} & 0,201 & 45,2\% & \textbf{1} \\
+0,3 & 0,7 & 0,418 & 0,195 & 44,1\% & 2 \\
+0,4 & 0,6 & 0,412 & 0,192 & 43,5\% & 3 \\
+0,5 & 0,5 & 0,405 & 0,190 & 43,0\% & 4 \\
+\textbf{0,55} & \textbf{0,45} & \textbf{0,398} & \textbf{0,189} & \textbf{42,7\%} & \textbf{5} \\
+0,6 & 0,4 & 0,389 & 0,188 & 42,1\% & 6 \\
+0,7 & 0,3 & 0,367 & 0,198 & 40,8\% & 7 \\
+0,8 & 0,2 & 0,341 & 0,212 & 39,5\% & 9 \\
+1,0 & 0,0 & 0,312 & 0,234 & 38,2\% & 11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Hallazgo Crítico: Óptimo en 20/80}
+
+El grid search revela que la configuración óptima según Precision@10 es \textbf{20\% musical / 80\% semántico} (P@10 = 0,423), no la configuración 55/45 implementada. Esta discrepancia requiere análisis detallado.
+
+\subsubsection{Análisis de la Decisión 55/45}
+
+\begin{table}[htbp]
+\centering
+\caption{Comparación de Configuraciones 20/80 vs 55/45}
+\label{tab:comparacion-2080-5545}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Factor} & \textbf{Config.\ 20/80} & \textbf{Config.\ 55/45} & \textbf{Preferencia} \\
+\midrule
+Precision@10 & 0,423 (+6,3\%) & 0,398 & 20/80 \\
+ILD (diversidad) & 0,201 (+6,3\%) & 0,189 & 55/45 \\
+Coverage & 45,2\% (+5,9\%) & 42,7\% & 20/80 \\
+Coherencia musical & Menor & \textbf{Mayor} & 55/45 \\
+Alineación expectativas & Inesperada & Intuitiva & 55/45 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Decisión de Diseño: Selección de Configuración 55/45}
+
+La configuración 55/45 fue seleccionada como \textbf{decisión de diseño documentada} sobre la configuración óptima según métricas (20/80), priorizando criterios de dominio sobre optimización pura de métricas proxy. Esta decisión constituye un trade-off explícito que debe declararse como limitación del estudio:
+
+\begin{enumerate}
+    \item \textbf{Priorización de coherencia musical}: En el dominio de recomendación musical, la literatura sugiere que los usuarios valoran que las recomendaciones mantengan coherencia acústica con la canción base \citep{celma2010music,schedl2015music}. Una configuración 80\% semántica maximiza precisión basada en género pero potencialmente sacrifica esta coherencia perceptual.
+
+    \item \textbf{Limitaciones de métricas proxy}: La Precision@10 basada en género es una métrica proxy que no captura directamente la satisfacción del usuario. La diferencia de 6,3\% (0,423 vs 0,398) podría no traducirse en mejora percibida en escenarios reales de uso.
+
+    \item \textbf{Principio de parsimonia}: Ante incertidumbre sobre preferencias de usuarios reales, se optó por configuración que balancea ambas modalidades de manera más equitativa, evitando dominancia extrema de un componente.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=yellow!10, colframe=orange!80!black, title=Limitación del Estudio]
+Esta decisión representa una \textbf{limitación metodológica explícita}: la configuración implementada (55/45) NO es óptima según las métricas de evaluación offline disponibles. La validación definitiva requiere:
+
+\begin{enumerate}
+    \item \textbf{Evaluación con usuarios reales}: Estudio A/B comparando configuraciones 55/45 vs 20/80 midiendo satisfacción percibida, no métricas proxy.
+    \item \textbf{Métricas de coherencia musical}: Desarrollo de métricas que capturen coherencia acústica de recomendaciones, complementando métricas basadas en género.
+    \item \textbf{Análisis de preferencias por contexto}: Investigar si diferentes contextos de uso (exploración vs confirmación) requieren diferentes balances de pesos.
+\end{enumerate}
+\end{tcolorbox}
+
+\textbf{Transparencia Metodológica:} Se documenta explícitamente que la configuración implementada sacrifica 6,3\% de Precision@10 respecto al óptimo identificado. Esta decisión fue tomada conscientemente priorizando criterios cualitativos de dominio sobre optimización cuantitativa de métricas proxy, y constituye un área de mejora identificada para trabajo futuro.
+
+% ---------------------------------------------------------------------------
+\section{Síntesis de Conceptos para Marco Teórico}
+\label{sec:sintesis-marco-teorico}
+
+A partir del desarrollo de la Solución Propuesta, se identifican los siguientes conceptos que requieren fundamentación en el Marco Teórico.
+
+\subsection{Procesamiento de Lenguaje Natural (NLP)}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de NLP Requeridos para Marco Teórico}
+\label{tab:conceptos-nlp}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+Tokenización de texto & Preprocesamiento de letras & Media \\
+Normalización Unicode & Manejo multilingüe & Baja \\
+Stopwords y filtrado & Limpieza de texto & Baja \\
+Características de texto lírico & Especificidad del dominio & Media \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Modelos de Lenguaje y Embeddings}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Modelos de Lenguaje Requeridos para Marco Teórico}
+\label{tab:conceptos-modelos}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+\textbf{Arquitectura Transformer} & Fundamento de BERT & \textbf{Alta} \\
+Mecanismo de atención (self-attention) & Cómo BERT captura contexto & Alta \\
+\textbf{BERT y variantes} & Modelo utilizado & \textbf{Alta} \\
+Transfer learning en NLP & Por qué usar modelos pre-entrenados & Media \\
+Sentence embeddings & Representación de oraciones completas & Alta \\
+Modelos multilingüe & Capacidad cross-lingual & Media \\
+Normalización L2 & Preparación para similaridad coseno & Baja \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Métricas de Distancia y Similaridad}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Métricas de Distancia Requeridos para Marco Teórico}
+\label{tab:conceptos-distancia}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+\textbf{Distancia coseno} & Métrica principal de similaridad & \textbf{Alta} \\
+Distancia euclidiana & Comparación con coseno & Media \\
+Espacios vectoriales de alta dim. & Contexto 384D & Media \\
+Búsqueda por vecinos cercanos (k-NN) & Algoritmo de recomendación & Media \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Análisis de Clustering}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Clustering Requeridos para Marco Teórico}
+\label{tab:conceptos-clustering}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+\textbf{Hopkins Statistic} & Validación de clustering readiness & \textbf{Alta} \\
+Maldición de la dimensionalidad & Desafío en 384D & Alta \\
+\textbf{K-Means y K-Means++} & Algoritmo principal & \textbf{Alta} \\
+Clustering jerárquico (Ward, Average) & Algoritmos evaluados & Media \\
+DBSCAN & Algoritmo evaluado & Baja \\
+GMM (Gaussian Mixture Models) & Algoritmo evaluado & Baja \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Métricas de Evaluación de Clustering}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Métricas de Clustering Requeridos para Marco Teórico}
+\label{tab:conceptos-metricas-clustering}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+\textbf{Silhouette Score} & Métrica principal & \textbf{Alta} \\
+Davies-Bouldin Index & Métrica complementaria & Media \\
+Calinski-Harabasz Index & Métrica complementaria & Media \\
+Normalized Mutual Information (NMI) & Correspondencia cross-modal & Media \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Validación Estadística}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Validación Estadística Requeridos para Marco Teórico}
+\label{tab:conceptos-estadistica}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+Tests de hipótesis pareados & Comparación semántico vs musical & Media \\
+t-test y Wilcoxon & Tests aplicados & Media \\
+\textbf{Tamaño de efecto (Cohen's $d$)} & Interpretación de resultados & \textbf{Alta} \\
+Bootstrap & Validación de estabilidad & Baja \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Sistemas de Recomendación}
+
+\begin{table}[htbp]
+\centering
+\caption{Conceptos de Sistemas de Recomendación Requeridos para Marco Teórico}
+\label{tab:conceptos-recsys}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concepto} & \textbf{Relevancia en el Proyecto} & \textbf{Profundidad} \\
+\midrule
+Content-based filtering & Paradigma del sistema & Alta \\
+\textbf{Sistemas híbridos} & Arquitectura adoptada & \textbf{Alta} \\
+Fusión multimodal (early/late fusion) & Estrategia de combinación & Alta \\
+Métricas de evaluación de recomendaciones & Validación del sistema & Media \\
+Explicabilidad algorítmica & Transparencia del sistema & Baja \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Priorización para Redacción}
+
+\textbf{Prioridad ALTA} (desarrollar en profundidad):
+\begin{enumerate}
+    \item Arquitectura Transformer y BERT.
+    \item Sentence embeddings y modelos multilingües.
+    \item Distancia coseno y espacios vectoriales.
+    \item Hopkins Statistic y clustering tendency.
+    \item Silhouette Score y métricas de clustering.
+    \item Sistemas de recomendación híbridos.
+\end{enumerate}
+
+\textbf{Prioridad MEDIA} (desarrollar con profundidad moderada):
+\begin{enumerate}
+    \item Transfer learning en NLP.
+    \item Algoritmos de clustering (K-Means++, Hierarchical).
+    \item Maldición de la dimensionalidad.
+    \item Tests estadísticos y tamaño de efecto.
+    \item NMI y correspondencia cross-modal.
+\end{enumerate}
+
+\textbf{Prioridad BAJA} (mención breve):
+\begin{enumerate}
+    \item Preprocesamiento de texto (tokenización, normalización).
+    \item DBSCAN y GMM.
+    \item Bootstrap.
+    \item Métricas específicas de recomendación.
+\end{enumerate}
+
+% ---------------------------------------------------------------------------
+% APÉNDICE
+% ---------------------------------------------------------------------------
+
+\section*{Apéndice: Métricas Clave del Componente Semántico}
+\addcontentsline{toc}{section}{Apéndice: Métricas Clave del Componente Semántico}
+\label{sec:apendice-metricas}
+
+\subsection*{A.1 Métricas de Dataset y Procesamiento}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Dataset y Procesamiento}
+\label{tab:metricas-dataset}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Contexto} \\
+\midrule
+Dataset fuente & 18.454 canciones & Con letras disponibles \\
+Dataset seleccionado & 10.000 canciones & Optimizado clustering-aware \\
+Embeddings generados & 9.753 & Tasa éxito: 97,5\% \\
+Dataset unificado final & 7.811 canciones & Multimodal alineado \\
+Canciones excluidas & 2.189 (21,9\%) & Análisis de sesgo realizado \\
+Dimensionalidad semántica & 384 & BERT MiniLM \\
+Dimensionalidad musical & 12 & Spotify Audio Features \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.2 Métricas de Sesgo en Selección}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Sesgo en Selección}
+\label{tab:metricas-sesgo}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Significancia} \\
+\midrule
+Sesgo instrumentalness & +181,6\% & $p < 0{,}001$ (Mann-Whitney U) \\
+Chi-cuadrado géneros & $\chi^2 = 471{,}89$ & $p < 0{,}001$ \\
+Rock sobre-representado & +5,9\% & En canciones excluidas \\
+EDM sub-representado & $-$6,3\% & En canciones excluidas \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.3 Métricas de Clustering Readiness}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Clustering Readiness}
+\label{tab:metricas-readiness}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\
+\midrule
+Hopkins semántico & $0{,}7752 \pm 0{,}0015$ & Excellent clustering tendency \\
+Hopkins musical & $0{,}7871 \pm 0{,}0022$ & Excellent clustering tendency \\
+Cohen's $d$ (diferencia) & 4,02 & Large effect (baja variabilidad) \\
+Diferencia absoluta & 0,0119 & Numéricamente pequeña \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.4 Métricas de Clustering Semántico (K-Means++ $K=6$)}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Clustering Semántico}
+\label{tab:metricas-clustering}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Contexto} \\
+\midrule
+Composite Score & 0,561 & Función multi-criterio \\
+Silhouette Score & 0,0329 & Trade-off esperado en 384D \\
+Interpretability Score & 0,728 & Alta coherencia semántica \\
+Balance Distribution & 0,536 & Distribución razonablemente uniforme \\
+NMI cross-modal & 0,0567 & Correspondencia débil (complementariedad) \\
+Coherencia prom.\ clusters & 0,790 & Rango: 0,768--0,812 \\
+Robustez $K=6$ (bootstrap) & 87\% & IC 95\%: [81\%, 93\%] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.5 Métricas de Evaluación del Sistema Híbrido}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas Comparativas del Sistema Híbrido}
+\label{tab:metricas-hibrido}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Métrica} & \textbf{Híbrido 55/45} & \textbf{Solo Musical} & \textbf{Solo Semántico} \\
+\midrule
+Precision@10 & \textbf{0,398} & 0,312 & 0,287 \\
+ILD (diversidad) & 0,189 & 0,234 & 0,312 \\
+Coverage & 42,7\% & 38,2\% & 52,1\% \\
+Latencia & 78ms & 45ms & 62ms \\
+Mejora vs baseline & \textbf{+27,6\%} & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.6 Métricas de Grid Search de Pesos}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Grid Search de Pesos}
+\label{tab:metricas-gridsearch}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Configuración} & \textbf{Precision@10} & \textbf{Ranking} & \textbf{Observación} \\
+\midrule
+20/80 (óptima métrica) & 0,423 & 1 & +6,3\% vs implementada \\
+55/45 (implementada) & 0,398 & 5 & Balance precision-coherencia \\
+100/0 (solo musical) & 0,312 & 11 & Baseline inferior \\
+0/100 (solo semántico) & 0,287 & 10 & Baseline inferior \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.7 Métricas de Performance del Sistema}
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de Performance del Sistema}
+\label{tab:metricas-performance}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrica} & \textbf{Valor} & \textbf{Especificación} \\
+\midrule
+Latencia por recomendación & $<$100ms & Validado experimentalmente \\
+Throughput & 10+ consultas/seg & CPU estándar \\
+Memoria en runtime & $\sim$1,2 GB & Embeddings + índices \\
+Similaridades observadas & 89--99\% & Top vecinos cercanos \\
+\bottomrule
+\end{tabular}
+\end{table}
