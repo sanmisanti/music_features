@@ -1,0 +1,181 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% =============================================================================
+% PREAMBULO
+% =============================================================================
+
+% --- Codificacion y tipografia ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{lmodern}
+
+% --- Matematica ---
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% --- Tablas y figuras ---
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{colortbl}
+
+% --- Formato de pagina ---
+\usepackage{geometry}
+\geometry{left=3cm, right=2cm, top=2.5cm, bottom=2.5cm}
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Encabezados y pies ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- Titulos de capitulos y secciones ---
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% --- Indice ---
+\usepackage{tocloft}
+
+% --- Codigo fuente ---
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{gray!10},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    extendedchars=true,
+    inputencoding=utf8,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+             {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+             {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+             {ü}{{\"u}}1 {Ü}{{\"U}}1
+}
+
+% --- Listas ---
+\usepackage{enumitem}
+
+% --- Hipervinculos ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black,
+    pdftitle={Sistema de Recomendación Musical Multimodal basado en Clustering y Embeddings BERT},
+    pdfauthor={},
+    pdfsubject={Tesis de Ingeniería Informática},
+}
+
+% --- Bibliografia APA 7 ---
+\usepackage[style=apa,backend=biber,language=spanish]{biblatex}
+\DeclareLanguageMapping{spanish}{spanish-apa}
+\addbibresource{bibliography.bib}
+
+% --- Simbolos unicode ---
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+\DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+
+% --- Cajas de notas ---
+\usepackage{tcolorbox}
+
+% =============================================================================
+% DOCUMENTO
+% =============================================================================
+
+\begin{document}
+
+% --- Portada ---
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\large\textbf{UNIVERSIDAD}}\\ % Completar con nombre de la universidad
+\vspace{0.3cm}
+{\large Facultad de Ingeniería}\\ % Completar
+\vspace{0.3cm}
+{\large Carrera de Ingeniería Informática}\\ % Completar
+\vspace{3cm}
+
+{\LARGE\textbf{Sistema de Recomendación Musical Multimodal\\basado en Clustering Optimizado\\y Embeddings Semánticos BERT}}\\
+\vspace{2cm}
+
+{\large Proyecto de Grado}\\
+\vspace{1.5cm}
+
+{\large\textbf{Autor:} }\\  % Completar
+\vspace{0.5cm}
+{\large\textbf{Director:} }\\ % Completar
+\vspace{\fill}
+
+{\large 2026}
+\end{titlepage}
+
+% --- Paginas preliminares ---
+\pagenumbering{roman}
+
+\chapter*{Resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+% TODO: Escribir al final del proyecto, cuando todos los resultados estén disponibles.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+% TODO: Versión en inglés del resumen.
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+% --- Cuerpo principal ---
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/01_introduccion}
+\input{chapters/02_marco_teorico}
+\input{chapters/03_estado_cuestion}
+\input{chapters/04_definicion_problema}
+\input{chapters/05_solucion_propuesta}
+\input{chapters/06_resultados}
+\input{chapters/07_conclusiones}
+
+% --- Bibliografia ---
+\printbibliography[heading=bibintoc,title={Bibliografía}]
+
+% --- Anexos ---
+\appendix
+\input{appendices/A_configuraciones}
+\input{appendices/B_metricas}
+\input{appendices/C_reproducibilidad}
+
+\end{document}

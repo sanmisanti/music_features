@@ -13,3 +13,18 @@ __pycache__/
 
 *.pyc
 *.pyo
+
+# Artefactos de compilación LaTeX
+thesis/*.aux
+thesis/*.bbl
+thesis/*.bcf
+thesis/*.blg
+thesis/*.lof
+thesis/*.log
+thesis/*.lot
+thesis/*.out
+thesis/*.run.xml
+thesis/*.synctex.gz
+thesis/*.toc
+thesis/*.fdb_latexmk
+thesis/*.fls
