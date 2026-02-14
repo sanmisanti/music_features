@@ -14,19 +14,56 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 **NUNCA utilizar emojis, frases cortas o comunicacion informal.** Toda interaccion debe mantener rigor tecnico y profesionalismo de proyecto de tesis de Ingenieria Informatica. Respuestas como comunicacion entre ingenieros informaticos profesionales con explicaciones tecnicas fundamentadas.
 
-**Estructura obligatoria**: Introduccion contextual, desarrollo tecnico con fundamentacion cientifica, analisis comparativo cuando aplique, implicaciones practicas, sintesis y conclusiones.
-
 ---
 
-## ESTADO DEL PROYECTO: RE-EJECUCION EN CURSO
+## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 1 completada, iniciando Etapa 2 (Enero 2026)**
+**Fase actual: Transicion entre Etapa 1 y Etapa 2 (Febrero 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
 ### Objetivo de la re-ejecucion
 
-Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funcional y el informe de tesis en LaTeX. Cada etapa genera artefactos de codigo y contenido de capitulos del informe, de modo que al completar la ultima etapa el informe este esencialmente terminado.
+Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funcional y el informe de tesis en LaTeX. Cada etapa genera artefactos de codigo y contenido de capitulos del informe.
+
+### Progreso
+
+- [x] Etapa 1: Fundacion (estructura repositorio, esqueleto LaTeX 7 capitulos + 3 anexos, config centralizada, APA 7 via biblatex+biber)
+- [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
+- [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
+- [ ] Etapa 2: Datos (carga, exploracion, analisis descriptivo del dataset)
+- [ ] Etapa 3: Features
+- [ ] Etapa 4: Clustering
+- [ ] Etapa 5: Recomendacion
+- [ ] Etapa 6: Sintesis
+
+---
+
+## DECISIONES TECNICAS
+
+### Modelo de embeddings semanticos
+
+**Seleccionado: `multilingual-e5-small`** (Microsoft) en reemplazo de `paraphrase-multilingual-MiniLM-L12-v2`.
+
+| Propiedad | MiniLM (v1) | E5-small (v2) |
+|-----------|-------------|---------------|
+| Dimensiones | 384 | 384 |
+| Ventana de tokens | 128 | 512 |
+| Idiomas | 50+ | 100+ |
+| Cobertura de letras | ~50% sin truncamiento | ~95% sin truncamiento |
+
+Justificacion: misma dimensionalidad (metricas de clustering comparables), 4x mas contexto (cubre la mayoria de las letras), soporte multilingue superior. Pendiente de actualizar en `src/config.py`.
+
+### Estilo de redaccion del informe
+
+Principios establecidos durante la redaccion del Capitulo 2:
+- Lenguaje accesible: explicar TODOS los terminos tecnicos cuando se introducen
+- No hacer dumps de terminologia (no listar conceptos sin explicar)
+- Explicar la metodologia detras de cada resultado citado (como midieron, que midieron)
+- Estado de la Cuestion = QUE y POR QUE (accesible); Marco Teorico = COMO (tecnico con formulas)
+- `\textcite` para autor como sujeto, `\parencite` para parentetico
+- No referenciar "la primera ejecucion" en el informe; presentar situaciones de forma general
+- No descartar opciones prematuramente; presentar el panorama
 
 ---
 
@@ -38,7 +75,7 @@ Cada etapa del proyecto produce DOS entregables:
 1. **Codigo**: Modulos funcionales, validados, reproducibles
 2. **LaTeX**: Secciones del informe escritas con los resultados obtenidos
 
-Las tablas y figuras del informe se generan desde codigo. No se editan manualmente. Si un resultado cambia, se regenera el artefacto automaticamente.
+Las tablas y figuras del informe se generan desde codigo. No se editan manualmente.
 
 ### Etapas del proyecto
 
@@ -46,19 +83,10 @@ Las tablas y figuras del informe se generan desde codigo. No se editan manualmen
 |-------|-------------|---------------------------|
 | 1. Fundacion | Estructura repositorio, esqueleto LaTeX, configuracion | Introduccion (borrador) |
 | 2. Datos | Carga, exploracion, analisis descriptivo del dataset | Marco Teorico (datos), Solucion Propuesta (fuentes) |
-| 3. Features | Vectorizacion BERT, features musicales, unificacion | Marco Teorico (NLP/BERT), Solucion Propuesta (vectorizacion) |
+| 3. Features | Vectorizacion E5, features musicales, unificacion | Marco Teorico (NLP/BERT), Solucion Propuesta (vectorizacion) |
 | 4. Clustering | Hopkins, evaluacion multi-algoritmo, purificacion | Marco Teorico (clustering), Solucion Propuesta (clustering), Resultados |
 | 5. Recomendacion | Sistema hibrido, optimizacion pesos, evaluacion | Solucion Propuesta (integracion), Resultados |
 | 6. Sintesis | Conclusiones, revision coherencia, compilacion final | Conclusiones, Apendices |
-
-### Progreso de etapas
-
-- [x] Etapa 1: Fundacion (estructura repositorio, esqueleto LaTeX 7 capitulos + 3 anexos, config centralizada, APA 7 via biblatex+biber)
-- [ ] Etapa 2: Datos
-- [ ] Etapa 3: Features
-- [ ] Etapa 4: Clustering
-- [ ] Etapa 5: Recomendacion
-- [ ] Etapa 6: Sintesis
 
 ---
 
@@ -89,8 +117,6 @@ Problemas identificados que la re-ejecucion debe evitar:
 
 ## DATASET
 
-El dataset base es el mismo de la primera ejecucion:
-
 | Dataset | Ubicacion | Registros | Descripcion |
 |---------|-----------|-----------|-------------|
 | Fuente con letras | `data/2_with_lyrics/spotify_songs_fixed.csv` | 18,454 | Spotify Kaggle + Genius lyrics, separador `@@` |
@@ -105,26 +131,23 @@ El codigo y documentacion de la primera ejecucion permanecen en el repositorio c
 
 ### Documentacion de referencia
 
-| Documento | Contenido | Utilidad |
-|-----------|-----------|----------|
-| `docs/FULL_PROJECT.md` | Documento maestro v1: metodologia, resultados, 56 configuraciones | Referencia de resultados y metodologia |
-| `docs/SOLUCION_PROPUESTA_SEMANTICO.md` | Componente semantico completo | Referencia de estructura y contenido |
-| `docs/SOLUCION_PROPUESTA_SEMANTICO.tex` | Version LaTeX del componente semantico | Template de formato LaTeX |
-| `docs/SEMANTIC_RECOMMENDATIONS_ARCHITECTURE.md` | Decision vectores BERT directos vs clustering | Referencia arquitectural |
+| Documento | Contenido |
+|-----------|-----------|
+| `docs/FULL_PROJECT.md` | Documento maestro v1: metodologia, resultados, 56 configuraciones |
+| `docs/SOLUCION_PROPUESTA_SEMANTICO.md` | Componente semantico completo |
+| `docs/SEMANTIC_RECOMMENDATIONS_ARCHITECTURE.md` | Decision vectores BERT directos vs clustering |
 
 ### Codigo de referencia
 
-| Modulo | Ubicacion | Lineas | Utilidad |
-|--------|-----------|--------|----------|
-| Seleccion clustering-aware | `data_selection/clustering_aware/select_optimal_10k_from_18k.py` | 878 | Logica MaxMin + Hopkins a reimplementar |
-| Vectorizacion BERT | `clustering/algorithms/lyrics/vectorization/bert_vectorizer.py` | ~300 | Arquitectura BERT a reimplementar |
-| Funcion objetivo multi-criterio | `clustering/evaluation_project/phase3_.../config/evaluation_metrics.py` | ~300 | Metricas y pesos a reimplementar |
-| Purificacion hibrida | `scripts/cluster_purification.py` | 841 | Algoritmo central a reimplementar |
-| Sistema recomendacion | `recommendation_system/scripts/` | ~4800 | Motor hibrido a reimplementar |
+| Modulo | Ubicacion |
+|--------|-----------|
+| Seleccion clustering-aware | `data_selection/clustering_aware/select_optimal_10k_from_18k.py` |
+| Vectorizacion BERT | `clustering/algorithms/lyrics/vectorization/bert_vectorizer.py` |
+| Funcion objetivo multi-criterio | `clustering/evaluation_project/phase3_.../config/evaluation_metrics.py` |
+| Purificacion hibrida | `scripts/cluster_purification.py` |
+| Sistema recomendacion | `recommendation_system/scripts/` |
 
-### Resultados de referencia (primera ejecucion)
-
-Estos resultados sirven como benchmark para validar la re-ejecucion:
+### Resultados de referencia (benchmark v1)
 
 | Metrica | Valor v1 | Notas |
 |---------|----------|-------|
@@ -136,26 +159,40 @@ Estos resultados sirven como benchmark para validar la re-ejecucion:
 
 ---
 
-## ESTRUCTURA DEL INFORME (ETAPA 1)
+## ESTRUCTURA DEL INFORME
 
 Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 
-| Archivo | Capitulo |
-|---------|----------|
-| `thesis/main.tex` | Documento maestro (preambulo, portada, inputs) |
-| `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion |
-| `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion |
-| `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema |
-| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico |
-| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta |
-| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales |
-| `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas |
-| `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones |
-| `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas |
-| `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad |
-| `thesis/bibliography.bib` | Referencias bibliograficas |
+| Archivo | Capitulo | Estado |
+|---------|----------|--------|
+| `thesis/main.tex` | Documento maestro | Completo |
+| `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion | Borrador |
+| `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** |
+| `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | Pendiente |
+| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Pendiente |
+| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | Pendiente |
+| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Pendiente |
+| `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Pendiente |
+| `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Pendiente |
+| `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas | Pendiente |
+| `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad | Pendiente |
+| `thesis/bibliography.bib` | Referencias (~58 entradas) | En progreso |
 
 **Nota**: Los nombres de archivo (01\_, 02\_, etc.) no corresponden al orden de capitulos. El orden real esta definido por la secuencia de `\input` en `main.tex`.
+
+### Investigacion bibliografica
+
+7 documentos de revision sistematica en `thesis/investigacion/`:
+
+| Archivo | Dominio | Fuentes |
+|---------|---------|---------|
+| `01_sistemas_recomendacion.md` | Recomendacion musical | 23 |
+| `02_music_information_retrieval.md` | MIR y letras | 21 |
+| `03_nlp_bert_embeddings.md` | NLP, BERT, embeddings | 18 |
+| `04_clustering_algoritmos.md` | Clustering y evaluacion | 25 |
+| `05_fusion_multimodal.md` | Fusion multimodal | 18 |
+| `06_evaluacion_experimental.md` | Evaluacion y reproducibilidad | 20 |
+| `07_ingenieria_datos_features.md` | Ingenieria de datos y features | 22 |
 
 ### Configuracion centralizada
 
@@ -166,7 +203,7 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 ## DIRECTIVA: ACTUALIZACION DE ESTE ARCHIVO
 
 Este archivo se actualiza al completar cada etapa:
-1. Marcar etapa completada en la seccion "Progreso de etapas"
+1. Marcar etapa completada en la seccion "Progreso"
 2. Agregar referencias a nuevos modulos/documentos creados
-3. Registrar decisiones tecnicas importantes tomadas durante la etapa
+3. Registrar decisiones tecnicas importantes en la seccion correspondiente
 4. Mantener actualizada la seccion de lecciones aprendidas si surgen nuevas
