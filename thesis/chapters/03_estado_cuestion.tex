@@ -1,19 +1,80 @@
 \chapter{Estado de la Cuestión}
 \label{ch:estado-cuestion}
 
-% Completar durante Etapa 2
+El presente capítulo examina el estado actual de la investigación en las áreas que convergen en este proyecto: la recomendación musical, el análisis de letras como fuente de información semántica, las técnicas de clustering aplicadas a catálogos musicales y las estrategias de integración multimodal. El recorrido comienza con una panorámica de la recomendación musical contemporánea y se estrecha progresivamente hacia los componentes específicos del sistema propuesto, identificando en cada dominio los avances consolidados, las limitaciones reconocidas y los vacíos que este trabajo busca abordar.
 
-\section{Sistemas de Recomendación Musical: Evolución y Enfoques Actuales}
-\label{sec:evolucion-recomendacion}
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.1 — Recomendación Musical Contemporánea
+% ---------------------------------------------------------------------------
+\section{Recomendación Musical Contemporánea}
+\label{sec:recomendacion-contemporanea}
 
-\section{Uso de Letras en Music Information Retrieval}
-\label{sec:lyrics-mir}
+La expansión de los catálogos musicales digitales durante las últimas dos décadas ha transformado radicalmente la forma en que los oyentes acceden a la música. Plataformas como Spotify, Apple Music y YouTube Music ofrecen decenas de millones de canciones, un volumen que excede cualquier capacidad de exploración manual. En este contexto, los sistemas de recomendación musical constituyen el mecanismo principal mediante el cual los oyentes descubren nueva música: determinan qué canciones aparecen en playlists automáticas, qué artistas se sugieren y, en última instancia, qué parte del catálogo recibe exposición y cuál permanece invisible. La investigación sobre estos sistemas ha evolucionado considerablemente desde sus primeras formulaciones, pero los desafíos fundamentales ---cómo representar una canción, cómo inferir preferencias y cómo integrar fuentes de información heterogéneas--- continúan definiendo las fronteras del campo.
 
+El paradigma fundacional de la recomendación moderna es el filtrado colaborativo, que infiere las preferencias de un usuario a partir de los patrones de comportamiento de usuarios similares. \textcite{sarwar_2001_itembased} establecieron la distinción entre filtrado colaborativo basado en usuarios y basado en ítems, demostrando que los enfoques basados en ítems ofrecen mejor escalabilidad en catálogos grandes. Posteriormente, \textcite{koren_2009_mf} refinaron este enfoque mediante técnicas de factorización matricial ---métodos que identifican patrones ocultos en los datos incompletos de interacción entre usuarios y canciones--- y demostraron que es posible aprovechar no solo las calificaciones que un usuario asigna explícitamente a una canción, sino también las señales implícitas de su comportamiento: qué canciones reproduce, cuáles agrega a sus playlists, cuánto tiempo dedica a cada una \parencite{hu_2008_implicit_feedback}. En el dominio musical, donde los usuarios rara vez califican canciones pero generan continuamente este tipo de señales pasivas, esta distinción resultó particularmente relevante. Durante más de una década, estos enfoques constituyeron la base sobre la cual se construyeron la mayoría de los sistemas de recomendación, tanto académicos como industriales.
+
+A partir de mediados de la década de 2010, las técnicas de aprendizaje profundo ---modelos de inteligencia artificial capaces de detectar patrones complejos que los métodos matemáticos tradicionales no capturan--- transformaron el campo. \textcite{he_2017_ncf} propusieron Neural Collaborative Filtering, un enfoque que utiliza redes neuronales para descubrir relaciones sutiles entre las preferencias de los usuarios y las características de las canciones, superando las limitaciones de los modelos anteriores. Más recientemente, las Graph Neural Networks han llevado esta idea un paso más allá: en lugar de analizar datos en formato tabular, modelan las conexiones entre usuarios y canciones como una red ---similar a una red social--- donde las relaciones indirectas aportan información valiosa para la recomendación \parencite{wu_2023_gnn_recsys_survey}. Por ejemplo, si dos usuarios comparten gustos con un tercero, esa conexión indirecta permite inferir preferencias que un análisis directo no detectaría. En el dominio musical, \textcite{anelli_2024_hybrid_gnn_music} demostraron que este tipo de modelos, combinados con información del contenido de las canciones, mejoran la calidad de las recomendaciones. Sin embargo, todos estos avances comparten una dependencia fundamental: necesitan datos sobre qué usuarios escucharon qué canciones. Cuando estos datos no están disponibles ---como ocurre con artistas nuevos o en sistemas sin registro de actividad del usuario--- estos modelos no pueden operar.
+
+Frente a esta dependencia, los enfoques basados en contenido ofrecen una alternativa: en lugar de inferir preferencias desde el comportamiento colectivo, caracterizan directamente cada canción mediante atributos extraídos de su contenido. En la práctica industrial, estos atributos suelen ser descriptores acústicos ---energía, tempo, valencia emocional, bailabilidad, entre otros--- que capturan propiedades perceptuales de la señal de audio. Spotify, referente del dominio, opera con una estrategia dual: por un lado, identifica canciones que suelen aparecer juntas en las playlists creadas por los usuarios; por otro, analiza el contenido de audio de cada canción mediante modelos de inteligencia artificial. \textcite{schedl_2018_challenges_mrs} documentaron los desafíos abiertos que estos sistemas enfrentan a escala: el problema del \textit{cold-start} ---la incapacidad del sistema para recomendar artistas nuevos que aún no han acumulado datos de escucha---, la tendencia a generar recomendaciones repetitivas, y el dilema entre ofrecer música que el usuario probablemente disfrutará porque se parece a lo que ya escucha, o arriesgarse a sugerir algo diferente que podría ampliar sus gustos.
+
+La complementariedad entre filtrado colaborativo y contenido motivó el desarrollo de sistemas híbridos, que combinan múltiples estrategias para mitigar las debilidades individuales de cada enfoque. Cuando un sistema dispone de varias fuentes de información ---por ejemplo, el historial de escucha y las características de audio de cada canción---, la decisión de cómo integrarlas no es trivial: se pueden promediar los puntajes que cada componente asigna a una canción, seleccionar el componente más confiable según el contexto, o utilizar la salida de uno como entrada del otro, entre otras posibilidades. \textcite{burke_2002_hybrid} sistematizó estas opciones en una taxonomía de siete estrategias de hibridación, que abarca desde las más directas ---como la combinación ponderada de puntajes--- hasta las más sofisticadas ---como la construcción de un modelo que aprende a partir de las predicciones de otro---. Esta clasificación sigue siendo el marco de referencia para diseñar y comparar sistemas híbridos. En el dominio musical, los sistemas más exitosos tienden a combinar señales de interacción con descriptores de audio, logrando que el sistema pueda funcionar incluso cuando no dispone de historial completo de un usuario o cuando una canción es nueva en el catálogo.
+
+Al examinar las fuentes de información que estos sistemas emplean, sin embargo, emerge una ausencia notable. Tanto los enfoques colaborativos como los basados en contenido operan, en definitiva, sobre dos tipos de señal: cómo interactúan los usuarios con las canciones y cómo suenan esas canciones. Las letras ---el contenido textual que el artista comunica al oyente--- quedan relegadas a un papel marginal o directamente inexplorado como señal primaria de recomendación. Esta ausencia resulta particularmente llamativa a la luz de evidencia reciente: \textcite{moscati_2022_music4all} demostraron que las distintas capas de información de una canción ---audio, letras, metadatos--- influyen de manera diferenciada no solo en la precisión de las recomendaciones sino también en propiedades como la novedad y la equidad del sistema. La incorporación de nuevas modalidades, por tanto, no constituye un refinamiento marginal: altera cualitativamente el comportamiento del sistema de recomendación. Esta observación sitúa a las letras como una modalidad cuyo potencial permanece en gran medida sin explotar, y motiva el análisis que se desarrolla en la siguiente sección.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.2 — Las Letras como Modalidad Subexplorada
+% ---------------------------------------------------------------------------
+\section{Las Letras como Modalidad Subexplorada}
+\label{sec:letras-modalidad}
+
+Un oyente no elige una canción únicamente por cómo suena: la letra transmite temáticas, emociones y narrativas que influyen en la experiencia musical tanto como la melodía o el ritmo. Sin embargo, como se señaló en la sección anterior, la gran mayoría de los sistemas de recomendación musical operan exclusivamente sobre señales de interacción y descriptores acústicos, tratando la canción como un objeto sonoro y descartando su dimensión textual. Esta sección examina la evidencia acumulada sobre el valor informativo de las letras, las razones por las cuales han permanecido como una modalidad secundaria y los indicios de que su incorporación mejora cualitativamente los sistemas de recomendación.
+
+La primera evidencia directa del potencial informativo de las letras proviene del trabajo de \textcite{hu_2010_lyrics_audio_mood}, quienes compararon la capacidad del audio y de las letras para clasificar el estado emocional de una canción. Sus resultados revelaron un patrón asimétrico: el audio clasifica mejor las emociones definidas por propiedades acústicas ---como la diferencia entre una canción enérgica y una tranquila---, mientras que las letras superan al audio cuando las categorías emocionales son semánticamente ricas ---como distinguir entre nostalgia, rebeldía o melancolía---. Este hallazgo sugiere que audio y letras no son fuentes redundantes sino complementarias: cada una captura aspectos de la canción que la otra no puede representar.
+
+Los primeros intentos de incorporar letras en sistemas musicales emplearon técnicas de procesamiento de texto relativamente simples. \textcite{patra_2013_lyrics_retrieval} desarrollaron un sistema que identificaba canciones con letras similares mediante conteo de frecuencias de palabras y detección automática de tópicos ---es decir, el sistema reconocía que dos canciones hablan sobre temas parecidos, pero sin comprender realmente el significado de las palabras---. \textcite{gossi_2016_lyric_recommendation} demostraron que es posible construir un sistema de recomendación basado exclusivamente en letras, combinando detección de emociones en el texto con identificación de temas recurrentes. Aunque limitados en escala y precisión, estos trabajos establecieron un principio fundamental: las letras contienen información suficiente para discriminar entre canciones y generar recomendaciones con cierta coherencia temática.
+
+La pregunta natural que surge de estos primeros estudios es si incorporar letras junto con audio produce mejores resultados que usar cualquiera de las dos fuentes por separado. La evidencia empírica acumulada responde afirmativamente de forma consistente. \textcite{vystrcilova_2020_lyrics_audio} generaron múltiples representaciones de un mismo conjunto de canciones ---unas basadas en las letras (mediante conteo de palabras, Word2Vec y BERT) y otras basadas en el audio--- y evaluaron cuál era más efectiva para identificar canciones genuinamente similares según su género. Los descriptores de audio superaron a los de letras cuando se usaron por separado, pero la combinación de ambas fuentes produjo mejores coincidencias que cualquiera de las dos individualmente. Este patrón se confirma en tareas diversas. En clasificación de género musical, \textcite{oramas_2018_multimodal_genre} encontraron que la fusión de audio con información textual alcanza un rendimiento significativamente superior al del audio aislado. En reconocimiento emocional ---la tarea de determinar automáticamente si una canción transmite alegría, tristeza, energía u otras emociones---, el survey de \textcite{liyanarachchi_2025_multimodal_mer}, que revisó más de 500 estudios, reportó que los enfoques que combinan audio y letras alcanzan una precisión del 79\%, frente al 71\% del audio solo y el 63\% de las letras solas. Notablemente, la mejor precisión reportada entre todos los estudios revisados ---94.58\%--- fue obtenida por un sistema que analiza el audio mediante una red neuronal y las letras mediante un modelo de lenguaje, combinando ambos resultados al final del proceso. Si bien esta cifra corresponde a clasificación emocional y no a recomendación directa, ilustra el potencial de la estrategia de combinar análisis de audio con análisis textual de letras, el mismo principio que guía el presente trabajo.
+
+A pesar de esta evidencia favorable, las letras permanecen como una modalidad secundaria en la práctica. Varias razones contribuyen a esta situación. En primer lugar, las letras presentan desafíos lingüísticos que las distinguen del texto convencional: abundan en metáforas, simbolismo, vocabulario informal y variaciones ortográficas deliberadas ---características que dificultan su procesamiento automatizado \parencite{watanabe_2020_lip}---. En segundo lugar, las canciones típicamente repiten estribillos múltiples veces, lo que sesga cualquier representación estadística del texto hacia el contenido repetido, en detrimento de versos con mayor riqueza semántica. En tercer lugar, no existe un estándar de referencia consolidado para evaluar la calidad de las representaciones de letras ---a diferencia del texto general, donde existen conjuntos de evaluación bien establecidos---, lo que dificulta comparar enfoques y medir progreso de forma objetiva. Estas dificultades técnicas, más que la falta de evidencia sobre su utilidad, explican por qué las letras han permanecido en un segundo plano.
+
+Sin embargo, investigaciones recientes sugieren que la barrera principal no radica en la información contenida en las letras sino en las limitaciones de las herramientas que se han utilizado para extraerla. \textcite{akama_2024_lyric_similarity} demostraron que las representaciones generadas por modelos de lenguaje modernos correlacionan significativamente con la similitud que los oyentes humanos perciben entre letras, validando que estas herramientas capturan aspectos genuinamente relevantes del contenido lírico. La evolución de las técnicas de representación textual ---desde el conteo de palabras hasta los modelos capaces de comprender contexto y significado--- ha abierto posibilidades que las herramientas anteriores simplemente no ofrecían. La siguiente sección examina esta evolución y las representaciones semánticas que habilitan el enfoque del presente trabajo.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.3 — Representaciones Semánticas del Texto Musical
+% ---------------------------------------------------------------------------
+\section{Representaciones Semánticas del Texto Musical}
+\label{sec:representaciones-semanticas}
+
+% Pendiente de redacción
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.4 — Clustering Aplicado a Catálogos Musicales
+% ---------------------------------------------------------------------------
 \section{Clustering Aplicado a Catálogos Musicales}
 \label{sec:clustering-catalogos}
 
-\section{Integración Multimodal en Recomendación}
+% Pendiente de redacción
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.5 — Integración de Modalidades Heterogéneas
+% ---------------------------------------------------------------------------
+\section{Integración de Modalidades Heterogéneas}
 \label{sec:integracion-multimodal}
 
-\section{Síntesis y Posicionamiento del Trabajo}
+% Pendiente de redacción
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.6 — Evaluación y Reproducibilidad en Sistemas Musicales
+% ---------------------------------------------------------------------------
+\section{Evaluación y Reproducibilidad en Sistemas Musicales}
+\label{sec:evaluacion-reproducibilidad}
+
+% Pendiente de redacción
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 2.7 — Síntesis y Posicionamiento del Proyecto
+% ---------------------------------------------------------------------------
+\section{Síntesis y Posicionamiento del Proyecto}
 \label{sec:sintesis-posicionamiento}
+
+% Pendiente de redacción
