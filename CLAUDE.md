@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 2 - Codigo EDA ejecutado, pendiente redaccion LaTeX (Marzo 2026)**
+**Fase actual: Etapa 3 - Preprocesamiento completado, pendiente vectorizacion E5 (Marzo 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -32,7 +32,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
-- [ ] Etapa 3: Features
+- [~] Etapa 3: Features — preprocesamiento completado (17,964 canciones), pendiente vectorizacion E5
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -122,8 +122,9 @@ Problemas identificados que la re-ejecucion debe evitar:
 | Dataset | Ubicacion | Registros | Descripcion |
 |---------|-----------|-----------|-------------|
 | Fuente con letras | `data/2_with_lyrics/spotify_songs_fixed.csv` | 18,454 | Spotify Kaggle + Genius lyrics, separador `@@` |
+| Seleccionado | `data/3_selected/selected_dataset.csv` | 17,964 | Post-preprocesamiento, separador `@@`, 40.72 MB |
 
-Los datasets intermedios (3_selected, 4_vectorized, 5_unified) seran regenerados durante la re-ejecucion con el nuevo pipeline.
+Los datasets intermedios (4_vectorized, 5_unified) seran regenerados en los siguientes pasos de la Etapa 3.
 
 ---
 
@@ -229,6 +230,31 @@ Artefactos generados (ejecucion exitosa 2026-03-01, 12.2s):
 | Vocal vs instrumental | 95.5% / 4.5% | Umbral instrumentalness > 0.5 |
 | Cobertura ventana 512 tokens | **58.8% estimado** | Heuristica 1.33 tok/palabra; requiere validacion con tokenizer real |
 | Feature con mas outliers IQR | instrumentalness (21.1%) | Distribucion concentrada cerca de 0 |
+
+### Modulos Etapa 3 Paso 1: Preprocesamiento
+
+| Modulo | Ubicacion | Contenido |
+|--------|-----------|-----------|
+| Preprocesamiento | `src/data/preprocessor.py` | `filter_null_lyrics()`, `filter_by_word_count()`, `clip_loudness_anomalies()`, `preprocess_dataset()`, `save_selected_dataset()` |
+| Orquestador | `src/data/run_preprocessing.py` | `python -m src.data.run_preprocessing` — ejecuta pipeline completo |
+
+Artefactos generados (ejecucion exitosa 2026-03-01, 4.4s):
+- `data/3_selected/selected_dataset.csv` (17,964 filas, 25 columnas)
+- `results/tables/data_loss_budget.tex` + `thesis/tables/data_loss_budget.tex`
+- `results/metrics/etapa3_preprocessing.json`
+
+### Resultados del preprocesamiento
+
+| Filtro | Eliminados | % | Acumulado |
+|--------|-----------|---|-----------|
+| Letras nulas/vacias | 252 | 1.37% | 18,202 |
+| Letras < 10 palabras | 108 | 0.59% | 18,094 |
+| Letras > 2000 palabras | 130 | 0.72% | 17,964 |
+| **Total perdida** | **490** | **2.66%** | **17,964** |
+
+Adicionalmente, 4 valores de loudness > 0 dB fueron corregidos (clip a 0 dB, sin remocion de filas).
+
+**Contraste con v1**: La v1 redujo de 18K a 7,811 (57.7% de perdida) mediante seleccion clustering-aware sin justificacion intencional. La v2 aplica unicamente filtros de calidad documentados, con 2.66% de perdida total.
 
 ---
 

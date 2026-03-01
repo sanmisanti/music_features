@@ -1,0 +1,49 @@
+{
+  "original_count": 18454,
+  "final_count": 17964,
+  "total_lost": 490,
+  "total_loss_pct": 2.66,
+  "loudness_clipped": 4,
+  "filters_applied": [
+    {
+      "filter_name": "Letras nulas o vacías",
+      "reason": "Sin contenido textual para vectorización semántica",
+      "rows_before": 18454,
+      "rows_after": 18202,
+      "rows_lost": 252,
+      "loss_pct": 1.37,
+      "cumulative_remaining_pct": 98.63
+    },
+    {
+      "filter_name": "Letras < 10 palabras",
+      "reason": "Contenido semántico insuficiente para embedding significativo",
+      "rows_before": 18202,
+      "rows_after": 18094,
+      "rows_lost": 108,
+      "loss_pct": 0.59,
+      "cumulative_remaining_pct": 99.41
+    },
+    {
+      "filter_name": "Letras > 2000 palabras",
+      "reason": "Probables artefactos de scraping; canción típica: 200-500 palabras",
+      "rows_before": 18094,
+      "rows_after": 17964,
+      "rows_lost": 130,
+      "loss_pct": 0.72,
+      "cumulative_remaining_pct": 99.28
+    }
+  ],
+  "postconditions": {
+    "null_lyrics": 0,
+    "below_min_words": 0,
+    "above_max_words": 0,
+    "loudness_above_zero": 0,
+    "columns_preserved": 25
+  },
+  "parameters": {
+    "min_words": 10,
+    "max_words": 2000,
+    "loudness_clip_db": 0.0
+  },
+  "output_path": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\3_selected\\selected_dataset.csv"
+}

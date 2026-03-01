@@ -209,6 +209,10 @@ def save_selected_dataset(df: pd.DataFrame, path: Path) -> None:
     """
     Guarda el dataset seleccionado en CSV con separador '@@'.
 
+    pandas.to_csv() no soporta delimitadores multi-caracter (el modulo csv
+    de Python solo acepta un unico caracter). Se utiliza un caracter nulo
+    como placeholder intermedio y se reemplaza por '@@' en el resultado final.
+
     Parameters
     ----------
     df : pd.DataFrame
@@ -217,6 +221,9 @@ def save_selected_dataset(df: pd.DataFrame, path: Path) -> None:
         Ruta de destino del archivo CSV.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(path, sep=SOURCE_SEPARATOR, index=False, encoding="utf-8")
+    placeholder = "\x00"
+    content = df.to_csv(index=False, sep=placeholder)
+    content = content.replace(placeholder, SOURCE_SEPARATOR)
+    path.write_text(content, encoding="utf-8")
     size_mb = round(path.stat().st_size / (1024 * 1024), 2)
     logger.info("Dataset guardado: %s (%d filas, %.2f MB)", path, len(df), size_mb)

@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering
+\caption{Presupuesto de pérdida de datos (\textit{data loss budget}) del preprocesamiento.}
+\label{tab:data_loss_budget}
+\small
+\begin{tabular}{lrrrrl}
+\toprule
+Filtro & Antes & Después & Pérdida & \% & Justificación \\
+\midrule
+Letras nulas o vacías & 18\,454 & 18\,202 & 252 & 1.37 & Sin contenido textual para vectorización semántica \\
+Letras < 10 palabras & 18\,202 & 18\,094 & 108 & 0.59 & Contenido semántico insuficiente para embedding significativo \\
+Letras > 2000 palabras & 18\,094 & 17\,964 & 130 & 0.72 & Probables artefactos de scraping; canción típica: 200-500 palabras \\
+\midrule
+\textbf{Total} & 18\,454 & 17\,964 & 490 & 2.66 & --- \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\footnotesize{Nota: 4 valores de \texttt{loudness} $> 0$ dB fueron recortados a 0 dB (corrección sin eliminación de filas).}
+\end{table}
