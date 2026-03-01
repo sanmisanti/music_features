@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Transicion entre Etapa 1 y Etapa 2 (Febrero 2026)**
+**Fase actual: Etapa 2 - Codigo EDA ejecutado, pendiente redaccion LaTeX (Marzo 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -31,7 +31,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Etapa 1: Fundacion (estructura repositorio, esqueleto LaTeX 7 capitulos + 3 anexos, config centralizada, APA 7 via biblatex+biber)
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
-- [ ] Etapa 2: Datos (carga, exploracion, analisis descriptivo del dataset)
+- [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
 - [ ] Etapa 3: Features
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
@@ -50,9 +50,11 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 | Dimensiones | 384 | 384 |
 | Ventana de tokens | 128 | 512 |
 | Idiomas | 50+ | 100+ |
-| Cobertura de letras | ~50% sin truncamiento | ~95% sin truncamiento |
+| Cobertura de letras | ~50% sin truncamiento | **58.8% estimado** (ver nota) |
 
-Justificacion: misma dimensionalidad (metricas de clustering comparables), 4x mas contexto (cubre la mayoria de las letras), soporte multilingue superior. Pendiente de actualizar en `src/config.py`.
+Justificacion: misma dimensionalidad (metricas de clustering comparables), 4x mas contexto, soporte multilingue superior. **Actualizado en `src/config.py`** (BERT_MODEL_NAME y BERT_TARGET_TOKENS).
+
+**Nota sobre cobertura**: La estimacion original (~95%) era optimista. El EDA midio 58.8% usando heuristica de 1.33 tokens/palabra. Esta estimacion es imprecisa; la cobertura real debe medirse con el tokenizer del modelo en Etapa 3. El factor 1.33 no contempla subword tokenization multilingue.
 
 ### Estilo de redaccion del informe
 
@@ -197,6 +199,36 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 ### Configuracion centralizada
 
 `src/config.py` define todos los paths, seeds, y parametros globales. Ningun script debe definir estos valores localmente.
+
+### Modulos Etapa 2: EDA
+
+| Modulo | Ubicacion | Contenido |
+|--------|-----------|-----------|
+| Carga y validacion | `src/data/loader.py` | `load_source_dataset()`, `LoadReport`, validacion de features y letras |
+| Analisis exploratorio | `src/data/eda.py` | Perfiles estadisticos, correlaciones, analisis de sesgo, data loss budget |
+| Visualizacion | `src/data/plots.py` | 7 figuras PDF (distribuciones, correlaciones, sesgo) |
+| Tablas LaTeX | `src/data/tables.py` | 5 tablas booktabs (descriptivas, genero, letras, correlaciones, overview) |
+| Orquestador | `src/data/run_eda.py` | `python -m src.data.run_eda` — ejecuta pipeline completo |
+| API publica | `src/data/__init__.py` | Exports del modulo |
+
+Artefactos generados (ejecucion exitosa 2026-03-01, 12.2s):
+- 7 PDFs en `results/figures/` y `thesis/figures/`
+- 5 `.tex` en `results/tables/` y `thesis/tables/`
+- `results/metrics/etapa2_eda.json`
+
+### Resultados clave del EDA
+
+| Metrica | Valor | Nota |
+|---------|-------|------|
+| Filas / columnas | 18,454 / 25 | 61.31 MB |
+| Letras validas | 18,202 (98.6%) | 252 nulas |
+| Loudness fuera de rango | 4 | Valores > 0 dB |
+| Correlaciones |r| >= 0.5 | 2 pares | energy-loudness (0.67), energy-acousticness (-0.55) |
+| Balance de genero (entropia) | 0.9842 (alto) | 6 generos |
+| Idioma dominante | ingles 83.5% | 35 idiomas, entropia 0.21 |
+| Vocal vs instrumental | 95.5% / 4.5% | Umbral instrumentalness > 0.5 |
+| Cobertura ventana 512 tokens | **58.8% estimado** | Heuristica 1.33 tok/palabra; requiere validacion con tokenizer real |
+| Feature con mas outliers IQR | instrumentalness (21.1%) | Distribucion concentrada cerca de 0 |
 
 ---
 
