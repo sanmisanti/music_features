@@ -3,29 +3,160 @@
 
 % Completar progresivamente durante Etapas 2 a 5
 
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.1 — Visión General de la Arquitectura
+% ---------------------------------------------------------------------------
 \section{Visión General de la Arquitectura}
 \label{sec:vision-general}
 
+El sistema propuesto integra información acústica y semántica de canciones musicales para generar recomendaciones que consideren tanto las propiedades sonoras de cada canción como el contenido de sus letras. La arquitectura se organiza como un pipeline secuencial de cinco etapas, cada una de las cuales produce artefactos verificables que alimentan la siguiente.
+
+La primera etapa ---el pipeline de datos--- carga, valida y caracteriza el catálogo de canciones disponible, documentando sus propiedades estadísticas y los sesgos preexistentes que condicionan las etapas posteriores. La segunda etapa genera las representaciones numéricas de cada canción en dos espacios complementarios: por un lado, vectores semánticos de 384 dimensiones que capturan el significado de las letras mediante un modelo de lenguaje preentrenado; por otro, un vector de 12 descriptores acústicos que describe las propiedades sonoras. La tercera etapa aplica técnicas de clustering sobre ambas representaciones para identificar agrupaciones naturales en el catálogo ---canciones que comparten perfil sonoro, temática lírica, o ambas cosas---. La cuarta etapa construye el sistema de recomendación propiamente dicho, combinando las señales de ambos espacios mediante una estrategia de fusión ponderada. Finalmente, la quinta etapa evalúa el sistema completo bajo métricas de precisión, diversidad y coherencia.
+
+Las decisiones de diseño en cada etapa están condicionadas por las propiedades del dataset fuente, cuya caracterización se presenta a continuación.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.2 — Pipeline de Datos
+% ---------------------------------------------------------------------------
 \section{Pipeline de Datos}
 \label{sec:pipeline-datos}
 
+La calidad de un sistema de recomendación está condicionada por las propiedades de los datos sobre los que opera. Antes de aplicar cualquier transformación o filtrado, resulta necesario caracterizar el dataset fuente de forma exhaustiva: comprender qué información contiene, cuánta es utilizable, qué sesgos presenta y qué limitaciones impone a las etapas posteriores del sistema. Esta caracterización no constituye un paso preliminar menor: es un componente del pipeline que fundamenta las decisiones de diseño y permite documentar explícitamente el presupuesto de pérdida de datos ---cuántos registros se excluyen en cada etapa y por qué razón--- en lugar de tratar la reducción del dataset como un efecto secundario no planificado.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.2.1 — Fuentes de Datos
+% ---------------------------------------------------------------------------
 \subsection{Fuentes de Datos}
 \label{subsec:fuentes}
 
+El dataset utilizado en este trabajo es una compilación pública disponible en Kaggle \parencite{nakhaee_2020_spotify_lyrics} que integra dos fuentes de información complementarias. La base del dataset proviene del proyecto TidyTuesday, que recopiló las propiedades acústicas de aproximadamente 30\,000 canciones mediante la Web API de Spotify \parencite{spotify_2024_web_api}. Sobre esa base, \textcite{nakhaee_2020_spotify_lyrics} enriqueció el dataset con dos elementos adicionales: las letras completas de cada canción, obtenidas mediante la librería Genius de R \parencite{genius_api}, y la detección automática del idioma de cada letra, realizada con la librería langdetect de Python. El proceso de obtención de letras produjo una pérdida de aproximadamente el 50\% del dataset original ---canciones para las cuales Genius no disponía de letras---, resultando en 18\,454 registros y 25 columnas que se organizan en tres categorías: metadatos de la canción y su contexto en playlists, 12 features acústicas numéricas y el texto completo de las letras.
+
+\input{tables/dataset_overview}
+
+El Cuadro~\ref{tab:dataset_overview} resume las propiedades generales del dataset. No existen identificadores de pista duplicados y los valores faltantes genuinos se concentran en dos columnas: letras (252 registros) e idioma (260 registros)\footnote{La herramienta de análisis reporta 514 valores faltantes porque un registro del artista \texttt{@chillwagon} presenta valores aparentemente nulos en nombre de pista y álbum. Se trata de un artefacto del parsing: los campos contienen el carácter \texttt{@}, que genera ambigüedad con el separador \texttt{@@} del archivo CSV. Los datos no están realmente ausentes.}. Un análisis cruzado de los 252 registros sin letras con su valor de \textit{instrumentalness} revela que el 67.5\% (170 canciones) presenta un valor superior a 0.5 ---el umbral que Spotify utiliza para clasificar una canción como probable instrumental---, con una media de 0.60 y una mediana de 0.77, frente a una media de 0.04 para las canciones con letras. Esto confirma que la mayoría de las canciones sin letras son efectivamente instrumentales. El 32.5\% restante (82 canciones) presenta \textit{instrumentalness} baja ---lo que indica que Spotify detecta presencia significativa de vocales en la señal de audio--- pero carece igualmente de letras en Genius. La inspección manual de estos casos revela que se trata predominantemente de tracks de música electrónica de artistas como Martin Garrix, Vicetone y Swedish House Mafia, un subdominio donde la cobertura de Genius es históricamente limitada: las vocales existen en la grabación, pero nadie ha transcrito las letras en la plataforma. De hecho, EDM concentra el 46\% de todas las canciones sin letras (116 de 252), lo cual es coherente con la naturaleza del género. La ausencia de letras en estos registros no representa un error de scraping sino una limitación inherente de la cobertura de Genius para música con contenido vocal mínimo o no convencional. Los 260 valores faltantes de idioma incluyen las 252 canciones sin letras (donde langdetect no puede operar) más 8 canciones cuyo texto resultó demasiado breve o ambiguo para la detección automática. La cobertura de letras ---98.63\% de los registros--- es alta, lo que permite que la gran mayoría de las canciones sean procesables por el componente semántico del sistema.
+
+Las canciones del dataset están organizadas en 6 géneros musicales y 24 subgéneros, derivados de las playlists de Spotify de las que fueron extraídas. Cada canción pertenece a exactamente un género y un subgénero, lo que proporciona una taxonomía de referencia que, si bien no constituye un ground truth de clasificación musical absoluto ---una canción puede pertenecer legítimamente a más de un género---, resulta útil como etiqueta proxy para evaluar la coherencia de las agrupaciones producidas por el clustering.
+
+% --- Features acústicas ---
+
+\subsubsection*{Features acústicas}
+
+Las 12 features acústicas que Spotify calcula para cada canción capturan propiedades perceptuales y técnicas de la señal de audio. Estas features se agrupan en tres categorías según su naturaleza y escala:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Índices perceptuales normalizados} (escala 0--1): \textit{danceability} mide cuán adecuada es una canción para bailar, considerando tempo, estabilidad rítmica y fuerza del beat. \textit{Energy} refleja la intensidad y actividad perceptual. \textit{Speechiness} detecta la presencia de voz hablada (valores altos indican podcasts o spoken word). \textit{Acousticness} estima la probabilidad de que la grabación sea acústica. \textit{Instrumentalness} predice si la canción carece de contenido vocal. \textit{Liveness} detecta la presencia de audiencia en la grabación. \textit{Valence} cuantifica la positividad emocional transmitida por la canción.
+
+    \item \textbf{Propiedades musicales}: \textit{key} identifica la tonalidad (0 = Do, 1 = Do\#, \ldots, 11 = Si). \textit{Mode} indica la modalidad (0 = menor, 1 = mayor). \textit{Tempo} es la velocidad estimada en BPM. \textit{Duration\_ms} es la duración en milisegundos.
+
+    \item \textbf{Medición técnica}: \textit{loudness} mide el volumen promedio en decibelios (típicamente entre $-60$ y 0~dB).
+\end{itemize}
+
+\input{tables/feature_descriptive_stats}
+
+El Cuadro~\ref{tab:feature_descriptive_stats} presenta el perfil estadístico completo de las 12 features. Todas las features están completas ---ninguna presenta valores faltantes---, lo que indica que el pipeline de extracción de Spotify operó exitosamente sobre la totalidad del catálogo. Sin embargo, las distribuciones revelan varios patrones relevantes para el diseño del sistema.
+
+En primer lugar, varias features exhiben asimetría positiva pronunciada: \textit{instrumentalness} (asimetría = 3.82, curtosis = 14.00), \textit{liveness} (2.11) y \textit{speechiness} (1.96) concentran la gran mayoría de sus valores cerca de cero, con colas extendidas hacia valores altos. El caso de \textit{instrumentalness} es particularmente extremo: su mediana es 0.0, su media es 0.05 y el 82.27\% de los valores se ubican por debajo de 0.01. Esto indica que el catálogo está dominado por canciones vocales, lo cual tiene implicaciones directas para el análisis de letras: la vasta mayoría de las canciones debería poseer contenido lírico procesable.
+
+En segundo lugar, \textit{loudness} presenta 4 valores que exceden 0~dB, el máximo teórico para audio digital no clipeado. Si bien estos casos son escasos (0.02\% del dataset), constituyen anomalías que deben contemplarse en la etapa de preprocesamiento. Además, la feature presenta la mayor proporción de outliers (2.84\%) junto con \textit{duration\_ms} (3.65\%), lo cual es esperable: la primera refleja la variabilidad técnica de las grabaciones y la segunda, la existencia de canciones atípicamente cortas o largas.
+
+En tercer lugar, \textit{key} y \textit{mode} son variables categóricas codificadas numéricamente. Su tratamiento como features continuas en algoritmos de distancia ---como los utilizados por K-Means--- puede introducir relaciones de magnitud artificiales (por ejemplo, que Do sostenido sea numéricamente ``más cercano'' a Re que a Si). Esta consideración deberá abordarse en la etapa de clustering.
+
+% --- Contenido lírico ---
+
+\subsubsection*{Contenido lírico}
+
+El campo de letras almacena el texto completo de cada canción como una cadena de caracteres. De los 18\,454 registros, 18\,202 (98.63\%) contienen letras válidas ---no nulas y con contenido textual---. Los 252 registros restantes carecen de letras a pesar de haber sobrevivido el filtrado inicial por disponibilidad en Genius, lo que sugiere que corresponden a canciones instrumentales, entradas con letras vacías en Genius, o errores puntuales en el proceso de scraping.
+
+\input{tables/lyrics_quality_summary}
+
+El Cuadro~\ref{tab:lyrics_quality} resume las propiedades del campo de letras. La letra promedio contiene 426 palabras (mediana: 341), con una desviación estándar de 339 palabras que refleja alta variabilidad: las letras más breves tienen apenas 1 palabra mientras que la más extensa alcanza 5\,509 palabras. Esta variabilidad tiene consecuencias directas para la vectorización semántica, dado que el modelo seleccionado (\texttt{multilingual-e5-small}) procesa una ventana de 512 tokens ---las palabras o fragmentos de palabras que el tokenizador del modelo utiliza como unidades de procesamiento---.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/lyrics_length_distribution.pdf}
+    \caption{Distribución de la longitud de letras en palabras. La línea vertical discontinua indica la capacidad aproximada de la ventana de 512 tokens del modelo E5 ($\approx$385 palabras, asumiendo 1.33 tokens por palabra).}
+    \label{fig:lyrics_length_distribution}
+\end{figure}
+
+La Figura~\ref{fig:lyrics_length_distribution} muestra la distribución de longitudes. Una estimación heurística basada en un factor de 1.33 tokens por palabra ---ratio aproximado para texto en inglés--- sugiere que el 58.8\% de las letras cabría dentro de la ventana de 512 tokens sin truncamiento. Sin embargo, esta estimación presenta dos fuentes de imprecisión. Por un lado, el ratio tokens/palabra varía según el idioma: los tokenizadores de tipo subword fragmentan las palabras en unidades menores cuando encuentran vocabulario infrecuente, lo que es más habitual en idiomas distintos del inglés. Por otro lado, las letras musicales contienen repeticiones, slang y ortografía no estándar que pueden alterar el comportamiento del tokenizador. La cobertura real debe medirse con el tokenizador específico del modelo durante la etapa de vectorización; no obstante, la estimación actual establece que una fracción sustancial de las letras requerirá truncamiento, lo cual implica que parte de la información semántica se perderá en el proceso.
+
+En cuanto a la riqueza léxica, el ratio tipo/token ---la proporción entre el número de palabras únicas y el total de palabras en una letra--- promedia 0.36. Este valor, relativamente bajo, es consistente con la naturaleza repetitiva de las letras musicales, donde los estribillos reiteran las mismas frases múltiples veces. Para la vectorización, esta repetición no es necesariamente perjudicial: refuerza los temas principales de la canción en la representación del modelo, aunque reduce la diversidad de señal semántica disponible.
+
+% --- Análisis de sesgos preexistentes ---
+
+\subsubsection*{Análisis de sesgos preexistentes}
+
+Antes de aplicar cualquier filtrado o transformación al dataset, es necesario identificar los sesgos que ya están presentes en los datos fuente. Estos sesgos no son defectos a corregir sino propiedades que deben documentarse explícitamente, porque condicionan la generalización de los resultados y la interpretación de las métricas de evaluación.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/genre_distribution.pdf}
+    \caption{Distribución de canciones por género musical en el dataset fuente.}
+    \label{fig:genre_distribution}
+\end{figure}
+
+\input{tables/genre_subgenre_distribution}
+
+\textbf{Balance de género musical.} El dataset contiene 6 géneros con una distribución razonablemente equilibrada (Cuadro~\ref{tab:genre_distribution}, Figura~\ref{fig:genre_distribution}). Pop es el género más representado (3\,993 canciones, 21.6\%) y EDM el menos representado (2\,045, 11.1\%), una diferencia de factor 1.95$\times$ entre el mayor y el menor. La entropía normalizada de la distribución es 0.9842 sobre un máximo teórico de 1.0 ---que correspondería a una distribución perfectamente uniforme---, lo que indica un balance alto. Esta propiedad es favorable para el clustering: un desbalance pronunciado tendería a producir agrupaciones dominadas por el género mayoritario, mientras que un balance alto permite que los algoritmos descubran estructura fina dentro de cada género.
+
+Los 24 subgéneros presentan mayor variabilidad: el más frecuente (\textit{indie poptimism}, 1\,288 canciones) triplica al menos frecuente (\textit{big room}, 334), con 4 canciones por subgénero en promedio. Cada género contiene exactamente 4 subgéneros, lo que sugiere un diseño intencional en la construcción del dataset.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/language_distribution.pdf}
+    \caption{Distribución de canciones por idioma detectado (10 idiomas más frecuentes y otros agrupados).}
+    \label{fig:language_distribution}
+\end{figure}
+
+\textbf{Sesgo lingüístico.} La distribución de idiomas revela un sesgo marcado (Figura~\ref{fig:language_distribution}): el 83.5\% del dataset corresponde a canciones en inglés, seguido por español con 9.2\% y 33 idiomas adicionales que en conjunto representan el 7.3\% restante. La entropía normalizada de esta distribución es 0.21 ---muy alejada de un balance uniforme---, lo que refleja el sesgo inherente de las playlists de Spotify hacia contenido anglófono. Este sesgo tiene dos implicaciones para el sistema. En primer lugar, el modelo de vectorización semántica (\texttt{multilingual-e5-small}) está diseñado para operar en más de 100 idiomas, pero su rendimiento puede variar según la representación de cada idioma en sus datos de entrenamiento. En segundo lugar, cualquier evaluación basada en la coherencia temática de las letras debe reconocer que el sistema opera predominantemente sobre texto en inglés, y que los resultados pueden no generalizarse a catálogos con distribución lingüística diferente.
+
+\textbf{Sesgo de instrumentalidad.} El 95.5\% de las canciones presentan un valor de \textit{instrumentalness} inferior a 0.5 ---el umbral que Spotify utiliza para clasificar una canción como probable instrumental---, y el 82.3\% se ubica por debajo de 0.01. El dataset está compuesto, en la práctica, casi exclusivamente por canciones vocales. Este sesgo es coherente con el origen del dataset ---playlists de géneros donde la voz es un componente central--- y es favorable para el proyecto, dado que las canciones instrumentales no aportan contenido lírico para el componente semántico. No obstante, la escasez de canciones instrumentales implica que el sistema no podrá evaluar su comportamiento en ese segmento del catálogo.
+
+\subsubsection*{Implicaciones para el diseño del sistema}
+
+La caracterización del dataset fuente establece las condiciones iniciales sobre las que opera el resto del pipeline. El balance de géneros permite que el clustering descubra estructura interna sin estar dominado por una clase mayoritaria. La alta cobertura de letras (98.6\%) garantiza que el componente semántico dispondrá de material procesable para la vasta mayoría de las canciones. El sesgo lingüístico hacia el inglés y la dominancia de canciones vocales son propiedades que deben documentarse como limitaciones del alcance del sistema, no como defectos corregibles dentro del presente trabajo.
+
+El análisis también identifica dos aspectos que requieren atención en etapas posteriores: la cobertura de la ventana de tokens del modelo ---que debe validarse con el tokenizador real en la etapa de vectorización--- y el tratamiento de features categóricas codificadas numéricamente (\textit{key}, \textit{mode}) en algoritmos basados en distancia. Estos aspectos se abordarán en las secciones correspondientes.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.2.2 — Preprocesamiento y Selección
+% ---------------------------------------------------------------------------
 \subsection{Preprocesamiento y Selección}
 \label{subsec:preprocesamiento}
 
+% Completar en Etapa 3: filtrado, presupuesto de pérdida de datos, selección clustering-aware
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.3 — Componente Semántico
+% ---------------------------------------------------------------------------
 \section{Componente Semántico: Vectorización BERT}
 \label{sec:componente-semantico}
 
+% Completar en Etapa 3
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.4 — Componente Musical
+% ---------------------------------------------------------------------------
 \section{Componente Musical: Features Acústicas}
 \label{sec:componente-musical}
 
+% Completar en Etapa 3
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.5 — Unificación de Representaciones
+% ---------------------------------------------------------------------------
 \section{Unificación de Representaciones}
 \label{sec:unificacion}
 
+% Completar en Etapa 3
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.6 — Clustering Multimodal
+% ---------------------------------------------------------------------------
 \section{Clustering Multimodal}
 \label{sec:clustering-multimodal}
+
+% Completar en Etapa 4
 
 \subsection{Evaluación de Tendencia al Agrupamiento}
 \label{subsec:evaluacion-hopkins}
@@ -36,8 +167,13 @@
 \subsection{Purificación de Clusters}
 \label{subsec:purificacion}
 
+% ---------------------------------------------------------------------------
+% SECCIÓN 5.7 — Sistema de Recomendación Híbrido
+% ---------------------------------------------------------------------------
 \section{Sistema de Recomendación Híbrido}
 \label{sec:sistema-hibrido}
+
+% Completar en Etapa 5
 
 \subsection{Estrategia de Fusión}
 \label{subsec:fusion}

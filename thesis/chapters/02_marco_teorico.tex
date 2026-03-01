@@ -6,8 +6,12 @@
 \section{Sistemas de Recomendación Musical}
 \label{sec:sistemas-recomendacion}
 
+% Completar en Etapa 3
+
 \section{Procesamiento de Lenguaje Natural en Música}
 \label{sec:nlp-musica}
+
+% Completar en Etapa 3
 
 \subsection{Modelos de Embeddings Semánticos}
 \label{subsec:embeddings-semanticos}
@@ -15,14 +19,81 @@
 \subsection{BERT y Sentence-BERT}
 \label{subsec:bert-sbert}
 
+% ---------------------------------------------------------------------------
+% SECCIÓN 4.3 — Features Musicales
+% ---------------------------------------------------------------------------
 \section{Features Musicales}
 \label{sec:features-musicales}
 
+La caracterización computacional de una canción requiere transformar una señal de audio ---esencialmente una secuencia de variaciones de presión sonora--- en un conjunto de descriptores numéricos que capturen propiedades relevantes para la tarea en cuestión. En el contexto de los sistemas de recomendación y el clustering musical, estos descriptores deben capturar tanto propiedades físicas objetivas de la señal (volumen, velocidad) como propiedades perceptuales que reflejen la experiencia subjetiva del oyente (bailabilidad, valencia emocional, nivel de energía). La presente sección describe formalmente los descriptores utilizados en este trabajo, sus escalas de medición, las consideraciones de validez perceptual documentadas en la literatura, y las implicaciones de la opacidad algorítmica de su fuente.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 4.3.1 — Descriptores Acústicos de Spotify
+% ---------------------------------------------------------------------------
 \subsection{Descriptores Acústicos de Spotify}
 \label{subsec:descriptores-spotify}
 
+La Web API de Spotify ha proporcionado históricamente un conjunto de 12 descriptores acústicos computacionales para cada pista de su catálogo \parencite{spotify_2024_web_api}. Estas features se originaron en The Echo Nest, una empresa de análisis musical adquirida por Spotify en 2014, cuya tecnología propietaria permanece como caja negra: Spotify nunca ha publicado la metodología exacta ni los modelos subyacentes utilizados para computar estos valores. La documentación oficial se limita a descripciones funcionales de alto nivel, lo cual genera consideraciones legítimas sobre la reproducibilidad y la interpretabilidad de los resultados derivados de estas features.
+
+Los 12 descriptores se organizan en tres categorías según su naturaleza y escala de medición.
+
+\subsubsection*{Índices perceptuales}
+
+Siete de las doce features son índices normalizados en el rango $[0, 1]$ que cuantifican propiedades perceptuales de la señal de audio:
+
+\begin{description}[leftmargin=2em, style=nextline]
+    \item[\textit{Danceability}] Mide cuán adecuada es una pista para el baile, combinando información de tempo, estabilidad rítmica, fuerza del beat y regularidad general. Un valor de 0 indica una pista sin cualidades rítmicas bailables; un valor de 1, máxima bailabilidad.
+
+    \item[\textit{Energy}] Cuantifica la intensidad y actividad perceptual de la pista. Los factores que contribuyen incluyen el rango dinámico, el loudness percibido, el timbre, la tasa de onsets ---la frecuencia con que se producen nuevos eventos sonoros--- y la entropía general de la señal. Una grabación de Bach para clavecín tendría un valor bajo; una pista de metal, un valor alto.
+
+    \item[\textit{Speechiness}] Detecta la presencia de voz hablada (en contraposición a voz cantada o contenido instrumental). Spotify establece tres franjas: valores superiores a 0.66 indican contenido predominantemente hablado (podcasts, audiolibros); entre 0.33 y 0.66, una mezcla de música y habla; por debajo de 0.33, contenido musical cantado o instrumental.
+
+    \item[\textit{Acousticness}] Estima la probabilidad de que la grabación sea acústica ---es decir, producida sin amplificación electrónica ni procesamiento digital significativo---. Un valor cercano a 1 indica alta confianza de que la pista es acústica.
+
+    \item[\textit{Instrumentalness}] Predice si una pista carece de contenido vocal. Spotify utiliza 0.5 como umbral: valores superiores se interpretan como pistas probablemente instrumentales. En la práctica, la distribución de este descriptor es fuertemente bimodal: la mayoría de las canciones se concentran cerca de 0 (vocales presentes) o cerca de 1 (instrumental).
+
+    \item[\textit{Liveness}] Detecta la presencia de audiencia en la grabación. Valores superiores a 0.8 sugieren alta probabilidad de que la pista sea una grabación en vivo.
+
+    \item[\textit{Valence}] Cuantifica la positividad emocional transmitida por la música. Valores altos corresponden a sonidos percibidos como alegres, eufóricos o animados; valores bajos, a sonidos percibidos como tristes, melancólicos o tensos. De todos los índices perceptuales, la valencia es probablemente el más subjetivo y el más difícil de validar empíricamente.
+\end{description}
+
+\subsubsection*{Propiedades musicales}
+
+Tres features capturan propiedades musicológicas con escalas específicas de su dominio:
+
+\begin{description}[leftmargin=2em, style=nextline]
+    \item[\textit{Key}] La tonalidad estimada de la pista, codificada como un entero de 0 a 11 según la notación de clase de altura (0 = Do, 1 = Do\#, \ldots, 11 = Si). Un valor de $-1$ indica que la tonalidad no pudo ser detectada. Esta codificación numérica es ordinal en apariencia pero cíclica en naturaleza ---Do y Si son tonalidades adyacentes en el círculo de quintas, aunque numéricamente distantes (0 y 11)---. Este carácter cíclico debe contemplarse al utilizar la feature en algoritmos basados en distancia euclidiana.
+
+    \item[\textit{Mode}] La modalidad de la pista: 1 para modo mayor, 0 para modo menor. Es una variable binaria que, al igual que \textit{key}, presenta desafíos cuando se trata como feature continua en algoritmos de clustering.
+
+    \item[\textit{Tempo}] La velocidad estimada de la pista en BPM (beats per minute). A diferencia de los índices perceptuales, el tempo tiene unidades físicas y su rango práctico en música popular se extiende entre aproximadamente 60 y 200 BPM. Los algoritmos de detección de tempo pueden cometer errores de factor 2 ---identificar el doble o la mitad del tempo real---, una limitación conocida en la literatura de MIR.
+\end{description}
+
+\subsubsection*{Medición técnica}
+
+Dos features restantes corresponden a mediciones técnicas directas:
+
+\begin{description}[leftmargin=2em, style=nextline]
+    \item[\textit{Loudness}] El volumen promedio de la pista medido en decibelios (dB), típicamente entre $-60$ y 0~dB. A diferencia de los índices perceptuales normalizados, esta feature opera en una escala logarítmica: una diferencia de 10~dB corresponde aproximadamente a una duplicación de la intensidad percibida. La tendencia de la industria musical hacia niveles de loudness cada vez mayores ---la denominada \textit{loudness war}--- introduce un sesgo temporal: canciones más recientes tienden a exhibir valores más altos.
+
+    \item[\textit{Duration\_ms}] La duración de la pista en milisegundos. Es la única feature cuyo valor proviene directamente de los metadatos del archivo de audio, sin procesamiento algorítmico. Su escala (valores típicos entre 100\,000 y 400\,000) difiere en varios órdenes de magnitud respecto a los índices perceptuales, lo que requiere normalización antes de utilizarla en algoritmos basados en distancia.
+\end{description}
+
+\subsubsection*{Validez perceptual y limitaciones}
+
+La pregunta de si estos descriptores reflejan fielmente la percepción humana ha sido abordada por múltiples estudios con resultados mixtos. Investigaciones recientes han encontrado que \textit{danceability} y \textit{loudness} son predictores confiables de la valencia percibida por los oyentes, mientras que \textit{acousticness} y \textit{danceability} predicen consistentemente el nivel de activación emocional (\textit{arousal}). El tempo óptimo para regulación del estado de ánimo a través del movimiento corporal se ubica alrededor de 120~BPM. Sin embargo, la validación empírica también ha revelado limitaciones: se ha documentado que \textit{danceability} no correlaciona significativamente con la percepción subjetiva de cuán bailable es una canción para un oyente particular, lo que sugiere que el descriptor captura propiedades acústicas objetivas (regularidad rítmica, fuerza del beat) pero no la respuesta individual al estímulo.
+
+Estas consideraciones definen el marco dentro del cual los 12 descriptores deben interpretarse en el presente trabajo: constituyen una aproximación útil a las cualidades perceptuales de la música, pero no una representación fiel de la experiencia subjetiva del oyente. Las features que operan en escalas heterogéneas (\textit{loudness} en dB, \textit{tempo} en BPM, \textit{duration\_ms} en milisegundos, índices en $[0,1]$) requieren normalización antes de su uso conjunto en algoritmos de distancia. Adicionalmente, \textit{key} y \textit{mode} son variables categóricas codificadas numéricamente cuyo tratamiento como features continuas introduce relaciones de magnitud artificiales. Estas cuestiones técnicas se abordan en la descripción del pipeline de datos (Capítulo~\ref{ch:solucion-propuesta}).
+
+Finalmente, cabe señalar que en noviembre de 2024 Spotify restringió el acceso a los endpoints de audio features de su Web API para nuevas aplicaciones \parencite{spotify_2024_web_api}. El dataset utilizado en este trabajo fue recopilado antes de esta restricción, por lo que los datos son válidos; sin embargo, investigadores futuros que deseen replicar o extender este trabajo no podrán obtener estas features mediante la misma vía. Esta dependencia de una fuente propietaria constituye una limitación que se discute en las conclusiones.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 4.4 — Análisis de Clustering
+% ---------------------------------------------------------------------------
 \section{Análisis de Clustering}
 \label{sec:clustering-teoria}
+
+% Completar en Etapa 4
 
 \subsection{Tendencia al Agrupamiento: Estadístico de Hopkins}
 \label{subsec:hopkins}
@@ -35,3 +106,5 @@
 
 \section{Representaciones Multimodales}
 \label{sec:representaciones-multimodales}
+
+% Completar en Etapa 3

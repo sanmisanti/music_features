@@ -243,7 +243,6 @@ Propiedad & Valor \\
         ("Total de columnas", _fmt(summary.get("total_columns", 0))),
         ("Features musicales", _fmt(summary.get("n_musical_features", 0))),
         ("Columnas de metadatos", _fmt(summary.get("n_metadata_columns", 0))),
-        ("Uso de memoria (MB)", _fmt(summary.get("memory_mb", 0), 1)),
         ("\\midrule", ""),
         ("Valores faltantes totales", _fmt(summary.get("total_missing", 0))),
         ("Valores faltantes (\\%)", _fmt(summary.get("total_missing_pct", 0), 2)),

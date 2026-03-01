@@ -1,65 +1,212 @@
-\chapter{Definición del Problema}
+\chapter{Definici\'{o}n del Problema}
 \label{ch:definicion-problema}
 
-% Completar durante Etapa 2
-
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.1 --- Planteamiento del Problema
+% ---------------------------------------------------------------------------
 \section{Planteamiento del Problema}
 \label{sec:planteamiento}
 
-\section{Hipótesis}
-\label{sec:hipotesis}
+Los sistemas de recomendaci\'{o}n musical constituyen el mecanismo principal mediante el cual los oyentes descubren nueva m\'{u}sica en plataformas digitales con cat\'{a}logos de millones de canciones. Como se document\'{o} en el Estado de la Cuesti\'{o}n (Cap\'{\i}tulo~\ref{ch:estado-cuestion}), estos sistemas operan predominantemente sobre dos fuentes de informaci\'{o}n: el comportamiento de los usuarios ---qu\'{e} canciones escuchan, cu\'{a}les agregan a sus playlists, cu\'{a}nto tiempo dedican a cada una--- y las propiedades ac\'{u}sticas de las canciones ---energ\'{\i}a, tempo, valencia emocional, entre otras---. La primera fuente requiere datos de interacci\'{o}n que no siempre est\'{a}n disponibles, especialmente para artistas o canciones nuevas (el problema de \textit{cold-start}); la segunda captura c\'{o}mo suena una canci\'{o}n pero ignora lo que dice.
 
-\section{Preguntas de Investigación}
-\label{sec:preguntas-investigacion}
+Las letras de las canciones representan una tercera fuente de informaci\'{o}n cuya utilidad ha sido demostrada emp\'{\i}ricamente pero que permanece subexplorada como se\~{n}al primaria de recomendaci\'{o}n. \textcite{hu_2010_lyrics_audio_mood} demostraron que audio y letras capturan dimensiones complementarias de la similitud musical: el audio discrimina mejor las propiedades perceptuales, mientras que las letras distinguen categor\'{\i}as sem\'{a}nticamente ricas como la nostalgia o la rebeld\'{\i}a. \textcite{vystrcilova_2020_lyrics_audio} confirmaron que la combinaci\'{o}n de ambas fuentes produce mejores resultados que cualquiera de las dos por separado. Sin embargo, la integraci\'{o}n sistem\'{a}tica de informaci\'{o}n sem\'{a}ntica y ac\'{u}stica en un sistema de recomendaci\'{o}n basado en contenido presenta vac\'{\i}os que la literatura existente no ha abordado de forma conjunta.
 
-\section{Justificación}
-\label{sec:justificacion}
+En primer lugar, las representaciones sem\'{a}nticas generadas por modelos de lenguaje operan en espacios de alta dimensionalidad (cientos de dimensiones), mientras que los descriptores ac\'{u}sticos constituyen un espacio de baja dimensionalidad (una docena de features). Esta asimetr\'{\i}a implica que las t\'{e}cnicas de clustering, las m\'{e}tricas de distancia y los criterios de evaluaci\'{o}n pueden comportarse de manera diferenciada en cada espacio, y no existe una metodolog\'{\i}a establecida para tratar ambos de forma integrada. En segundo lugar, los algoritmos de clustering inevitablemente producen asignaciones incorrectas, y la literatura reporta t\'{e}cnicas de refinamiento post-clustering que operan sobre una \'{u}nica representaci\'{o}n de los datos; no se han formalizado procedimientos de purificaci\'{o}n que consideren simult\'{a}neamente ambas modalidades para detectar y corregir asignaciones err\'{o}neas. En tercer lugar, la combinaci\'{o}n de recomendaciones provenientes de espacios con propiedades estad\'{\i}sticas distintas requiere estrategias de normalizaci\'{o}n y ponderaci\'{o}n cuyo dise\~{n}o \'{o}ptimo no es evidente a priori y debe determinarse emp\'{\i}ricamente.
 
+La revisi\'{o}n sistem\'{a}tica de la literatura confirma que, si bien los componentes individuales ---modelos de embeddings sem\'{a}nticos, algoritmos de clustering, estrategias de fusi\'{o}n ponderada--- se encuentran maduros como l\'{\i}neas de investigaci\'{o}n independientes, no existe un pipeline que los integre en un sistema de recomendaci\'{o}n musical evaluado experimentalmente de forma rigurosa. Este vac\'{\i}o define el problema que el presente trabajo aborda: el dise\~{n}o, implementaci\'{o}n y evaluaci\'{o}n de un sistema de recomendaci\'{o}n musical basado en contenido que integre informaci\'{o}n sem\'{a}ntica y ac\'{u}stica a trav\'{e}s de clustering optimizado en ambas modalidades, purificaci\'{o}n multimodal y fusi\'{o}n ponderada, bajo un protocolo experimental que permita determinar si la integraci\'{o}n produce recomendaciones de mayor calidad que los enfoques unimodales.
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.2 --- Prop\'{o}sito del Proyecto
+% ---------------------------------------------------------------------------
+\section{Prop\'{o}sito del Proyecto}
+\label{sec:proposito}
+
+El presente proyecto propone el desarrollo de un sistema de recomendaci\'{o}n musical multimodal basado en contenido que integre dos fuentes de informaci\'{o}n complementarias: las propiedades ac\'{u}sticas de las canciones, capturadas por descriptores num\'{e}ricos de audio, y el contenido sem\'{a}ntico de sus letras, representado mediante embeddings generados por un modelo de lenguaje preentrenado.
+
+El sistema opera exclusivamente sobre las caracter\'{\i}sticas intr\'{\i}nsecas de las canciones, sin requerir datos de interacci\'{o}n de usuarios. Este enfoque basado en contenido aborda directamente el problema de \textit{cold-start}: el sistema puede generar recomendaciones para cualquier canci\'{o}n del cat\'{a}logo independientemente de si cuenta con historial de escucha previo. Adem\'{a}s, al prescindir de datos de comportamiento, los resultados reflejan la similitud intr\'{\i}nseca entre canciones y no los patrones de consumo de una poblaci\'{o}n espec\'{\i}fica de usuarios, lo que permite evaluar la contribuci\'{o}n de cada modalidad de forma aislada.
+
+La integraci\'{o}n de ambas modalidades se realiza mediante una arquitectura de tres etapas. Primero, se aplican t\'{e}cnicas de clustering sobre cada espacio de representaci\'{o}n ---ac\'{u}stico y sem\'{a}ntico--- para identificar agrupaciones naturales dentro del cat\'{a}logo. Segundo, se implementa un procedimiento de purificaci\'{o}n que utiliza informaci\'{o}n de ambas modalidades para refinar las asignaciones de clustering. Tercero, se combinan las recomendaciones derivadas de cada espacio mediante una estrategia de fusi\'{o}n ponderada cuyos pesos se optimizan emp\'{\i}ricamente.
+
+El prop\'{o}sito central no es construir un sistema de recomendaci\'{o}n que compita con las soluciones industriales ---las cuales disponen de datos de interacci\'{o}n masivos y recursos computacionales significativamente mayores---, sino evaluar experimentalmente si la incorporaci\'{o}n de informaci\'{o}n sem\'{a}ntica de letras, combinada con features ac\'{u}sticas mediante clustering y fusi\'{o}n ponderada, produce recomendaciones de mayor calidad que los enfoques unimodales.
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.3 --- Objetivo General y Objetivos Espec\'{\i}ficos
+% ---------------------------------------------------------------------------
 \section{Objetivo General}
 \label{sec:objetivo-general}
 
-Desarrollar e implementar un sistema de recomendación musical multimodal que combine clustering optimizado de features acústicas con análisis semántico de letras mediante embeddings BERT, y validar experimentalmente que la integración de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales.
+Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que combine clustering optimizado de features ac\'{u}sticas con an\'{a}lisis sem\'{a}ntico de letras mediante embeddings de un modelo de lenguaje preentrenado, y validar experimentalmente que la integraci\'{o}n de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales.
 
-\section{Objetivos Específicos}
+\subsection{Objetivos Espec\'{\i}ficos}
 \label{sec:objetivos-especificos}
 
 \begin{enumerate}
-    \item Diseñar e implementar una metodología de purificación híbrida post-clustering que mejore significativamente las métricas de calidad de agrupamiento (Silhouette Score, Calinski-Harabasz, Davies-Bouldin) sobre datasets musicales reales.
+    \item Caracterizar el dataset fuente documentando sus propiedades estad\'{\i}sticas, sesgos preexistentes y limitaciones, estableciendo un presupuesto expl\'{\i}cito de p\'{e}rdida de datos para cada etapa del pipeline.
 
-    \item Realizar una evaluación comparativa sistemática de algoritmos de clustering (K-Means, Jerárquico Aglomerativo, Spectral, DBSCAN) en los espacios musical (12 dimensiones) y semántico (384 dimensiones), incluyendo análisis de sensibilidad a hiperparámetros.
+    \item Generar representaciones sem\'{a}nticas de las letras mediante el modelo \texttt{multilingual-e5-small}, evaluando la cobertura de la ventana de tokens y el impacto del truncamiento.
 
-    \item Desarrollar una arquitectura de integración multimodal que fusione el clustering musical optimizado con la vectorización semántica BERT, incorporando estrategias de normalización y ponderación adaptativa.
+    \item Realizar una evaluaci\'{o}n comparativa sistem\'{a}tica de algoritmos de clustering (K-Means, Jer\'{a}rquico Aglomerativo, Spectral, HDBSCAN) en los espacios musical (12 dimensiones) y sem\'{a}ntico (384 dimensiones), incluyendo an\'{a}lisis de sensibilidad a hiperpar\'{a}metros.
 
-    \item Ejecutar un protocolo de validación experimental riguroso que incluya validación cruzada, pruebas de significancia estadística, comparación con baselines unimodales y evaluación de robustez mediante múltiples semillas aleatorias.
+    \item Dise\~{n}ar e implementar una metodolog\'{\i}a de purificaci\'{o}n post-clustering que opere sobre ambas representaciones y mejore las m\'{e}tricas de calidad de agrupamiento.
 
-    \item Documentar las contribuciones, limitaciones y decisiones metodológicas del trabajo de forma que los resultados sean reproducibles.
+    \item Desarrollar una estrategia de fusi\'{o}n ponderada que integre las recomendaciones de ambas modalidades, optimizando los pesos emp\'{\i}ricamente.
+
+    \item Ejecutar un protocolo de validaci\'{o}n experimental que incluya pruebas de significancia estad\'{\i}stica, comparaci\'{o}n con baselines unimodales y evaluaci\'{o}n de robustez mediante m\'{u}ltiples semillas aleatorias.
 \end{enumerate}
 
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.4 --- Hip\'{o}tesis
+% ---------------------------------------------------------------------------
+\section{Hip\'{o}tesis}
+\label{sec:hipotesis}
+
+Las siguientes hip\'{o}tesis se formulan antes de la ejecuci\'{o}n de los experimentos, en concordancia con la pr\'{a}ctica de pre-registro que la literatura identifica como deseable pero infrecuente en el dominio de MIR.
+
+\begin{description}[leftmargin=2em, style=nextline]
+    \item[H1 --- Complementariedad de modalidades.] Las representaciones sem\'{a}nticas (embeddings de letras) y las representaciones ac\'{u}sticas (features de Spotify) capturan dimensiones distintas de la similitud musical. Se espera que la correlaci\'{o}n entre ambos espacios sea baja (NMI $< 0.15$), lo que indicar\'{\i}a que las modalidades aportan informaci\'{o}n no redundante.
+
+    \item[H2 --- Superioridad del enfoque multimodal.] La fusi\'{o}n ponderada de recomendaciones basadas en ambas modalidades produce mayor precisi\'{o}n (Precision@10) que las recomendaciones basadas en cualquiera de las dos modalidades por separado, utilizando el g\'{e}nero musical como ground truth proxy.
+
+    \item[H3 --- Mejora por purificaci\'{o}n.] La purificaci\'{o}n post-clustering ---la eliminaci\'{o}n o reasignaci\'{o}n de canciones mal ubicadas seg\'{u}n criterios definidos sobre ambas modalidades--- mejora las m\'{e}tricas de calidad de clustering (Silhouette Score) respecto al clustering sin purificar.
+
+    \item[H4 --- Tendencia al agrupamiento.] Ambos espacios de representaci\'{o}n exhiben estructura interna susceptible de ser descubierta por algoritmos de clustering, medida por un estad\'{\i}stico de Hopkins significativamente superior a 0.5.
+\end{description}
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.5 --- Preguntas de Investigaci\'{o}n
+% ---------------------------------------------------------------------------
+\section{Preguntas de Investigaci\'{o}n}
+\label{sec:preguntas-investigacion}
+
+Las hip\'{o}tesis formuladas se operacionalizan en las siguientes preguntas de investigaci\'{o}n:
+
+\begin{description}[leftmargin=2em, style=nextline]
+    \item[PI1.] ¿Qu\'{e} grado de complementariedad existe entre las representaciones sem\'{a}nticas y ac\'{u}sticas del cat\'{a}logo musical, medido por la informaci\'{o}n mutua normalizada (NMI) entre las agrupaciones producidas en cada espacio?
+
+    \item[PI2.] ¿Cu\'{a}l es la configuraci\'{o}n \'{o}ptima de algoritmo y n\'{u}mero de clusters para cada espacio de representaci\'{o}n, seg\'{u}n las m\'{e}tricas de evaluaci\'{o}n interna (Silhouette, Davies-Bouldin)?
+
+    \item[PI3.] ¿En qu\'{e} proporci\'{o}n la purificaci\'{o}n post-clustering mejora las m\'{e}tricas de calidad de agrupamiento, y cu\'{a}l es el impacto sobre la cobertura del cat\'{a}logo (porcentaje de canciones retenidas)?
+
+    \item[PI4.] ¿Cu\'{a}l es la ponderaci\'{o}n \'{o}ptima entre las modalidades sem\'{a}ntica y ac\'{u}stica en la fusi\'{o}n de recomendaciones, y cu\'{a}n sensible es la precisi\'{o}n del sistema a variaciones en estos pesos?
+
+    \item[PI5.] ¿En qu\'{e} medida el sistema multimodal supera a los baselines unimodales en t\'{e}rminos de precisi\'{o}n, diversidad y cobertura de las recomendaciones?
+\end{description}
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.6 --- Justificaci\'{o}n
+% ---------------------------------------------------------------------------
+\section{Justificaci\'{o}n}
+\label{sec:justificacion}
+
+La justificaci\'{o}n de este trabajo se articula en tres planos.
+
+\textbf{Justificaci\'{o}n cient\'{\i}fica.} La revisi\'{o}n de la literatura (Cap\'{\i}tulo~\ref{ch:estado-cuestion}) identifica que la combinaci\'{o}n espec\'{\i}fica de embeddings sem\'{a}nticos de letras con features ac\'{u}sticas, procesada mediante clustering y fusi\'{o}n ponderada, carece de precedentes directos. Los componentes individuales ---modelos de embeddings, algoritmos de clustering, estrategias de fusi\'{o}n--- est\'{a}n maduros, pero su integraci\'{o}n en un pipeline completo no ha sido evaluada sistem\'{a}ticamente. Adicionalmente, la purificaci\'{o}n post-clustering en contextos multimodales carece de un marco formal, lo que constituye una oportunidad de contribuci\'{o}n metodol\'{o}gica.
+
+\textbf{Justificaci\'{o}n pr\'{a}ctica.} El enfoque basado exclusivamente en contenido ---sin requerir datos de interacci\'{o}n de usuarios--- aborda directamente el problema de cold-start: el sistema puede recomendar canciones para las cuales no existe historial de escucha previo. En un cat\'{a}logo de 18\,454 canciones con cobertura de letras del 98.6\%, la incorporaci\'{o}n de informaci\'{o}n sem\'{a}ntica tiene el potencial de diferenciar canciones ac\'{u}sticamente similares pero tem\'{a}ticamente distintas, una discriminaci\'{o}n que los sistemas puramente ac\'{u}sticos no pueden realizar.
+
+\textbf{Justificaci\'{o}n metodol\'{o}gica.} El proyecto aplica pr\'{a}cticas de rigor experimental que la literatura del dominio identifica como deseables pero infrecuentes: pre-registro de hip\'{o}tesis, presupuesto expl\'{\i}cito de p\'{e}rdida de datos en cada etapa del pipeline, an\'{a}lisis de sesgo previo a los filtrados, tests de significancia estad\'{\i}stica para comparaci\'{o}n de algoritmos, y documentaci\'{o}n completa orientada a la reproducibilidad. La adopci\'{o}n de estos est\'{a}ndares contribuye a elevar el nivel de evidencia en un campo donde la reproducibilidad ha sido documentada como insuficiente.
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.7 --- Alternativas Tecnol\'{o}gicas
+% ---------------------------------------------------------------------------
+\section{Alternativas Tecnol\'{o}gicas}
+\label{sec:alternativas-tecnologicas}
+
+El dise\~{n}o del sistema requiere una serie de decisiones tecnol\'{o}gicas que condicionan tanto las capacidades del sistema como la interpretaci\'{o}n de sus resultados. Esta secci\'{o}n presenta, para cada decisi\'{o}n clave, las alternativas consideradas y la justificaci\'{o}n de la elecci\'{o}n adoptada. El detalle t\'{e}cnico de c\'{o}mo opera cada tecnolog\'{\i}a seleccionada se desarrolla en los cap\'{\i}tulos de Marco Te\'{o}rico y Soluci\'{o}n Propuesta; aqu\'{\i} se expone el paisaje de opciones y las razones que orientaron cada elecci\'{o}n.
+
+\subsection{Enfoque de recomendaci\'{o}n}
+\label{subsec:alt-enfoque}
+
+Los sistemas de recomendaci\'{o}n pueden clasificarse en tres grandes familias seg\'{u}n la fuente de informaci\'{o}n que utilizan. Los enfoques colaborativos infieren las preferencias de un usuario a partir del comportamiento de usuarios similares, y han demostrado ser altamente efectivos en plataformas con millones de interacciones registradas \parencite{koren_2009_mf}. Los enfoques basados en contenido caracterizan cada \'{\i}tem mediante atributos extra\'{\i}dos de su contenido ---audio, texto, metadatos--- y recomiendan \'{\i}tems similares a los que el usuario ha consumido previamente. Los enfoques h\'{\i}bridos combinan ambas estrategias para mitigar las debilidades de cada una \parencite{burke_2002_hybrid}.
+
+El presente trabajo adopta un enfoque basado exclusivamente en contenido, por tres razones. Primera, el dataset disponible no contiene datos de interacci\'{o}n de usuarios ---historial de reproducciones, ratings ni informaci\'{o}n de playlists de usuarios individuales---, lo que descarta la aplicaci\'{o}n directa del filtrado colaborativo. Segunda, un enfoque basado en contenido aborda el problema de \textit{cold-start}: puede generar recomendaciones para cualquier canci\'{o}n del cat\'{a}logo sin necesidad de que haya acumulado reproducciones previas \parencite{schedl_2018_challenges_mrs}. Tercera, al operar exclusivamente sobre las propiedades intr\'{\i}nsecas de las canciones, es posible aislar y evaluar la contribuci\'{o}n de cada modalidad ---ac\'{u}stica y sem\'{a}ntica--- sin la variable confusa que introducen los patrones de comportamiento colectivo.
+
+\subsection{Modelo de embeddings sem\'{a}nticos}
+\label{subsec:alt-embeddings}
+
+La vectorizaci\'{o}n de las letras requiere un modelo de lenguaje capaz de generar representaciones num\'{e}ricas que capturen el significado del texto. Dentro de la familia Sentence-BERT \parencite{reimers_2019_sentencebert} ---modelos que producen un vector de tama\~{n}o fijo por cada texto, habilitando comparaciones eficientes a escala---, se consideraron tres alternativas.
+
+La primera opci\'{o}n, \texttt{paraphrase-multilingual-MiniLM-L12-v2} \parencite{wang_2020_minilm}, genera vectores de 384 dimensiones en m\'{a}s de 50 idiomas, pero opera con una ventana de 128 tokens ---aproximadamente 96 palabras---. Dado que la letra promedio del dataset contiene 426 palabras, esta ventana cubrir\'{\i}a menos de una cuarta parte del texto de la mayor\'{\i}a de las canciones, descartando la mayor parte de la informaci\'{o}n sem\'{a}ntica disponible.
+
+La segunda opci\'{o}n, \texttt{multilingual-e5-small} \parencite{wang_2022_e5}, produce vectores de la misma dimensionalidad (384) pero con una ventana de 512 tokens ---cuatro veces m\'{a}s contexto--- y soporte para m\'{a}s de 100 idiomas. Esta ventana ampliada permite procesar la mayor\'{\i}a de las letras con significativamente menor truncamiento.
+
+La tercera alternativa consistir\'{\i}a en utilizar modelos m\'{a}s grandes, como \texttt{multilingual-e5-large} (1024 dimensiones) u otros modelos de la familia BERT con vectores de 768 dimensiones o m\'{a}s. Sin embargo, dimensionalidades superiores introducen dos complicaciones: aumentan el costo computacional de las operaciones de clustering y distancia, y agravan los efectos de la maldici\'{o}n de la dimensionalidad \parencite{aggarwal_2001_dimensionality}, lo cual puede degradar la calidad del clustering.
+
+Se seleccion\'{o} \texttt{multilingual-e5-small} porque ofrece un balance favorable entre cobertura de contexto y dimensionalidad: la misma cantidad de dimensiones que MiniLM (lo que mantiene la comparabilidad de las m\'{e}tricas de clustering) con cuatro veces m\'{a}s capacidad para procesar texto, y un soporte multiling\"{u}e superior para un dataset donde el 16.5\% de las letras est\'{a} en idiomas distintos al ingl\'{e}s.
+
+\subsection{Algoritmos de clustering}
+\label{subsec:alt-clustering}
+
+La identificaci\'{o}n de agrupaciones naturales dentro del cat\'{a}logo puede abordarse con distintas familias de algoritmos, cada una con supuestos diferentes sobre la estructura de los datos. Los algoritmos particionales como K-Means \parencite{arthur_2007_kmeans_plus_plus} asumen grupos esf\'{e}ricos de tama\~{n}o similar. Los algoritmos jer\'{a}rquicos como el m\'{e}todo de Ward \parencite{ward_1963_hierarchical} construyen agrupaciones progresivamente sin asumir un n\'{u}mero fijo de clusters. Los algoritmos basados en densidad como HDBSCAN \parencite{campello_2013_hdbscan} identifican regiones densas sin restricciones de forma, y detectan valores at\'{\i}picos de forma natural. Los algoritmos espectrales operan sobre la estructura de grafo de los datos, capturando relaciones no lineales.
+
+Dado que la forma y distribuci\'{o}n de los clusters en un espacio de 384 dimensiones sem\'{a}nticas no puede conocerse a priori, no existe una raz\'{o}n te\'{o}rica suficiente para descartar ninguna familia. El presente trabajo adopta una estrategia de evaluaci\'{o}n comparativa sistem\'{a}tica de cuatro algoritmos ---K-Means, Jer\'{a}rquico Aglomerativo (Ward), Spectral Clustering y HDBSCAN--- aplicados a ambos espacios de representaci\'{o}n. Esta decisi\'{o}n permite identificar emp\'{\i}ricamente cu\'{a}l algoritmo produce las mejores agrupaciones en cada espacio, en lugar de asumir a priori que una familia es superior. No se incluyen enfoques de \textit{deep clustering} ---que entrenan redes neuronales espec\'{\i}ficas para la tarea de agrupamiento--- porque su complejidad computacional y la dificultad de interpretaci\'{o}n de sus resultados exceden el alcance del presente trabajo.
+
+\subsection{Estrategia de fusi\'{o}n}
+\label{subsec:alt-fusion}
+
+La integraci\'{o}n de informaci\'{o}n proveniente de m\'{u}ltiples modalidades ---en este caso, la ac\'{u}stica y la sem\'{a}ntica--- puede realizarse en distintos puntos del pipeline. \textcite{baltrusaitis_2019_multimodal} distinguen tres enfoques fundamentales. La fusi\'{o}n temprana concatena las representaciones de ambas modalidades en un \'{u}nico vector antes de cualquier procesamiento, lo que produce un espacio unificado de alta dimensionalidad (396 dimensiones: 384 sem\'{a}nticas + 12 ac\'{u}sticas) donde las features ac\'{u}sticas quedar\'{\i}an pr\'{a}cticamente diluidas por la desproporci\'{o}n num\'{e}rica. La fusi\'{o}n tard\'{\i}a procesa cada modalidad de forma independiente y combina los resultados ---t\'{\i}picamente mediante una suma ponderada de puntajes normalizados--- al final del pipeline. La fusi\'{o}n basada en atenci\'{o}n entrena un modelo que aprende a ponderar din\'{a}micamente cada modalidad seg\'{u}n el contexto, pero requiere datos de entrenamiento supervisados de los que este proyecto carece.
+
+Se adopta una estrategia de fusi\'{o}n tard\'{\i}a ponderada por dos razones principales. En primer lugar, permite evaluar la contribuci\'{o}n de cada modalidad de forma independiente: al procesar los espacios ac\'{u}stico y sem\'{a}ntico por separado, es posible medir la calidad de las recomendaciones de cada uno antes y despu\'{e}s de la fusi\'{o}n, respondiendo directamente a las preguntas de investigaci\'{o}n PI4 y PI5. En segundo lugar, no requiere datos de entrenamiento supervisados ni reentrenamiento del modelo \parencite{vogt_1999_linear_fusion}, lo que simplifica el pipeline y reduce los grados de libertad que podr\'{\i}an dificultar la interpretaci\'{o}n de los resultados. El peso \'{o}ptimo entre modalidades se determina emp\'{\i}ricamente mediante b\'{u}squeda system\'{a}tica.
+
+\subsection{Selecci\'{o}n del dataset}
+\label{subsec:alt-dataset}
+
+La evaluaci\'{o}n experimental del sistema requiere un dataset que contenga tanto features ac\'{u}sticas como letras para un conjunto suficientemente grande de canciones. Se consideraron dos alternativas: construir un dataset propio mediante las APIs de Spotify y Genius, o utilizar un dataset p\'{u}blico existente.
+
+La construcci\'{o}n de un dataset propio ofrecer\'{\i}a mayor control sobre la composici\'{o}n del cat\'{a}logo ---por ejemplo, garantizar un balance de g\'{e}neros o una representaci\'{o}n ling\"{u}\'{\i}stica espec\'{\i}fica---. Sin embargo, presenta dos obst\'{a}culos significativos. Primero, los endpoints de features de audio de la Web API de Spotify fueron marcados como deprecados en noviembre de 2024 \parencite{spotify_2024_web_api}, lo que impide obtener estas features para canciones nuevas. Segundo, la construcci\'{o}n de un dataset ad hoc dificulta la comparaci\'{o}n con trabajos previos y compromete la reproducibilidad, dado que otros investigadores no podr\'{\i}an recrear exactamente el mismo cat\'{a}logo.
+
+Se seleccion\'{o} el dataset p\'{u}blico de \textcite{nakhaee_2020_spotify_lyrics}, disponible en Kaggle, que integra features ac\'{u}sticas de Spotify con letras obtenidas de Genius para 18\,454 canciones organizadas en 6 g\'{e}neros y 24 subg\'{e}neros. Este dataset fue construido antes de la depreciaci\'{o}n de la API, contiene features pre-extra\'{\i}das verificables, y su disponibilidad p\'{u}blica garantiza que cualquier investigador puede descargar exactamente los mismos datos y reproducir los experimentos. Las propiedades espec\'{\i}ficas del dataset ---su composici\'{o}n, distribuciones, sesgos y limitaciones--- se caracterizan en detalle en la Secci\'{o}n~\ref{sec:pipeline-datos} del Cap\'{\i}tulo~\ref{ch:solucion-propuesta}.
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.8 --- Recursos del Proyecto
+% ---------------------------------------------------------------------------
+\section{Recursos del Proyecto}
+\label{sec:recursos}
+
+Los recursos empleados en el desarrollo del presente trabajo se organizan en cuatro categor\'{\i}as.
+
+\textbf{Datos.} El proyecto opera sobre el dataset p\'{u}blico de \textcite{nakhaee_2020_spotify_lyrics}, que contiene 18\,454 canciones con 12 features ac\'{u}sticas de Spotify, letras completas obtenidas de Genius, metadatos de g\'{e}nero y subg\'{e}nero, e informaci\'{o}n de idioma detectado autom\'{a}ticamente. El dataset se encuentra disponible en Kaggle y no requiere autorizaci\'{o}n especial para su uso en investigaci\'{o}n.
+
+\textbf{Tecnolog\'{\i}as de software.} La implementaci\'{o}n se realiza en Python, utilizando las siguientes librer\'{\i}as: \texttt{scikit-learn} para algoritmos de clustering (K-Means, Ward, Spectral Clustering) y m\'{e}tricas de evaluaci\'{o}n (Silhouette, Davies-Bouldin, NMI); \texttt{hdbscan} para el algoritmo HDBSCAN; \texttt{sentence-transformers} para la generaci\'{o}n de embeddings sem\'{a}nticos; \texttt{pandas} y \texttt{numpy} para procesamiento y transformaci\'{o}n de datos; y \texttt{matplotlib} para la generaci\'{o}n de figuras.
+
+\textbf{Modelo preentrenado.} La vectorizaci\'{o}n sem\'{a}ntica de letras utiliza el modelo \texttt{multilingual-e5-small} de Microsoft \parencite{wang_2022_e5}, disponible p\'{u}blicamente a trav\'{e}s de la plataforma Hugging Face. El modelo genera vectores de 384 dimensiones con una ventana de 512 tokens y soporte para m\'{a}s de 100 idiomas. Al tratarse de un modelo preentrenado, no requiere entrenamiento adicional para su uso en el presente trabajo.
+
+\textbf{Infraestructura.} Los experimentos se ejecutan en un entorno local sin requisitos de GPU. Los embeddings de 384 dimensiones pueden generarse en CPU en tiempos razonables para un dataset de la escala utilizada. Las semillas aleatorias se fijan de forma centralizada en la configuraci\'{o}n del proyecto para garantizar la reproducibilidad de los resultados.
+
+% ---------------------------------------------------------------------------
+% SECCI\'{O}N 3.9 --- Alcance y Limitaciones
+% ---------------------------------------------------------------------------
 \section{Alcance y Limitaciones}
 \label{sec:alcance-limitaciones}
 
 El alcance del presente trabajo se circunscribe a los siguientes elementos:
 
 \begin{itemize}
-    \item \textbf{Dataset}: El sistema opera sobre un catálogo de 18.454 canciones provenientes del dataset público de Spotify en Kaggle, enriquecido con letras obtenidas de Genius.com. No se utilizan datos de interacción de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido.
+    \item \textbf{Dataset}: El sistema opera sobre un cat\'{a}logo de 18\,454 canciones provenientes de un dataset p\'{u}blico de Kaggle \parencite{nakhaee_2020_spotify_lyrics} que combina features ac\'{u}sticas de la API de Spotify con letras obtenidas de Genius. No se utilizan datos de interacci\'{o}n de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido.
 
-    \item \textbf{Features acústicas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration).
+    \item \textbf{Features ac\'{u}sticas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration\_ms), cuyas propiedades se describen en el Marco Te\'{o}rico (Secci\'{o}n~\ref{subsec:descriptores-spotify}).
 
-    \item \textbf{Features semánticas}: Las letras se vectorizan mediante el modelo \texttt{paraphrase-multilingual-MiniLM-L12-v2} de Sentence-BERT, produciendo embeddings de 384 dimensiones. Se emplea un modelo multilingüe sin traducción previa de las letras.
+    \item \textbf{Features sem\'{a}nticas}: Las letras se vectorizan mediante el modelo \texttt{multilingual-e5-small} de Microsoft, produciendo embeddings de 384 dimensiones con una ventana de 512 tokens. Se emplea un modelo multiling\"{u}e sin traducci\'{o}n previa de las letras.
 
-    \item \textbf{Algoritmos de clustering}: Se evalúan K-Means, Jerárquico Aglomerativo, Spectral Clustering y DBSCAN. No se incluyen enfoques de deep clustering ni modelos generativos.
+    \item \textbf{Algoritmos de clustering}: Se eval\'{u}an K-Means, Jer\'{a}rquico Aglomerativo, Spectral Clustering y HDBSCAN. No se incluyen enfoques de deep clustering ni modelos generativos.
 
-    \item \textbf{Evaluación}: La validación utiliza el género musical como ground truth proxy para las métricas de recomendación. Se reconoce explícitamente que el género es una aproximación imperfecta de la preferencia musical real, no una verdad absoluta.
+    \item \textbf{Evaluaci\'{o}n}: La validaci\'{o}n utiliza el g\'{e}nero musical como ground truth proxy para las m\'{e}tricas de recomendaci\'{o}n. Se reconoce expl\'{\i}citamente que el g\'{e}nero es una aproximaci\'{o}n imperfecta de la preferencia musical real, no una verdad absoluta.
 \end{itemize}
 
-Las principales limitaciones identificadas a priori son:
+Las principales limitaciones identificadas son:
 
 \begin{enumerate}
-    \item La disponibilidad de letras cubre una fracción del catálogo de Spotify, lo cual restringe el universo de canciones recomendables. El presupuesto de pérdida de datos en cada etapa del pipeline se documenta explícitamente.
+    \item \textbf{Cobertura de letras.} El dataset contiene letras v\'{a}lidas para el 98.6\% de los registros (18\,202 de 18\,454). Las 252 canciones sin letras corresponden mayoritariamente a tracks instrumentales o de m\'{u}sica electr\'{o}nica sin transcripci\'{o}n en Genius. La p\'{e}rdida de datos en cada etapa del pipeline se documenta expl\'{\i}citamente mediante un presupuesto de p\'{e}rdida.
 
-    \item El modelo multilingüe de BERT procesa letras en múltiples idiomas sin traducción, lo cual preserva la fidelidad semántica pero puede introducir sesgos asociados a la distribución lingüística del corpus de entrenamiento del modelo.
+    \item \textbf{Sesgo ling\"{u}\'{\i}stico.} El 83.5\% de las letras est\'{a}n en ingl\'{e}s, con espa\~{n}ol en segundo lugar (9.2\%) y 33 idiomas adicionales que representan el 7.3\% restante (entrop\'{\i}a normalizada: 0.21). El modelo \texttt{multilingual-e5-small} soporta m\'{a}s de 100 idiomas, pero su rendimiento puede variar seg\'{u}n la representaci\'{o}n de cada idioma en sus datos de entrenamiento. Los resultados del sistema reflejan predominantemente el comportamiento sobre texto en ingl\'{e}s.
 
-    \item La ausencia de datos de interacción de usuarios impide evaluar la satisfacción real del usuario final. Las métricas reportadas son intrínsecas (calidad de clustering) y basadas en el proxy de género.
+    \item \textbf{Sesgo de instrumentalidad.} El 95.5\% de las canciones tienen un valor de \textit{instrumentalness} inferior a 0.5, y el 82.3\% se ubica por debajo de 0.01. El cat\'{a}logo est\'{a} compuesto casi exclusivamente por canciones vocales, lo que impide evaluar el comportamiento del sistema sobre m\'{u}sica instrumental.
 
-    \item Los experimentos se ejecutan sobre un dataset de escala moderada. La escalabilidad del sistema a catálogos de millones de canciones no se valida en este trabajo.
+    \item \textbf{Ventana de tokens.} Una estimaci\'{o}n heur\'{\i}stica indica que aproximadamente el 59\% de las letras caben dentro de la ventana de 512 tokens del modelo sin truncamiento. Las letras m\'{a}s extensas ---particularmente en g\'{e}neros narrativos--- perder\'{a}n informaci\'{o}n sem\'{a}ntica al ser truncadas. La cobertura real se medir\'{a} con el tokenizador del modelo durante la vectorizaci\'{o}n.
+
+    \item \textbf{Ausencia de datos de interacci\'{o}n.} No se utilizan datos de comportamiento de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido. Las m\'{e}tricas de evaluaci\'{o}n son intr\'{\i}nsecas (calidad de clustering) y basadas en el g\'{e}nero musical como ground truth proxy, reconociendo expl\'{\i}citamente que esta es una aproximaci\'{o}n imperfecta de la preferencia musical real.
+
+    \item \textbf{Escala.} Los experimentos se ejecutan sobre un dataset de 18\,454 canciones. La escalabilidad del sistema a cat\'{a}logos de millones de canciones no se valida en este trabajo.
+
+    \item \textbf{Dependencia de fuente propietaria.} Las features ac\'{u}sticas de Spotify fueron obtenidas antes de la restricci\'{o}n de acceso a la API (noviembre de 2024). Investigadores futuros no podr\'{a}n replicar la obtenci\'{o}n de estas features por la misma v\'{\i}a, lo que limita la reproducibilidad externa del pipeline de datos.
 \end{enumerate}
