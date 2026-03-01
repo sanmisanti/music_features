@@ -68,12 +68,12 @@ MUSICAL_FEATURES = [
 # PARÁMETROS DE VECTORIZACIÓN BERT
 # =============================================================================
 
-BERT_MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+BERT_MODEL_NAME = "multilingual-e5-small"
 BERT_EMBEDDING_DIM = 384
 BERT_BATCH_SIZE = 64
 LYRICS_MIN_LENGTH = 50
 LYRICS_MAX_LENGTH = 5000
-BERT_TARGET_TOKENS = 256
+BERT_TARGET_TOKENS = 512
 
 # =============================================================================
 # PARÁMETROS DE CLUSTERING
@@ -100,3 +100,35 @@ OBJECTIVE_WEIGHTS = {
 
 RECOMMENDATION_TOP_K = 10
 RECOMMENDATION_CANDIDATES = 20
+
+# =============================================================================
+# PARÁMETROS EDA
+# =============================================================================
+
+# Columnas de metadatos (no numéricas / no features)
+METADATA_COLUMNS = [
+    "track_id",
+    "track_name",
+    "track_artist",
+    "track_popularity",
+    "track_album_id",
+    "track_album_name",
+    "track_album_release_date",
+    "playlist_name",
+    "playlist_id",
+    "playlist_genre",
+    "playlist_subgenre",
+    "lyrics",
+    "language",
+]
+
+# Géneros del dataset (playlists de Spotify)
+PLAYLIST_GENRES = ["edm", "latin", "pop", "r&b", "rap", "rock"]
+
+# Umbrales de calidad de letras (en palabras)
+LYRICS_MIN_WORDS = 10
+LYRICS_MAX_WORDS = 2000
+
+# Parámetros de visualización
+FIGURE_DPI = 300
+FIGURE_FORMAT = "pdf"
