@@ -20,7 +20,8 @@
       "WebFetch",
       "Write",
       "Bash(python:*)",
-      "Bash(if not exist \"C:\\\\Users\\\\santi\\\\Documents\\\\Proyectos\\\\Personales\\\\Tesis\\\\music_features\\\\thesis\\\\aux\" mkdir \"C:\\\\Users\\\\santi\\\\Documents\\\\Proyectos\\\\Personales\\\\Tesis\\\\music_features\\\\thesis\\\\aux\")"
+      "Bash(if not exist \"C:\\\\Users\\\\santi\\\\Documents\\\\Proyectos\\\\Personales\\\\Tesis\\\\music_features\\\\thesis\\\\aux\" mkdir \"C:\\\\Users\\\\santi\\\\Documents\\\\Proyectos\\\\Personales\\\\Tesis\\\\music_features\\\\thesis\\\\aux\")",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": []
   }

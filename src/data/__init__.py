@@ -10,6 +10,10 @@ from src.data.eda import (
     compute_dataset_summary,
     compute_feature_profiles,
 )
+from src.data.preprocessor import (
+    preprocess_dataset,
+    save_selected_dataset,
+)
 
 __all__ = [
     "load_source_dataset",
@@ -21,4 +25,6 @@ __all__ = [
     "compute_correlation_matrix",
     "analyze_genre_balance",
     "compute_data_loss_budget",
+    "preprocess_dataset",
+    "save_selected_dataset",
 ]

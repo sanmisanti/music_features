@@ -24,6 +24,10 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 SOURCE_DATASET = DATA_DIR / "2_with_lyrics" / "spotify_songs_fixed.csv"
 SOURCE_SEPARATOR = "@@"
 
+# Dataset seleccionado (post-preprocesamiento)
+SELECTED_DIR = DATA_DIR / "3_selected"
+SELECTED_DATASET = SELECTED_DIR / "selected_dataset.csv"
+
 # Resultados
 RESULTS_DIR = PROJECT_ROOT / "results"
 FIGURES_DIR = RESULTS_DIR / "figures"
