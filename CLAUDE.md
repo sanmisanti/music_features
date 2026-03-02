@@ -31,8 +31,8 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Etapa 1: Fundacion (estructura repositorio, esqueleto LaTeX 7 capitulos + 3 anexos, config centralizada, APA 7 via biblatex+biber)
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
-- [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
-- [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 12), unificacion NPZ (28.11 MB, 8 arrays)
+- [x] Etapa 2: Datos — codigo EDA ejecutado, redaccion LaTeX completada (§5.2.1 Fuentes, §5.2.2 Preprocesamiento)
+- [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 12), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -194,8 +194,8 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 | `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion | Borrador |
 | `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** |
 | `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | Pendiente |
-| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Pendiente |
-| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | Pendiente |
+| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Esqueleto anotado (6 secciones, 21 subsecciones, §4.3 escrito) |
+| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | §5.1-5.5 completos, §5.6-5.7 pendientes (Etapas 4-5) |
 | `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Pendiente |
 | `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Pendiente |
 | `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Pendiente |
