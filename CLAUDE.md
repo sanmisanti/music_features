@@ -63,11 +63,15 @@ Justificacion: misma dimensionalidad (metricas de clustering comparables), 4x ma
 El 46.5% de canciones excede la ventana de 512 tokens. Truncar introduce sesgo sistematico: canciones cortas tienen representacion completa mientras que canciones largas tienen representacion parcial. Dos canciones con contenido tematico identico pero diferente longitud producirian embeddings distintos por un artefacto del pipeline, no por diferencia semantica real.
 
 Parametros de chunking:
-- **Tamano de chunk**: ~450 tokens efectivos (margen para tokens especiales `[CLS]`/`[SEP]` y prefijo `"passage: "`)
-- **Overlap**: ~50 tokens entre chunks consecutivos (preserva continuidad semantica en fronteras)
+- **Tamano de chunk**: 450 tokens de contenido (overhead real: 5 tokens = 3 prefijo + 2 especiales)
+- **Overlap**: 50 tokens entre chunks consecutivos, stride=400 (preserva continuidad semantica en fronteras)
 - **Agregacion**: promedio simple de embeddings de chunks + re-normalizacion L2
-- **Canciones cortas (<=512 tokens)**: pasan directamente sin chunking (comportamiento identico al original)
+- **Canciones cortas (<=507 tokens contenido)**: pasan directamente sin chunking
 - **Output final**: [17964, 384] float32 normalizado L2 — mismo formato, cobertura 100%
+
+Resultados de chunking (ejecucion en curso):
+- 9,583 canciones sin chunking (53.3%) + 8,381 con chunking (46.7%)
+- 32,303 chunks totales, promedio 1.80 chunks/cancion (2.71 chunks/cancion chunkeada)
 
 ### Estilo de redaccion del informe
 

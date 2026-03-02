@@ -20,6 +20,8 @@ import pandas as pd
 
 from src.config import (
     BERT_BATCH_SIZE,
+    BERT_CHUNK_OVERLAP,
+    BERT_CHUNK_TOKENS,
     BERT_EMBEDDING_DIM,
     BERT_MODEL_NAME,
     BERT_TARGET_TOKENS,
@@ -77,6 +79,10 @@ class VectorizationReport:
     throughput_songs_per_sec: float = 0.0
     model_load_seconds: float = 0.0
     embedding_stats: Dict = field(default_factory=dict)
+    songs_single_chunk: int = 0
+    songs_multi_chunk: int = 0
+    total_chunks: int = 0
+    mean_chunks_per_song: float = 0.0
 
 
 # =============================================================================
@@ -223,7 +229,7 @@ def measure_token_coverage(
 
 
 # =============================================================================
-# VECTORIZACION
+# VECTORIZACION CON CHUNKING
 # =============================================================================
 
 
@@ -233,15 +239,21 @@ def vectorize_lyrics(
     batch_size: int = BERT_BATCH_SIZE,
     target_dim: int = BERT_EMBEDDING_DIM,
     max_seq_length: int = BERT_TARGET_TOKENS,
+    chunk_tokens: int = BERT_CHUNK_TOKENS,
+    chunk_overlap: int = BERT_CHUNK_OVERLAP,
 ) -> Tuple[np.ndarray, VectorizationReport]:
     """
     Genera embeddings semanticos de 384 dimensiones a partir de las letras.
 
-    Carga el modelo SentenceTransformer completo, configura la ventana de
-    contexto, y codifica todas las letras con el prefijo E5 "passage: ".
+    Para letras que exceden la ventana de contexto del modelo, aplica
+    chunking con overlap: divide el texto en fragmentos solapados,
+    vectoriza cada fragmento, y agrega por promedio con re-normalizacion L2.
+    Letras que caben en la ventana se procesan directamente sin chunking.
 
-    Estrategia de errores: intento bulk primero; si falla, fallback
-    lote por lote con vectores cero para letras individuales que fallen.
+    El proceso tiene 3 fases:
+    1. Tokenizar cada letra y determinar chunks necesarios.
+    2. Codificar todos los chunks en una llamada bulk al modelo.
+    3. Agregar embeddings de chunks por cancion (promedio + re-normalizacion).
 
     Parameters
     ----------
@@ -255,6 +267,11 @@ def vectorize_lyrics(
         Dimensionalidad esperada del embedding (384 para E5-small).
     max_seq_length : int
         Ventana de contexto maxima del modelo en tokens.
+    chunk_tokens : int
+        Tokens de contenido de letras por chunk (excluyendo prefijo y
+        tokens especiales).
+    chunk_overlap : int
+        Overlap en tokens entre chunks consecutivos.
 
     Returns
     -------
@@ -265,7 +282,7 @@ def vectorize_lyrics(
 
     report = VectorizationReport(total_songs=len(lyrics))
 
-    # Cargar modelo
+    # --- Cargar modelo ---
     logger.info("Cargando modelo SentenceTransformer '%s'...", model_id)
     model_start = time.time()
     model = SentenceTransformer(model_id)
@@ -276,37 +293,102 @@ def vectorize_lyrics(
         report.model_load_seconds, model.max_seq_length,
     )
 
-    # Preparar textos con prefijo E5
-    texts = [E5_PASSAGE_PREFIX + str(text) for text in lyrics]
+    # Obtener tokenizer del modelo para chunking
+    tokenizer = model.tokenizer
 
-    # Intento bulk
+    # Calcular overhead del prefijo y tokens especiales
+    prefix_token_ids = tokenizer.encode(E5_PASSAGE_PREFIX, add_special_tokens=False)
+    special_tokens_count = 2  # [CLS], [SEP]
+    overhead = len(prefix_token_ids) + special_tokens_count
+    max_content = max_seq_length - overhead
+
+    # Ajustar chunk_tokens si excede el maximo de contenido
+    effective_chunk = min(chunk_tokens, max_content)
+    stride = effective_chunk - chunk_overlap
+
     logger.info(
-        "Vectorizando %d letras (batch_size=%d, normalize=True)...",
-        len(texts), batch_size,
+        "Chunking config: chunk_tokens=%d, overlap=%d, stride=%d, "
+        "overhead=%d (prefijo=%d + especiales=%d)",
+        effective_chunk, chunk_overlap, stride,
+        overhead, len(prefix_token_ids), special_tokens_count,
     )
+
+    # ===== FASE 1: Tokenizar y determinar chunks =====
+    logger.info("Fase 1: Tokenizando letras y determinando chunks...")
+
+    # all_chunks: lista de (song_idx, prefixed_chunk_text)
+    all_chunks: List[Tuple[int, str]] = []
+    songs_single = 0
+    songs_chunked = 0
+
+    for i, text in enumerate(lyrics):
+        text_str = str(text)
+        # Tokenizar solo las letras (sin prefijo, sin tokens especiales)
+        token_ids = tokenizer.encode(text_str, add_special_tokens=False)
+
+        if len(token_ids) <= max_content:
+            # Cabe en una sola ventana
+            all_chunks.append((i, E5_PASSAGE_PREFIX + text_str))
+            songs_single += 1
+        else:
+            # Requiere chunking: dividir token_ids con overlap
+            songs_chunked += 1
+            for start in range(0, len(token_ids), stride):
+                end = min(start + effective_chunk, len(token_ids))
+                chunk_ids = token_ids[start:end]
+                chunk_text = tokenizer.decode(chunk_ids, skip_special_tokens=True)
+                all_chunks.append((i, E5_PASSAGE_PREFIX + chunk_text))
+                if end >= len(token_ids):
+                    break
+
+        if (i + 1) % 5000 == 0:
+            logger.info("  Tokenizadas %d / %d canciones...", i + 1, len(lyrics))
+
+    report.songs_single_chunk = songs_single
+    report.songs_multi_chunk = songs_chunked
+    report.total_chunks = len(all_chunks)
+    report.mean_chunks_per_song = round(
+        len(all_chunks) / len(lyrics), 2
+    ) if len(lyrics) > 0 else 0.0
+
+    logger.info(
+        "Chunking completado: %d sin chunking, %d con chunking, "
+        "%d chunks totales (%.2f chunks/cancion)",
+        songs_single, songs_chunked, len(all_chunks),
+        report.mean_chunks_per_song,
+    )
+
+    # ===== FASE 2: Encoding de todos los chunks =====
+    logger.info(
+        "Fase 2: Vectorizando %d chunks (batch_size=%d, normalize=True)...",
+        len(all_chunks), batch_size,
+    )
+    chunk_texts = [c[1] for c in all_chunks]
     encode_start = time.time()
 
     try:
-        embeddings = model.encode(
-            texts,
+        chunk_embeddings = model.encode(
+            chunk_texts,
             batch_size=batch_size,
             normalize_embeddings=True,
             convert_to_numpy=True,
             show_progress_bar=True,
         )
-        report.successful = len(texts)
+        report.successful = len(lyrics)
         report.failed = 0
 
     except Exception as e:
         logger.warning(
             "Encoding bulk fallo: %s. Ejecutando fallback lote por lote...", str(e)
         )
-        embeddings = np.zeros((len(texts), target_dim), dtype=np.float32)
-        report.failure_indices = []
+        chunk_embeddings = np.zeros(
+            (len(chunk_texts), target_dim), dtype=np.float32
+        )
+        failed_chunks: set = set()
 
-        for start in range(0, len(texts), batch_size):
-            end = min(start + batch_size, len(texts))
-            batch = texts[start:end]
+        for start in range(0, len(chunk_texts), batch_size):
+            end = min(start + batch_size, len(chunk_texts))
+            batch = chunk_texts[start:end]
 
             try:
                 batch_emb = model.encode(
@@ -316,9 +398,8 @@ def vectorize_lyrics(
                     convert_to_numpy=True,
                     show_progress_bar=False,
                 )
-                embeddings[start:end] = batch_emb
+                chunk_embeddings[start:end] = batch_emb
             except Exception:
-                # Fallback individual dentro del lote
                 for j, single_text in enumerate(batch):
                     idx = start + j
                     try:
@@ -328,20 +409,52 @@ def vectorize_lyrics(
                             convert_to_numpy=True,
                             show_progress_bar=False,
                         )
-                        embeddings[idx] = single_emb[0]
+                        chunk_embeddings[idx] = single_emb[0]
                     except Exception:
-                        report.failure_indices.append(idx)
-                        logger.warning("Fallo en cancion indice %d", idx)
+                        failed_chunks.add(idx)
+                        logger.warning("Fallo en chunk indice %d", idx)
 
-            if (end) % 5000 == 0 or end == len(texts):
-                logger.info("  Procesados %d / %d ...", end, len(texts))
+            if end % 5000 == 0 or end == len(chunk_texts):
+                logger.info("  Procesados %d / %d chunks...", end, len(chunk_texts))
 
-        report.successful = len(texts) - len(report.failure_indices)
+        # Determinar canciones con algun chunk fallido
+        failed_song_indices: set = set()
+        for chunk_idx in failed_chunks:
+            song_idx = all_chunks[chunk_idx][0]
+            failed_song_indices.add(song_idx)
+        report.failure_indices = sorted(failed_song_indices)
         report.failed = len(report.failure_indices)
+        report.successful = len(lyrics) - report.failed
 
     elapsed = time.time() - encode_start
     report.elapsed_seconds = round(elapsed, 2)
-    report.throughput_songs_per_sec = round(len(texts) / elapsed, 2) if elapsed > 0 else 0.0
+    report.throughput_songs_per_sec = round(
+        len(lyrics) / elapsed, 2
+    ) if elapsed > 0 else 0.0
+
+    # ===== FASE 3: Agregacion por cancion =====
+    logger.info("Fase 3: Agregando chunks por cancion (promedio + re-normalizacion L2)...")
+    embeddings = np.zeros((len(lyrics), target_dim), dtype=np.float32)
+
+    # Construir mapping song_idx -> indices de chunks
+    song_to_chunks: Dict[int, List[int]] = {}
+    for chunk_idx, (song_idx, _) in enumerate(all_chunks):
+        if song_idx not in song_to_chunks:
+            song_to_chunks[song_idx] = []
+        song_to_chunks[song_idx].append(chunk_idx)
+
+    for song_idx, chunk_indices in song_to_chunks.items():
+        if len(chunk_indices) == 1:
+            embeddings[song_idx] = chunk_embeddings[chunk_indices[0]]
+        else:
+            # Promedio de chunks + re-normalizacion L2
+            chunk_vecs = chunk_embeddings[chunk_indices]
+            avg = np.mean(chunk_vecs, axis=0)
+            norm = np.linalg.norm(avg)
+            if norm > 1e-8:
+                avg = avg / norm
+            embeddings[song_idx] = avg
+
     report.embedding_shape = embeddings.shape
     report.dtype = str(embeddings.dtype)
 

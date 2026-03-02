@@ -84,6 +84,8 @@ BERT_BATCH_SIZE = 64
 LYRICS_MIN_LENGTH = 50
 LYRICS_MAX_LENGTH = 5000
 BERT_TARGET_TOKENS = 512
+BERT_CHUNK_TOKENS = 450
+BERT_CHUNK_OVERLAP = 50
 
 # =============================================================================
 # PARÁMETROS DE CLUSTERING

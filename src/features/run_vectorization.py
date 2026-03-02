@@ -29,6 +29,8 @@ logger = logging.getLogger("src.features.run_vectorization")
 
 from src.config import (
     BERT_BATCH_SIZE,
+    BERT_CHUNK_OVERLAP,
+    BERT_CHUNK_TOKENS,
     BERT_EMBEDDING_DIM,
     BERT_MODEL_NAME,
     BERT_TARGET_TOKENS,
@@ -243,6 +245,15 @@ def main():
             "p99_tokens": token_report.p99_tokens,
             "heuristic_coverage_pct": 58.8,
         },
+        "chunking": {
+            "songs_single_chunk": vec_report.songs_single_chunk,
+            "songs_multi_chunk": vec_report.songs_multi_chunk,
+            "total_chunks": vec_report.total_chunks,
+            "mean_chunks_per_song": vec_report.mean_chunks_per_song,
+            "chunk_tokens": BERT_CHUNK_TOKENS,
+            "chunk_overlap": BERT_CHUNK_OVERLAP,
+            "aggregation": "mean + L2 re-normalization",
+        },
         "vectorization": {
             "total_songs": vec_report.total_songs,
             "successful": vec_report.successful,
@@ -283,8 +294,13 @@ def main():
     logger.info("Resultados:")
     logger.info("  Modelo: %s (%dD)", BERT_MODEL_NAME, BERT_EMBEDDING_DIM)
     logger.info(
-        "  Cobertura de tokens: %.1f%% (heuristica EDA: 58.8%%)",
+        "  Cobertura de tokens (sin chunking): %.1f%% (heuristica EDA: 58.8%%)",
         token_report.coverage_pct,
+    )
+    logger.info(
+        "  Chunking: %d sin chunking + %d con chunking = %d chunks totales (%.2f chunks/cancion)",
+        vec_report.songs_single_chunk, vec_report.songs_multi_chunk,
+        vec_report.total_chunks, vec_report.mean_chunks_per_song,
     )
     logger.info(
         "  Embeddings: %d canciones x %d dimensiones (%.2f MB)",
