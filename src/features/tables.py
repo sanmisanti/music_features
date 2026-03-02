@@ -8,6 +8,7 @@ import logging
 
 from src.config import TABLES_DIR, THESIS_TABLES_DIR
 from src.features.normalizer import NormalizationReport
+from src.features.unifier import UnificationReport
 from src.features.vectorizer import TokenCoverageReport
 
 logger = logging.getLogger(__name__)
@@ -160,4 +161,89 @@ Feature & Media & DE & Mín & Máx & Media & DE \\
 \end{table}"""
 
     _save_table(content, "normalization_stats")
+    return content
+
+
+def generate_unification_table(report: UnificationReport) -> str:
+    """
+    Genera tabla LaTeX con la composicion del dataset unificado.
+
+    Muestra los componentes principales del NPZ: embeddings semanticos,
+    features musicales, etiquetas de genero, y metadatos textuales.
+
+    Parameters
+    ----------
+    report : UnificationReport
+        Reporte de unificacion con estadisticas del dataset.
+
+    Returns
+    -------
+    str
+        Contenido LaTeX de la tabla.
+    """
+    content = r"""\begin{table}[htbp]
+\centering
+\caption{Composición del dataset unificado (\texttt{unified\_dataset.npz}).}
+\label{tab:unified_summary}
+\begin{tabular}{llll}
+\toprule
+Componente & Dimensiones & Tipo & Origen \\
+\midrule
+"""
+
+    rows = [
+        (
+            "Embeddings semánticos",
+            f"{_fmt(report.n_samples)} $\\times$ {report.semantic_dim}",
+            "float32",
+            "\\texttt{multilingual-e5-small}",
+        ),
+        (
+            "Features musicales",
+            f"{_fmt(report.n_samples)} $\\times$ {report.musical_dim}",
+            "float32",
+            "Spotify (\\textit{z-score})",
+        ),
+        (
+            "Etiquetas de género",
+            f"{_fmt(report.n_samples)}",
+            "categórico",
+            f"{report.n_genres} géneros",
+        ),
+        (
+            "Nombres de tracks",
+            f"{_fmt(report.n_samples)}",
+            "texto",
+            "Metadatos Spotify",
+        ),
+        (
+            "Artistas",
+            f"{_fmt(report.n_samples)}",
+            "texto",
+            "Metadatos Spotify",
+        ),
+        (
+            "Conteo de tokens",
+            f"{_fmt(report.n_samples)}",
+            "entero",
+            "Tokenizer E5",
+        ),
+    ]
+
+    for component, dims, dtype, origin in rows:
+        content += f"{component} & {dims} & {dtype} & {origin} \\\\\n"
+
+    content += "\\midrule\n"
+    content += (
+        f"\\textbf{{Total}} & "
+        f"\\textbf{{{report.n_arrays} arrays}} & "
+        f"--- & "
+        f"\\textbf{{{_fmt(report.npz_size_mb, 1)} MB}} \\\\\n"
+    )
+
+    content += r"""\bottomrule
+\end{tabular}
+\end{table}"""
+
+    _save_table(content, "unified_summary")
     return content

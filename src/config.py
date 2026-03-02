@@ -36,6 +36,10 @@ VECTORIZED_TOKEN_COUNTS = VECTORIZED_DIR / "token_counts.npy"
 VECTORIZED_MUSICAL_FEATURES = VECTORIZED_DIR / "musical_features.npy"
 VECTORIZED_FEATURE_NAMES = VECTORIZED_DIR / "feature_names.npy"
 
+# Dataset unificado
+UNIFIED_DIR = DATA_DIR / "5_unified"
+UNIFIED_DATASET = UNIFIED_DIR / "unified_dataset.npz"
+
 # Resultados
 RESULTS_DIR = PROJECT_ROOT / "results"
 FIGURES_DIR = RESULTS_DIR / "figures"
