@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 3 - Preprocesamiento completado, pendiente vectorizacion E5 (Marzo 2026)**
+**Fase actual: Etapa 3 - Preprocesamiento completado, vectorizacion E5 completada (Marzo 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -32,7 +32,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
-- [~] Etapa 3: Features — preprocesamiento completado (17,964 canciones), pendiente vectorizacion E5
+- [~] Etapa 3: Features — preprocesamiento y vectorizacion E5 completados (17,964 x 384), pendiente normalizacion features musicales y unificacion
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -141,7 +141,11 @@ Problemas identificados que la re-ejecucion debe evitar:
 | Fuente con letras | `data/2_with_lyrics/spotify_songs_fixed.csv` | 18,454 | Spotify Kaggle + Genius lyrics, separador `@@` |
 | Seleccionado | `data/3_selected/selected_dataset.csv` | 17,964 | Post-preprocesamiento, separador `@@`, 40.72 MB |
 
-Los datasets intermedios (4_vectorized, 5_unified) seran regenerados en los siguientes pasos de la Etapa 3.
+| Embeddings semanticos | `data/4_vectorized/embeddings.npy` | 17,964 x 384 | float32, normalizado L2, 26.31 MB |
+| Track IDs vectorizados | `data/4_vectorized/track_ids.npy` | 17,964 | Alineado con embeddings |
+| Token counts | `data/4_vectorized/token_counts.npy` | 17,964 | Conteo de tokens por cancion (con prefijo E5) |
+
+El dataset unificado (5_unified) sera generado en el siguiente paso de la Etapa 3.
 
 ---
 
@@ -272,6 +276,36 @@ Artefactos generados (ejecucion exitosa 2026-03-01, 4.4s):
 Adicionalmente, 4 valores de loudness > 0 dB fueron corregidos (clip a 0 dB, sin remocion de filas).
 
 **Contraste con v1**: La v1 redujo de 18K a 7,811 (57.7% de perdida) mediante seleccion clustering-aware sin justificacion intencional. La v2 aplica unicamente filtros de calidad documentados, con 2.66% de perdida total.
+
+### Modulos Etapa 3 Paso 2: Vectorizacion semantica
+
+| Modulo | Ubicacion | Contenido |
+|--------|-----------|-----------|
+| Vectorizador | `src/features/vectorizer.py` | `prepare_lyrics_for_encoding()`, `measure_token_coverage()`, `vectorize_lyrics()` (con chunking) |
+| Tablas LaTeX | `src/features/tables.py` | `generate_token_coverage_table()` |
+| Orquestador | `src/features/run_vectorization.py` | `python -m src.features.run_vectorization` — pipeline 8 pasos |
+| API publica | `src/features/__init__.py` | Exports del modulo |
+
+Artefactos generados (ejecucion exitosa 2026-03-02, ~2h05min):
+- `data/4_vectorized/embeddings.npy` (17,964 x 384, float32, 26.31 MB)
+- `data/4_vectorized/track_ids.npy` (17,964)
+- `data/4_vectorized/token_counts.npy` (17,964)
+- `results/tables/token_coverage.tex` + `thesis/tables/token_coverage.tex`
+- `results/metrics/etapa3_vectorization.json`
+
+### Resultados de la vectorizacion
+
+| Metrica | Valor |
+|---------|-------|
+| Canciones vectorizadas | 17,964 / 17,964 (0 fallos) |
+| Sin chunking | 9,583 (53.3%) |
+| Con chunking | 8,381 (46.7%) |
+| Chunks totales | 32,303 (1.80 chunks/cancion) |
+| Norma L2 media | 1.0000 (std=0.0000) |
+| Vectores cero | 0 |
+| NaN | 0 |
+| Dimensiones muertas | 0 |
+| Tiempo encoding | 7,378 s (~2h03min CPU) |
 
 ---
 

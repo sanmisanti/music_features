@@ -1,0 +1,31 @@
+\begin{table}[htbp]
+\centering
+\caption{Cobertura de la ventana de contexto del tokenizer \texttt{multilingual-e5-small}.}
+\label{tab:token_coverage}
+\begin{tabular}{lr}
+\toprule
+Métrica & Valor \\
+\midrule
+Total de canciones & 17\,964 \\
+Ventana de contexto & 512 tokens \\
+Canciones dentro de ventana & 9\,607 (53.5\%) \\
+Canciones truncadas & 8\,357 (46.5\%) \\
+\midrule
+\multicolumn{2}{l}{\textit{Distribución de tokens}} \\
+\midrule
+Media & 607.3 \\
+Mediana & 486.0 \\
+Desviación estándar & 433.4 \\
+Mínimo & 16 \\
+Máximo & 4\,104 \\
+Percentil 90 & 1\,115 \\
+Percentil 95 & 1\,451 \\
+Percentil 99 & 2\,324 \\
+\midrule
+\multicolumn{2}{l}{\textit{Comparación con heurística}} \\
+\midrule
+Cobertura estimada (1.33 tok/palabra) & 58.8\% \\
+Cobertura real (tokenizer) & 53.5\% \\
+\bottomrule
+\end{tabular}
+\end{table}

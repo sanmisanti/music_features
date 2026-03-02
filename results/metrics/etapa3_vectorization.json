@@ -1,0 +1,72 @@
+{
+  "model": {
+    "name": "multilingual-e5-small",
+    "embedding_dim": 384,
+    "max_seq_length": 512,
+    "batch_size": 64
+  },
+  "token_coverage": {
+    "total_songs": 17964,
+    "window_size": 512,
+    "within_window": 9607,
+    "coverage_pct": 53.48,
+    "mean_tokens": 607.26,
+    "median_tokens": 486.0,
+    "std_tokens": 433.36,
+    "min_tokens": 16,
+    "max_tokens": 4104,
+    "p90_tokens": 1115,
+    "p95_tokens": 1451,
+    "p99_tokens": 2324,
+    "heuristic_coverage_pct": 58.8
+  },
+  "chunking": {
+    "songs_single_chunk": 9583,
+    "songs_multi_chunk": 8381,
+    "total_chunks": 32303,
+    "mean_chunks_per_song": 1.8,
+    "chunk_tokens": 450,
+    "chunk_overlap": 50,
+    "aggregation": "mean + L2 re-normalization"
+  },
+  "vectorization": {
+    "total_songs": 17964,
+    "successful": 17964,
+    "failed": 0,
+    "failure_indices": [],
+    "embedding_shape": [
+      17964,
+      384
+    ],
+    "dtype": "float32",
+    "elapsed_seconds": 7378.43,
+    "throughput_songs_per_sec": 2.43,
+    "model_load_seconds": 7.76
+  },
+  "embedding_stats": {
+    "l2_norm_mean": 1.0,
+    "l2_norm_std": 0.0,
+    "l2_norm_min": 1.0,
+    "l2_norm_max": 1.0,
+    "zero_vectors": 0,
+    "zero_vectors_pct": 0.0,
+    "value_min": -0.175371,
+    "value_max": 0.167824,
+    "value_mean": -0.000283,
+    "variance_per_dim_mean": 0.000338,
+    "variance_per_dim_min": 0.000159,
+    "variance_per_dim_max": 0.000553,
+    "dead_dimensions": 0
+  },
+  "postconditions": {
+    "nan_count": 0,
+    "zero_vectors": 0,
+    "l2_norm_mean": 1.0,
+    "track_ids_aligned": true
+  },
+  "output_paths": {
+    "embeddings": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\4_vectorized\\embeddings.npy",
+    "track_ids": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\4_vectorized\\track_ids.npy",
+    "token_counts": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\4_vectorized\\token_counts.npy"
+  }
+}
