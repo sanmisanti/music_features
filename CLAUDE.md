@@ -32,7 +32,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [x] Etapa 2: Datos — codigo EDA ejecutado, redaccion LaTeX completada (§5.2.1 Fuentes, §5.2.2 Preprocesamiento)
-- [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 12), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
+- [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 13, key circular), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -144,9 +144,9 @@ Problemas identificados que la re-ejecucion debe evitar:
 | Embeddings semanticos | `data/4_vectorized/embeddings.npy` | 17,964 x 384 | float32, normalizado L2, 26.31 MB |
 | Track IDs vectorizados | `data/4_vectorized/track_ids.npy` | 17,964 | Alineado con embeddings |
 | Token counts | `data/4_vectorized/token_counts.npy` | 17,964 | Conteo de tokens por cancion (con prefijo E5) |
-| Features musicales norm. | `data/4_vectorized/musical_features.npy` | 17,964 x 12 | float32, z-score, 0.82 MB |
-| Nombres de features | `data/4_vectorized/feature_names.npy` | 12 | Nombres de las 12 features musicales |
-| **Dataset unificado** | `data/5_unified/unified_dataset.npz` | 17,964 | 8 arrays: embeddings 384D + musical 12D + metadatos, 28.11 MB |
+| Features musicales norm. | `data/4_vectorized/musical_features.npy` | 17,964 x 13 | float32, circular key + z-score |
+| Nombres de features | `data/4_vectorized/feature_names.npy` | 13 | Nombres de las 13 features musicales |
+| **Dataset unificado** | `data/5_unified/unified_dataset.npz` | 17,964 | 8 arrays: embeddings 384D + musical 13D + metadatos |
 
 ---
 
@@ -177,7 +177,7 @@ El codigo y documentacion de la primera ejecucion permanecen en el repositorio c
 | Metrica | Valor v1 | Notas |
 |---------|----------|-------|
 | Hopkins Semantico (384D) | 0.7752 +/- 0.0015 | Debe reproducirse similar |
-| Hopkins Musical (12D) | 0.7871 +/- 0.0022 | Debe reproducirse similar |
+| Hopkins Musical (12D v1 / 13D v2) | 0.7871 +/- 0.0022 | Benchmark v1 con 12D; v2 usara 13D |
 | Silhouette post-purificacion | 0.2893 | Benchmark de mejora |
 | Precision@10 hibrido | 0.398 | Benchmark de recomendacion |
 | NMI cross-modal | 0.0567 | Benchmark de complementariedad |
@@ -312,14 +312,14 @@ Artefactos generados (ejecucion exitosa 2026-03-02, ~2h05min):
 
 | Modulo | Ubicacion | Contenido |
 |--------|-----------|-----------|
-| Normalizador | `src/features/normalizer.py` | `NormalizationReport`, `extract_musical_features()`, `normalize_features()` (z-score manual) |
+| Normalizador | `src/features/normalizer.py` | `NormalizationReport`, `circular_encode_key()`, `extract_musical_features()`, `normalize_features()` (circular key + z-score) |
 | Tablas LaTeX | `src/features/tables.py` | `generate_normalization_table()` |
 | Orquestador | `src/features/run_normalization.py` | `python -m src.features.run_normalization` — pipeline 7 pasos |
 | API publica | `src/features/__init__.py` | Exports actualizados |
 
-Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
-- `data/4_vectorized/musical_features.npy` (17,964 x 12, float32, 0.82 MB)
-- `data/4_vectorized/feature_names.npy` (12 nombres)
+Artefactos generados (pendiente re-ejecucion con codificacion circular):
+- `data/4_vectorized/musical_features.npy` (17,964 x 13, float32)
+- `data/4_vectorized/feature_names.npy` (13 nombres)
 - `results/tables/normalization_stats.tex` + `thesis/tables/normalization_stats.tex`
 - `results/metrics/etapa3_normalization.json`
 
@@ -327,14 +327,14 @@ Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
 
 | Metrica | Valor |
 |---------|-------|
-| Muestras x features | 17,964 x 12 |
-| Metodo | z-score (estandarizacion) |
+| Muestras x features | 17,964 x 13 |
+| Metodo | codificacion circular de key + z-score |
 | NaN antes / despues | 0 / 0 |
-| Media maxima post-normalizacion | 3.30e-07 |
-| DE maxima desviacion de 1.0 | 1.19e-07 |
 | Track IDs alineados con embeddings | 17,964 verificados |
 
-Nota: `key` (0-11) y `mode` (0/1) son variables categoricas tratadas como continuas para z-score. Documentado como limitacion conocida; one-hot encoding agregaria 12+ dimensiones sin beneficio proporcional en un espacio de 12D.
+Nota sobre variables categoricas:
+- `key` (0-11): codificacion circular sin/cos (key_sin, key_cos) para preservar adyacencia tonal. Reemplaza 1 columna por 2 (12->13 features).
+- `mode` (0/1): z-score directo, matematicamente valido para binarias.
 
 ### Modulos Etapa 3 Paso 4: Unificacion de features
 
@@ -356,7 +356,7 @@ Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
 |---------|-------|
 | Muestras | 17,964 |
 | Embeddings semanticos | 17,964 x 384, float32 |
-| Features musicales | 17,964 x 12, float32 |
+| Features musicales | 17,964 x 13, float32 |
 | Generos unicos | 6 (edm: 1,853, latin: 2,132, pop: 3,879, r&b: 3,314, rap: 3,279, rock: 3,507) |
 | NaN semanticos / musicales | 0 / 0 |
 | Norma L2 media | 1.000000 |
@@ -372,9 +372,9 @@ Nota: `load_metadata()` lee del dataset fuente original (`2_with_lyrics/`) en lu
 | Key | Shape | Dtype | Origen |
 |-----|-------|-------|--------|
 | `semantic_embeddings` | [17964, 384] | float32 | `4_vectorized/embeddings.npy` |
-| `musical_features` | [17964, 12] | float32 | `4_vectorized/musical_features.npy` |
+| `musical_features` | [17964, 13] | float32 | `4_vectorized/musical_features.npy` |
 | `track_ids` | [17964] | object | `4_vectorized/track_ids.npy` |
-| `feature_names` | [12] | U16 | `4_vectorized/feature_names.npy` |
+| `feature_names` | [13] | U16 | `4_vectorized/feature_names.npy` |
 | `genre_labels` | [17964] | object | `2_with_lyrics/` col `playlist_genre` |
 | `track_names` | [17964] | object | `2_with_lyrics/` col `track_name` |
 | `track_artists` | [17964] | object | `2_with_lyrics/` col `track_artist` |

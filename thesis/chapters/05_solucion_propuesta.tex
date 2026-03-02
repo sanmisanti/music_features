@@ -11,7 +11,7 @@
 
 El sistema propuesto integra información acústica y semántica de canciones musicales para generar recomendaciones que consideren tanto las propiedades sonoras de cada canción como el contenido de sus letras. La arquitectura se organiza como un pipeline secuencial de cinco etapas, cada una de las cuales produce artefactos verificables que alimentan la siguiente.
 
-La primera etapa ---el pipeline de datos--- carga, valida y caracteriza el catálogo de canciones disponible, documentando sus propiedades estadísticas y los sesgos preexistentes que condicionan las etapas posteriores. La segunda etapa genera las representaciones numéricas de cada canción en dos espacios complementarios: por un lado, vectores semánticos de 384 dimensiones que capturan el significado de las letras mediante un modelo de lenguaje preentrenado; por otro, un vector de 12 descriptores acústicos que describe las propiedades sonoras. La tercera etapa aplica técnicas de clustering sobre ambas representaciones para identificar agrupaciones naturales en el catálogo ---canciones que comparten perfil sonoro, temática lírica, o ambas cosas---. La cuarta etapa construye el sistema de recomendación propiamente dicho, combinando las señales de ambos espacios mediante una estrategia de fusión ponderada. Finalmente, la quinta etapa evalúa el sistema completo bajo métricas de precisión, diversidad y coherencia.
+La primera etapa ---el pipeline de datos--- carga, valida y caracteriza el catálogo de canciones disponible, documentando sus propiedades estadísticas y los sesgos preexistentes que condicionan las etapas posteriores. La segunda etapa genera las representaciones numéricas de cada canción en dos espacios complementarios: por un lado, vectores semánticos de 384 dimensiones que capturan el significado de las letras mediante un modelo de lenguaje preentrenado; por otro, un vector de 13 descriptores acústicos que describe las propiedades sonoras. La tercera etapa aplica técnicas de clustering sobre ambas representaciones para identificar agrupaciones naturales en el catálogo ---canciones que comparten perfil sonoro, temática lírica, o ambas cosas---. La cuarta etapa construye el sistema de recomendación propiamente dicho, combinando las señales de ambos espacios mediante una estrategia de fusión ponderada. Finalmente, la quinta etapa evalúa el sistema completo bajo métricas de precisión, diversidad y coherencia.
 
 Las decisiones de diseño en cada etapa están condicionadas por las propiedades del dataset fuente, cuya caracterización se presenta a continuación.
 
@@ -210,9 +210,33 @@ El proceso de vectorización completo ---codificación de los 32\,303 fragmentos
 \section{Componente Musical: Features Acústicas}
 \label{sec:componente-musical}
 
-Las 12 features acústicas de Spotify ---descritas formalmente en la Sección~\ref{sec:features-musicales} del Marco Teórico--- operan en escalas heterogéneas: los índices perceptuales varían entre 0 y 1, \textit{loudness} se mide en decibelios (rango típico: $-34$ a 0~dB), \textit{tempo} en BPM (37 a 214), y \textit{duration\_ms} en milisegundos (31\,893 a 517\,810). Si estas features se utilizan directamente en algoritmos basados en distancia euclidiana ---como K-Means o el enlace de Ward---, las features con mayor rango numérico dominarían el cálculo: \textit{duration\_ms}, con valores del orden de $10^5$, contribuiría desproporcionadamente más que \textit{danceability}, con valores entre 0 y 1, independientemente de su relevancia para el agrupamiento.
+Las 12 features acústicas de Spotify ---descritas formalmente en la Sección~\ref{sec:features-musicales} del Marco Teórico--- requieren dos transformaciones antes de poder utilizarse en algoritmos basados en distancia euclidiana: una codificación adecuada de la variable categórica circular \textit{key}, y una normalización de escala que iguale la contribución de todas las features.
 
-Para igualar la contribución de cada feature, se aplica una normalización \textit{z-score} (también denominada estandarización) que transforma cada feature para que tenga media 0 y desviación estándar 1. La transformación para cada valor $x_{ij}$ de la feature $j$ es:
+\subsection{Codificación circular de la tonalidad}
+\label{subsec:codificacion-circular}
+
+La feature \textit{key} codifica la tonalidad de cada canción como un número entero entre 0 (Do) y 11 (Si). Aunque esta representación numérica es conveniente para almacenamiento, introduce relaciones de magnitud artificiales cuando se utiliza directamente en cálculos de distancia: Do sostenido (\textit{key} = 1) aparece numéricamente ``más cercano'' a Re (\textit{key} = 2) que a Si (\textit{key} = 11), cuando en realidad Si y Do son tonalidades adyacentes en el círculo cromático. Aplicar \textit{z-score} directamente a esta variable preservaría estas relaciones espurias ---la estandarización es una transformación lineal que mantiene las distancias relativas entre valores---.
+
+Para preservar la naturaleza circular de la tonalidad, se aplica una codificación trigonométrica que mapea cada valor a un punto en el círculo unitario mediante dos componentes:
+
+\begin{equation}
+    \textit{key\_sin} = \sin\!\left(\frac{2\pi \cdot \textit{key}}{12}\right), \qquad
+    \textit{key\_cos} = \cos\!\left(\frac{2\pi \cdot \textit{key}}{12}\right)
+    \label{eq:circular-key}
+\end{equation}
+
+En esta representación, cada tonalidad ocupa una posición equidistante en el círculo, y la distancia euclidiana entre dos puntos $(\sin\theta_a, \cos\theta_a)$ y $(\sin\theta_b, \cos\theta_b)$ refleja correctamente la proximidad entre las tonalidades correspondientes. Do (\textit{key} = 0) y Si (\textit{key} = 11) quedan a la misma distancia que cualquier otro par de tonalidades consecutivas.
+
+La feature \textit{mode} (modalidad, valores 0 o 1) es una variable binaria que no presenta este problema: con solo dos valores posibles, la normalización \textit{z-score} produce una transformación lineal que centra y escala los dos niveles de forma matemáticamente correcta, sin introducir relaciones de magnitud artificiales.
+
+La codificación circular reemplaza una columna (\textit{key}) por dos (\textit{key\_sin}, \textit{key\_cos}), incrementando la dimensionalidad del espacio musical de 12 a 13 features.
+
+\subsection{Normalización \textit{z-score}}
+\label{subsec:normalizacion-zscore}
+
+Las features acústicas operan en escalas heterogéneas: los índices perceptuales varían entre 0 y 1, \textit{loudness} se mide en decibelios (rango típico: $-34$ a 0~dB), \textit{tempo} en BPM (37 a 214), y \textit{duration\_ms} en milisegundos (31\,893 a 517\,810). Si estas features se utilizan directamente en algoritmos como K-Means o el enlace de Ward, las features con mayor rango numérico dominarían el cálculo: \textit{duration\_ms}, con valores del orden de $10^5$, contribuiría desproporcionadamente más que \textit{danceability}, con valores entre 0 y 1, independientemente de su relevancia para el agrupamiento.
+
+Para igualar la contribución de cada feature, se aplica una normalización \textit{z-score} (estandarización) sobre las 13 features resultantes ---incluyendo \textit{key\_sin} y \textit{key\_cos}---. La transformación para cada valor $x_{ij}$ de la feature $j$ es:
 
 \begin{equation}
     z_{ij} = \frac{x_{ij} - \bar{x}_j}{\sigma_j}
@@ -223,11 +247,9 @@ Para igualar la contribución de cada feature, se aplica una normalización \tex
 
 \input{tables/normalization_stats}
 
-El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 12 features antes y después de la normalización. Las verificaciones post-normalización confirman la corrección del proceso: la media máxima por feature es de $3.30 \times 10^{-7}$ (tolerancia: $10^{-6}$) y la desviación máxima de la desviación estándar respecto a 1.0 es de $1.19 \times 10^{-7}$ (tolerancia: $10^{-6}$). No se introducen valores NaN durante la transformación.
+El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 13 features antes y después de la normalización. Las componentes \textit{key\_sin} y \textit{key\_cos} presentan valores pre-normalización en el rango $[-1, 1]$ ---propiedad inherente de las funciones trigonométricas---, a diferencia de las features originales que operan en escalas diversas. Tras la estandarización, las verificaciones post-normalización confirman la corrección del proceso: la media máxima por feature respeta la tolerancia de $10^{-6}$ y la desviación máxima de la desviación estándar respecto a 1.0 se mantiene dentro de la misma tolerancia. No se introducen valores NaN durante la transformación.
 
-Cabe señalar que \textit{key} (tonalidad, valores 0--11) y \textit{mode} (modalidad, valores 0 o 1) son variables categóricas codificadas numéricamente. La normalización \textit{z-score} las trata como variables continuas, lo que introduce relaciones de magnitud artificiales ---por ejemplo, que la tonalidad Do sostenido (\textit{key} = 1) sea numéricamente ``más cercana'' a Re (\textit{key} = 2) que a Si (\textit{key} = 11), cuando en el círculo de quintas estas tonalidades tienen proximidades distintas---. La alternativa de codificación one-hot ---representar cada valor posible de \textit{key} como una dimensión binaria independiente--- agregaría 12 dimensiones adicionales a un espacio de solo 12 features, más que duplicando su tamaño sin beneficio proporcional demostrado para la tarea de clustering. Se adopta la estandarización directa como simplificación documentada.
-
-El resultado es una matriz de $17\,964 \times 12$ valores float32, alineada por \texttt{track\_id} con los embeddings semánticos.
+El resultado es una matriz de $17\,964 \times 13$ valores float32, alineada por \texttt{track\_id} con los embeddings semánticos.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.5 — Unificación de Representaciones
@@ -235,7 +257,7 @@ El resultado es una matriz de $17\,964 \times 12$ valores float32, alineada por 
 \section{Unificación de Representaciones}
 \label{sec:unificacion}
 
-Las dos secciones anteriores producen representaciones complementarias para cada canción: un vector semántico de 384 dimensiones que captura el significado de las letras, y un vector musical de 12 dimensiones que describe las propiedades acústicas. Ambas representaciones están alineadas ---cada canción ocupa la misma posición en ambas matrices, identificada por su \texttt{track\_id}--- pero residen en archivos independientes. La unificación empaqueta ambos espacios de features junto con los metadatos necesarios para la evaluación (género musical, nombre de la canción, artista) en un único archivo que constituye la entrada para la etapa de clustering.
+Las dos secciones anteriores producen representaciones complementarias para cada canción: un vector semántico de 384 dimensiones que captura el significado de las letras, y un vector musical de 13 dimensiones que describe las propiedades acústicas. Ambas representaciones están alineadas ---cada canción ocupa la misma posición en ambas matrices, identificada por su \texttt{track\_id}--- pero residen en archivos independientes. La unificación empaqueta ambos espacios de features junto con los metadatos necesarios para la evaluación (género musical, nombre de la canción, artista) en un único archivo que constituye la entrada para la etapa de clustering.
 
 \input{tables/unified_summary}
 
@@ -244,7 +266,7 @@ El Cuadro~\ref{tab:unified_summary} detalla la composición del dataset unificad
 \begin{itemize}[leftmargin=2em]
     \item Los 17\,964 \texttt{track\_id} del dataset seleccionado coinciden exactamente ---en cantidad y orden--- con los almacenados durante la vectorización, lo que garantiza que el embedding semántico de la posición $i$ corresponde a la misma canción que las features musicales de la posición $i$.
 
-    \item Las matrices numéricas no contienen valores NaN: cero en los embeddings semánticos ($17\,964 \times 384$ valores) y cero en las features musicales ($17\,964 \times 12$ valores).
+    \item Las matrices numéricas no contienen valores NaN: cero en los embeddings semánticos ($17\,964 \times 384$ valores) y cero en las features musicales ($17\,964 \times 13$ valores).
 
     \item Los embeddings semánticos mantienen norma L2 unitaria (media = 1.0000, desviación estándar = 0.0000), confirmando que la re-normalización posterior al chunking se preservó correctamente.
 
@@ -253,7 +275,7 @@ El Cuadro~\ref{tab:unified_summary} detalla la composición del dataset unificad
     \item Las etiquetas de género contienen exactamente 6 valores únicos, con la distribución esperada: pop (3\,879), rock (3\,507), r\&b (3\,314), rap (3\,279), latin (2\,132) y edm (1\,853).
 \end{itemize}
 
-El dataset unificado resultante ---17\,964 canciones, cada una descrita por un vector semántico de 384 dimensiones y un vector musical de 12 dimensiones, acompañada de sus metadatos--- constituye la entrada completa para la etapa de clustering multimodal que se describe en la sección siguiente.
+El dataset unificado resultante ---17\,964 canciones, cada una descrita por un vector semántico de 384 dimensiones y un vector musical de 13 dimensiones, acompañada de sus metadatos--- constituye la entrada completa para la etapa de clustering multimodal que se describe en la sección siguiente.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.6 — Clustering Multimodal

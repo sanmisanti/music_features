@@ -1,7 +1,7 @@
 """
 Modulo de unificacion de features semanticas y musicales (Etapa 3, Paso 4).
 
-Empaqueta los embeddings semanticos (384D), features musicales normalizadas (12D),
+Empaqueta los embeddings semanticos (384D), features musicales normalizadas (13D),
 y metadatos de evaluacion (genero, nombre, artista) en un unico archivo NPZ.
 Verifica alineacion cruzada entre los NPY de 4_vectorized/ y el CSV de 3_selected/.
 """

@@ -6,7 +6,7 @@ Ejecutar con: python -m src.features.run_normalization
 Secuencia:
 1. Fijar seeds de reproducibilidad
 2. Cargar dataset seleccionado desde data/3_selected/selected_dataset.csv
-3. Extraer 12 features musicales
+3. Extraer features musicales (12 columnas CSV -> 13 features con codificacion circular de key)
 4. Normalizar (z-score)
 5. Verificaciones post-normalizacion
 6. Guardar artefactos (2 NPY + tabla LaTeX + metricas JSON)
@@ -30,7 +30,6 @@ import pandas as pd
 
 from src.config import (
     METRICS_DIR,
-    MUSICAL_FEATURES,
     NUMPY_SEED,
     RANDOM_SEED,
     SELECTED_DATASET,
@@ -81,7 +80,7 @@ def main():
     # PASO 3: EXTRACCION DE FEATURES MUSICALES
     # =========================================================================
     logger.info("=" * 60)
-    logger.info("PASO 3: Extraccion de 12 features musicales")
+    logger.info("PASO 3: Extraccion de features musicales")
     logger.info("=" * 60)
 
     features_raw, feature_names = extract_musical_features(df)
@@ -103,7 +102,7 @@ def main():
     logger.info("=" * 60)
 
     # 5a. Shape y dtype
-    expected_shape = (len(df), len(MUSICAL_FEATURES))
+    expected_shape = (len(df), len(feature_names))
     assert features_normalized.shape == expected_shape, (
         f"Shape incorrecto: {features_normalized.shape} vs esperado {expected_shape}"
     )

@@ -2,13 +2,16 @@
 Modulo de extraccion y normalizacion de features musicales (Etapa 3, Paso 3).
 
 Extrae las 12 features musicales de Spotify del dataset seleccionado,
-aplica normalizacion z-score por columna, y genera estadisticas pre/post
+aplica codificacion circular a key (12D -> 13D: key_sin + key_cos),
+normaliza con z-score por columna, y genera estadisticas pre/post
 para documentacion y verificacion.
 
-Nota sobre key y mode: key (0-11, categorica ordinal) y mode (0/1, binaria)
-no son estrictamente continuas. Aplicar z-score a estas variables es una
-simplificacion documentada. La alternativa (one-hot encoding) agregaria 12+
-dimensiones sin beneficio proporcional para un espacio de solo 12D.
+Tratamiento de variables categoricas:
+- key (0-11, tonalidad): codificacion circular sin/cos para preservar
+  la relacion de adyacencia entre tonalidades (Do y Si son vecinas).
+- mode (0/1, modalidad): z-score directo. Para variables binarias,
+  z-score es matematicamente equivalente a una transformacion lineal
+  que centra y escala los dos valores posibles.
 """
 
 import logging
@@ -18,7 +21,7 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
-from src.config import MUSICAL_FEATURES
+from src.config import KEY_PERIOD, MUSICAL_FEATURES
 
 logger = logging.getLogger(__name__)
 
@@ -41,12 +44,43 @@ class NormalizationReport:
     n_nan_after: int = 0
 
 
+def circular_encode_key(
+    values: np.ndarray, period: int = KEY_PERIOD,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Codifica la tonalidad (key) como dos componentes circulares sin/cos.
+
+    La tonalidad es una variable categorica circular: los valores 0 (Do) y
+    11 (Si) son adyacentes en el circulo cromatico, pero su representacion
+    numerica los situa a maxima distancia. La codificacion circular preserva
+    esta relacion de adyacencia mapeando cada valor a un punto en el circulo
+    unitario.
+
+    Parameters
+    ----------
+    values : np.ndarray
+        Valores enteros de key (0-11).
+    period : int
+        Periodo de la codificacion circular (12 para tonalidades).
+
+    Returns
+    -------
+    key_sin : np.ndarray
+        Componente seno, shape [N], dtype float32.
+    key_cos : np.ndarray
+        Componente coseno, shape [N], dtype float32.
+    """
+    angles = 2.0 * np.pi * values / period
+    return np.sin(angles).astype(np.float32), np.cos(angles).astype(np.float32)
+
+
 def extract_musical_features(df: pd.DataFrame) -> Tuple[np.ndarray, List[str]]:
     """
-    Extrae las 12 features musicales del DataFrame seleccionado.
+    Extrae las features musicales del DataFrame y aplica codificacion circular a key.
 
-    Verifica que todas las columnas definidas en MUSICAL_FEATURES existen
-    y que no contienen valores NaN.
+    Extrae las 12 columnas definidas en MUSICAL_FEATURES, reemplaza la columna
+    ``key`` (valores enteros 0-11) por dos columnas ``key_sin`` y ``key_cos``
+    mediante codificacion circular, resultando en 13 features.
 
     Parameters
     ----------
@@ -56,9 +90,9 @@ def extract_musical_features(df: pd.DataFrame) -> Tuple[np.ndarray, List[str]]:
     Returns
     -------
     features : np.ndarray
-        Matriz de features musicales, shape [N, 12], dtype float32.
+        Matriz de features musicales, shape [N, 13], dtype float32.
     feature_names : list of str
-        Nombres de las 12 features en el orden extraido.
+        Nombres de las 13 features en el orden extraido.
 
     Raises
     ------
@@ -87,6 +121,34 @@ def extract_musical_features(df: pd.DataFrame) -> Tuple[np.ndarray, List[str]]:
 
     features = features_df.to_numpy(dtype=np.float32)
     feature_names = list(MUSICAL_FEATURES)
+
+    # --- Codificacion circular de key ---
+    key_idx = feature_names.index("key")
+    key_values = features[:, key_idx]
+    key_sin, key_cos = circular_encode_key(key_values)
+
+    logger.info(
+        "Codificacion circular de key: %d valores, "
+        "key_sin rango=[%.4f, %.4f], key_cos rango=[%.4f, %.4f]",
+        len(key_values),
+        float(key_sin.min()), float(key_sin.max()),
+        float(key_cos.min()), float(key_cos.max()),
+    )
+
+    # Reemplazar columna key por key_sin y key_cos
+    # Resultado: columnas antes de key + key_sin + key_cos + columnas despues de key
+    features = np.concatenate([
+        features[:, :key_idx],           # columnas antes de key
+        key_sin.reshape(-1, 1),          # key_sin
+        key_cos.reshape(-1, 1),          # key_cos
+        features[:, key_idx + 1:],       # columnas despues de key
+    ], axis=1)
+
+    feature_names = (
+        feature_names[:key_idx]
+        + ["key_sin", "key_cos"]
+        + feature_names[key_idx + 1:]
+    )
 
     logger.info(
         "Features extraidas: %d muestras x %d features, dtype=%s, NaN=%d",

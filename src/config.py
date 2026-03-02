@@ -80,6 +80,9 @@ MUSICAL_FEATURES = [
     "duration_ms",
 ]
 
+# Codificacion circular de key (tonalidad)
+KEY_PERIOD = 12  # periodo circular para codificacion sin/cos de key
+
 # =============================================================================
 # PARÁMETROS DE VECTORIZACIÓN BERT
 # =============================================================================

@@ -1,7 +1,8 @@
-# src/features/ - Ingeniería de features: musicales (Spotify 12D), semánticas (BERT 384D)
+# src/features/ - Ingeniería de features: musicales (Spotify 13D), semánticas (BERT 384D)
 
 from src.features.normalizer import (
     NormalizationReport,
+    circular_encode_key,
     extract_musical_features,
     normalize_features,
 )
@@ -32,6 +33,7 @@ __all__ = [
     "vectorize_lyrics",
     "generate_token_coverage_table",
     "NormalizationReport",
+    "circular_encode_key",
     "extract_musical_features",
     "normalize_features",
     "generate_normalization_table",
