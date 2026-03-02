@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 from src.config import (
-    SELECTED_DATASET,
+    SOURCE_DATASET,
     SOURCE_SEPARATOR,
     UNIFIED_DATASET,
     VECTORIZED_EMBEDDINGS,
@@ -112,11 +112,14 @@ def load_metadata(
     track_ids: np.ndarray,
 ) -> Dict[str, np.ndarray]:
     """
-    Carga metadatos del CSV seleccionado y verifica alineacion con track_ids.
+    Carga metadatos del dataset fuente y los alinea con track_ids.
 
-    Extrae playlist_genre, track_name y track_artist del DataFrame,
-    verificando que los track_ids del CSV coinciden con los del NPY
-    en el mismo orden.
+    Lee del dataset fuente original (data/2_with_lyrics/) en lugar del CSV
+    seleccionado (data/3_selected/) para evitar problemas de parsing con el
+    separador multi-caracter '@@' cuando campos contienen '@'.
+
+    Filtra al subconjunto de track_ids presentes en los NPY y ordena
+    para coincidir con el orden de referencia.
 
     Parameters
     ----------
@@ -131,46 +134,66 @@ def load_metadata(
     Raises
     ------
     ValueError
-        Si los track_ids no coinciden en cantidad u orden.
+        Si algun track_id del NPY no existe en el dataset fuente.
     """
-    logger.info("Cargando metadatos desde %s", SELECTED_DATASET)
+    logger.info("Cargando metadatos desde dataset fuente: %s", SOURCE_DATASET)
     df = pd.read_csv(
-        SELECTED_DATASET,
+        SOURCE_DATASET,
         sep=SOURCE_SEPARATOR,
         encoding="utf-8",
         engine="python",
     )
-    logger.info("CSV cargado: %d filas, %d columnas", len(df), len(df.columns))
+    logger.info(
+        "Dataset fuente cargado: %d filas, %d columnas",
+        len(df), len(df.columns),
+    )
 
-    # Verificar alineacion de track_ids
-    csv_track_ids = df["track_id"].values
+    # Indexar por track_id para busqueda eficiente
+    df_indexed = df.set_index("track_id")
 
-    if len(csv_track_ids) != len(track_ids):
+    # Verificar que todos los track_ids del NPY existen en el fuente
+    npy_ids = pd.Index(track_ids)
+    missing = npy_ids.difference(df_indexed.index)
+    if len(missing) > 0:
         raise ValueError(
-            f"Cantidad de track_ids no coincide: CSV={len(csv_track_ids)}, "
-            f"NPY={len(track_ids)}"
+            f"{len(missing)} track_ids del NPY no encontrados en dataset fuente. "
+            f"Primeros 5: {list(missing[:5])}"
         )
 
-    if not np.array_equal(csv_track_ids, track_ids):
-        # Determinar cuantos difieren para diagnostico
-        n_diff = int(np.sum(csv_track_ids != track_ids))
-        raise ValueError(
-            f"Track IDs del CSV y NPY no coinciden en orden: "
-            f"{n_diff} posiciones difieren de {len(track_ids)}"
+    # Filtrar y reordenar segun el orden de track_ids del NPY
+    df_aligned = df_indexed.loc[track_ids].reset_index()
+    logger.info(
+        "Metadatos alineados: %d de %d tracks del fuente",
+        len(df_aligned), len(df),
+    )
+
+    # Extraer metadatos (rellenar nulos con string vacio en campos textuales)
+    genre_labels = df_aligned["playlist_genre"].values
+    track_names = df_aligned["track_name"].fillna("").values
+    track_artists = df_aligned["track_artist"].fillna("").values
+
+    n_null_names = int(df_aligned["track_name"].isnull().sum())
+    n_null_artists = int(df_aligned["track_artist"].isnull().sum())
+
+    if n_null_names > 0:
+        logger.warning(
+            "  track_names: %d valores nulos rellenados con string vacio",
+            n_null_names,
+        )
+    if n_null_artists > 0:
+        logger.warning(
+            "  track_artists: %d valores nulos rellenados con string vacio",
+            n_null_artists,
         )
 
-    logger.info("Track IDs alineados: %d coinciden en orden", len(track_ids))
-
-    # Extraer metadatos
     metadata = {
-        "genre_labels": df["playlist_genre"].values,
-        "track_names": df["track_name"].values,
-        "track_artists": df["track_artist"].values,
+        "genre_labels": genre_labels,
+        "track_names": track_names,
+        "track_artists": track_artists,
     }
 
     for name, arr in metadata.items():
-        n_null = int(pd.Series(arr).isnull().sum())
-        logger.info("  %s: %d valores, %d nulos", name, len(arr), n_null)
+        logger.info("  %s: %d valores", name, len(arr))
 
     return metadata
 
@@ -256,13 +279,12 @@ def build_unified_dataset(
     assert n_genres == 6, f"Generos unicos esperados: 6, encontrados: {n_genres} ({unique_genres})"
     logger.info("  Generos: %d unicos %s", n_genres, unique_genres)
 
-    # Valores nulos en metadatos de texto
+    # Valores nulos en metadatos de texto (ya rellenados en load_metadata)
     n_null_names = int(pd.Series(track_names).isnull().sum())
     n_null_artists = int(pd.Series(track_artists).isnull().sum())
-    assert n_null_names == 0, f"Valores nulos en track_names: {n_null_names}"
-    assert n_null_artists == 0, f"Valores nulos en track_artists: {n_null_artists}"
     logger.info(
-        "  Metadatos: 0 nulos en track_names, 0 nulos en track_artists",
+        "  Metadatos post-relleno: %d nulos en track_names, %d nulos en track_artists",
+        n_null_names, n_null_artists,
     )
 
     logger.info("Todas las verificaciones de integridad pasaron correctamente")
@@ -272,7 +294,7 @@ def build_unified_dataset(
 
     # Distribucion de generos
     genre_series = pd.Series(genre_labels)
-    genre_dist = dict(genre_series.value_counts().sort_index())
+    genre_dist = {k: int(v) for k, v in genre_series.value_counts().sort_index().items()}
 
     np.savez(
         UNIFIED_DATASET,

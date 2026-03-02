@@ -1,0 +1,30 @@
+{
+  "unification": {
+    "n_samples": 17964,
+    "semantic_dim": 384,
+    "musical_dim": 12,
+    "n_genres": 6,
+    "genre_distribution": {
+      "edm": 1853,
+      "latin": 2132,
+      "pop": 3879,
+      "r&b": 3314,
+      "rap": 3279,
+      "rock": 3507
+    },
+    "n_arrays": 8,
+    "npz_size_mb": 28.11
+  },
+  "integrity_checks": {
+    "n_nan_semantic": 0,
+    "n_nan_musical": 0,
+    "semantic_l2_mean": 1.0,
+    "semantic_l2_std": 0.0,
+    "musical_mean_abs_mean": 7.35e-08,
+    "musical_mean_std": 1.0,
+    "track_ids_aligned": true
+  },
+  "output_paths": {
+    "unified_dataset": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\5_unified\\unified_dataset.npz"
+  }
+}

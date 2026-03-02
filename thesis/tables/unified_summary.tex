@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering
+\caption{Composición del dataset unificado (\texttt{unified\_dataset.npz}).}
+\label{tab:unified_summary}
+\begin{tabular}{llll}
+\toprule
+Componente & Dimensiones & Tipo & Origen \\
+\midrule
+Embeddings semánticos & 17\,964 $\times$ 384 & float32 & \texttt{multilingual-e5-small} \\
+Features musicales & 17\,964 $\times$ 12 & float32 & Spotify (\textit{z-score}) \\
+Etiquetas de género & 17\,964 & categórico & 6 géneros \\
+Nombres de tracks & 17\,964 & texto & Metadatos Spotify \\
+Artistas & 17\,964 & texto & Metadatos Spotify \\
+Conteo de tokens & 17\,964 & entero & Tokenizer E5 \\
+\midrule
+\textbf{Total} & \textbf{8 arrays} & --- & \textbf{28.1 MB} \\
+\bottomrule
+\end{tabular}
+\end{table}

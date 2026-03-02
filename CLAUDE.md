@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 3 - Preprocesamiento completado, vectorizacion E5 completada (Marzo 2026)**
+**Fase actual: Etapa 3 completada - Features unificados (Marzo 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -32,7 +32,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
-- [~] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384) y normalizacion musical (17,964 x 12) completados, pendiente unificacion
+- [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 12), unificacion NPZ (28.11 MB, 8 arrays)
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -146,8 +146,7 @@ Problemas identificados que la re-ejecucion debe evitar:
 | Token counts | `data/4_vectorized/token_counts.npy` | 17,964 | Conteo de tokens por cancion (con prefijo E5) |
 | Features musicales norm. | `data/4_vectorized/musical_features.npy` | 17,964 x 12 | float32, z-score, 0.82 MB |
 | Nombres de features | `data/4_vectorized/feature_names.npy` | 12 | Nombres de las 12 features musicales |
-
-El dataset unificado (5_unified) sera generado en el siguiente paso de la Etapa 3.
+| **Dataset unificado** | `data/5_unified/unified_dataset.npz` | 17,964 | 8 arrays: embeddings 384D + musical 12D + metadatos, 28.11 MB |
 
 ---
 
@@ -336,6 +335,50 @@ Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
 | Track IDs alineados con embeddings | 17,964 verificados |
 
 Nota: `key` (0-11) y `mode` (0/1) son variables categoricas tratadas como continuas para z-score. Documentado como limitacion conocida; one-hot encoding agregaria 12+ dimensiones sin beneficio proporcional en un espacio de 12D.
+
+### Modulos Etapa 3 Paso 4: Unificacion de features
+
+| Modulo | Ubicacion | Contenido |
+|--------|-----------|-----------|
+| Unificador | `src/features/unifier.py` | `UnificationReport`, `load_feature_components()`, `load_metadata()`, `build_unified_dataset()` |
+| Tablas LaTeX | `src/features/tables.py` | `generate_unification_table()` |
+| Orquestador | `src/features/run_unification.py` | `python -m src.features.run_unification` — pipeline 6 pasos |
+| API publica | `src/features/__init__.py` | Exports actualizados |
+
+Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
+- `data/5_unified/unified_dataset.npz` (17,964 muestras, 8 arrays, 28.11 MB)
+- `results/tables/unified_summary.tex` + `thesis/tables/unified_summary.tex`
+- `results/metrics/etapa3_unification.json`
+
+### Resultados de la unificacion
+
+| Metrica | Valor |
+|---------|-------|
+| Muestras | 17,964 |
+| Embeddings semanticos | 17,964 x 384, float32 |
+| Features musicales | 17,964 x 12, float32 |
+| Generos unicos | 6 (edm: 1,853, latin: 2,132, pop: 3,879, r&b: 3,314, rap: 3,279, rock: 3,507) |
+| NaN semanticos / musicales | 0 / 0 |
+| Norma L2 media | 1.000000 |
+| Z-score media abs | 7.35e-08 |
+| Track names nulos | 1 (rellenado con string vacio) |
+| Arrays en NPZ | 8 |
+| Tamano NPZ | 28.11 MB |
+
+Nota: `load_metadata()` lee del dataset fuente original (`2_with_lyrics/`) en lugar del CSV seleccionado (`3_selected/`) para evitar ambiguedad del separador `@@` cuando campos contienen `@`. Un track_name nulo (cancion con nombre `@`) se rellena con string vacio.
+
+### Contenido del NPZ unificado
+
+| Key | Shape | Dtype | Origen |
+|-----|-------|-------|--------|
+| `semantic_embeddings` | [17964, 384] | float32 | `4_vectorized/embeddings.npy` |
+| `musical_features` | [17964, 12] | float32 | `4_vectorized/musical_features.npy` |
+| `track_ids` | [17964] | object | `4_vectorized/track_ids.npy` |
+| `feature_names` | [12] | U16 | `4_vectorized/feature_names.npy` |
+| `genre_labels` | [17964] | object | `2_with_lyrics/` col `playlist_genre` |
+| `track_names` | [17964] | object | `2_with_lyrics/` col `track_name` |
+| `track_artists` | [17964] | object | `2_with_lyrics/` col `track_artist` |
+| `token_counts` | [17964] | int32 | `4_vectorized/token_counts.npy` |
 
 ---
 
