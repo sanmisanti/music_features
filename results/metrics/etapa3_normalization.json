@@ -2,11 +2,12 @@
   "normalization": {
     "method": "zscore",
     "n_samples": 17964,
-    "n_features": 12,
+    "n_features": 13,
     "feature_names": [
       "danceability",
       "energy",
-      "key",
+      "key_sin",
+      "key_cos",
       "loudness",
       "mode",
       "speechiness",
@@ -33,11 +34,17 @@
       "min": 0.0167,
       "max": 0.999
     },
-    "key": {
-      "mean": 5.345803,
-      "std": 3.613816,
-      "min": 0.0,
-      "max": 11.0
+    "key_sin": {
+      "mean": -0.046571,
+      "std": 0.666512,
+      "min": -1.0,
+      "max": 1.0
+    },
+    "key_cos": {
+      "mean": 0.06121,
+      "std": 0.741516,
+      "min": -1.0,
+      "max": 1.0
     },
     "loudness": {
       "mean": -6.763604,
@@ -103,9 +110,13 @@
       "mean": -3.99e-08,
       "std": 1.0
     },
-    "key": {
-      "mean": -8.1e-09,
-      "std": 0.9999999404
+    "key_sin": {
+      "mean": 1.3e-09,
+      "std": 1.0
+    },
+    "key_cos": {
+      "mean": -2.46e-08,
+      "std": 1.0
     },
     "loudness": {
       "mean": -8.2e-09,
@@ -147,7 +158,7 @@
   "postconditions": {
     "shape": [
       17964,
-      12
+      13
     ],
     "dtype": "float32",
     "nan_count": 0,
