@@ -28,6 +28,12 @@ SOURCE_SEPARATOR = "@@"
 SELECTED_DIR = DATA_DIR / "3_selected"
 SELECTED_DATASET = SELECTED_DIR / "selected_dataset.csv"
 
+# Datos vectorizados
+VECTORIZED_DIR = DATA_DIR / "4_vectorized"
+VECTORIZED_EMBEDDINGS = VECTORIZED_DIR / "embeddings.npy"
+VECTORIZED_TRACK_IDS = VECTORIZED_DIR / "track_ids.npy"
+VECTORIZED_TOKEN_COUNTS = VECTORIZED_DIR / "token_counts.npy"
+
 # Resultados
 RESULTS_DIR = PROJECT_ROOT / "results"
 FIGURES_DIR = RESULTS_DIR / "figures"
