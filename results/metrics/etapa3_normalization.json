@@ -1,0 +1,162 @@
+{
+  "normalization": {
+    "method": "zscore",
+    "n_samples": 17964,
+    "n_features": 12,
+    "feature_names": [
+      "danceability",
+      "energy",
+      "key",
+      "loudness",
+      "mode",
+      "speechiness",
+      "acousticness",
+      "instrumentalness",
+      "liveness",
+      "valence",
+      "tempo",
+      "duration_ms"
+    ],
+    "nan_before": 0,
+    "nan_after": 0
+  },
+  "raw_statistics": {
+    "danceability": {
+      "mean": 0.643566,
+      "std": 0.150113,
+      "min": 0.116,
+      "max": 0.979
+    },
+    "energy": {
+      "mean": 0.692438,
+      "std": 0.179327,
+      "min": 0.0167,
+      "max": 0.999
+    },
+    "key": {
+      "mean": 5.345803,
+      "std": 3.613816,
+      "min": 0.0,
+      "max": 11.0
+    },
+    "loudness": {
+      "mean": -6.763604,
+      "std": 2.893898,
+      "min": -34.283001,
+      "max": 0.0
+    },
+    "mode": {
+      "mean": 0.58261,
+      "std": 0.493128,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "speechiness": {
+      "mean": 0.106025,
+      "std": 0.102267,
+      "min": 0.0224,
+      "max": 0.918
+    },
+    "acousticness": {
+      "mean": 0.174795,
+      "std": 0.216173,
+      "min": 1e-06,
+      "max": 0.992
+    },
+    "instrumentalness": {
+      "mean": 0.040905,
+      "std": 0.144748,
+      "min": 0.0,
+      "max": 0.987
+    },
+    "liveness": {
+      "mean": 0.189441,
+      "std": 0.153409,
+      "min": 0.00936,
+      "max": 0.996
+    },
+    "valence": {
+      "mean": 0.523835,
+      "std": 0.227219,
+      "min": 0.0292,
+      "max": 0.991
+    },
+    "tempo": {
+      "mean": 120.771004,
+      "std": 27.657698,
+      "min": 37.113998,
+      "max": 214.046997
+    },
+    "duration_ms": {
+      "mean": 230530.03125,
+      "std": 56694.71875,
+      "min": 31893.0,
+      "max": 517810.0
+    }
+  },
+  "post_statistics": {
+    "danceability": {
+      "mean": -4.78e-08,
+      "std": 1.0
+    },
+    "energy": {
+      "mean": -3.99e-08,
+      "std": 1.0
+    },
+    "key": {
+      "mean": -8.1e-09,
+      "std": 0.9999999404
+    },
+    "loudness": {
+      "mean": -8.2e-09,
+      "std": 1.0
+    },
+    "mode": {
+      "mean": 1.89e-08,
+      "std": 1.0000001192
+    },
+    "speechiness": {
+      "mean": -1.036e-07,
+      "std": 1.0
+    },
+    "acousticness": {
+      "mean": 8.5e-09,
+      "std": 1.0
+    },
+    "instrumentalness": {
+      "mean": -6.5e-09,
+      "std": 1.0
+    },
+    "liveness": {
+      "mean": -9.1e-09,
+      "std": 1.0
+    },
+    "valence": {
+      "mean": -1.559e-07,
+      "std": 1.0
+    },
+    "tempo": {
+      "mean": -1.451e-07,
+      "std": 1.0
+    },
+    "duration_ms": {
+      "mean": 3.304e-07,
+      "std": 1.0
+    }
+  },
+  "postconditions": {
+    "shape": [
+      17964,
+      12
+    ],
+    "dtype": "float32",
+    "nan_count": 0,
+    "max_mean_deviation": 3.3042e-07,
+    "max_std_deviation": 1.19209e-07,
+    "track_ids_aligned": true
+  },
+  "output_paths": {
+    "musical_features": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\4_vectorized\\musical_features.npy",
+    "feature_names": "C:\\Users\\santi\\Documents\\Proyectos\\Personales\\Tesis\\music_features\\data\\4_vectorized\\feature_names.npy"
+  }
+}

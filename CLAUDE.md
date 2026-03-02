@@ -309,6 +309,34 @@ Artefactos generados (ejecucion exitosa 2026-03-02, ~2h05min):
 | Dimensiones muertas | 0 |
 | Tiempo encoding | 7,378 s (~2h03min CPU) |
 
+### Modulos Etapa 3 Paso 3: Normalizacion de features musicales
+
+| Modulo | Ubicacion | Contenido |
+|--------|-----------|-----------|
+| Normalizador | `src/features/normalizer.py` | `NormalizationReport`, `extract_musical_features()`, `normalize_features()` (z-score manual) |
+| Tablas LaTeX | `src/features/tables.py` | `generate_normalization_table()` |
+| Orquestador | `src/features/run_normalization.py` | `python -m src.features.run_normalization` — pipeline 7 pasos |
+| API publica | `src/features/__init__.py` | Exports actualizados |
+
+Artefactos generados (ejecucion exitosa 2026-03-02, 0.8s):
+- `data/4_vectorized/musical_features.npy` (17,964 x 12, float32, 0.82 MB)
+- `data/4_vectorized/feature_names.npy` (12 nombres)
+- `results/tables/normalization_stats.tex` + `thesis/tables/normalization_stats.tex`
+- `results/metrics/etapa3_normalization.json`
+
+### Resultados de la normalizacion
+
+| Metrica | Valor |
+|---------|-------|
+| Muestras x features | 17,964 x 12 |
+| Metodo | z-score (estandarizacion) |
+| NaN antes / despues | 0 / 0 |
+| Media maxima post-normalizacion | 3.30e-07 |
+| DE maxima desviacion de 1.0 | 1.19e-07 |
+| Track IDs alineados con embeddings | 17,964 verificados |
+
+Nota: `key` (0-11) y `mode` (0/1) son variables categoricas tratadas como continuas para z-score. Documentado como limitacion conocida; one-hot encoding agregaria 12+ dimensiones sin beneficio proporcional en un espacio de 12D.
+
 ---
 
 ## DIRECTIVA: ACTUALIZACION DE ESTE ARCHIVO
