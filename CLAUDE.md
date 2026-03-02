@@ -32,7 +32,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Investigacion bibliografica (7 documentos en `thesis/investigacion/`, ~147 fuentes, ~316KB)
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [~] Etapa 2: Datos — codigo EDA ejecutado exitosamente, pendiente redaccion LaTeX
-- [~] Etapa 3: Features — preprocesamiento y vectorizacion E5 completados (17,964 x 384), pendiente normalizacion features musicales y unificacion
+- [~] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384) y normalizacion musical (17,964 x 12) completados, pendiente unificacion
 - [ ] Etapa 4: Clustering
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
@@ -144,6 +144,8 @@ Problemas identificados que la re-ejecucion debe evitar:
 | Embeddings semanticos | `data/4_vectorized/embeddings.npy` | 17,964 x 384 | float32, normalizado L2, 26.31 MB |
 | Track IDs vectorizados | `data/4_vectorized/track_ids.npy` | 17,964 | Alineado con embeddings |
 | Token counts | `data/4_vectorized/token_counts.npy` | 17,964 | Conteo de tokens por cancion (con prefijo E5) |
+| Features musicales norm. | `data/4_vectorized/musical_features.npy` | 17,964 x 12 | float32, z-score, 0.82 MB |
+| Nombres de features | `data/4_vectorized/feature_names.npy` | 12 | Nombres de las 12 features musicales |
 
 El dataset unificado (5_unified) sera generado en el siguiente paso de la Etapa 3.
 

@@ -7,6 +7,7 @@ Genera tablas en formato booktabs, guardadas en results/tables/ y thesis/tables/
 import logging
 
 from src.config import TABLES_DIR, THESIS_TABLES_DIR
+from src.features.normalizer import NormalizationReport
 from src.features.vectorizer import TokenCoverageReport
 
 logger = logging.getLogger(__name__)
@@ -108,4 +109,55 @@ Métrica & Valor \\
 \end{table}"""
 
     _save_table(content, "token_coverage")
+    return content
+
+
+def generate_normalization_table(report: NormalizationReport) -> str:
+    """
+    Genera tabla LaTeX con estadisticas pre y post normalizacion z-score.
+
+    Muestra una fila por feature musical con sus estadisticas originales
+    (media, DE, min, max) y post-normalizacion (media, DE).
+
+    Parameters
+    ----------
+    report : NormalizationReport
+        Reporte de normalizacion con estadisticas pre/post.
+
+    Returns
+    -------
+    str
+        Contenido LaTeX de la tabla.
+    """
+    content = r"""\begin{table}[htbp]
+\centering
+\caption{Estadísticas de las features musicales antes y después de la normalización \textit{z-score}.}
+\label{tab:normalization_stats}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & \multicolumn{4}{c}{Originales} & \multicolumn{2}{c}{Normalizadas} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-7}
+Feature & Media & DE & Mín & Máx & Media & DE \\
+\midrule
+"""
+
+    for i, name in enumerate(report.feature_names):
+        # Formatear nombre con texttt para consistencia con el resto del informe
+        tex_name = f"\\texttt{{{name}}}"
+        content += (
+            f"{tex_name} & "
+            f"{_fmt(float(report.raw_means[i]), 4)} & "
+            f"{_fmt(float(report.raw_stds[i]), 4)} & "
+            f"{_fmt(float(report.raw_mins[i]), 4)} & "
+            f"{_fmt(float(report.raw_maxs[i]), 4)} & "
+            f"{_fmt(float(report.post_means[i]), 4)} & "
+            f"{_fmt(float(report.post_stds[i]), 4)} \\\\\n"
+        )
+
+    content += r"""\bottomrule
+\end{tabular}
+\end{table}"""
+
+    _save_table(content, "normalization_stats")
     return content
