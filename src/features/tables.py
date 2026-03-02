@@ -145,7 +145,7 @@ Feature & Media & DE & Mín & Máx & Media & DE \\
 
     for i, name in enumerate(report.feature_names):
         # Formatear nombre con texttt para consistencia con el resto del informe
-        tex_name = f"\\texttt{{{name}}}"
+        tex_name = f"\\texttt{{{name.replace('_', chr(92) + '_')}}}"
         content += (
             f"{tex_name} & "
             f"{_fmt(float(report.raw_means[i]), 4)} & "

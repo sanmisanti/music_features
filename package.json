@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "powershell -ExecutionPolicy Bypass -File thesis/build.ps1",
+    "build:quick": "powershell -ExecutionPolicy Bypass -File thesis/build.ps1 -Quick",
+    "build:clean": "powershell -ExecutionPolicy Bypass -File thesis/build.ps1 -Clean"
+  }
+}
