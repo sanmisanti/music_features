@@ -50,11 +50,24 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 | Dimensiones | 384 | 384 |
 | Ventana de tokens | 128 | 512 |
 | Idiomas | 50+ | 100+ |
-| Cobertura de letras | ~50% sin truncamiento | **58.8% estimado** (ver nota) |
+| Cobertura de letras | ~50% sin truncamiento | **53.5% real** (tokenizer E5) |
 
 Justificacion: misma dimensionalidad (metricas de clustering comparables), 4x mas contexto, soporte multilingue superior. **Actualizado en `src/config.py`** (BERT_MODEL_NAME y BERT_TARGET_TOKENS).
 
-**Nota sobre cobertura**: La estimacion original (~95%) era optimista. El EDA midio 58.8% usando heuristica de 1.33 tokens/palabra. Esta estimacion es imprecisa; la cobertura real debe medirse con el tokenizer del modelo en Etapa 3. El factor 1.33 no contempla subword tokenization multilingue.
+**Cobertura validada con tokenizer real (Etapa 3)**: 53.48% (9,607 / 17,964 canciones dentro de ventana 512). La heuristica del EDA (1.33 tok/palabra) estimaba 58.8%, resultando optimista. El subword tokenization multilingue genera mas tokens por palabra de lo estimado. Distribucion: media=607, mediana=486, DE=433, p90=1115, p95=1451, p99=2324.
+
+### Estrategia de chunking para letras largas
+
+**Decision**: Implementar chunking con agregacion por promedio para eliminar perdida de informacion por truncamiento.
+
+El 46.5% de canciones excede la ventana de 512 tokens. Truncar introduce sesgo sistematico: canciones cortas tienen representacion completa mientras que canciones largas tienen representacion parcial. Dos canciones con contenido tematico identico pero diferente longitud producirian embeddings distintos por un artefacto del pipeline, no por diferencia semantica real.
+
+Parametros de chunking:
+- **Tamano de chunk**: ~450 tokens efectivos (margen para tokens especiales `[CLS]`/`[SEP]` y prefijo `"passage: "`)
+- **Overlap**: ~50 tokens entre chunks consecutivos (preserva continuidad semantica en fronteras)
+- **Agregacion**: promedio simple de embeddings de chunks + re-normalizacion L2
+- **Canciones cortas (<=512 tokens)**: pasan directamente sin chunking (comportamiento identico al original)
+- **Output final**: [17964, 384] float32 normalizado L2 — mismo formato, cobertura 100%
 
 ### Estilo de redaccion del informe
 
@@ -228,7 +241,7 @@ Artefactos generados (ejecucion exitosa 2026-03-01, 12.2s):
 | Balance de genero (entropia) | 0.9842 (alto) | 6 generos |
 | Idioma dominante | ingles 83.5% | 35 idiomas, entropia 0.21 |
 | Vocal vs instrumental | 95.5% / 4.5% | Umbral instrumentalness > 0.5 |
-| Cobertura ventana 512 tokens | **58.8% estimado** | Heuristica 1.33 tok/palabra; requiere validacion con tokenizer real |
+| Cobertura ventana 512 tokens | **53.48% real** | Validado con tokenizer E5; heuristica EDA (58.8%) era optimista |
 | Feature con mas outliers IQR | instrumentalness (21.1%) | Distribucion concentrada cerca de 0 |
 
 ### Modulos Etapa 3 Paso 1: Preprocesamiento
