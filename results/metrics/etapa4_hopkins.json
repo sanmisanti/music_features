@@ -1,0 +1,87 @@
+{
+  "spaces": {
+    "semantic_384d": {
+      "n_samples": 17964,
+      "n_dimensions": 384,
+      "metric": "cosine",
+      "reference_distribution": "hypersphere",
+      "sample_size": 100,
+      "n_iterations": 30,
+      "hopkins_mean": 0.947247,
+      "hopkins_std": 0.002789,
+      "ci_lower": 0.942013,
+      "ci_upper": 0.951724,
+      "min_value": 0.941309,
+      "max_value": 0.951813,
+      "exceeds_threshold": true
+    },
+    "semantic_umap": {
+      "n_samples": 17964,
+      "n_dimensions": 30,
+      "metric": "euclidean",
+      "reference_distribution": "hypercube",
+      "sample_size": 100,
+      "n_iterations": 30,
+      "hopkins_mean": 0.992279,
+      "hopkins_std": 0.00045,
+      "ci_lower": 0.991446,
+      "ci_upper": 0.993059,
+      "min_value": 0.991383,
+      "max_value": 0.993062,
+      "exceeds_threshold": true
+    },
+    "musical_13d": {
+      "n_samples": 17964,
+      "n_dimensions": 13,
+      "metric": "euclidean",
+      "reference_distribution": "hypercube",
+      "sample_size": 100,
+      "n_iterations": 30,
+      "hopkins_mean": 0.829808,
+      "hopkins_std": 0.010255,
+      "ci_lower": 0.811039,
+      "ci_upper": 0.844738,
+      "min_value": 0.809449,
+      "max_value": 0.845817,
+      "exceeds_threshold": true
+    },
+    "concatenated": {
+      "n_samples": 17964,
+      "n_dimensions": 397,
+      "metric": "euclidean",
+      "reference_distribution": "hypercube",
+      "sample_size": 100,
+      "n_iterations": 30,
+      "hopkins_mean": 0.741461,
+      "hopkins_std": 0.008807,
+      "ci_lower": 0.729458,
+      "ci_upper": 0.755436,
+      "min_value": 0.728543,
+      "max_value": 0.758963,
+      "exceeds_threshold": true
+    }
+  },
+  "umap_params": {
+    "n_components": 30,
+    "n_neighbors": 15,
+    "min_dist": 0.1,
+    "metric": "cosine",
+    "elapsed_seconds": 54.02
+  },
+  "hypothesis_H1": {
+    "statement": "Ambos espacios (semantico y musical) exhiben Hopkins > 0.7",
+    "semantic_384d_exceeds": true,
+    "musical_13d_exceeds": true,
+    "verdict": "CONFIRMED"
+  },
+  "curse_of_dimensionality_diagnostic": {
+    "hopkins_384d": 0.947247,
+    "hopkins_umap": 0.992279,
+    "difference": -0.045032,
+    "possible_inflation": false
+  },
+  "benchmarks_v1": {
+    "hopkins_semantic_384d": 0.7752,
+    "hopkins_musical_12d": 0.7871
+  }
+}

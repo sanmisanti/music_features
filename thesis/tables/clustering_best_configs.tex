@@ -1,0 +1,14 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Mejor configuración de clustering por espacio}
+  \label{tab:clustering_best_configs}
+  \begin{tabular}{llrrrr}
+    \toprule
+    Espacio & Algoritmo & $K$ & Sil\textsubscript{macro} & DB & NMI\textsubscript{género} \\
+    \midrule
+    Musical (13D) & HDBSCAN & 2 & 0.1991 & 1.9748 & 0.0277 \\
+    Semántico (384D) & Kmeans & 5 & 0.0362 & 5.0523 & 0.1885 \\
+    Semántico (UMAP 30D) & HDBSCAN & 3 & 0.9131 & 0.1619 & 0.1227 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

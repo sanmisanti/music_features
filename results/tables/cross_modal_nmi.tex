@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Complementariedad cross-modal (NMI entre clusterings)}
+  \label{tab:cross_modal_nmi}
+  \begin{tabular}{lr}
+    \toprule
+    Propiedad & Valor \\
+    \midrule
+    Clustering semántico & Kmeans, $K=5$ \\
+    Clustering musical & Hdbscan, $K=2$ \\
+    NMI cross-modal & $0.0096$ \\
+    \midrule
+    Interpretación & Alta complementariedad \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item NMI $< 0{,}15$ indica que los clusters semánticos y musicales capturan información complementaria, justificando la fusión multimodal.
+  \end{tablenotes}
+\end{table}

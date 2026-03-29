@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Estadístico de Hopkins por espacio de representación}
+  \label{tab:hopkins_results}
+  \begin{tabular}{llrrcc}
+    \toprule
+    Espacio & Métrica & Dims & $H$ (media $\pm$ DE) & IC 95\% & $> 0{,}7$ \\
+    \midrule
+    Semántico (original) & coseno & 384 & $0.9472 \pm 0.0028$ & $[0.9420,\; 0.9517]$ & Sí \\
+    Semántico (UMAP) & euclídea & 30 & $0.9923 \pm 0.0005$ & $[0.9914,\; 0.9931]$ & Sí \\
+    Musical & euclídea & 13 & $0.8298 \pm 0.0103$ & $[0.8110,\; 0.8447]$ & Sí \\
+    Concatenado & euclídea & 397 & $0.7415 \pm 0.0088$ & $[0.7295,\; 0.7554]$ & Sí \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Nota: $H \approx 0{,}5$ indica distribución aleatoria; $H > 0{,}7$ indica tendencia significativa al agrupamiento. Cada valor es el promedio de 30 iteraciones bootstrap.
+  \end{tablenotes}
+\end{table}

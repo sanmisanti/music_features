@@ -40,6 +40,10 @@ VECTORIZED_FEATURE_NAMES = VECTORIZED_DIR / "feature_names.npy"
 UNIFIED_DIR = DATA_DIR / "5_unified"
 UNIFIED_DATASET = UNIFIED_DIR / "unified_dataset.npz"
 
+# Dataset clusterizado (Etapa 4)
+CLUSTERED_DIR = DATA_DIR / "6_clustered"
+CLUSTERED_DATASET = CLUSTERED_DIR / "clustered_dataset.npz"
+
 # Resultados
 RESULTS_DIR = PROJECT_ROOT / "results"
 FIGURES_DIR = RESULTS_DIR / "figures"
@@ -100,13 +104,28 @@ BERT_CHUNK_OVERLAP = 50
 # PARÁMETROS DE CLUSTERING
 # =============================================================================
 
+# Hopkins statistic
 HOPKINS_ITERATIONS = 30
 HOPKINS_SAMPLE_SIZE = 100
+HOPKINS_THRESHOLD = 0.7
 
+# Algoritmos de clustering
 CLUSTERING_K_RANGE = [5, 6, 7, 8]
-DBSCAN_EPS_RANGE = [0.1, 0.15, 0.2, 0.25, 0.3]
+HDBSCAN_MIN_CLUSTER_SIZES = [50, 100, 200, 300, 500]
 
-# Pesos de la función objetivo multi-criterio
+# UMAP
+UMAP_PREPROCESSING_N_COMPONENTS = 30
+UMAP_N_NEIGHBORS = 15
+UMAP_MIN_DIST = 0.1
+
+# Umbrales de calidad de clustering
+MIN_CLUSTER_PCT = 0.01  # rechazar clusters < 1% del dataset
+PURIFICATION_MAX_REMOVAL_PCT = 0.15  # max 15% de datos eliminados
+PURIFICATION_SIGMA_THRESHOLD = 2.0  # umbral para distancia al centroide
+
+# Referencia v1 (no usar para seleccion; DBSCAN_EPS_RANGE y OBJECTIVE_WEIGHTS
+# se conservan como referencia historica de la primera ejecucion)
+DBSCAN_EPS_RANGE = [0.1, 0.15, 0.2, 0.25, 0.3]
 OBJECTIVE_WEIGHTS = {
     "silhouette": 0.30,
     "balance": 0.30,

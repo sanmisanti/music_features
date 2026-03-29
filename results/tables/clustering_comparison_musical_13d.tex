@@ -1,0 +1,29 @@
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Comparación de algoritmos de clustering --- Musical (13D)}
+  \label{tab:clustering_comparison_musical_13d}
+  \begin{tabular}{llrrrrrrc}
+    \toprule
+    Algoritmo & $K$ & Sil\textsubscript{macro} & Sil\textsubscript{micro} & DB & CH & ARI & NMI & Deg \\
+    \midrule
+    HDBSCAN & 0 (300) & --- & --- & --- & --- & --- & --- & Sí \\
+    HDBSCAN & 0 (500) & --- & --- & --- & --- & --- & --- & Sí \\
+    HDBSCAN & 2 (50) & 0.1452 & 0.1408 & 2.4150 & 1301 & 0.0234 & 0.0258 & --- \\
+    HDBSCAN & 2 (100) & 0.1652 & 0.1597 & 2.2276 & 1028 & 0.0214 & 0.0317 & --- \\
+    HDBSCAN & 2 (200) & 0.1991 & 0.1887 & 1.9748 & 602 & 0.0093 & 0.0277 & --- \\
+    Kmeans & 5 & 0.1028 & 0.0982 & 2.2282 & 1681 & 0.0698 & 0.1133 & --- \\
+    Kmeans & 6 & 0.0945 & 0.0920 & 2.1557 & 1586 & 0.0596 & 0.0995 & --- \\
+    Kmeans & 7 & 0.0973 & 0.0969 & 2.0593 & 1509 & 0.0556 & 0.0917 & --- \\
+    Kmeans & 8 & 0.0972 & 0.0966 & 1.9532 & 1443 & 0.0468 & 0.0801 & --- \\
+    Ward & 5 & 0.0836 & 0.0670 & 2.6046 & 1157 & 0.0436 & 0.0670 & --- \\
+    Ward & 6 & 0.0644 & 0.0504 & 2.4849 & 1107 & 0.0444 & 0.0781 & --- \\
+    Ward & 7 & 0.0659 & 0.0511 & 2.3160 & 1070 & 0.0450 & 0.0799 & --- \\
+    Ward & 8 & 0.0581 & 0.0470 & 2.4126 & 1030 & 0.0540 & 0.0801 & --- \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Sil\textsubscript{macro}: Silhouette macro-averaged (métrica primaria). DB: Davies-Bouldin (menor = mejor). CH: Calinski-Harabasz (mayor = mejor). ARI/NMI: contra género como proxy. Deg: cluster degenerado ($<1\%$ del dataset). Para HDBSCAN, $K$ muestra clusters encontrados (min\_cluster\_size).
+  \end{tablenotes}
+\end{table}

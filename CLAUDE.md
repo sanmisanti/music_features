@@ -33,7 +33,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [x] Etapa 2: Datos — codigo EDA ejecutado, redaccion LaTeX completada (§5.2.1 Fuentes, §5.2.2 Preprocesamiento)
 - [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 13, key circular), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
-- [ ] Etapa 4: Clustering
+- [ ] Etapa 4: Clustering — ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)** para planificacion detallada, decisiones, hipotesis pre-registradas y lecciones de v1
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
 
@@ -103,7 +103,7 @@ Las tablas y figuras del informe se generan desde codigo. No se editan manualmen
 | 1. Fundacion | Estructura repositorio, esqueleto LaTeX, configuracion | Introduccion (borrador) |
 | 2. Datos | Carga, exploracion, analisis descriptivo del dataset | Marco Teorico (datos), Solucion Propuesta (fuentes) |
 | 3. Features | Vectorizacion E5, features musicales, unificacion | Marco Teorico (NLP/BERT), Solucion Propuesta (vectorizacion) |
-| 4. Clustering | Hopkins, evaluacion multi-algoritmo, purificacion | Marco Teorico (clustering), Solucion Propuesta (clustering), Resultados |
+| 4. Clustering | Hopkins, evaluacion multi-algoritmo, purificacion — **planificacion en [`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)** | Marco Teorico (clustering), Solucion Propuesta (clustering), Resultados |
 | 5. Recomendacion | Sistema hibrido, optimizacion pesos, evaluacion | Solucion Propuesta (integracion), Resultados |
 | 6. Sintesis | Conclusiones, revision coherencia, compilacion final | Conclusiones, Apendices |
 
