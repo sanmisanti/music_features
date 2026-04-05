@@ -194,13 +194,13 @@ def run_hdbscan(
     -------
     ClusteringResult
     """
-    import hdbscan
+    from sklearn.cluster import HDBSCAN
 
     t0 = time.time()
-    model = hdbscan.HDBSCAN(
+    model = HDBSCAN(
         min_cluster_size=min_cluster_size,
         metric=metric,
-        core_dist_n_jobs=1,
+        n_jobs=1,
     )
     labels = model.fit_predict(data)
     elapsed = time.time() - t0
