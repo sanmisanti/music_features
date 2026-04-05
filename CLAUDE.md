@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 3 completada - Features unificados (Marzo 2026)**
+**Fase actual: Etapa 4 en progreso - Clustering codigo completo, §5.6 redactado (Abril 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -33,7 +33,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [x] Etapa 2: Datos — codigo EDA ejecutado, redaccion LaTeX completada (§5.2.1 Fuentes, §5.2.2 Preprocesamiento)
 - [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 13, key circular), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
-- [ ] Etapa 4: Clustering — ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)** para planificacion detallada, decisiones, hipotesis pre-registradas y lecciones de v1
+- [ ] Etapa 4: Clustering — codigo completado (Hopkins, multi-algoritmo, purificacion, UMAP 2D), H1-H4 confirmadas, redaccion §5.6 completada. Pendiente: §4.5 Marco Teorico, §6.2 Resultados. Ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)**
 - [ ] Etapa 5: Recomendacion
 - [ ] Etapa 6: Sintesis
 
@@ -172,15 +172,16 @@ El codigo y documentacion de la primera ejecucion permanecen en el repositorio c
 | Purificacion hibrida | `scripts/cluster_purification.py` |
 | Sistema recomendacion | `recommendation_system/scripts/` |
 
-### Resultados de referencia (benchmark v1)
+### Resultados de referencia (benchmark v1) y resultados v2
 
-| Metrica | Valor v1 | Notas |
-|---------|----------|-------|
-| Hopkins Semantico (384D) | 0.7752 +/- 0.0015 | Debe reproducirse similar |
-| Hopkins Musical (12D v1 / 13D v2) | 0.7871 +/- 0.0022 | Benchmark v1 con 12D; v2 usara 13D |
-| Silhouette post-purificacion | 0.2893 | Benchmark de mejora |
-| Precision@10 hibrido | 0.398 | Benchmark de recomendacion |
-| NMI cross-modal | 0.0567 | Benchmark de complementariedad |
+| Metrica | Valor v1 | Valor v2 | Notas |
+|---------|----------|----------|-------|
+| Hopkins Semantico (384D) | 0.7752 +/- 0.0015 | **0.9472 +/- 0.0028** | +0.172, E5 + chunking + dataset mayor |
+| Hopkins Musical (12/13D) | 0.7871 +/- 0.0022 | **0.8298 +/- 0.0103** | +0.043, dataset mayor + key circular |
+| Silhouette mejor semantico | ~0.06-0.11 | **0.9131 (UMAP 30D)** | HDBSCAN k=3, transformacion radical con UMAP |
+| Silhouette post-purif. musical | 0.2893 | **0.1351** | K-Means k=5, no comparable (dataset y features distintos) |
+| NMI cross-modal | 0.0567 | **0.0096** | Complementariedad aun mayor en v2 |
+| Precision@10 hibrido | 0.398 | Pendiente (Etapa 5) | Benchmark de recomendacion |
 
 ---
 
@@ -195,7 +196,7 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 | `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** |
 | `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | Pendiente |
 | `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Esqueleto anotado (6 secciones, 21 subsecciones, §4.3 escrito) |
-| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | §5.1-5.5 completos, §5.6-5.7 pendientes (Etapas 4-5) |
+| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | §5.1-5.6 completos, §5.7 pendiente (Etapa 5) |
 | `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Pendiente |
 | `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Pendiente |
 | `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Pendiente |

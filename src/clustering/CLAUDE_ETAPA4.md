@@ -232,22 +232,42 @@ Si alguna hipotesis se rechaza, se documenta como resultado negativo en el infor
 | Sil musical (mejor) | 0.1991 (HDBSCAN k=2) | 0.1554 (baseline) | No directamente comparable (HDBSCAN vs K-Means, 84% noise) |
 | Sil semantico 384D | 0.0362 | ~0.06-0.11 (K-Means) | v2 ligeramente peor, dataset mas grande |
 
-### Paso 4: Purificacion — PENDIENTE
+### Paso 4: Purificacion — COMPLETADO (2026-04-05)
 
-Estrategias a evaluar sobre las mejores configuraciones:
-- Eliminacion de puntos con Silhouette negativo
-- Eliminacion de outliers por distancia al centroide (> 2 sigma)
-- Combinada con cap en 15% de remocion
+**Modulo**: `src/clustering/purification.py` (396 lineas)
+**Orquestador**: `src/clustering/run_purification.py` (333 lineas)
+**Ejecucion**: 88.4 segundos
 
-Candidatos para purificacion:
-- Musical K-Means k=5 (Sil_macro=0.1028) — mas margen de mejora
-- Semantico UMAP HDBSCAN k=3 (Sil_macro=0.9131) — ya excelente, mejora marginal esperada
+**Resultados:**
 
-### Paso 5: Visualizacion UMAP 2D — PENDIENTE
+| Espacio | Config | Sil antes | Sil despues | Mejora | Removidos |
+|---------|--------|-----------|-------------|--------|-----------|
+| Musical 13D | K-Means k=5 | 0.1028 | 0.1351 | +31.5% | 2,694 (15.0%) |
+| Semantico UMAP | HDBSCAN k=3 | 0.9137 | 0.9225 | +1.0% | 522 (3.0%) |
 
-- Scatter plot coloreado por cluster assignment
-- Scatter plot coloreado por genero (validacion visual contra proxy)
-- Figuras para thesis/figures/
+**H4: CONFIRMED** — ambos espacios mejoran sin exceder 15% de remocion.
+
+**Interpretacion:**
+- Musical: consumio presupuesto completo (17.5% flaggeados, 15% removidos). Mejora porcentual notable pero Sil absoluto sigue bajo. Problema estructural de datos, no de asignacion.
+- Semantico UMAP: purificacion minima (3%), casi todo por distancia centroide. HDBSCAN ya habia hecho buena asignacion al clasificar ambiguos como noise.
+
+**Artefactos:**
+- `results/metrics/etapa4_purification.json`
+- `results/tables/purification_results.tex` + `thesis/tables/`
+- `results/figures/purification_comparison.pdf` + `thesis/figures/`
+
+### Paso 5: Visualizacion UMAP 2D — COMPLETADO (2026-04-05)
+
+Integrado en `run_purification.py`. Genera 4 scatter plots UMAP 2D:
+
+| Figura | Contenido |
+|--------|-----------|
+| `umap_clusters_semantic_umap.pdf` | Clusters HDBSCAN k=3 del espacio semantico |
+| `umap_clusters_musical_13d.pdf` | Clusters K-Means k=5 del espacio musical |
+| `umap_genres_semantic_umap.pdf` | Generos sobre espacio semantico |
+| `umap_genres_musical_13d.pdf` | Generos sobre espacio musical |
+
+Nota: UMAP 2D semantico genera warning "Spectral initialisation failed, falling back to random" — comportamiento normal en 384D con L2-norm. No afecta resultado final.
 
 ---
 
@@ -329,9 +349,10 @@ Subsecciones de §4.5 a redactar:
 
 | Seccion | Contenido | Estado |
 |---------|-----------|--------|
-| §5.6.1 Evaluacion Hopkins | Resultados Hopkins en 4 espacios | Esqueleto vacio |
-| §5.6.2 Seleccion algoritmo | Comparacion multi-algoritmo, seleccion justificada | Esqueleto vacio |
-| §5.6.3 Purificacion | Procedimiento, resultados pre/post | Esqueleto vacio |
+| §5.6 intro | Roles del clustering, organizacion del analisis | **Completo** |
+| §5.6.1 Evaluacion Hopkins | Resultados Hopkins en 4 espacios, curse-of-dimensionality | **Completo** |
+| §5.6.2 Seleccion algoritmo | Comparacion multi-algoritmo, NMI cross-modal, decision k-NN | **Completo** |
+| §5.6.3 Purificacion | Estrategia combinada, resultados pre/post, H4 | **Completo** |
 
 ### Resultados (Cap. 6)
 
