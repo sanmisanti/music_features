@@ -139,7 +139,16 @@ OBJECTIVE_WEIGHTS = {
 # =============================================================================
 
 RECOMMENDATION_TOP_K = 10
-RECOMMENDATION_CANDIDATES = 20
+RECOMMENDATION_K_VALUES = [5, 10, 20]  # valores de K para Precision@K
+
+# Grid search del peso de fusion (alpha = peso semantico)
+RECOMMENDATION_ALPHA_RANGE = [round(a * 0.05, 2) for a in range(21)]  # 0.00 a 1.00, paso 0.05
+
+# Kernel gaussiano para conversion distancia euclidea -> similitud
+RECOMMENDATION_SIGMA_SAMPLE_SIZE = 5000  # muestra para mediana de distancias pairwise
+
+# Paths
+RECOMMENDATION_DIR = DATA_DIR / "7_recommendation"
 
 # =============================================================================
 # PARÁMETROS EDA

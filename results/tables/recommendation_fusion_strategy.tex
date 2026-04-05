@@ -1,0 +1,17 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Estrategia de fusión por modalidad}
+  \label{tab:recommendation_fusion_strategy}
+  \begin{tabular}{llll}
+    \toprule
+    Componente & Métrica & Conversión & Justificación \\
+    \midrule
+    Semántico (384D) & Coseno & Directa $[0, 1]$ & Embeddings L2-normalizados \\
+    Musical (13D) & Euclídea & Kernel gaussiano & Features \textit{z-score}, preserva magnitud \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Fusión tardía: $\text{score} = \alpha \cdot s_{\text{sem}} + (1 - \alpha) \cdot s_{\text{mus}}$. El parámetro $\sigma$ del kernel se fija como la mediana de las distancias euclídeas pairwise.
+  \end{tablenotes}
+\end{table}

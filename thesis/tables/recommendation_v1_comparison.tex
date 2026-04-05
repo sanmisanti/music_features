@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Comparación con la primera ejecución del sistema}
+  \label{tab:recommendation_v1_comparison}
+  \begin{tabular}{lrrr}
+    \toprule
+    Propiedad & v1 & v2 ($\alpha = 0{,}45$) & v2 (óptimo) \\
+    \midrule
+    Canciones & 7\,811 & 17\,964 & 17\,964 \\
+    Features musicales & 12D & 13D & 13D \\
+    Modelo embeddings & MiniLM & E5-small & E5-small \\
+    Métrica musical & coseno & euclídea & euclídea \\
+    P@10 & 0.398 & 0.4133 & 0.4447 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Comparación orientativa: datasets, modelos y métricas difieren entre versiones.
+  \end{tablenotes}
+\end{table}
