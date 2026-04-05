@@ -1,0 +1,22 @@
+\begin{table}[htbp]
+  \centering
+  \caption{Efecto de la purificación sobre la calidad de clusters}
+  \label{tab:purification_results}
+  \begin{tabular}{llrrrrrr}
+    \toprule
+    Espacio & Fase & $N$ & Sil\textsubscript{macro} & Sil\textsubscript{micro} & DB & Removidos & \% \\
+    \midrule
+    Musical (13D) & Pre & 17\,964 & 0.1028 & 0.0982 & 2.2282 & --- & --- \\
+    & Post & 15\,270 & 0.1351 & 0.1295 & 1.9973 & 2\,694 & 15.0\% \\
+    & $\Delta$ & --- & $+0.0323$ & --- & $-0.2310$ & --- & --- \\
+    \midrule
+    Semántico (UMAP 30D) & Pre & 17\,316 & 0.9137 & 0.8251 & 0.1607 & --- & --- \\
+    & Post & 16\,794 & 0.9225 & 0.8466 & 0.1475 & 522 & 3.0\% \\
+    & $\Delta$ & --- & $+0.0088$ & --- & $-0.0133$ & --- & --- \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Estrategia combinada: eliminación de puntos con Silhouette $< 0$ y outliers a $> 2\sigma$ del centroide. Presupuesto máximo de remoción: 15\%.
+  \end{tablenotes}
+\end{table}

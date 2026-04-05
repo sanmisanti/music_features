@@ -1,0 +1,89 @@
+{
+  "purifications": [
+    {
+      "algorithm": "kmeans",
+      "space_name": "musical_13d",
+      "k": 5,
+      "strategy": "combined",
+      "n_samples_before": 17964,
+      "n_samples_after": 15270,
+      "n_removed": 2694,
+      "removal_pct": 0.149967,
+      "silhouette_macro_before": 0.102771,
+      "silhouette_macro_after": 0.135117,
+      "silhouette_micro_before": 0.098216,
+      "silhouette_micro_after": 0.129526,
+      "davies_bouldin_before": 2.228232,
+      "davies_bouldin_after": 1.997271,
+      "silhouette_improvement": 0.032345,
+      "silhouette_improvement_pct": 31.47,
+      "db_improvement": -0.23096,
+      "within_removal_budget": true,
+      "cluster_sizes_before": {
+        "0": 3045,
+        "1": 803,
+        "2": 5052,
+        "3": 2623,
+        "4": 6441
+      },
+      "cluster_sizes_after": {
+        "0": 2249,
+        "1": 699,
+        "2": 4143,
+        "3": 1850,
+        "4": 6329
+      }
+    },
+    {
+      "algorithm": "hdbscan",
+      "space_name": "semantic_umap",
+      "k": 3,
+      "strategy": "combined",
+      "n_samples_before": 17316,
+      "n_samples_after": 16794,
+      "n_removed": 522,
+      "removal_pct": 0.030146,
+      "silhouette_macro_before": 0.913686,
+      "silhouette_macro_after": 0.922462,
+      "silhouette_micro_before": 0.825088,
+      "silhouette_micro_after": 0.846582,
+      "davies_bouldin_before": 0.160719,
+      "davies_bouldin_after": 0.147453,
+      "silhouette_improvement": 0.008776,
+      "silhouette_improvement_pct": 0.96,
+      "db_improvement": -0.013266,
+      "within_removal_budget": true,
+      "cluster_sizes_before": {
+        "0": 237,
+        "1": 15340,
+        "2": 1739
+      },
+      "cluster_sizes_after": {
+        "0": 230,
+        "1": 14873,
+        "2": 1691
+      }
+    }
+  ],
+  "hypothesis_H4": {
+    "statement": "Purificacion mejora Silhouette sin eliminar >15% datos",
+    "per_space": [
+      {
+        "space": "musical_13d",
+        "improved": true,
+        "within_budget": true,
+        "confirmed": true
+      },
+      {
+        "space": "semantic_umap",
+        "improved": true,
+        "within_budget": true,
+        "confirmed": true
+      }
+    ],
+    "verdict": "CONFIRMED"
+  },
+  "benchmarks_v1": {
+    "silhouette_post_purification": 0.2893
+  }
+}
