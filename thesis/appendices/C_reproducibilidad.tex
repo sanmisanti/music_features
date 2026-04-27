@@ -1,4 +1,150 @@
 \chapter{Guía de Reproducibilidad}
 \label{app:reproducibilidad}
 
-% Completar durante Etapa 6
+Este anexo documenta los requisitos técnicos, la estructura del repositorio y los pasos exactos para reproducir los resultados reportados en este trabajo desde el dataset fuente. El diseño del pipeline favoreció la reproducibilidad exacta: todos los parámetros se centralizan en un único módulo, las semillas aleatorias están fijas, y las ejecuciones verifican postcondiciones tras cada etapa.
+
+\section{Requisitos del Entorno}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Sistema operativo}: Windows 11, Linux o macOS. El pipeline no depende de características específicas del sistema operativo. Las rutas de archivos se construyen con la biblioteca \texttt{pathlib} de Python.
+    \item \textbf{Python}: versión 3.14 o compatible. Versiones anteriores pueden funcionar pero no se probaron formalmente.
+    \item \textbf{Memoria RAM}: mínimo 8 GB. La etapa de recomendación pre-computa matrices de similitud de $17\,964 \times 17\,964$ en \texttt{float32}, que requieren aproximadamente $1{,}3$ GB cada una.
+    \item \textbf{Espacio en disco}: aproximadamente 500 MB, distribuidos entre el dataset fuente (61 MB), artefactos intermedios por etapa, figuras y tablas generadas.
+    \item \textbf{GPU (opcional)}: la vectorización semántica con E5 es paralelizable por GPU. En ausencia de GPU, la vectorización toma aproximadamente dos horas; con GPU moderna, pocos minutos.
+\end{itemize}
+
+\section{Dependencias Python}
+
+El proyecto depende de las siguientes bibliotecas principales:
+
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{numpy}, \texttt{pandas}, \texttt{scipy} --- manipulación de datos y operaciones numéricas.
+    \item \texttt{scikit-learn} --- algoritmos de clustering (K-Means, Ward, HDBSCAN), métricas internas, StandardScaler.
+    \item \texttt{transformers}, \texttt{sentence-transformers}, \texttt{torch} --- modelo E5 de embeddings semánticos.
+    \item \texttt{umap-learn} --- reducción dimensional UMAP.
+    \item \texttt{matplotlib}, \texttt{seaborn} --- generación de figuras.
+    \item \texttt{tqdm} --- barras de progreso en operaciones largas.
+\end{itemize}
+
+\section{Estructura del Repositorio}
+
+\begin{verbatim}
+music_features/
+|-- data/
+|   |-- 2_with_lyrics/       Dataset fuente (CSV con letras)
+|   |-- 3_selected/          Dataset filtrado (post-preprocesamiento)
+|   |-- 4_vectorized/        Matrices de embeddings y features
+|   `-- 5_unified/           NPZ unificado
+|-- src/
+|   |-- config.py            Configuracion centralizada
+|   |-- data/                Modulos de EDA y preprocesamiento
+|   |-- features/            Modulos de vectorizacion y normalizacion
+|   |-- clustering/          Modulos de Hopkins, clustering, purificacion
+|   `-- recommendation/      Modulos del sistema de recomendacion
+|-- results/
+|   |-- metrics/             Archivos JSON con metricas por etapa
+|   |-- tables/              Tablas LaTeX generadas
+|   `-- figures/             Figuras PDF generadas
+|-- thesis/
+|   |-- main.tex             Documento principal LaTeX
+|   |-- chapters/            Archivos .tex por capitulo
+|   |-- appendices/          Anexos
+|   |-- tables/              Copia de tablas para inclusion en el informe
+|   |-- figures/             Copia de figuras para inclusion en el informe
+|   `-- bibliography.bib     Referencias bibliograficas
+|-- PLAN_FINALIZACION.md     Documento maestro de trabajo
+`-- CLAUDE.md                Directivas operativas del proyecto
+\end{verbatim}
+
+\section{Orden de Ejecución del Pipeline}
+
+El pipeline completo se ejecuta invocando los scripts orquestadores de cada etapa en el siguiente orden. Cada script verifica postcondiciones al finalizar y aborta con mensaje explícito si alguna falla.
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Análisis exploratorio del dataset (EDA)}:
+    \begin{verbatim}
+    python -m src.data.run_eda
+    \end{verbatim}
+    Tiempo estimado: $\approx 13$ segundos. Produce: \texttt{results/metrics/etapa2\_eda.json} y figuras descriptivas.
+
+    \item \textbf{Preprocesamiento y filtrado}:
+    \begin{verbatim}
+    python -m src.data.run_preprocessing
+    \end{verbatim}
+    Tiempo estimado: $\approx 5$ segundos. Produce: \texttt{data/3\_selected/selected\_dataset.csv} y \texttt{results/metrics/etapa3\_preprocessing.json}.
+
+    \item \textbf{Vectorización semántica}:
+    \begin{verbatim}
+    python -m src.features.run_vectorization
+    \end{verbatim}
+    Tiempo estimado: $\approx 2$ horas en CPU, pocos minutos en GPU. Produce: \texttt{data/4\_vectorized/embeddings.npy}, \texttt{track\_ids.npy}, \texttt{token\_counts.npy}, y \texttt{results/metrics/etapa3\_vectorization.json}.
+
+    \item \textbf{Normalización de features musicales}:
+    \begin{verbatim}
+    python -m src.features.run_normalization
+    \end{verbatim}
+    Tiempo estimado: menos de $1$ segundo. Produce: \texttt{data/4\_vectorized/musical\_features.npy} y \texttt{results/metrics/etapa3\_normalization.json}.
+
+    \item \textbf{Unificación de representaciones}:
+    \begin{verbatim}
+    python -m src.features.run_unification
+    \end{verbatim}
+    Tiempo estimado: menos de $1$ segundo. Produce: \texttt{data/5\_unified/unified\_dataset.npz} con ambas representaciones más metadatos.
+
+    \item \textbf{Análisis de Hopkins}:
+    \begin{verbatim}
+    python -m src.clustering.run_hopkins
+    \end{verbatim}
+    Tiempo estimado: $\approx 90$ segundos. Produce: \texttt{results/metrics/etapa4\_hopkins.json} y tabla/figura correspondientes.
+
+    \item \textbf{Multi-algoritmo de clustering}:
+    \begin{verbatim}
+    python -m src.clustering.run_clustering
+    \end{verbatim}
+    Tiempo estimado: $\approx 40$ minutos. Produce: \texttt{results/metrics/etapa4\_clustering.json} y múltiples tablas y figuras.
+
+    \item \textbf{Purificación de clusters}:
+    \begin{verbatim}
+    python -m src.clustering.run_purification
+    \end{verbatim}
+    Tiempo estimado: $\approx 90$ segundos. Produce: \texttt{results/metrics/etapa4\_purification.json} y artefactos de visualización.
+
+    \item \textbf{Sistema de recomendación}:
+    \begin{verbatim}
+    python -m src.recommendation.run_recommendation
+    \end{verbatim}
+    Tiempo estimado: $\approx 135$ segundos. Produce: \texttt{results/metrics/etapa5\_recommendation.json}, tablas de grid search y métricas por género, figuras de análisis.
+\end{enumerate}
+
+\section{Verificación de Reproducibilidad}
+
+Cada script finaliza con una verificación de postcondiciones que incluye:
+\begin{itemize}[leftmargin=2em]
+    \item Dimensiones esperadas de los artefactos de salida.
+    \item Ausencia de valores NaN en matrices numéricas.
+    \item Consistencia de conteos entre archivos (por ejemplo, los \textit{track\_ids} entre embeddings y features musicales deben coincidir).
+    \item Alineamiento de índices entre archivos producidos en distintas etapas.
+\end{itemize}
+
+Los valores reportados en los archivos JSON de \texttt{results/metrics/} deben coincidir con los reportados en el Capítulo~\ref{ch:resultados} hasta la precisión de punto flotante. Discrepancias indicarían diferencias en versiones de bibliotecas o en el hardware que deberían investigarse.
+
+\section{Uso Interactivo del Recomendador}
+
+Además del pipeline de evaluación batch, el módulo \texttt{src/recommendation/try\_recommender.py} provee una interfaz interactiva por línea de comandos para generar recomendaciones sobre canciones específicas:
+
+\begin{verbatim}
+python -m src.recommendation.try_recommender
+\end{verbatim}
+
+La interfaz permite buscar canciones por nombre o artista, solicitar recomendaciones al $\alpha$ óptimo u otros valores, y visualizar las componentes semántica y musical del score de fusión para cada recomendación. Este modo es útil para inspección cualitativa y análisis de casos específicos.
+
+\section{Documentos de Trabajo Complementarios}
+
+El proyecto incluye dos documentos de trabajo que complementan esta guía:
+
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{PLAN\_FINALIZACION.md} --- documento maestro con el plan de finalización del trabajo, orden de fases, dependencias, y estado de avance histórico.
+    \item \texttt{src/recommendation/PRUEBAS\_CALIDAD.md} --- documento específico sobre evaluación cualitativa del recomendador, con las pruebas manuales realizadas, las pruebas sistemáticas pendientes (comparación con baselines, probes temáticos, cross-language) y las conclusiones metodológicas derivadas.
+\end{itemize}
+
+Ambos documentos son parte del proyecto y permiten continuar el trabajo desde el estado actual, identificando qué pasos están completos y cuáles quedan por realizar.

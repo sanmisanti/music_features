@@ -18,7 +18,7 @@ Archivo de configuracion para Claude Code en este repositorio.
 
 ## ESTADO DEL PROYECTO
 
-**Fase actual: Etapa 4 en progreso - Clustering codigo completo, §5.6 redactado (Abril 2026)**
+**Fase actual: Informe LaTeX completo - pendiente compilacion y pruebas de calidad externas (Abril 2026)**
 
 El proyecto se encuentra en proceso de re-ejecucion desde cero. La primera iteracion (2025) produjo resultados funcionales pero con problemas metodologicos identificados durante evaluacion academica. La re-ejecucion preserva el mismo dataset y objetivos, pero reconstruye codigo y documentacion con rigor mejorado.
 
@@ -33,9 +33,10 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Capitulo 2: Estado de la Cuestion (7 secciones completas, ~58 entradas en bibliography.bib)
 - [x] Etapa 2: Datos — codigo EDA ejecutado, redaccion LaTeX completada (§5.2.1 Fuentes, §5.2.2 Preprocesamiento)
 - [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 13, key circular), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
-- [ ] Etapa 4: Clustering — codigo completado (Hopkins, multi-algoritmo, purificacion, UMAP 2D), H1-H4 confirmadas, redaccion §5.6 completada. Pendiente: §4.5 Marco Teorico, §6.2 Resultados. Ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)**
-- [ ] Etapa 5: Recomendacion
-- [ ] Etapa 6: Sintesis
+- [x] Etapa 4: Clustering — codigo completado (Hopkins, multi-algoritmo, purificacion, UMAP 2D), H1-H4 confirmadas. Ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)**
+- [x] Etapa 5: Recomendacion — sistema hibrido implementado (k-NN + fusion tardia), α óptimo = 0.80, P@10 = 0.4447, cobertura catalogo 95.5%
+- [x] Redaccion LaTeX completa — 7 capitulos + 3 anexos (2,309 lineas total). §4 Marco Teorico escrito (§4.1, §4.2, §4.4, §4.5 con 8 subsecciones, §4.6); §5.7 Sistema de Recomendacion; §6 Resultados completo; §7 Conclusiones; §1 Introduccion ampliada; Anexos A-C
+- [ ] Etapa 6: Sintesis — pendiente compilacion final, pruebas de calidad externas (ver **[`PLAN_FINALIZACION.md`](PLAN_FINALIZACION.md)** y **[`src/recommendation/PRUEBAS_CALIDAD.md`](src/recommendation/PRUEBAS_CALIDAD.md)**)
 
 ---
 
@@ -196,7 +197,7 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 | `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** |
 | `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | Pendiente |
 | `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Esqueleto anotado (6 secciones, 21 subsecciones, §4.3 escrito) |
-| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | §5.1-5.6 completos, §5.7 pendiente (Etapa 5) |
+| `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | Completo (§5.1-§5.7) |
 | `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Pendiente |
 | `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Pendiente |
 | `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Pendiente |

@@ -143,7 +143,8 @@ def generate_precision_per_genre_table(
             continue
         n = genre_counts.get(genre, 0)
         p = metrics.precision_per_genre[genre]
-        lines.append(f"    {genre} & {n:,} & {p:.4f} \\\\")
+        genre_escaped = genre.replace("&", r"\&")
+        lines.append(f"    {genre_escaped} & {n:,} & {p:.4f} \\\\")
 
     lines.extend([
         r"    \midrule",

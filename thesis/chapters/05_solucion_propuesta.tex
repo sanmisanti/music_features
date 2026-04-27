@@ -29,6 +29,8 @@ La calidad de un sistema de recomendación está condicionada por las propiedade
 \subsection{Fuentes de Datos}
 \label{subsec:fuentes}
 
+La evaluación experimental del sistema requiere un dataset que contenga simultáneamente features acústicas y letras para un conjunto suficientemente grande de canciones. Se consideraron dos alternativas: construir un dataset propio mediante las APIs de Spotify y Genius, o utilizar un dataset público existente. La construcción de un dataset propio ofrecería mayor control sobre la composición del catálogo ---por ejemplo, garantizar un balance específico de géneros o de idiomas---, pero presenta dos obstáculos significativos. Primero, los endpoints de features de audio de la Web API de Spotify fueron marcados como deprecados en noviembre de 2024 \parencite{spotify_2024_web_api}, lo que impide obtener estas features para canciones nuevas. Segundo, la construcción de un dataset ad hoc dificulta la comparación con trabajos previos y compromete la reproducibilidad, dado que otros investigadores no podrían recrear exactamente el mismo catálogo. Por estas razones, el trabajo opta por utilizar un dataset público preexistente.
+
 El dataset utilizado en este trabajo es una compilación pública disponible en Kaggle \parencite{nakhaee_2020_spotify_lyrics} que integra dos fuentes de información complementarias. La base del dataset proviene del proyecto TidyTuesday, que recopiló las propiedades acústicas de aproximadamente 30\,000 canciones mediante la Web API de Spotify \parencite{spotify_2024_web_api}. Sobre esa base, \textcite{nakhaee_2020_spotify_lyrics} enriqueció el dataset con dos elementos adicionales: las letras completas de cada canción, obtenidas mediante la librería Genius de R \parencite{genius_api}, y la detección automática del idioma de cada letra, realizada con la librería langdetect de Python. El proceso de obtención de letras produjo una pérdida de aproximadamente el 50\% del dataset original ---canciones para las cuales Genius no disponía de letras---, resultando en 18\,454 registros y 25 columnas que se organizan en tres categorías: metadatos de la canción y su contexto en playlists, 12 features acústicas numéricas y el texto completo de las letras.
 
 \input{tables/dataset_overview}
@@ -163,7 +165,7 @@ La selección de este modelo se fundamenta en cuatro propiedades relevantes para
 \begin{enumerate}[leftmargin=2em]
     \item \textbf{Dimensionalidad.} El modelo genera vectores de 384 dimensiones, una dimensionalidad que ofrece un balance adecuado entre capacidad representacional y eficiencia computacional para clustering. Modelos más grandes (768 o 1\,024 dimensiones) incrementan el costo computacional de las operaciones de distancia sin proporcionar beneficios proporcionales en tareas de agrupamiento sobre texto musical.
 
-    \item \textbf{Ventana de contexto.} El modelo procesa secuencias de hasta 512 tokens ---las unidades de texto que el modelo utiliza internamente, que pueden ser palabras completas o fragmentos de palabras---. Esta ventana es considerablemente mayor que la de alternativas como MiniLM \parencite{wang_2020_minilm}, que soporta únicamente 128 tokens. Dado que la letra musical promedio del dataset genera 607 tokens (según se detalla en la sección siguiente), una ventana más amplia reduce la fracción de contenido que debe ser truncada o dividida para su procesamiento.
+    \item \textbf{Ventana de contexto.} El modelo procesa secuencias de hasta 512 tokens ---las unidades de texto que el modelo utiliza internamente, que pueden ser palabras completas o fragmentos de palabras---. Dado que la letra musical promedio del dataset genera 607 tokens (según se detalla en la sección siguiente), una ventana de este tamaño reduce la fracción de contenido que debe ser truncada o dividida para su procesamiento.
 
     \item \textbf{Soporte multilingüe.} El modelo soporta más de 100 idiomas. Aunque el 83.5\% del dataset está en inglés, el 16.5\% restante incluye canciones en español, alemán, portugués y otros 32 idiomas. Un modelo monolingüe descartaría la señal semántica de estas canciones o generaría representaciones degradadas.
 
@@ -354,10 +356,142 @@ Ambos espacios satisfacen la hipótesis H4 pre-registrada: la purificación mejo
 \section{Sistema de Recomendación Híbrido}
 \label{sec:sistema-hibrido}
 
-% Completar en Etapa 5
+El análisis de clustering de la sección anterior estableció que la granularidad natural de ambos espacios es demasiado baja para servir como mecanismo de recomendación: con 2 clusters musicales y 3 semánticos, la pertenencia a un mismo cluster no discrimina con la finura que requiere la recomendación canción a canción. En contrapartida, la búsqueda directa de los $K$ vecinos más cercanos (k-NN) opera a nivel de canción individual, produciendo un ranking continuo de similitud sobre las 17\,963 canciones restantes del dataset. Esta sección describe el diseño del sistema de recomendación que combina los dos espacios mediante k-NN con fusión tardía de scores.
 
+El sistema resuelve cinco decisiones concretas: qué métrica usar en cada espacio, cómo combinar los scores de ambas modalidades en uno solo, cómo elegir el peso relativo entre componentes, cómo evaluar la calidad de las recomendaciones producidas, y cómo materializar todo esto en un pipeline computacionalmente tratable sobre el dataset completo. Las tres primeras decisiones se describen en las subsecciones de estrategia de fusión y optimización de pesos; la cuarta se documenta en la subsección de evaluación.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.7.1 — Estrategia de Fusión
+% ---------------------------------------------------------------------------
 \subsection{Estrategia de Fusión}
 \label{subsec:fusion}
 
+La combinación de información proveniente de modalidades distintas ---las letras y las features acústicas, en este caso--- admite principalmente dos estrategias arquitectónicas \parencite{baltrusaitis_2019_multimodal, liang_2024_foundations}. La \textit{fusión temprana} (\textit{early fusion}) concatena las representaciones de ambas modalidades en un único vector antes de cualquier cálculo de similitud, produciendo en este caso un vector de 397 dimensiones (384 semánticas más 13 musicales). La \textit{fusión tardía} (\textit{late fusion}) calcula una similitud independiente por modalidad y combina los scores resultantes mediante una función agregadora, típicamente una combinación lineal ponderada.
+
+El análisis de Hopkins sobre el espacio concatenado, reportado en la Sección~\ref{subsec:evaluacion-hopkins}, arrojó el valor más bajo de los cuatro espacios evaluados ($H = 0{,}7415$). La interpretación es directa: las 384 dimensiones semánticas dominan numéricamente sobre las 13 musicales cuando ambos espacios se concatenan, diluyendo la contribución del componente musical en cualquier cálculo de distancia sobre el espacio combinado. Por esta razón se adopta fusión tardía, que preserva la contribución equilibrada de cada modalidad y permite ponderarlas explícitamente.
+
+El sistema calcula dos scores de similitud independientes para cada par de canciones, uno en el espacio semántico y otro en el musical, y los combina linealmente mediante una única fórmula:
+\begin{equation}
+    s(q, c) = \alpha \cdot s_{\text{sem}}(q, c) + (1 - \alpha) \cdot s_{\text{mus}}(q, c)
+    \label{eq:fusion-score}
+\end{equation}
+\noindent donde $q$ es la canción consultada (\textit{query}), $c$ es una canción candidata, $s_{\text{sem}}$ y $s_{\text{mus}}$ son las similitudes semántica y musical respectivamente, y $\alpha \in [0, 1]$ es el peso del componente semántico. La combinación es convexa: el score resultante queda acotado entre los dos scores originales, y los casos extremos recuperan los sistemas unimodales ($\alpha = 0$ equivale a solo musical, $\alpha = 1$ a solo semántico).
+
+La correcta aplicación de la Ecuación~\ref{eq:fusion-score} requiere que $s_{\text{sem}}$ y $s_{\text{mus}}$ sean comparables: ambos deben estar en la misma escala numérica y deben compartir la convención de que un valor mayor indica mayor similitud. Las métricas elegidas para cada espacio son distintas por las propiedades de las representaciones correspondientes, y se describen a continuación.
+
+\subsubsection*{Similitud en el espacio semántico}
+
+Los embeddings semánticos producidos en la Sección~\ref{sec:componente-semantico} están normalizados a norma L2 unitaria como parte del pipeline de vectorización. Esto confina todos los vectores a la hiperesfera unitaria en $\mathbb{R}^{384}$, con lo cual la magnitud de los vectores es constante y la información semántica reside íntegramente en su dirección. En este contexto, la métrica natural es la similitud coseno:
+\begin{equation}
+    s_{\text{sem}}(q, c) = \frac{\mathbf{v}_q \cdot \mathbf{v}_c}{\|\mathbf{v}_q\| \cdot \|\mathbf{v}_c\|} = \mathbf{v}_q \cdot \mathbf{v}_c
+    \label{eq:coseno}
+\end{equation}
+\noindent donde $\mathbf{v}_q$ y $\mathbf{v}_c$ son los embeddings semánticos de la query y la candidata. La igualdad de la derecha aplica porque $\|\mathbf{v}_q\| = \|\mathbf{v}_c\| = 1$, lo que reduce la similitud coseno al producto punto. La implementación computacional aprovecha esta equivalencia: dada la matriz $\mathbf{V}$ de dimensiones $17\,964 \times 384$ con todos los embeddings apilados, la matriz completa de similitudes se obtiene con una única multiplicación matricial $\mathbf{S}_{\text{sem}} = \mathbf{V} \mathbf{V}^T$, operación altamente optimizada por las implementaciones BLAS modernas.
+
+La similitud coseno entre vectores L2-normalizados toma valores en $[-1, 1]$, aunque en la práctica los embeddings de textos del mismo dominio rara vez alcanzan los extremos negativos. En nuestros resultados, el rango observado es $[0{,}69, 1{,}00]$.
+
+\subsubsection*{Similitud en el espacio musical}
+
+Las features musicales descritas en la Sección~\ref{sec:componente-musical} están estandarizadas mediante \textit{z-score}, no L2-normalizadas. Esto significa que los vectores tienen magnitudes variables que reflejan cuán extremas son las características de cada canción: un vector con valores cercanos a la media tiene magnitud pequeña, mientras que uno con valores muy extremos en varias features tiene magnitud mayor. Aplicar similitud coseno en este espacio descartaría la información de magnitud, tratando como equivalentes dos canciones con el mismo perfil relativo pero distinta intensidad.
+
+La métrica apropiada para datos \textit{z-score} es la distancia euclídea, que respeta tanto la dirección como la magnitud del vector y trata todas las features con peso igual gracias a la estandarización previa:
+\begin{equation}
+    d_{\text{mus}}(q, c) = \sqrt{\sum_{j=1}^{13} (x_{q,j} - x_{c,j})^2}
+    \label{eq:euclidea}
+\end{equation}
+\noindent donde $x_{q,j}$ y $x_{c,j}$ son las coordenadas de la query y la candidata en la feature $j$.
+
+La Ecuación~\ref{eq:euclidea} produce valores en $[0, \infty)$ donde un valor mayor indica mayor \textit{disimilitud}, convención opuesta a la de la similitud coseno. Para que el score musical sea comparable con el semántico en la fórmula de fusión, es necesario convertir la distancia en una similitud acotada en $[0, 1]$ con la convención de mayor igual mejor. Esta conversión se realiza mediante un \textit{kernel gaussiano}, también conocido como \textit{Radial Basis Function}:
+\begin{equation}
+    s_{\text{mus}}(q, c) = \exp\!\left(- \frac{d_{\text{mus}}(q, c)^2}{2\sigma^2} \right)
+    \label{eq:kernel-gaussiano}
+\end{equation}
+
+El kernel gaussiano mapea distancia cero a similitud unitaria (la canción consigo misma) y decae suavemente hacia cero a medida que la distancia aumenta. El parámetro $\sigma$ controla la velocidad de ese decaimiento: valores pequeños producen un kernel puntiagudo donde solo distancias muy pequeñas generan similitud alta; valores grandes producen un kernel ancho donde distancias moderadas también generan similitud significativa.
+
+La elección de $\sigma$ se realiza mediante la \textit{heurística de la mediana}, estándar en métodos kernel: se calcula la mediana de las distancias euclídeas entre pares de puntos sobre una muestra aleatoria de canciones, y se adopta ese valor como $\sigma$. Este procedimiento calibra automáticamente el kernel a la escala natural de los datos y evita introducir un hiperparámetro libre. Sobre una muestra de 5\,000 canciones ---que produce aproximadamente 12{,}5 millones de distancias pairwise---, el valor resultante fue $\sigma = 4{,}76$.
+
+\input{tables/recommendation_fusion_strategy}
+
+El Cuadro~\ref{tab:recommendation_fusion_strategy} resume la estrategia de fusión adoptada.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.7.2 — Optimización de Pesos
+% ---------------------------------------------------------------------------
 \subsection{Optimización de Pesos}
 \label{subsec:optimizacion-pesos}
+
+Con las similitudes semántica y musical definidas como se describió en la subsección anterior, resta determinar el peso $\alpha$ que produce las recomendaciones de mayor calidad según un criterio de evaluación. La estrategia elegida es \textit{grid search}: evaluar sistemáticamente el desempeño del sistema para un conjunto discreto de valores de $\alpha$ y seleccionar el que maximiza la métrica de calidad primaria.
+
+Se emplea grid search por tres razones. En primer lugar, $\alpha$ es un parámetro único y acotado en $[0, 1]$, lo que hace viable una búsqueda exhaustiva con granularidad suficiente. En segundo lugar, la métrica de calidad ---Precision@K, definida formalmente a continuación--- depende de una operación de ordenamiento discreto sobre las recomendaciones, lo que la hace no diferenciable; los métodos de optimización basados en gradiente no aplican. En tercer lugar, el grid search permite visualizar la sensibilidad completa del sistema a $\alpha$, información que queda documentada y facilita la interpretación de resultados.
+
+La grilla evaluada consta de 21 valores equiespaciados: $\alpha \in \{0{,}00,\; 0{,}05,\; 0{,}10,\; \ldots,\; 0{,}95,\; 1{,}00\}$. Para cada valor se ejecuta el siguiente procedimiento:
+
+\begin{enumerate}[leftmargin=2em]
+    \item Combinar las matrices de similitud pre-computadas según la Ecuación~\ref{eq:fusion-score}: $\mathbf{S} = \alpha \mathbf{S}_{\text{sem}} + (1 - \alpha) \mathbf{S}_{\text{mus}}$.
+    \item Para cada canción del dataset, tomar como query y seleccionar las $K$ canciones con mayor score en la fila correspondiente de $\mathbf{S}$, excluyendo la propia query.
+    \item Evaluar la calidad de las recomendaciones generadas mediante la métrica Precision@K con distintos valores de $K$.
+\end{enumerate}
+
+La métrica de selección es \textbf{Precision@10}. Se reportan adicionalmente Precision@5 y Precision@20 para observar el decaimiento de la precisión con $K$ creciente. La optimización sobre $K = 10$ responde a una convención común en la literatura de sistemas de recomendación: diez es un número típico de recomendaciones visibles en una sesión de uso, suficientemente grande como para reducir ruido estadístico y suficientemente pequeño como para exigir buen ordenamiento.
+
+La pre-computación de las matrices de similitud completas antes del grid search tiene una ventaja computacional clave: el bucle principal no recalcula distancias ni similitudes, sino que aplica una combinación lineal elemento a elemento sobre matrices existentes y realiza una operación de \texttt{argpartition} para extraer los top-$K$ índices por fila. La complejidad por cada valor de $\alpha$ es $O(N^2)$ en memoria para la fusión y $O(N \cdot K)$ para la extracción de recomendaciones, con $N = 17\,964$. El grid search completo sobre los 21 valores toma aproximadamente un minuto de cómputo en hardware estándar.
+
+\subsubsection*{Ground truth y métrica de evaluación}
+
+La evaluación de recomendaciones requiere definir cuándo una recomendación es \textit{relevante} respecto a una query. En ausencia de evaluaciones humanas a gran escala sobre el dataset, se adopta el género musical como \textit{proxy} de relevancia: una recomendación se considera relevante si comparte etiqueta de género con la query. Esta elección se declara explícitamente ---en línea con la observación ya realizada en la Sección~\ref{subsec:seleccion-algoritmo} sobre el carácter proxy del género como ground truth--- por sus limitaciones conocidas: las etiquetas son asignaciones subjetivas de la industria con acuerdo inter-evaluador del orden del 70-80\%, no son mutuamente excluyentes (una canción puede pertenecer a varios géneros) y capturan una única dimensión de similitud musical. En consecuencia, un sistema puede producir recomendaciones excelentes en términos subjetivos que crucen géneros y queden marcadas como no relevantes, y viceversa.
+
+Definida esta convención, la métrica Precision@K se calcula así: para una query $q$ con género $g_q$ y sus $K$ recomendaciones con géneros $\{g_1, g_2, \ldots, g_K\}$,
+\begin{equation}
+    \text{P@K}(q) = \frac{1}{K} \sum_{i=1}^{K} \mathbb{1}[g_i = g_q]
+    \label{eq:precision-at-k}
+\end{equation}
+\noindent donde $\mathbb{1}[\cdot]$ es la función indicadora. La métrica global se obtiene promediando sobre todas las queries del dataset:
+\begin{equation}
+    \text{P@K} = \frac{1}{N} \sum_{q \in D} \text{P@K}(q)
+    \label{eq:precision-global}
+\end{equation}
+
+Un sistema que siempre recomienda canciones del mismo género que la query obtiene Precision@K unitaria. En el otro extremo, un sistema que recomienda al azar obtiene Precision@K aproximadamente igual a la proporción del género dominante en el dataset.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.7.3 — Evaluación Complementaria
+% ---------------------------------------------------------------------------
+\subsection{Métricas Complementarias de Evaluación}
+\label{subsec:metricas-evaluacion}
+
+La métrica Precision@K captura únicamente la dimensión de \textit{relevancia} de las recomendaciones según el proxy de género. Un sistema de recomendación de calidad debe además producir listas \textit{diversas} ---no recomendar variaciones triviales de la misma canción--- y ofrecer \textit{cobertura} amplia del catálogo ---no concentrar las recomendaciones en un subconjunto reducido de canciones populares---. Se adoptan por ello tres métricas complementarias adicionales.
+
+\paragraph{Diversidad intra-lista (ILD).} Dada una lista de $K$ recomendaciones $R = \{r_1, \ldots, r_K\}$, la diversidad intra-lista es el promedio de distancias pairwise entre los elementos de la lista \parencite{ziegler_2005_topic_diversification}:
+\begin{equation}
+    \text{ILD}(R) = \frac{2}{K(K-1)} \sum_{1 \leq i < j \leq K} d(r_i, r_j)
+    \label{eq:ild}
+\end{equation}
+
+Se computan dos variantes. La ILD semántica utiliza la distancia coseno $d(u, v) = 1 - s_{\text{coseno}}(u, v)$ sobre los embeddings; la ILD musical utiliza la distancia euclídea sobre las features estandarizadas. Valores altos indican recomendaciones heterogéneas entre sí; valores bajos indican listas redundantes.
+
+\paragraph{Cobertura del catálogo.} La cobertura mide qué fracción del catálogo total aparece como recomendación en al menos una lista, cuando el sistema genera recomendaciones para todas las queries posibles:
+\begin{equation}
+    \text{Coverage} = \frac{| \bigcup_{q \in D} R_K(q) |}{|D|}
+    \label{eq:coverage}
+\end{equation}
+\noindent donde $R_K(q)$ es la lista de top-$K$ recomendaciones para la query $q$. Valores bajos indican sesgo de popularidad ---el sistema recomienda siempre las mismas canciones---, mientras que valores altos indican uso balanceado del catálogo.
+
+\paragraph{Cobertura por género.} Variante por categoría de la métrica anterior: para cada género $g$, se calcula la fracción de canciones de ese género que aparecen en alguna recomendación. Revela desbalances de representación por género.
+
+Las tres métricas complementarias se reportan conjuntamente con la precisión al valor óptimo de $\alpha$, permitiendo analizar el trade-off entre relevancia, diversidad y cobertura.
+
+\subsubsection*{Resumen del pipeline de recomendación}
+
+El sistema propuesto queda caracterizado por los siguientes elementos:
+
+\begin{itemize}[leftmargin=2em]
+    \item Búsqueda k-NN exhaustiva, sin aproximaciones ni pre-filtrado por cluster.
+    \item Similitud coseno en el espacio semántico ($\mathbb{R}^{384}$, L2-normalizado).
+    \item Similitud derivada de distancia euclídea y kernel gaussiano con $\sigma$ por heurística de la mediana en el espacio musical ($\mathbb{R}^{13}$, \textit{z-score}).
+    \item Fusión tardía por combinación lineal con peso $\alpha$ optimizado por grid search sobre 21 valores.
+    \item Optimización de $\alpha$ contra Precision@10 con género como proxy de ground truth, declarado explícitamente.
+    \item Reporte complementario de ILD semántica y musical, cobertura del catálogo y cobertura por género.
+\end{itemize}
+
+La implementación completa reside en el módulo \texttt{src/recommendation/}, con el orquestador \texttt{run\_recommendation.py} que ejecuta el pipeline end-to-end y genera los artefactos de evaluación. Los resultados cuantitativos ---valor óptimo de $\alpha$, métricas al óptimo y análisis por género--- se presentan en el Capítulo~\ref{ch:resultados}.

@@ -1,16 +1,110 @@
 \chapter{Conclusiones y Futuras Líneas de Investigación}
 \label{ch:conclusiones}
 
-% Completar durante Etapa 6
+Este capítulo sintetiza los hallazgos del trabajo, explicita sus contribuciones metodológicas y empíricas, reconoce sus limitaciones, y propone líneas de investigación derivadas para trabajos futuros.
 
+% ---------------------------------------------------------------------------
+% SECCIÓN 7.1 — Conclusiones
+% ---------------------------------------------------------------------------
 \section{Conclusiones}
 \label{sec:conclusiones}
 
+El objetivo general planteado en el Capítulo~\ref{ch:definicion-problema} ---desarrollar e implementar un sistema de recomendación musical multimodal que combine clustering de features acústicas con análisis semántico de letras mediante embeddings preentrenados, y validar experimentalmente que la integración de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales--- se alcanzó mediante el pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta} y los resultados documentados en el Capítulo~\ref{ch:resultados}. A continuación se sintetizan los hallazgos principales por etapa.
+
+\textbf{Caracterización del dataset.} El dataset fuente ---18\,454 canciones con descriptores acústicos de Spotify y letras obtenidas de Genius--- fue caracterizado exhaustivamente antes de cualquier transformación. Los filtros de calidad aplicados (letras nulas, letras fuera del rango 10-2\,000 palabras, valores de loudness físicamente imposibles) produjeron un dataset de trabajo de 17\,964 canciones, preservando el 97{,}34\% de los datos originales con justificación explícita para cada exclusión. Se documentó una asimetría lingüística pronunciada (83{,}5\% inglés), un balance alto entre géneros (entropía normalizada $0{,}98$) y una concentración de canciones vocales (95{,}5\%).
+
+\textbf{Generación de representaciones.} Se produjeron dos representaciones numéricas complementarias por canción: un vector semántico de 384 dimensiones generado por \texttt{multilingual-e5-small} sobre las letras, y un vector musical de 13 dimensiones derivado de las features acústicas de Spotify (tras codificación circular de la tonalidad y estandarización z-score). La estrategia de \textit{chunking con agregación por promedio} para letras que exceden la ventana de 512 tokens permitió alcanzar cobertura completa del contenido textual, eliminando el sesgo sistemático por longitud que introduciría el truncamiento.
+
+\textbf{Validación estructural mediante clustering.} Las cuatro hipótesis pre-registradas fueron confirmadas experimentalmente. Los espacios semántico (Hopkins $0{,}9472$) y musical (Hopkins $0{,}8298$) exhiben tendencia al agrupamiento significativa (H1). El espacio musical produce clusters más cohesivos que el semántico en su dimensionalidad original (H2), si bien la reducción dimensional mediante UMAP eleva el Silhouette semántico de $0{,}036$ a $0{,}913$. La información mutua normalizada entre particiones semánticas y musicales es $0{,}0096$ ---próxima a independencia total---, lo que valida cuantitativamente la complementariedad de las modalidades y justifica empíricamente la fusión (H3). La purificación combinada formalizada en este trabajo mejora el Silhouette sin exceder el presupuesto de remoción del 15\% (H4).
+
+\textbf{Sistema de recomendación.} El sistema implementa búsqueda $k$-NN con fusión tardía de similitudes, adoptando similitud coseno sobre embeddings semánticos L2-normalizados y distancia euclídea convertida mediante kernel gaussiano sobre features musicales z-score. El parámetro $\sigma$ del kernel se determina por la heurística de la mediana, eliminando hiperparámetros libres. La optimización del peso de fusión $\alpha$ mediante grid search sobre 21 valores identifica un óptimo $\alpha^* = 0{,}80$, con Precision@10 $= 0{,}4447$. Los extremos unimodales ---solo musical y solo semántico--- producen Precision@10 cercanas entre sí ($0{,}3648$ y $0{,}3613$ respectivamente), cuantificando el aporte del componente musical como capacidad discriminativa complementaria al semántico. La cobertura del catálogo al $\alpha$ óptimo es del $95{,}54\%$, indicando ausencia de sesgo severo de popularidad.
+
+En síntesis, la evidencia experimental confirma la hipótesis central del trabajo: la integración multimodal de letras y features acústicas produce recomendaciones de mayor calidad que los enfoques unimodales, con un peso óptimo que favorece la componente semántica pero conserva aporte significativo de la musical.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 7.2 — Contribuciones del Trabajo
+% ---------------------------------------------------------------------------
 \section{Contribuciones del Trabajo}
 \label{sec:contribuciones}
 
+Las contribuciones del trabajo pueden organizarse en tres categorías: metodológicas, empíricas, y de ingeniería.
+
+\subsection*{Contribuciones metodológicas}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Pre-registro de hipótesis}. Las cuatro hipótesis evaluadas (H1-H4) se formularon y documentaron antes de ejecutar los experimentos correspondientes, en contraste con la práctica común de formular hipótesis post-hoc tras observar los resultados. Este enfoque protege contra el sesgo de confirmación y fortalece la validez inferencial del análisis.
+
+    \item \textbf{Presupuesto explícito de pérdida de datos}. Cada filtro aplicado al dataset cuenta con justificación documentada y cuantificación del impacto. La pérdida total (2{,}66\%) es modesta y rastreable hasta cada canción excluida, en contraposición a enfoques que reducen el dataset mediante criterios implícitos sin documentar el efecto.
+
+    \item \textbf{Declaración upfront del ground truth proxy}. El uso del género musical como proxy de relevancia se declara explícitamente desde la definición de la metodología, con reconocimiento de sus limitaciones (subjetividad, no exclusividad mutua, dimensionalidad única). Esta transparencia condiciona la interpretación de las métricas y evita conclusiones sobredimensionadas.
+
+    \item \textbf{Formalización de procedimiento de purificación}. El procedimiento de purificación combinada ---Silhouette negativo + distancia al centroide con presupuesto de remoción--- se formaliza como algoritmo reproducible con métricas pre/post explícitas. La revisión de literatura confirmó que no existe un framework consolidado para purificación post-clustering, lo que posiciona este procedimiento como contribución metodológica del trabajo.
+
+    \item \textbf{Tratamiento diferenciado de variables categóricas cíclicas}. La codificación circular mediante funciones trigonométricas para la feature \textit{key} (tonalidad) preserva la topología del círculo cromático, a diferencia de codificaciones numéricas directas o one-hot que introducen relaciones espurias.
+\end{itemize}
+
+\subsection*{Contribuciones empíricas}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Cuantificación de la complementariedad cross-modal}. El NMI de $0{,}0096$ entre particiones semánticas y musicales establece un valor cuantitativo para la independencia de ambas modalidades en el dominio musical, complementando resultados cualitativos de la literatura previa.
+
+    \item \textbf{Documentación de la paradoja Hopkins-Silhouette en alta dimensionalidad}. El contraste entre Hopkins alto ($0{,}9472$) y Silhouette bajo ($0{,}036$) sobre el espacio semántico de 384 dimensiones, y su resolución mediante reducción UMAP, constituye evidencia empírica del efecto diferencial de la maldición de la dimensionalidad sobre detección de estructura versus separabilidad de particiones.
+
+    \item \textbf{Validación del papel de la fusión multimodal}. La curva Precision@10 en función de $\alpha$ documenta que la combinación de ambas modalidades supera a cualquier unimodal en al menos ocho puntos absolutos de precisión, con un peso óptimo sustancialmente sesgado hacia la componente semántica ($\alpha^* = 0{,}80$).
+\end{itemize}
+
+\subsection*{Contribuciones de ingeniería}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Pipeline reproducible end-to-end}. El código completo, junto con la configuración centralizada, las semillas aleatorias fijas y los scripts orquestadores, permite reproducir exactamente los resultados reportados desde el dataset fuente. La arquitectura dual de salida (\texttt{results/} para auditoría, \texttt{thesis/} para el informe) facilita tanto la verificación técnica como la inclusión en el documento académico.
+
+    \item \textbf{Modularización por etapas}. La separación del pipeline en etapas independientes (datos, features, clustering, recomendación), cada una con su propio orquestador y su propia salida versionada, permite ejecución parcial, verificación intermedia y modificación localizada sin rehacer todo el cómputo.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 7.3 — Limitaciones
+% ---------------------------------------------------------------------------
 \section{Limitaciones}
 \label{sec:limitaciones}
 
+El trabajo tiene limitaciones que deben reconocerse explícitamente para contextualizar sus resultados.
+
+\textbf{Evaluación basada exclusivamente en proxy}. La métrica primaria Precision@K depende del género como proxy de relevancia. Si bien esta elección se declara desde el inicio y se complementa con métricas beyond-accuracy (diversidad intra-lista, cobertura), la ausencia de evaluación con usuarios reales impone un techo al análisis: recomendaciones excelentes que crucen géneros quedan marcadas como irrelevantes bajo la métrica, y recomendaciones pobres dentro del mismo género aparecen como relevantes. El valor absoluto de Precision@10 $= 0{,}4447$ debe interpretarse con esta cautela.
+
+\textbf{Ausencia de comparación contra baselines}. El sistema no se evalúa contra baselines triviales (random, random-por-género, popularity-based) ni contra un baseline lexicográfico sencillo como TF-IDF sobre las letras. Esta comparación permitiría contextualizar numéricamente la calidad del sistema propuesto y cuantificar el aporte de los embeddings neuronales sobre representaciones más simples. La implementación de estos baselines queda como trabajo pendiente documentado en \texttt{src/recommendation/PRUEBAS\_CALIDAD.md} (Pruebas A y B), con plan de ejecución diferido a una fase posterior.
+
+\textbf{Duplicados en el dataset fuente}. El dataset contiene canciones duplicadas con \texttt{track\_id} distintos, originadas en el scraping desde múltiples playlists. La inspección cualitativa de recomendaciones identificó entre 2 y 4 duplicados en listas típicas de 10 recomendaciones, lo que reduce la diversidad real percibida por el usuario. El sistema propuesto no implementa deduplicación automática; este problema queda marcado como limitación del dataset fuente más que del algoritmo, aunque impacta directamente la utilidad práctica.
+
+\textbf{Etiquetas de género inconsistentes}. Las etiquetas de género provienen de playlists de Spotify y no siempre son consistentes con el contenido musical de la canción. Se observaron casos documentados como ``Shape of You'' de Ed Sheeran etiquetada como \textit{latin} (probablemente por aparecer en una playlist con remixes reggaetoneros) y ``Piano Man'' de Billy Joel apareciendo con etiquetas \textit{pop} y \textit{rock} en distintas filas. Estos errores de etiquetado impactan la métrica Precision@K sin reflejar fallas del algoritmo.
+
+\textbf{Dependencia de una fuente de features propietaria}. Los 12 descriptores acústicos utilizados provienen de la Web API de Spotify, cuya metodología de cómputo no está documentada públicamente (tecnología propietaria heredada de The Echo Nest). En noviembre de 2024, Spotify restringió el acceso a los endpoints de audio features para aplicaciones nuevas. El dataset utilizado en este trabajo fue recopilado antes de la restricción, pero investigadores futuros que deseen replicar o extender el trabajo no podrán obtener las features por la misma vía.
+
+\textbf{Sesgo lingüístico}. El 83{,}5\% de las canciones del dataset están en inglés. Aunque el modelo E5 es multilingüe por diseño, la calidad de los embeddings para idiomas minoritarios no puede asumirse uniforme respecto al inglés. Las conclusiones del trabajo son válidas principalmente para el subconjunto mayoritario anglófono.
+
+\textbf{Confusión entre tipos de similitud}. La inspección cualitativa reveló que el sistema produce recomendaciones que responden a distintos tipos de similitud ---sonora, temática, de registro lírico, de género--- sin poder distinguir entre ellos de forma explícita. Una recomendación de alta puntuación puede reflejar similitud sonora sin temática relacionada, o viceversa. El sistema actual no incluye mecanismos para desambiguar o separar estos tipos de similitud.
+
+\textbf{Alcance unimodal del pipeline}. El sistema no incorpora datos de comportamiento de usuarios (playlists, historiales de escucha, ratings), lo que limita su comparabilidad con sistemas industriales que disponen de esas señales. Esta elección fue deliberada ---el sistema está diseñado como content-based puro para aislar la contribución del contenido---, pero implica que los resultados no son directamente comparables con benchmarks de sistemas colaborativos o híbridos con datos de usuario.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 7.4 — Futuras Líneas de Investigación
+% ---------------------------------------------------------------------------
 \section{Futuras Líneas de Investigación}
 \label{sec:futuras-lineas}
+
+Las limitaciones reconocidas sugieren líneas de extensión naturales para investigaciones futuras.
+
+\textbf{Evaluación con usuarios reales.} La sustitución ---o complementación--- del proxy de género por juicios humanos directos sobre muestras de recomendaciones produciría una evaluación más robusta. Un protocolo viable es seleccionar un subconjunto de queries estratificado por género e idioma, generar recomendaciones, y solicitar a un panel de evaluadores que califiquen la relevancia subjetiva de cada recomendación. Las métricas derivadas (Precision@K humana, acuerdo inter-evaluador) proporcionarían un benchmark que el proxy de género no puede ofrecer.
+
+\textbf{Comparación sistemática con baselines.} La implementación y evaluación de los baselines documentados en \texttt{PRUEBAS\_CALIDAD.md} (random total, random-por-género, popularity-based, TF-IDF sobre letras) permitirá contextualizar numéricamente la calidad del sistema. Un baseline particularmente importante es TF-IDF, que responderá a la pregunta de si los embeddings neuronales aportan capacidad semántica sobre representaciones lexicográficas simples.
+
+\textbf{Deduplicación del dataset}. La detección y fusión de canciones duplicadas mediante hash de contenido, fingerprinting de audio, o comparación de letras con similitud alta, mejoraría la utilidad práctica del sistema al eliminar recomendaciones redundantes. La implementación adecuada requiere decisiones de diseño sobre cómo tratar remixes, versiones en vivo y regrabaciones.
+
+\textbf{Fusión intermedia mediante aprendizaje contrastivo}. Modelos como MuLan y MusCALL proponen arquitecturas que aprenden representaciones compartidas entre audio y texto mediante objetivos contrastivos. La adopción de un esquema similar sobre el dataset del presente trabajo ---con el par (letra, vector acústico) como instancia--- permitiría explorar si una fusión aprendida supera a la fusión lineal por combinación de scores. Esta línea requiere recursos computacionales significativamente mayores.
+
+\textbf{Modelado de contexto temporal y situacional}. Los sistemas de recomendación musical industrial incorporan contexto ---momento del día, actividad del usuario, estado emocional--- como variables de modulación de las recomendaciones. La integración de señales contextuales en el sistema propuesto requeriría datos adicionales (uso, contexto) pero podría producir recomendaciones adaptativas al uso real.
+
+\textbf{Separación explícita de tipos de similitud}. Diseñar arquitecturas que distingan entre similitud sonora, temática, de registro lírico y de género permitiría al usuario seleccionar explícitamente qué tipo de similitud busca. Esto podría implementarse mediante múltiples modelos de embeddings entrenados sobre objetivos específicos, o mediante \textit{disentangled representations} aprendidas conjuntamente.
+
+\textbf{Extensión del análisis cross-language}. La verificación experimental de si el sistema recomienda canciones en otros idiomas cuando la query es en inglés (o viceversa), y con qué frecuencia y calidad, pondría a prueba el aporte efectivo de la capacidad multilingüe del modelo E5 más allá del soporte teórico de la librería.
+
+\textbf{Aplicación de técnicas beyond-accuracy}. La literatura reciente sobre recomendación propone métricas más allá de precision y recall: \textit{serendipity} (capacidad de recomendar ítems inesperados pero relevantes), \textit{novelty} (propensión a recomendar ítems poco populares), \textit{fairness} cross-demographic. La caracterización del sistema propuesto bajo estas métricas produciría una evaluación multidimensional más alineada con los criterios de valor percibido por usuarios reales.

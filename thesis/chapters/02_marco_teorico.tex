@@ -44,42 +44,46 @@
 %              Particularidades del dominio musical: preferencia implícita,
 %              secuencialidad, contexto de escucha.
 
+Un sistema de recomendación puede formalizarse como una función $f: U \times I \to \mathbb{R}$ que asigna un puntaje de preferencia a cada par usuario-ítem $(u, i) \in U \times I$, o equivalentemente ---cuando no se dispone de información sobre el usuario--- como una función $f: I \times I \to \mathbb{R}$ que mide la similitud entre pares de ítems. La tarea de recomendación consiste en, dada una entrada (un usuario o un ítem semilla), producir un ranking de los $K$ ítems con mayor puntaje. Los paradigmas principales para estimar $f$ se diferencian por las fuentes de información que emplean.
+
 \subsection{Filtrado Colaborativo y por Contenido}
 \label{subsec:paradigmas-recomendacion}
 
-% CONCEPTO:    Definiciones formales de ambos paradigmas y sus variantes.
-% USADO EN:    Justificación de por qué el sistema es content-based
-%              (no hay datos de interacción usuario-canción en el dataset).
-% REFERENCIAS: sarwar_2001_itembased, koren_2009_mf, hu_2008_implicit_feedback,
-%              he_2017_ncf
-% CONTENIDO:   Matriz de interacciones, factorización matricial, similitud
-%              coseno entre perfiles de items. Limitación clave: el dataset
-%              no contiene historial de escucha → colaborativo no es aplicable.
+El \textit{filtrado colaborativo} infiere las preferencias de un usuario a partir de los patrones de interacción observados sobre el conjunto total de usuarios e ítems. La matriz de interacciones $\mathbf{R} \in \mathbb{R}^{|U| \times |I|}$ registra los eventos disponibles ---ratings explícitos, conteos de reproducción, marcadores de favorito--- y el problema se reformula como la predicción de las entradas faltantes. Las variantes clásicas de filtrado colaborativo incluyen los métodos basados en ítems \parencite{sarwar_2001_itembased}, que calculan la similitud coseno entre columnas de $\mathbf{R}$ para recomendar ítems similares a los ya consumidos; la factorización matricial \parencite{koren_2009_mf}, que aproxima $\mathbf{R} \approx \mathbf{U} \mathbf{V}^T$ con $\mathbf{U} \in \mathbb{R}^{|U| \times d}$ y $\mathbf{V} \in \mathbb{R}^{|I| \times d}$ mediante minimización del error cuadrático regularizado; y las extensiones neuronales como NCF \parencite{he_2017_ncf}, que reemplazan la estructura bilineal por una red profunda.
+
+En el caso de datos implícitos ---escuchas, clicks, tiempo de visualización--- no se observa el grado de preferencia sino únicamente la presencia o ausencia de interacción. \textcite{hu_2008_implicit_feedback} formalizan este escenario separando la observación en una variable de confianza ponderada y una de preferencia binaria, y proponen una variante de factorización matricial para mínimos cuadrados alternados adaptada al caso implícito.
+
+El \textit{filtrado por contenido}, en contraste, opera exclusivamente sobre representaciones de los ítems. Cada ítem $i$ se describe mediante un vector de features $\mathbf{x}_i \in \mathbb{R}^d$, y la similitud entre ítems se calcula directamente sobre ese espacio, habitualmente con similitud coseno o distancia euclídea. La recomendación para un ítem semilla $i$ consiste en seleccionar los $K$ ítems con mayor similitud a $\mathbf{x}_i$, excluyendo el propio $i$. Este paradigma no requiere datos de interacción y, por lo tanto, es aplicable a catálogos donde tales datos no están disponibles o son escasos.
+
+En este trabajo se adopta un enfoque de filtrado por contenido. El dataset utilizado no contiene historial de escuchas ni interacciones usuario-canción, por lo que los métodos colaborativos no son aplicables. Esta elección presenta dos ventajas metodológicas adicionales: elimina el problema de \textit{cold-start} para ítems nuevos ---cualquier canción con features extraídas puede ser recomendada inmediatamente--- y permite evaluar la contribución del contenido a la similitud sin el ruido introducido por patrones de consumo masivo que pueden reflejar popularidad más que afinidad genuina.
 
 \subsection{Sistemas Híbridos}
 \label{subsec:sistemas-hibridos}
 
-% CONCEPTO:    Combinación de múltiples fuentes de información para recomendación.
-% USADO EN:    §5.7 Estrategia de Fusión y Optimización de Pesos (Etapa 5)
-% REFERENCIAS: burke_2002_hybrid, anelli_2024_hybrid_gnn_music
-% CONTENIDO:   Taxonomía de Burke. El sistema propuesto combina dos espacios
-%              de contenido (semántico + musical) → es un híbrido de tipo
-%              "feature combination" dentro del paradigma content-based.
+Los sistemas híbridos combinan múltiples fuentes de información con el objetivo de superar las limitaciones individuales de cada paradigma y capturar dimensiones complementarias de similitud. \textcite{burke_2002_hybrid} propone una taxonomía de siete estrategias de hibridación: \textit{weighted} (combinación ponderada de scores), \textit{switching} (selección de un paradigma según contexto), \textit{mixed} (presentación simultánea de recomendaciones de múltiples fuentes), \textit{feature combination} (agregación de features de múltiples fuentes en un único modelo), \textit{cascade} (refinamiento secuencial), \textit{feature augmentation} (uso de un paradigma para generar features de otro) y \textit{meta-level} (modelos sobre modelos).
+
+El sistema propuesto en este trabajo combina dos fuentes de información de contenido ---embeddings semánticos de letras y features acústicas musicales--- mediante una estrategia \textit{weighted}: se calculan dos scores de similitud independientes, uno por espacio de representación, y se combinan linealmente con un peso $\alpha \in [0, 1]$ que se optimiza empíricamente. La elección de \textit{weighted} sobre \textit{feature combination} (concatenar los vectores y aplicar una única métrica de similitud) se fundamenta en los resultados del análisis exploratorio: la concatenación directa produce un espacio donde la componente de mayor dimensionalidad ---la semántica, con 384 dimensiones--- domina numéricamente sobre la musical (13 dimensiones), diluyendo la señal acústica. La fusión ponderada al nivel de scores, en contraste, preserva la contribución equilibrada de cada modalidad y permite calibrar su importancia relativa.
+
+Investigaciones recientes han explorado arquitecturas híbridas más complejas para recomendación musical, como las redes de grafos neuronales aplicadas a datos de interacción de Spotify \parencite{anelli_2024_hybrid_gnn_music}. Estos enfoques requieren datos de comportamiento de usuarios que, como se argumentó anteriormente, no están disponibles en el dataset utilizado en este trabajo.
 
 \subsection{Evaluación de Sistemas de Recomendación}
 \label{subsec:evaluacion-recomendacion}
 
-% CONCEPTO:    Métricas de evaluación: precisión, diversidad, cobertura,
-%              serendipity. Evaluación offline vs online.
-% USADO EN:    §5.7 Optimización de Pesos (Etapa 5)
-%              → Precision@K, diversidad intra-lista
-% REFERENCIAS: zangerle_2022_fevr, castells_2022_offline,
-%              kaminskas_2016_beyond, klimashevskaia_2024_popularity
-% INVESTIGACIÓN: 06_evaluacion_experimental.md (20 fuentes)
-% CONTENIDO:   Precision@K, Recall@K, nDCG. Limitaciones de evaluación
-%              offline con proxy labels (género como ground truth).
-%              Beyond-accuracy: diversidad, novedad, cobertura de catálogo.
-%              Sesgo de popularidad en evaluación.
+La evaluación de sistemas de recomendación se organiza en dos paradigmas complementarios: \textit{online} ---con usuarios reales interactuando con el sistema en producción y midiendo tasas de click, tiempo de permanencia o conversiones--- y \textit{offline} ---con datos históricos y métricas calculadas contra particiones de entrenamiento y prueba, sin usuarios--- \parencite{castells_2022_offline}. Los trabajos de investigación sin acceso a producción dependen necesariamente de evaluación offline.
+
+La familia de métricas más usada en evaluación offline proviene de la recuperación de información, adaptada al contexto de recomendación. \textbf{Precision@$K$} mide la fracción de ítems relevantes en las $K$ primeras posiciones del ranking generado para una query:
+\begin{equation*}
+    \text{P@}K(q) = \frac{|\{i \in \text{top-}K(q) : \text{rel}(i, q) = 1\}|}{K}
+\end{equation*}
+\noindent donde $\text{rel}(i, q) \in \{0, 1\}$ indica si el ítem $i$ es relevante para la query $q$. \textbf{Recall@$K$} mide la fracción de ítems relevantes totales que aparecen en el top $K$. \textbf{nDCG@$K$} (\textit{Normalized Discounted Cumulative Gain}) extiende estas métricas para relevancias graduadas y pondera las posiciones tempranas, siendo sensible al orden exacto dentro del ranking.
+
+La aplicación de estas métricas requiere la definición de un \textit{ground truth} de relevancia. En dominios con datos explícitos ---por ejemplo, ratings 1-5 estrellas--- la relevancia se deriva directamente de los valores. En dominios como el presente, sin datos de interacción, la relevancia debe definirse mediante \textit{métricas proxy}: propiedades del ítem que correlacionan con la noción intuitiva de similitud pero que no la capturan de forma perfecta. El proxy más común en dominios musicales es el género, bajo la hipótesis de que dos canciones del mismo género son más similares entre sí que canciones de géneros distintos. Esta hipótesis es parcialmente cierta y parcialmente errónea: captura una componente amplia de similitud sonora pero ignora dimensiones temáticas (dos canciones pueden compartir género pero no temática lírica) y confunde proximidad con pertenencia a la misma clase (dos canciones de géneros distintos pueden ser muy similares en features musicales y semánticos).
+
+Las limitaciones inherentes a las métricas proxy han motivado la literatura reciente sobre evaluación \textit{beyond-accuracy} \parencite{kaminskas_2016_beyond}, que incorpora dimensiones adicionales de calidad: diversidad (dentro de una lista o entre listas), novedad (propensión a recomendar ítems poco populares), cobertura del catálogo (fracción del catálogo total que aparece en alguna recomendación) y serendipity (capacidad de producir recomendaciones inesperadas pero relevantes). La propuesta de un \textit{fair evaluation roadmap} para sistemas de recomendación musical \parencite{zangerle_2022_fevr} sintetiza las mejores prácticas en este sentido.
+
+Un problema ampliamente documentado en la evaluación de sistemas de recomendación es el \textit{sesgo de popularidad}: los ítems más populares del catálogo tienden a aparecer con mayor frecuencia en las recomendaciones, amplificando la asimetría en la distribución de consumo \parencite{klimashevskaia_2024_popularity}. La cobertura del catálogo sirve como métrica diagnóstica de este sesgo: valores bajos indican que el sistema recomienda siempre los mismos ítems, mientras que valores altos indican uso balanceado.
+
+En el presente trabajo se adoptan Precision@$K$ ---con género como proxy, declarado explícitamente--- como métrica primaria de relevancia, y se complementa con Intra-List Diversity (distancia pairwise promedio entre los ítems recomendados) y cobertura del catálogo para capturar dimensiones beyond-accuracy. La ausencia de usuarios reales en la evaluación queda reconocida como limitación metodológica, y el carácter proxy de la relevancia condiciona la interpretación de los valores absolutos de las métricas.
 
 % ==========================================================================
 % SECCIÓN 4.2 — Procesamiento de Lenguaje Natural aplicado a Letras
@@ -94,82 +98,65 @@
 % INVESTIGACIÓN: 02_music_information_retrieval.md (21 fuentes),
 %                03_nlp_bert_embeddings.md (18 fuentes)
 
+La vectorización de letras musicales requiere convertir texto de longitud variable ---en múltiples idiomas, con vocabulario informal y con estructura poética---  en vectores numéricos de dimensión fija que preserven la información semántica relevante. El pipeline adoptado en este trabajo está basado en modelos de lenguaje preentrenados del tipo Transformer, herederos de una progresión de técnicas que han mejorado sucesivamente la capacidad de las representaciones vectoriales para capturar significado. Esta sección presenta los componentes formales de ese pipeline.
+
 \subsection{Representación Vectorial de Texto}
 \label{subsec:representacion-vectorial}
 
-% CONCEPTO:    Evolución de representaciones: BoW → TF-IDF → word embeddings
-%              → embeddings contextuales. Por qué cada paso supera al anterior.
-% USADO EN:    Justificación de por qué no usar BoW/TF-IDF para letras
-%              (pierden orden, semántica, contexto).
-% REFERENCIAS: mikolov_2013_word2vec, bojanowski_2017_fasttext
-% CONTENIDO:   Bag-of-words y sus limitaciones (dimensionalidad, sparsity,
-%              independencia de términos). Word2Vec: CBOW y Skip-gram,
-%              propiedad de analogía. FastText: subword como extensión.
-%              Limitación compartida: un vector por palabra, sin contexto
-%              (polisemia no resuelta). Esto motiva los modelos contextuales.
+Las primeras aproximaciones al procesamiento computacional de texto representaron las palabras como vectores dispersos en un espacio de dimensión igual al tamaño del vocabulario. El modelo \textit{bag-of-words} (BoW) asocia a cada documento un vector donde cada componente cuenta la frecuencia de una palabra del vocabulario, independientemente del orden. Su refinamiento TF-IDF (\textit{term frequency -- inverse document frequency}) pondera las frecuencias por la especificidad de cada término en el corpus, penalizando palabras comunes.
+
+Estos modelos tienen tres limitaciones estructurales. Primero, producen representaciones altamente dispersas ---con dimensionalidad igual al tamaño del vocabulario, típicamente $10^5$ o más---, lo que dificulta el cálculo eficiente de similitudes. Segundo, tratan a las palabras como entidades independientes: \textit{casa} y \textit{hogar} son tan distintas para BoW como \textit{casa} y \textit{ecuación}, aunque semánticamente las primeras estén muy relacionadas. Tercero, ignoran completamente el orden: \textit{el perro muerde al hombre} y \textit{el hombre muerde al perro} producen el mismo vector.
+
+La introducción de los \textit{word embeddings} mediante el modelo Word2Vec \parencite{mikolov_2013_word2vec} representó un salto cualitativo. Word2Vec asigna a cada palabra un vector denso de dimensión reducida (típicamente 100-300) entrenado mediante dos arquitecturas complementarias: CBOW, que predice una palabra a partir de su contexto, y Skip-gram, que predice el contexto a partir de una palabra. Los vectores resultantes capturan relaciones semánticas sorprendentes ---la clásica analogía $\text{rey} - \text{hombre} + \text{mujer} \approx \text{reina}$--- porque palabras que aparecen en contextos similares terminan con representaciones cercanas. FastText \parencite{bojanowski_2017_fasttext} extiende este enfoque tratando cada palabra como una bolsa de $n$-gramas de caracteres, lo que mejora la cobertura sobre palabras fuera del vocabulario y morfología flexiva.
+
+Word2Vec y FastText producen un único vector por palabra, independiente del contexto donde aparece. Esta propiedad es una limitación severa para texto con alta polisemia: la palabra \textit{banco} tiene el mismo vector en \textit{me senté en el banco} y en \textit{retiré dinero del banco}. Las letras musicales son particularmente ricas en metáforas y uso no literal del lenguaje, lo que hace esta limitación especialmente problemática para este dominio. La superación de esta limitación requiere embeddings \textit{contextuales} ---un vector distinto por ocurrencia de palabra, dependiente de su contexto específico---, que se obtienen mediante los modelos basados en la arquitectura Transformer.
 
 \subsection{Arquitectura Transformer y Mecanismo de Atención}
 \label{subsec:transformer}
 
-% CONCEPTO:    Self-attention, multi-head attention, positional encoding.
-%              La base arquitectónica de BERT y E5.
-% USADO EN:    Comprensión de cómo E5 procesa texto internamente.
-%              La ventana de 512 tokens es un límite de esta arquitectura.
-% REFERENCIAS: vaswani_2017_attention
-% CONTENIDO:   Atención como función Q, K, V. Self-attention: cada token
-%              atiende a todos los demás (complejidad O(n²), de ahí el
-%              límite de ventana). Multi-head: múltiples espacios de
-%              atención paralelos. Positional encoding: cómo el modelo
-%              sabe el orden de las palabras. Encoder vs decoder.
-%              Fórmula de scaled dot-product attention.
+La arquitectura Transformer \parencite{vaswani_2017_attention} introduce el mecanismo de \textit{atención} (\textit{attention}) como operación central para procesar secuencias de longitud variable. La atención permite que cada elemento de la secuencia modifique su representación en función de todos los demás, produciendo así representaciones contextualizadas. Formalmente, dado un conjunto de vectores de entrada organizados en tres matrices ---\textit{queries} $\mathbf{Q}$, \textit{keys} $\mathbf{K}$ y \textit{values} $\mathbf{V}$, obtenidas como proyecciones lineales de las entradas---, la operación \textit{scaled dot-product attention} se define como:
+\begin{equation}
+    \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\!\left( \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \right) \mathbf{V}
+    \label{eq:attention}
+\end{equation}
+\noindent donde $d_k$ es la dimensionalidad de los vectores key, y la división por $\sqrt{d_k}$ estabiliza el gradiente durante el entrenamiento. El producto $\mathbf{Q} \mathbf{K}^T$ produce una matriz de scores que, tras la aplicación de softmax por filas, constituye una distribución de probabilidad sobre los tokens de la secuencia; multiplicar por $\mathbf{V}$ produce una combinación ponderada de los values.
+
+La variante \textit{self-attention} corresponde al caso en que $\mathbf{Q}$, $\mathbf{K}$ y $\mathbf{V}$ provienen todas de la misma secuencia de entrada: cada token computa su nueva representación como función de todos los tokens de la misma secuencia. La atención \textit{multi-head} aplica este mecanismo en $h$ subespacios paralelos con proyecciones lineales distintas, y concatena los resultados para producir la representación final de la capa. Esta estructura permite al modelo atender simultáneamente a múltiples tipos de relaciones sintácticas o semánticas.
+
+La complejidad computacional de la self-attention es $O(n^2 \cdot d)$ en tiempo y memoria, donde $n$ es la longitud de la secuencia y $d$ la dimensionalidad del modelo. Esta dependencia cuadrática en $n$ es la razón principal por la que los modelos Transformer imponen una \textit{ventana de contexto} fija: procesar secuencias arbitrariamente largas es inviable en términos de memoria. En el caso de los modelos utilizados en este trabajo, la ventana es de 512 tokens. Las letras de canciones que exceden este límite requieren estrategias de truncamiento o fragmentación (\textit{chunking}), descritas en el Capítulo~\ref{ch:solucion-propuesta}.
+
+Los Transformers de entrada fija también requieren un mecanismo para representar el orden de los tokens, ya que la atención es invariante a permutaciones. La solución original consiste en sumar \textit{positional encodings} ---vectores dependientes de la posición--- a los embeddings de entrada, típicamente con funciones sinusoidales de frecuencias variables. Variantes posteriores han explorado encodings aprendidos y encodings relativos.
 
 \subsection{BERT y Modelos Bidireccionales}
 \label{subsec:bert}
 
-% CONCEPTO:    Pre-entrenamiento bidireccional, MLM, fine-tuning.
-%              La diferencia clave respecto a modelos unidireccionales.
-% USADO EN:    E5 se basa en arquitectura BERT (encoder-only).
-%              §5.3.1 Selección del Modelo de Embeddings.
-% REFERENCIAS: devlin_2019_bert
-% CONTENIDO:   Masked Language Model (MLM): predicción de tokens ocultos.
-%              Next Sentence Prediction (NSP). Bidireccionalidad: cada token
-%              tiene contexto izquierdo Y derecho (vs GPT que solo ve
-%              izquierda). Token [CLS] como representación de secuencia.
-%              Limitación: [CLS] sin fine-tuning produce embeddings de
-%              baja calidad para similitud → motiva Sentence-BERT.
+BERT (\textit{Bidirectional Encoder Representations from Transformers}) \parencite{devlin_2019_bert} adopta la arquitectura Transformer en modo \textit{encoder-only}, donde la self-attention opera sin restricciones de dirección: cada token atiende tanto a los tokens anteriores como a los posteriores. Esta bidireccionalidad contrasta con modelos autoregresivos como GPT, que procesan el texto de izquierda a derecha y, en consecuencia, no pueden incorporar contexto futuro al representar un token dado.
+
+El entrenamiento de BERT se realiza mediante dos tareas supervisadas sin necesidad de etiquetas manuales. La primera, \textit{Masked Language Modeling} (MLM), enmascara aleatoriamente un porcentaje de los tokens de entrada (típicamente $15\%$) y entrena al modelo a predecirlos a partir de los tokens visibles restantes. Esta tarea obliga al modelo a construir representaciones que integren información contextual en ambas direcciones. La segunda, \textit{Next Sentence Prediction} (NSP), presenta al modelo pares de segmentos de texto y lo entrena a predecir si el segundo segmento es la continuación natural del primero; trabajos posteriores han cuestionado la utilidad de esta segunda tarea y la han omitido sin pérdida de calidad.
+
+El resultado del pre-entrenamiento es un encoder que produce, para cada token de entrada, una representación contextual de dimensionalidad fija. BERT introduce un token especial \texttt{[CLS]} que se coloca al inicio de cada secuencia y cuya representación final se utiliza como agregación del significado del documento completo. Para tareas supervisadas, esta representación de \texttt{[CLS]} se alimenta a un clasificador simple que se entrena conjuntamente con un \textit{fine-tuning} moderado del encoder.
+
+Una limitación documentada del uso de BERT para tareas de similitud semántica entre textos es que la representación de \texttt{[CLS]} sin fine-tuning específico produce embeddings de calidad insuficiente para comparaciones coseno directas. La razón es que durante el pre-entrenamiento de MLM, \texttt{[CLS]} no está optimizado específicamente para representar el significado completo del texto sino para soportar la tarea de NSP, bastante diferente. Esta observación motivó el desarrollo de modelos especializados para producir embeddings a nivel de oración o documento, descritos a continuación.
 
 \subsection{Sentence Embeddings: de Sentence-BERT a E5}
 \label{subsec:sentence-embeddings}
 
-% CONCEPTO:    Embeddings a nivel de oración/párrafo. Redes siamesas,
-%              contrastive learning, instrucciones de tarea.
-% USADO EN:    §5.3.1 Selección del Modelo — justificación de E5.
-%              src/features/vectorizer.py: prefijo "passage: ", mean pooling.
-% REFERENCIAS: reimers_2019_sentencebert, reimers_2020_multilingual,
-%              wang_2022_e5, wang_2020_minilm
-% CONTENIDO:   Sentence-BERT: fine-tuning con redes siamesas y función
-%              de pérdida coseno. MiniLM: destilación de atención para
-%              modelos compactos (128 tokens). E5: pre-entrenamiento
-%              contrastivo débilmente supervisado con pares (query, passage)
-%              de la web. Prefijo de tarea ("query: ", "passage: ") como
-%              mecanismo de instrucción. Multilingual: distilación cross-lingual.
-%              Por qué 384D es suficiente para clustering musical.
+Sentence-BERT \parencite{reimers_2019_sentencebert} introduce una arquitectura de redes siamesas sobre BERT para producir embeddings de oraciones optimizados para similitud coseno. Dos instancias del mismo encoder BERT procesan independientemente dos oraciones, y sobre sus representaciones se aplica una función de pooling ---típicamente el promedio de los embeddings de todos los tokens (\textit{mean pooling})--- para obtener un único vector por oración. El modelo se entrena minimizando una función de pérdida basada en similitud coseno sobre pares etiquetados, forzando a que oraciones semánticamente relacionadas se mapeen a vectores cercanos. La extensión multilingüe \parencite{reimers_2020_multilingual} utiliza destilación cross-lingual para transferir la estructura del espacio de embeddings al inglés hacia más de cincuenta idiomas.
+
+E5 (\textit{EmbEddings from bidirEctional Encoder rEpresentations}) \parencite{wang_2022_e5} es la familia de modelos adoptada en el presente trabajo. Su entrenamiento consta de dos etapas. La primera es pre-entrenamiento contrastivo débilmente supervisado sobre CCPairs, un corpus de aproximadamente un billón de pares de textos extraídos de la web (títulos y bodies de artículos, queries y pasajes relevantes, etc.), utilizando una pérdida InfoNCE que maximiza la similitud coseno entre pares positivos y la minimiza entre negativos. La segunda etapa es fine-tuning supervisado sobre datasets etiquetados (MS MARCO, NLI, etc.) para afinar las representaciones en tareas específicas. Una particularidad operativa de E5 es el uso de prefijos textuales ---\texttt{"query: "} para textos que actúan como consulta, \texttt{"passage: "} para textos a indexar--- que se anteponen al texto antes de la tokenización para indicar al modelo el tipo de uso. Estos prefijos son parte esencial del pipeline y omitirlos degrada significativamente la calidad de los embeddings.
+
+La variante \texttt{multilingual-e5-small} adoptada en este trabajo produce vectores de 384 dimensiones, soporta una ventana de 512 tokens y más de cien idiomas. La elección se justifica por dos motivos. Primero, la ventana de 512 tokens permite procesar la mayoría de las letras del dataset sin truncamiento ni fragmentación severa. Segundo, el soporte multilingüe extenso mejora la calidad de los embeddings para las canciones del dataset que están en idiomas distintos del inglés. Modelos más grandes ---como \texttt{multilingual-e5-large} (1024 dimensiones) o variantes BERT con 768 dimensiones o más--- se consideraron y descartaron: dimensionalidades superiores aumentan el costo computacional de las operaciones de clustering y distancia y agravan los efectos de la maldición de la dimensionalidad \parencite{aggarwal_2001_dimensionality}, lo cual puede degradar la calidad del clustering en lugar de mejorarla.
 
 \subsection{Tokenización Subword}
 \label{subsec:tokenizacion}
 
-% CONCEPTO:    Algoritmos de tokenización (BPE, WordPiece, SentencePiece).
-%              Por qué 1 palabra ≠ 1 token, especialmente en texto multilingüe.
-% USADO EN:    §5.3.2 Análisis de Cobertura de Tokens.
-%              La discrepancia entre heurística (58.8%) y real (53.48%).
-%              src/features/vectorizer.py: measure_token_coverage().
-% REFERENCIAS: devlin_2019_bert (WordPiece), bojanowski_2017_fasttext (subword)
-% CONTENIDO:   Vocabulario finito vs vocabulario abierto. BPE: merge iterativo
-%              de pares frecuentes. WordPiece: similar pero con criterio de
-%              likelihood. Consecuencia: palabras infrecuentes (slang, idiomas
-%              minoritarios, ortografía no estándar de letras) se fragmentan
-%              en más tokens. Implicación directa: ratio tokens/palabra mayor
-%              en letras musicales que en texto estándar.
+Los modelos de lenguaje operan sobre secuencias de \textit{tokens}, que son las unidades mínimas de vocabulario que el modelo distingue. Una decisión arquitectónica clave es cómo segmentar el texto crudo en tokens. Las opciones son: tokenización por palabras completas (limitada por el tamaño explosivo del vocabulario y el problema de palabras fuera de vocabulario), por caracteres individuales (poco eficiente en longitud de secuencia), o mediante estrategias intermedias que fragmentan palabras infrecuentes en subpalabras.
+
+Las técnicas de \textit{tokenización subword} más usadas son Byte-Pair Encoding (BPE), WordPiece y SentencePiece. BPE comienza con un vocabulario inicial de caracteres y fusiona iterativamente los pares de tokens adyacentes más frecuentes hasta alcanzar un tamaño de vocabulario objetivo. WordPiece \parencite{devlin_2019_bert} sigue un procedimiento similar pero con criterio de \textit{likelihood} en lugar de frecuencia directa: fusiona los pares cuya concatenación maximiza la probabilidad de los datos bajo un modelo de lenguaje basado en subpalabras. SentencePiece generaliza estas técnicas operando sobre el texto crudo sin asumir delimitación por espacios, lo que la hace apropiada para idiomas sin separación explícita entre palabras.
+
+La consecuencia directa de la tokenización subword es que el ratio tokens/palabra no es constante: palabras frecuentes del vocabulario se tokenizan como un único token, mientras que palabras infrecuentes se fragmentan en múltiples subpalabras. En texto estándar en inglés, el ratio típico es de $1{,}3$ tokens por palabra \parencite{bojanowski_2017_fasttext}. Sin embargo, en dominios con vocabulario atípico ---jerga, idiomas minoritarios, ortografía no estándar--- el ratio aumenta: una palabra poco frecuente puede fragmentarse en cuatro o cinco subpalabras.
+
+Las letras de canciones constituyen un dominio con alta frecuencia de estas propiedades: uso de slang (\textit{ain't}, \textit{gonna}, \textit{wanna}), ortografía no estándar (\textit{luv}, \textit{u}, \textit{w/}), repeticiones extendidas (\textit{oooh}, \textit{yeahhhh}), palabras en múltiples idiomas simultáneamente, y vocabulario específico de subgéneros musicales. El efecto práctico es que la heurística de $1{,}3$ tokens/palabra subestima sistemáticamente el conteo real, y la cobertura efectiva de la ventana de 512 tokens del modelo es menor a la estimada. Este fenómeno, cuantificado en detalle en el Capítulo~\ref{ch:solucion-propuesta}, motivó la adopción de chunking con agregación como estrategia para procesar letras largas.
 
 % ==========================================================================
 % SECCIÓN 4.3 — Features Musicales [YA ESCRITO]
@@ -266,50 +253,74 @@ Finalmente, cabe señalar que en noviembre de 2024 Spotify restringió el acceso
 % CONTENIDO:   Por qué normalizar: la distancia euclidiana es sensible a
 %              escala → features con mayor rango dominan el cálculo.
 
+Las features disponibles para caracterizar una canción operan en escalas heterogéneas: índices perceptuales en $[0, 1]$, volumen en decibelios (rango típico $[-60, 0]$), tempo en BPM (rango típico $[50, 200]$), duración en milisegundos (rango típico $[10^5, 5 \cdot 10^5]$). Aplicar directamente algoritmos basados en distancia euclídea sobre estos datos crudos produce un sesgo sistemático: las features con mayor rango numérico dominan el cálculo de distancias, independientemente de su importancia semántica para la tarea. La normalización tiene como objetivo eliminar esta asimetría numérica y permitir que todas las features contribuyan equitativamente a las medidas de similitud. Adicionalmente, los espacios de embeddings producidos por modelos de lenguaje requieren tratamientos específicos para operar como representaciones comparables entre textos de distinta longitud.
+
 \subsection{Estandarización Z-Score}
 \label{subsec:zscore-teoria}
 
-% CONCEPTO:    Transformación z = (x - μ) / σ. Propiedades: media 0, DE 1.
-%              Preserva la forma de la distribución (no acota rango).
-% USADO EN:    §5.4 eq. z-score. src/features/normalizer.py: normalize_features().
-%              Aplicado a las 13 features musicales → [17964, 13] float32.
-% CONTENIDO:   Fórmula, interpretación geométrica (centrar y escalar),
-%              supuestos (no requiere normalidad, pero outliers extremos
-%              comprimen el rango útil). Alternativas descartadas:
-%              min-max (sensible a outliers), robust scaler (basado en
-%              mediana/IQR). Justificación de z-score: interpretabilidad,
-%              amplio uso en clustering, sin acotamiento artificial.
+La estandarización \textit{z-score} transforma cada feature para que tenga media cero y desviación estándar unitaria:
+\begin{equation}
+    z_{ij} = \frac{x_{ij} - \mu_j}{\sigma_j}
+    \label{eq:zscore-teo}
+\end{equation}
+\noindent donde $x_{ij}$ es el valor original de la observación $i$ en la feature $j$, y $\mu_j$, $\sigma_j$ son la media y desviación estándar muestrales de la feature $j$ sobre el dataset. Tras la transformación, cada feature $j$ satisface $\bar{z}_j = 0$ y $s_{z_j} = 1$.
+
+La transformación tiene tres propiedades relevantes. Primero, es \textit{lineal}: preserva las relaciones de orden dentro de cada feature y las distancias relativas. Segundo, no acota el rango: valores extremos originales producen valores $z$ extremos, sin compresión artificial. Tercero, no asume normalidad de la distribución: la fórmula aplica para cualquier distribución con media y desviación finitas, aunque la interpretación probabilística de $z$ como cuantil solo es válida bajo distribución normal.
+
+La consecuencia fundamental de z-score para clustering basado en distancia euclídea es que iguala la contribución de todas las features. La distancia al cuadrado entre dos observaciones $i$ y $k$ sobre el espacio estandarizado es:
+\begin{equation*}
+    d(z_i, z_k)^2 = \sum_{j=1}^{d} (z_{ij} - z_{kj})^2 = \sum_{j=1}^{d} \frac{(x_{ij} - x_{kj})^2}{\sigma_j^2}
+\end{equation*}
+\noindent es decir, cada feature contribuye con la diferencia original dividida por su varianza, lo que homogeneiza la escala.
+
+Alternativas a z-score que se descartaron para el presente trabajo incluyen \textit{min-max scaling} ---mapeo lineal a un intervalo fijo, típicamente $[0, 1]$, sensible a outliers extremos que comprimen los valores intermedios--- y \textit{robust scaling} ---centrado en la mediana y escalado por IQR, más robusto pero con interpretación menos directa---. Z-score fue adoptado por su interpretabilidad (unidades comparables a desviaciones estándar de la población), su amplio uso en la literatura de clustering, y por la ausencia de outliers extremos en las features utilizadas tras el filtrado del dataset.
 
 \subsection{Normalización L2 en Espacios de Embeddings}
 \label{subsec:l2-teoria}
 
-% CONCEPTO:    Proyección a la hiperesfera unitaria: v̂ = v / ||v||₂.
-%              Relación entre similitud coseno y distancia euclidiana
-%              sobre vectores L2-normalizados.
-% USADO EN:    §5.3.3 re-normalización post-chunking.
-%              src/features/vectorizer.py: vectorize_lyrics() normaliza L2.
-%              Todos los embeddings semánticos viven en S^383.
-% CONTENIDO:   Fórmula de norma L2. Propiedad clave: si ||u|| = ||v|| = 1,
-%              entonces d²(u,v) = 2(1 - cos(u,v)). Esto hace que K-Means
-%              (que minimiza distancia euclidiana) sea equivalente a
-%              maximizar similitud coseno. Implicación: clustering con
-%              K-Means sobre embeddings L2-normalizados agrupa por
-%              similitud semántica.
+La normalización L2 proyecta cada vector a la hiperesfera unitaria dividiéndolo por su norma euclídea:
+\begin{equation}
+    \hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2}, \quad \text{con } \|\mathbf{v}\|_2 = \sqrt{\sum_{i=1}^{d} v_i^2}
+    \label{eq:l2-teo}
+\end{equation}
+
+Tras la transformación, $\|\hat{\mathbf{v}}\|_2 = 1$ y todos los vectores habitan la hiperesfera unitaria $S^{d-1} \subset \mathbb{R}^d$. La información de magnitud original se descarta y solo se preserva la dirección.
+
+Para vectores L2-normalizados, la similitud coseno se reduce al producto punto, lo que simplifica tanto el cálculo como la interpretación:
+\begin{equation*}
+    \text{cos}(\hat{\mathbf{u}}, \hat{\mathbf{v}}) = \frac{\hat{\mathbf{u}} \cdot \hat{\mathbf{v}}}{\|\hat{\mathbf{u}}\| \|\hat{\mathbf{v}}\|} = \hat{\mathbf{u}} \cdot \hat{\mathbf{v}}
+\end{equation*}
+
+Una propiedad adicional que conecta ambas métricas sobre vectores L2-normalizados es:
+\begin{equation}
+    \|\hat{\mathbf{u}} - \hat{\mathbf{v}}\|_2^2 = 2(1 - \hat{\mathbf{u}} \cdot \hat{\mathbf{v}}) = 2(1 - \text{cos}(\hat{\mathbf{u}}, \hat{\mathbf{v}}))
+    \label{eq:euclidea-coseno-l2}
+\end{equation}
+
+Esto implica que, para vectores en la hiperesfera unitaria, la distancia euclídea es una función monótona decreciente de la similitud coseno: ordenar vectores por distancia euclídea es equivalente a ordenarlos por similitud coseno. Como consecuencia, el clustering con K-Means ---que minimiza distancia euclídea--- aplicado a embeddings L2-normalizados equivale aproximadamente a agrupar por similitud coseno, lo que lo hace coherente con el objetivo de entrenamiento de modelos como E5.
+
+En el presente trabajo, los embeddings semánticos se L2-normalizan en dos momentos: una vez al salir del modelo E5 (como es estándar en la familia de modelos), y una segunda vez después del \textit{pooling} por promedio cuando se ha aplicado chunking a letras largas. Este segundo paso es necesario porque el promedio de vectores unitarios no preserva la norma unitaria: si dos embeddings de chunk no apuntan exactamente en la misma dirección, su promedio tiene norma menor que uno. La re-normalización asegura que todas las canciones ---con y sin chunking--- produzcan vectores comparables sobre la misma hiperesfera.
 
 \subsection{Variables Categóricas en Espacios Continuos}
 \label{subsec:categoricas-continuas}
 
-% CONCEPTO:    Tratamiento de variables categóricas en espacios continuos.
-%              key (0-11, cíclica): encoding circular sin/cos.
-%              mode (0/1, binaria): z-score directo (válido).
-% USADO EN:    §5.4.1 Codificación circular de la tonalidad.
-%              src/features/normalizer.py: circular_encode_key() + z-score.
-% CONTENIDO:   Naturaleza cíclica de key (Do y Si son adyacentes, pero
-%              0 y 11 son numéricamente distantes). Encoding cíclico
-%              (sin(2πk/12), cos(2πk/12)) IMPLEMENTADO en §5.4.1.
-%              Reemplaza 1 columna por 2 → 12 cols CSV → 13 features.
-%              One-hot descartado: agrega 12+ dimensiones a espacio 13D.
-%              mode como binaria: z-score es transformación lineal válida.
+Aplicar algoritmos basados en distancia euclídea sobre variables categóricas requiere previamente codificarlas como vectores numéricos continuos. La elección de codificación afecta las distancias que el algoritmo calculará y, por lo tanto, los clusters que producirá. Dos variables categóricas del dataset ---\textit{key} y \textit{mode}--- ilustran casos distintos que requieren tratamientos diferentes.
+
+\textbf{Variables binarias.} \textit{mode} toma valores en $\{0, 1\}$ (modo menor o mayor). La aplicación directa de z-score sobre una variable binaria produce una transformación lineal que mapea los dos valores a puntos equidistantes del cero (por ejemplo, $\{-0{,}85, +1{,}18\}$ si la proporción de mayores es $58\%$). Esta transformación es matemáticamente válida: preserva la distancia relativa entre las dos categorías, escala apropiadamente para contribuir con varianza unitaria al cálculo de distancia, y no introduce ambigüedades ordinales. No requiere tratamiento especial.
+
+\textbf{Variables categóricas cíclicas.} \textit{key} toma valores enteros en $[0, 11]$ que representan tonalidades del círculo cromático (Do = 0, Do\# = 1, \ldots, Si = 11). La codificación numérica directa es problemática porque introduce relaciones de magnitud espurias: Do (0) queda numéricamente a distancia 11 de Si (11) cuando, musicalmente, ambas son tonalidades adyacentes en el círculo de quintas. Aplicar z-score a esta codificación preservaría la relación lineal errónea.
+
+La solución adoptada es la \textit{codificación circular} mediante funciones trigonométricas, que mapea cada valor categórico $k$ a un punto en el círculo unitario:
+\begin{equation}
+    \phi(k) = \left( \sin\!\left(\frac{2\pi k}{12}\right),\; \cos\!\left(\frac{2\pi k}{12}\right) \right)
+    \label{eq:circular-teo}
+\end{equation}
+
+Esta codificación produce dos propiedades deseables. Primero, todas las tonalidades quedan a distancia euclídea constante entre cualquier par adyacente en el círculo cromático, incluyendo el par Do-Si que originalmente aparecía distante. Segundo, las distancias entre tonalidades no adyacentes reflejan la distancia real en el círculo, con el máximo ($2$ unidades, diámetro del círculo) alcanzado entre tonalidades opuestas (diferencia de 6 semitonos).
+
+El costo de la codificación circular es que reemplaza una única columna por dos, incrementando la dimensionalidad del espacio musical de 12 a 13 features. Esta dimensión adicional es aceptable: el espacio musical resultante sigue siendo de baja dimensionalidad, y el beneficio de preservar la topología circular justifica ampliamente el costo.
+
+Se consideró y descartó la alternativa \textit{one-hot encoding}, que representa cada tonalidad como un vector binario de 12 dimensiones con un único 1. Esta codificación, aunque elimina las relaciones de magnitud, iguala la distancia entre cualquier par de tonalidades ---incluyendo pares adyacentes del círculo cromático---, destruyendo la estructura musical que motivó la representación. Adicionalmente, agregaría 12 dimensiones al espacio musical de 13 existentes, desbalanceando significativamente su composición y diluyendo la información de las demás features.
 
 % ==========================================================================
 % SECCIÓN 4.5 — Análisis de Clustering
@@ -323,139 +334,193 @@ Finalmente, cabe señalar que en noviembre de 2024 Spotify restringió el acceso
 %              → código pendiente en src/clustering/ (Etapa 4).
 % INVESTIGACIÓN: 04_clustering_algoritmos.md (25 fuentes)
 
+El clustering es el proceso de agrupar un conjunto de objetos en categorías ---denominadas \textit{clusters}--- tales que los objetos dentro de un mismo cluster sean más similares entre sí que a los de otros clusters. A diferencia de la clasificación, el clustering es una tarea \textit{no supervisada}: no se dispone de etiquetas que definan los grupos de antemano, y el algoritmo debe descubrirlos a partir de la estructura interna de los datos. La sección presenta los componentes formales del pipeline de clustering utilizado en este trabajo: verificación de estructura previa a la aplicación de algoritmos, los tres algoritmos candidatos evaluados, las métricas de calidad empleadas, las consideraciones específicas de alta dimensionalidad, y el procedimiento de refinamiento post-clustering.
+
+La selección de algoritmos parte de reconocer que cada familia opera bajo supuestos distintos sobre la geometría de los datos: los métodos particionales como K-Means asumen clusters convexos e isotrópicos; los jerárquicos como el método de Ward construyen agrupaciones progresivamente sin requerir un $K$ predeterminado; los basados en densidad como HDBSCAN identifican regiones densas sin restricciones de forma y detectan \textit{outliers} de manera natural. Como la geometría real de los espacios de 13 y 384 dimensiones no puede conocerse a priori, este trabajo evalúa un representante de cada familia ---K-Means++, Ward y HDBSCAN--- en lugar de comprometerse con uno solo. No se incluyen enfoques de \textit{deep clustering} ---que entrenan redes neuronales específicas para la tarea de agrupamiento--- porque su complejidad computacional y la dificultad de interpretación de sus resultados exceden el alcance del presente trabajo.
+
 \subsection{Tendencia al Agrupamiento: Estadístico de Hopkins}
 \label{subsec:hopkins}
 
-% CONCEPTO:    Test estadístico para verificar si los datos tienen
-%              estructura de clusters antes de aplicar algoritmos.
-% USADO EN:    §5.6.1 Evaluación de Tendencia al Agrupamiento.
-%              → se aplicará sobre ambos espacios (384D y 12D) por separado.
-%              src/config.py: HOPKINS_ITERATIONS=30, HOPKINS_SAMPLE_SIZE=100.
-% REFERENCIAS: (necesita entrada bib — Lawson & Jurs 1990 o Banerjee & Dave 2004)
-% CONTENIDO:   Definición: H = Σuᵢ / (Σuᵢ + Σwᵢ) donde u = distancias
-%              de puntos uniformes al vecino más cercano, w = distancias
-%              de puntos reales al vecino más cercano. H > 0.5 indica
-%              estructura. Interpretación: H~0.5 = aleatorio, H~0.7 =
-%              tendencia moderada, H>0.75 = tendencia alta. Bootstrap
-%              con N iteraciones para intervalo de confianza.
-%              Sensibilidad a dimensionalidad (curse of dimensionality).
+Antes de aplicar un algoritmo de clustering es razonable verificar que los datos efectivamente contienen estructura de agrupamiento, es decir, que existen regiones de densidad variable en el espacio de features. Si los datos estuvieran distribuidos de forma uniforme en el espacio, cualquier partición producida por un algoritmo de clustering sería un artefacto del algoritmo, no una estructura genuina.
+
+El estadístico de Hopkins \parencite{lawson_1990_hopkins} cuantifica la \textit{tendencia al agrupamiento} comparando dos conjuntos de distancias: las distancias desde puntos reales a su vecino más cercano, y las distancias desde puntos uniformes ---generados artificialmente--- a su vecino más cercano en los datos reales.
+
+Formalmente, dado un conjunto de datos $\mathcal{X} \subset \mathbb{R}^d$ con $n$ observaciones, se extraen dos muestras de tamaño $m \ll n$: $\mathcal{X}_s \subset \mathcal{X}$ (muestra de datos reales) y $\mathcal{Y}$ (puntos generados uniformemente en la misma región del espacio). Se definen:
+\begin{equation*}
+    u_i = \min_{\mathbf{y} \in \mathcal{X}, \mathbf{y} \neq \mathbf{y}_i} \|\mathbf{y}_i - \mathbf{y}\|, \qquad w_i = \min_{\mathbf{y} \in \mathcal{X}, \mathbf{y} \neq \mathbf{x}_i} \|\mathbf{x}_i - \mathbf{y}\|
+\end{equation*}
+\noindent donde $\mathbf{y}_i \in \mathcal{Y}$ es un punto uniforme y $\mathbf{x}_i \in \mathcal{X}_s$ es un punto real. El estadístico de Hopkins es:
+\begin{equation}
+    H = \frac{\sum_{i=1}^{m} u_i}{\sum_{i=1}^{m} u_i + \sum_{i=1}^{m} w_i}
+    \label{eq:hopkins}
+\end{equation}
+
+La interpretación del valor es la siguiente. Si los datos están distribuidos uniformemente, los puntos uniformes y los reales tienen distancias comparables a sus vecinos, y $H \approx 0{,}5$. Si los datos están agrupados, los puntos reales tienen vecinos cercanos (distancias $w_i$ pequeñas) mientras que los puntos uniformes tienden a caer en regiones vacías (distancias $u_i$ grandes), lo que produce $H \to 1$. Si los datos están distribuidos de forma repulsiva (por ejemplo, en una cuadrícula regular), $H \to 0$. Valores $H > 0{,}7$ se interpretan convencionalmente como tendencia significativa al agrupamiento.
+
+La construcción del conjunto uniforme $\mathcal{Y}$ requiere cuidado. Para datos en un hipercubo acotado, $\mathcal{Y}$ se muestrea uniformemente dentro del rango observado en cada dimensión. Para datos L2-normalizados ---que viven en la hiperesfera unitaria---, la distribución de referencia correcta es uniforme sobre la hiperesfera, generada mediante normalización L2 de vectores gaussianos multivariados estándar. Usar uniforme en el hipercubo para vectores de hiperesfera inflaría artificialmente $H$, produciendo conclusiones espurias de estructura.
+
+Dado que $H$ se calcula sobre una muestra aleatoria, conviene construir intervalos de confianza mediante bootstrap: el procedimiento se repite $N$ veces con muestras distintas y se reportan la media y los percentiles empíricos de la distribución resultante.
+
+Una limitación conocida es la sensibilidad a la dimensionalidad: en alta dimensionalidad las distancias se concentran, lo que puede afectar la capacidad discriminativa de Hopkins. Este punto se desarrolla en detalle en la Sección~\ref{subsec:curse-dimensionality}.
 
 \subsection{K-Means y K-Means++}
 \label{subsec:kmeans}
 
-% CONCEPTO:    Algoritmo de partición por centroides. Inicialización
-%              inteligente. Convergencia y óptimos locales.
-% USADO EN:    §5.6.2 Selección de Algoritmo — candidato principal.
-%              src/config.py: CLUSTERING_K_RANGE = [5, 6, 7, 8].
-% REFERENCIAS: arthur_2007_kmeans_plus_plus
-% CONTENIDO:   Función objetivo: minimizar WCSS (within-cluster sum of
-%              squares). Algoritmo de Lloyd: asignación → actualización →
-%              repetir. Convergencia garantizada pero a óptimo local.
-%              K-Means++: inicialización proporcional a D² — reduce
-%              varianza entre ejecuciones y mejora WCSS final.
-%              Complejidad O(nkdi), donde n=muestras, k=clusters,
-%              d=dimensiones, i=iteraciones. Supuesto implícito:
-%              clusters convexos e isotrópicos. Sensibilidad a outliers.
+K-Means es el algoritmo de clustering por partición más ampliamente usado. Dado un dataset $\mathcal{X} = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\} \subset \mathbb{R}^d$ y un número objetivo de clusters $K$, el algoritmo busca una partición $\{C_1, \ldots, C_K\}$ que minimice la \textit{suma de cuadrados intra-cluster} (WCSS, \textit{Within-Cluster Sum of Squares}):
+\begin{equation}
+    \text{WCSS} = \sum_{k=1}^{K} \sum_{\mathbf{x} \in C_k} \|\mathbf{x} - \boldsymbol{\mu}_k\|^2
+    \label{eq:wcss}
+\end{equation}
+\noindent donde $\boldsymbol{\mu}_k$ es el centroide (media) del cluster $C_k$. Como el problema combinatorio subyacente es NP-hard, K-Means se resuelve mediante el algoritmo iterativo de Lloyd, que alterna dos pasos hasta convergencia:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Asignación.} Cada punto se asigna al cluster cuyo centroide más le cerca está:
+    \begin{equation*}
+        C_k = \{\mathbf{x} \in \mathcal{X} : \|\mathbf{x} - \boldsymbol{\mu}_k\| \leq \|\mathbf{x} - \boldsymbol{\mu}_j\| \text{ para todo } j\}
+    \end{equation*}
+    \item \textbf{Actualización.} Cada centroide se reposiciona al promedio de los puntos asignados: $\boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x} \in C_k} \mathbf{x}$.
+\end{enumerate}
+
+El algoritmo converge en un número finito de iteraciones porque WCSS decrece monótonamente en cada paso, pero la convergencia es a un óptimo local: distintas inicializaciones producen distintas particiones. La complejidad temporal es $O(nkdi)$ por iteración, donde $i$ es el número total de iteraciones (típicamente decenas para datasets medianos).
+
+La inicialización aleatoria uniforme de los centroides es sensible: puede producir particiones de baja calidad si dos centroides iniciales quedan cerca, dejando regiones del espacio sin representación. K-Means++ \parencite{arthur_2007_kmeans_plus_plus} aborda este problema mediante una inicialización ponderada. El primer centroide se selecciona uniformemente del dataset; los siguientes se seleccionan con probabilidad proporcional a la distancia al cuadrado al centroide más cercano ya elegido:
+\begin{equation*}
+    P(\mathbf{x}) \propto D(\mathbf{x})^2, \quad D(\mathbf{x}) = \min_k \|\mathbf{x} - \boldsymbol{\mu}_k\|
+\end{equation*}
+
+Esta inicialización garantiza una cota teórica sobre el WCSS esperado del resultado ($8(\ln K + 2)$ veces el óptimo global) y reduce la varianza entre ejecuciones con distintas semillas.
+
+K-Means tiene tres supuestos implícitos que limitan su aplicabilidad. Primero, asume \textit{clusters convexos e isotrópicos} (de forma aproximadamente esférica); clusters alargados o no convexos se parten en múltiples clusters espurios. Segundo, es \textit{sensible a outliers}, que pueden atraer centroides y distorsionar las asignaciones. Tercero, requiere \textit{especificar $K$ a priori}; en la práctica se prueban varios valores y se seleccionan mediante métricas de calidad. En el presente trabajo se evalúa $K \in \{5, 6, 7, 8\}$, con selección post-hoc mediante triangulación de Silhouette macro y Davies-Bouldin.
 
 \subsection{Clustering Jerárquico: Método de Ward}
 \label{subsec:ward}
 
-% CONCEPTO:    Aglomeración bottom-up con criterio de mínima varianza.
-%              Dendrograma y selección de corte.
-% USADO EN:    §5.6.2 — alternativa a K-Means, evaluada en mismos K.
-% REFERENCIAS: ward_1963_hierarchical, murtagh_2014_ward
-% CONTENIDO:   Criterio de Ward: merge que minimiza incremento de WCSS
-%              total. Equivalente a minimizar la varianza intra-cluster.
-%              IMPORTANTE: dos implementaciones distintas (Ward1 vs Ward2,
-%              Murtagh & Legendre 2014) — scipy usa Ward2 (Lance-Williams).
-%              Dendrograma como representación jerárquica completa.
-%              Ventaja: no requiere K a priori (se elige post-hoc).
-%              Desventaja: O(n²) en espacio, greedy (merge irreversible).
+El clustering jerárquico aglomerativo construye una jerarquía completa de agrupamientos desde abajo hacia arriba. Comienza con cada punto como un cluster individual ($n$ clusters de tamaño 1) y, en cada paso, fusiona los dos clusters más cercanos según un \textit{criterio de enlace} (\textit{linkage}), hasta reducir a un único cluster. El resultado es un árbol binario (\textit{dendrograma}) cuyas hojas son los puntos individuales y cuyos nodos internos representan fusiones.
+
+Existen varios criterios de enlace ---\textit{single} (mínima distancia entre pares), \textit{complete} (máxima), \textit{average} (promedio), \textit{centroid}--- pero el método de Ward \parencite{ward_1963_hierarchical} es particularmente relevante por optimizar un objetivo explícito compatible con K-Means: minimizar el incremento en la suma de cuadrados intra-cluster al fusionar dos clusters. Para clusters $C_a$ y $C_b$ con centroides $\boldsymbol{\mu}_a$ y $\boldsymbol{\mu}_b$ y tamaños $n_a$ y $n_b$, el incremento de WCSS al fusionarlos es:
+\begin{equation}
+    \Delta_{\text{Ward}}(a, b) = \frac{n_a n_b}{n_a + n_b} \|\boldsymbol{\mu}_a - \boldsymbol{\mu}_b\|^2
+    \label{eq:ward}
+\end{equation}
+
+Ward fusiona en cada paso el par que minimiza $\Delta_{\text{Ward}}$, produciendo una secuencia de agrupamientos que minimiza incrementalmente la varianza total intra-cluster.
+
+\textcite{murtagh_2014_ward} documentan que existen dos implementaciones históricas distintas de Ward, denominadas Ward.D y Ward.D2. Ambas se remontan al trabajo original pero difieren en si aplican la fórmula de Lance-Williams directamente sobre distancias o sobre distancias al cuadrado. Implementaciones modernas como scipy y scikit-learn adoptan Ward.D2 (la fórmula original correcta de Ward 1963 según Murtagh \& Legendre). La discrepancia es relevante al comparar resultados entre implementaciones, pero no afecta el presente trabajo dado el uso consistente de scipy.
+
+Las ventajas del clustering jerárquico incluyen que no requiere especificar $K$ a priori ---el dendrograma completo se genera una vez, y $K$ se elige cortándolo a distinta altura--- y que el resultado es determinístico (sin componente aleatorio). Las desventajas son el costo computacional (tiempo $O(n^2 \log n)$ y memoria $O(n^2)$, lo que limita su aplicabilidad a datasets con $n$ del orden de $10^4$-$10^5$) y el carácter \textit{greedy} de las fusiones: una fusión realizada no puede deshacerse, aunque posteriormente resulte subóptima.
 
 \subsection{Clustering Basado en Densidad: HDBSCAN}
 \label{subsec:hdbscan}
 
-% CONCEPTO:    Extensión jerárquica de DBSCAN. No requiere K ni epsilon
-%              fijos. Detecta clusters de forma y densidad arbitraria.
-% USADO EN:    §5.6.2 — tercer algoritmo candidato.
-%              src/config.py: DBSCAN_EPS_RANGE (para comparación).
-% REFERENCIAS: campello_2013_hdbscan
-% CONTENIDO:   DBSCAN: core points, border points, noise. Eps y MinPts.
-%              Limitación: un solo nivel de densidad.
-%              HDBSCAN: jerarquía de densidades, extracción de clusters
-%              estables via excess of mass. Parámetro min_cluster_size.
-%              Ventaja clave: descarta noise points (no fuerza asignación).
-%              Desventaja: puede descartar muchos puntos como ruido en
-%              datos de alta dimensionalidad.
+Los algoritmos de partición (K-Means) y jerárquico (Ward) imponen estructura convexa a los clusters y fuerzan a cada punto a pertenecer a algún grupo. Estos supuestos no son apropiados para todos los datasets: los clusters pueden tener formas arbitrarias, densidades variables, y pueden existir puntos genuinamente atípicos que no pertenezcan a ningún grupo bien definido. Los algoritmos basados en densidad ---DBSCAN y sus extensiones--- relajan estos supuestos.
+
+DBSCAN (\textit{Density-Based Spatial Clustering of Applications with Noise}) define clusters como regiones conexas de alta densidad separadas por regiones de baja densidad. Requiere dos parámetros: $\epsilon$ (radio de vecindad) y MinPts (número mínimo de vecinos para ser considerado \textit{core point}). Los clusters se forman como componentes conexos de core points, y los puntos que no pertenecen a ningún cluster denso se etiquetan como \textit{ruido}. La limitación crítica de DBSCAN es que un único $\epsilon$ no puede capturar clusters de densidades heterogéneas.
+
+HDBSCAN (\textit{Hierarchical DBSCAN}) \parencite{campello_2013_hdbscan} supera esta limitación eliminando el parámetro $\epsilon$ y construyendo una jerarquía de clusters sobre todas las densidades posibles. El procedimiento consta de cinco pasos:
+
+\begin{enumerate}[leftmargin=2em]
+    \item Calcular la \textit{distancia de core} de cada punto (distancia al $k$-ésimo vecino más cercano, donde $k = \text{MinPts}$).
+    \item Calcular la \textit{distancia mutua de alcanzabilidad} entre pares: $d_{\text{mreach}}(\mathbf{p}, \mathbf{q}) = \max(\text{core}_k(\mathbf{p}), \text{core}_k(\mathbf{q}), d(\mathbf{p}, \mathbf{q}))$.
+    \item Construir el árbol generador mínimo (MST) sobre el grafo completo con estas distancias.
+    \item Convertir el MST en una jerarquía de clusters cortándolo sucesivamente por las aristas de mayor peso.
+    \item Extraer los clusters más \textit{estables} maximizando el \textit{excess of mass}: prefieren los subárboles que persisten en la jerarquía sobre rangos amplios de densidad.
+\end{enumerate}
+
+El único parámetro efectivo es \texttt{min\_cluster\_size}, que determina el tamaño mínimo de cluster a considerar. Los puntos que no pertenecen a ningún cluster estable se etiquetan como ruido (label $-1$), a diferencia de K-Means y Ward que fuerzan asignación a todos los puntos.
+
+Las ventajas de HDBSCAN incluyen detectar clusters de formas y densidades arbitrarias, identificar puntos atípicos explícitamente como ruido, y descubrir automáticamente el número de clusters sin requerirlo como parámetro. La desventaja principal es la sensibilidad a la maldición de la dimensionalidad: en espacios de alta dimensión la distancia mutua de alcanzabilidad se vuelve uniforme y HDBSCAN tiende a etiquetar todos los puntos como ruido. En el presente trabajo, HDBSCAN fracasa completamente sobre el espacio semántico de 384 dimensiones por esta razón, pero funciona excelentemente tras reducción dimensional con UMAP.
 
 \subsection{Evaluación Interna de Clustering}
 \label{subsec:metricas-clustering}
 
-% CONCEPTO:    Métricas que evalúan calidad de clusters sin ground truth
-%              externo. Silhouette, Davies-Bouldin, Calinski-Harabasz.
-% USADO EN:    §5.6.2 — selección del mejor algoritmo/K.
-%              src/config.py: OBJECTIVE_WEIGHTS (silhouette: 0.30, etc.)
-% REFERENCIAS: rousseeuw_1987_silhouettes, chicco_2025_silhouette_db
-% CONTENIDO:   Silhouette: s(i) = (b(i) - a(i)) / max(a(i), b(i)).
-%              Rango [-1, 1], interpretación. Promedio sobre todos los
-%              puntos. Davies-Bouldin: ratio de dispersión intra vs
-%              separación inter. Menor = mejor.
-%              Chicco et al. (2025): Silhouette + DB son más informativos
-%              que Calinski-Harabasz para clusters convexos.
-%              Limitación: todas asumen clusters convexos (sesgo contra
-%              clusters de forma arbitraria).
+La evaluación de resultados de clustering cuando no se dispone de ground truth externo requiere métricas que midan propiedades intrínsecas de la partición obtenida: cohesión intra-cluster (los puntos de un mismo cluster están cerca entre sí) y separación inter-cluster (los clusters están alejados entre sí). Las tres métricas más usadas son Silhouette, Davies-Bouldin y Calinski-Harabasz.
+
+\textbf{Silhouette.} Propuesta por \textcite{rousseeuw_1987_silhouettes}, es la métrica de calidad interna más usada. Para cada punto $\mathbf{x}_i \in C_k$ se definen:
+\begin{align*}
+    a(i) &= \frac{1}{|C_k| - 1} \sum_{\mathbf{x}_j \in C_k, j \neq i} d(\mathbf{x}_i, \mathbf{x}_j) && \text{(distancia media intra-cluster)} \\
+    b(i) &= \min_{l \neq k} \frac{1}{|C_l|} \sum_{\mathbf{x}_j \in C_l} d(\mathbf{x}_i, \mathbf{x}_j) && \text{(distancia al cluster más cercano)}
+\end{align*}
+
+El coeficiente de Silhouette del punto $i$ es:
+\begin{equation}
+    s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))} \in [-1, 1]
+    \label{eq:silhouette}
+\end{equation}
+
+$s(i) \to 1$ indica que el punto está bien asignado ($a \ll b$); $s(i) \to 0$ indica que está en la frontera entre dos clusters; $s(i) < 0$ indica asignación incorrecta (el punto está más cerca de otro cluster que del propio).
+
+La métrica global se obtiene agregando los valores por punto. Dos variantes son posibles: \textit{micro} (promedio sobre todos los puntos, implementación por defecto de scikit-learn) y \textit{macro} (promedio por cluster, luego sobre clusters). La micro es sensible a clusters desbalanceados: un cluster mayoritario con Silhouette alto puede dominar el promedio. La macro trata a cada cluster con peso igual y es preferible cuando los tamaños son desiguales. En el presente trabajo se adopta la variante macro como métrica primaria, siguiendo recomendaciones de la literatura reciente \parencite{chicco_2025_silhouette_db}.
+
+\textbf{Davies-Bouldin.} Mide el ratio promedio entre dispersión intra-cluster y separación inter-cluster. Para cada par de clusters $C_k$ y $C_l$:
+\begin{equation*}
+    R_{kl} = \frac{S_k + S_l}{d(\boldsymbol{\mu}_k, \boldsymbol{\mu}_l)}
+\end{equation*}
+\noindent donde $S_k$ es la dispersión intra-cluster (típicamente la distancia media al centroide) y $d(\boldsymbol{\mu}_k, \boldsymbol{\mu}_l)$ es la distancia entre centroides. El índice de Davies-Bouldin es:
+\begin{equation}
+    \text{DB} = \frac{1}{K} \sum_{k=1}^{K} \max_{l \neq k} R_{kl}
+    \label{eq:davies-bouldin}
+\end{equation}
+
+Valores menores indican mejor particionamiento (clusters compactos y bien separados).
+
+\textbf{Calinski-Harabasz.} Es la razón entre dispersión inter-cluster e intra-cluster, ambas ponderadas apropiadamente. Valores mayores indican mejor particionamiento.
+
+El estudio empírico de \textcite{chicco_2025_silhouette_db} sobre diez datasets reales documenta que Silhouette y Davies-Bouldin exhiben 100\% de consistencia con el índice de Rand ajustado ---métrica externa cuando hay ground truth---, mientras que Calinski-Harabasz alcanza solo 70\%. Esto justifica la adopción de Silhouette macro + Davies-Bouldin como métricas primarias, con Calinski-Harabasz como referencia complementaria.
+
+Una limitación compartida por las tres métricas es el sesgo a favor de clusters convexos y de densidad similar. Para particiones producidas por HDBSCAN sobre datos con clusters de forma arbitraria, estas métricas pueden subestimar la calidad.
 
 \subsection{Maldición de la Dimensionalidad}
 \label{subsec:curse-dimensionality}
 
-% CONCEPTO:    Degradación de métricas de distancia en alta dimensionalidad.
-%              Concentración de distancias. Implicaciones para clustering.
-% USADO EN:    Justificación de por qué 384D es un desafío para clustering.
-%              §5.6.1 — Hopkins puede verse afectado en alta dimensionalidad.
-%              Justificación de evaluación separada (384D vs 12D).
-% REFERENCIAS: aggarwal_2001_dimensionality
-% CONTENIDO:   Fenómeno: en alta dimensionalidad, la diferencia relativa
-%              entre la distancia al vecino más cercano y al más lejano
-%              tiende a 0. Fórmula de Aggarwal et al. para distancias Lp.
-%              Implicación: K-Means puede degradar porque las asignaciones
-%              a centroides se vuelven menos discriminativas.
-%              Mitigación parcial: L2-normalización confina los puntos
-%              a una hiperesfera, lo que preserva la discriminabilidad
-%              angular (similitud coseno).
+La \textit{maldición de la dimensionalidad} denota un conjunto de fenómenos contraintuitivos que ocurren al operar con datos de alta dimensionalidad y que afectan especialmente a los algoritmos basados en distancia. \textcite{aggarwal_2001_dimensionality} demuestran formalmente que, bajo supuestos generales sobre la distribución de los datos, la razón entre la distancia máxima y mínima al vecino más cercano tiende a 1 cuando la dimensionalidad tiende a infinito:
+\begin{equation*}
+    \lim_{d \to \infty} \frac{\max_i \|\mathbf{x}_i - \mathbf{q}\| - \min_i \|\mathbf{x}_i - \mathbf{q}\|}{\min_i \|\mathbf{x}_i - \mathbf{q}\|} \to 0
+\end{equation*}
+
+Dicho de otro modo, en alta dimensionalidad todos los puntos están aproximadamente a la misma distancia entre sí, y la noción intuitiva de vecindad pierde capacidad discriminativa. Este fenómeno afecta directamente a los algoritmos de clustering:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{K-Means}: los centroides producidos en alta dimensionalidad discriminan menos entre sí, porque las distancias a puntos arbitrarios son similares. Las asignaciones se vuelven menos informativas y las métricas de calidad internas (Silhouette, Davies-Bouldin) se deterioran.
+    \item \textbf{HDBSCAN}: la distancia mutua de alcanzabilidad, esencial para definir densidad, se aplana. El algoritmo no puede distinguir zonas densas y etiqueta todo como ruido. Este fenómeno es empíricamente observable en el presente trabajo: HDBSCAN clasifica el 100\% de los puntos como ruido en el espacio semántico de 384 dimensiones para $\text{MinPts} \geq 100$.
+    \item \textbf{Hopkins}: aunque sigue detectando estructura, la separación entre los valores $u_i$ y $w_i$ se reduce, limitando la capacidad de distinguir datos agrupados de datos uniformes.
+\end{itemize}
+
+Existen varias estrategias de mitigación. La primera es la \textit{normalización L2} para proyectar los datos a la hiperesfera unitaria: al confinar los puntos a una superficie, se preserva la discriminabilidad angular (similitud coseno) aunque las distancias absolutas sigan concentrándose. La segunda es el uso de \textit{métricas robustas a alta dimensionalidad}, como la distancia coseno en lugar de la euclídea. La tercera es la \textit{reducción dimensional} mediante técnicas que preserven la estructura topológica de los datos, descrita en la subsección siguiente.
+
+Un hallazgo relevante del presente trabajo es que la proyección mediante UMAP desde 384 a 30 dimensiones produce un Hopkins \textit{mayor} al del espacio original. Si la alta dimensionalidad inflara artificialmente Hopkins, la proyección debería reducirlo; el resultado inverso indica que el Hopkins en 384 dimensiones es conservador, no artefacto.
 
 \subsection{Reducción Dimensional: UMAP}
 \label{subsec:umap}
 
-% CONCEPTO:    Reducción no lineal de dimensionalidad para visualización
-%              y (opcionalmente) para mejorar clustering.
-% USADO EN:    Visualización de clusters en 2D (Etapa 4).
-%              Posible reducción pre-clustering si Hopkins es bajo en 384D.
-% REFERENCIAS: mcinnes_2018_umap, allaoui_2020_umap_clustering
-% CONTENIDO:   UMAP: construcción de grafo de vecinos en alta dimensión,
-%              optimización de layout en baja dimensión (cross-entropy).
-%              Hiperparámetros: n_neighbors (local vs global), min_dist
-%              (compacidad), n_components (2D para visualización, >2 para
-%              clustering). Ventaja sobre t-SNE: preserva mejor estructura
-%              global, determinístico con seed, más rápido.
-%              Allaoui et al. (2020): UMAP como preprocesamiento mejora
-%              clustering en datos de alta dimensionalidad.
+La reducción dimensional busca producir una representación en un espacio de menor dimensionalidad que preserve la estructura relevante de los datos originales. En el contexto de clustering, la estructura relevante es la vecindad: dos puntos cercanos en alta dimensión deben permanecer cercanos en baja dimensión, y dos puntos lejanos deben permanecer lejanos.
+
+UMAP (\textit{Uniform Manifold Approximation and Projection}) \parencite{mcinnes_2018_umap} es un algoritmo de reducción dimensional no lineal basado en la teoría de variedades topológicas difusas. El procedimiento consta de dos fases. En la primera fase se construye una representación topológica difusa del dataset en alta dimensión: para cada punto, se calcula el conjunto de sus $k$ vecinos más cercanos y se asignan pesos exponenciales a las conexiones, con un ajuste local que compensa las diferencias de densidad entre regiones. El resultado es un grafo ponderado sobre los puntos originales. En la segunda fase, se inicializa un conjunto de puntos en el espacio de baja dimensión y se optimiza su posición mediante descenso por gradiente estocástico, minimizando una función de pérdida basada en entropía cruzada entre la representación topológica de alta y baja dimensión.
+
+UMAP tiene tres hiperparámetros principales: \textit{n\_neighbors} (tamaño de la vecindad local, controla el balance entre estructura local y global, típicamente 5-50), \textit{min\_dist} (distancia mínima entre puntos en el espacio reducido, controla la compacidad de los clusters, típicamente 0{,}0-0{,}5) y \textit{n\_components} (dimensionalidad del espacio objetivo).
+
+\textcite{allaoui_2020_umap_clustering} documentan que UMAP como preprocesamiento para clustering produce mejoras significativas en datasets de alta dimensionalidad: hasta 60\% en métricas de calidad respecto a aplicar clustering directamente. El mecanismo detrás de esta mejora es que UMAP concentra la estructura latente en menos dimensiones, lo que mitiga la maldición de la dimensionalidad sobre los algoritmos subsiguientes.
+
+UMAP tiene dos usos diferenciados en el presente trabajo. El primero es \textit{visualización}: proyección a 2 dimensiones para producir scatter plots interpretables visualmente, donde los colores se asignan a clusters o a etiquetas de género. El segundo es \textit{preprocesamiento de clustering}: proyección a 30 dimensiones antes de aplicar HDBSCAN sobre el espacio semántico, para permitir que el algoritmo funcione. Esta distinción es importante porque los parámetros óptimos difieren: para visualización conviene un \textit{min\_dist} mayor (clusters más distinguibles visualmente); para preprocesamiento de clustering conviene un \textit{min\_dist} pequeño (clusters más compactos para que HDBSCAN los detecte).
 
 \subsection{Purificación de Clusters}
 \label{subsec:purificacion-teoria}
 
-% CONCEPTO:    Refinamiento post-clustering: eliminación o reasignación
-%              de puntos mal asignados para mejorar cohesión.
-% USADO EN:    §5.6.3 Purificación de Clusters (Etapa 4).
-%              scripts/cluster_purification.py (referencia v1).
-% REFERENCIAS: dinh_2021_clustering_refinement
-% CONTENIDO:   Motivación: los algoritmos de clustering cometen errores de
-%              asignación, especialmente en zonas fronterizas entre clusters.
-%              Estrategias: umbral de silhouette por punto (eliminar puntos
-%              con s(i) < umbral), reasignación iterativa (re-asignar al
-%              cluster más cercano si mejora silhouette global).
-%              Hallazgo de investigación: NO existe framework formal para
-%              purificación — es una contribución original de este trabajo.
-%              Métricas pre/post purificación para cuantificar mejora.
+Los algoritmos de clustering cometen errores de asignación, especialmente en las zonas fronterizas entre clusters donde los puntos están aproximadamente equidistantes de dos centroides. Estos errores degradan las métricas de calidad y reducen la utilidad práctica de los clusters resultantes. La \textit{purificación post-clustering} es el procedimiento de identificar y eliminar (o reasignar) los puntos mal asignados para mejorar la cohesión de los clusters.
+
+La revisión de la literatura revela que, aunque técnicas específicas de purificación se aplican en la práctica, \textbf{no existe un framework formal consolidado para este procedimiento} \parencite{dinh_2021_clustering_refinement}. Los enfoques reportados varían entre eliminación por umbral de Silhouette individual, eliminación por distancia al centroide, reasignación iterativa basada en densidad local, y combinaciones ad hoc. Esta ausencia de estandarización posiciona la formalización propuesta en este trabajo como una contribución metodológica.
+
+El procedimiento adoptado combina dos criterios complementarios, aplicados sobre cada cluster independientemente:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Silhouette negativo.} Puntos con $s(i) < 0$ están, por definición, más cerca de otro cluster que del propio. Son casos claros de asignación incorrecta y se marcan para eliminación.
+    \item \textbf{Distancia al centroide.} Puntos cuya distancia al centroide de su cluster excede la media más $2$ desviaciones estándar de las distancias del cluster se consideran \textit{outliers} internos. Estos puntos pueden tener Silhouette positivo (por estar más cerca de su propio cluster que de otros) pero desproporcionadamente lejos del núcleo del cluster, lo que degrada la compacidad.
+\end{enumerate}
+
+El conjunto final de puntos a eliminar es la unión de ambos criterios. Se impone adicionalmente un \textit{presupuesto máximo de remoción} del 15\%: si la unión excede este límite, se priorizan los puntos con Silhouette más negativo hasta agotar el presupuesto. Esto protege contra eliminaciones agresivas que destruirían el cluster original.
+
+Las métricas de calidad (Silhouette, Davies-Bouldin) se recalculan después de la purificación y se comparan con los valores pre-purificación para cuantificar la mejora. El procedimiento es exitoso si produce mejora en las métricas sin exceder el presupuesto de remoción.
+
+Un punto relevante es que la magnitud de la mejora que aporta la purificación depende del algoritmo base. K-Means, que fuerza asignación de todo punto al centroide más cercano, acumula errores en fronteras difusas y tiene amplio margen para beneficiarse de la purificación. HDBSCAN, que ya clasifica puntos ambiguos como ruido durante la ejecución, produce asignaciones más limpias desde el inicio y el margen de mejora de la purificación es estrecho. Ambos comportamientos son consistentes con los resultados empíricos reportados en el Capítulo~\ref{ch:resultados}.
 
 % ==========================================================================
 % SECCIÓN 4.6 — Representaciones Multimodales y Fusión
@@ -470,54 +535,65 @@ Finalmente, cabe señalar que en noviembre de 2024 Spotify restringió el acceso
 %              Etapa 5: fusión ponderada de scores semánticos y musicales.
 % INVESTIGACIÓN: 05_fusion_multimodal.md (18 fuentes)
 
+Las representaciones multimodales combinan información proveniente de modalidades heterogéneas ---texto, audio, imágenes, señales temporales--- en un sistema unificado. La hipótesis central es que cada modalidad captura aspectos complementarios del fenómeno modelado, y que su combinación produce representaciones más ricas que cualquiera de las modalidades por separado. En el contexto musical, la combinación canónica es audio (propiedades acústicas) con texto (letras), aunque existen trabajos que integran también imágenes (portadas), metadatos (género, año), y datos de comportamiento (playlists, reproducciones).
+
 \subsection{Taxonomía de Fusión Multimodal}
 \label{subsec:taxonomia-fusion}
 
-% CONCEPTO:    Fusión temprana (feature-level), intermedia, y tardía
-%              (decision-level). Trade-offs de cada estrategia.
-% USADO EN:    Justificación de la arquitectura: se usa fusión tardía
-%              (scores independientes por modalidad, combinados al final)
-%              porque las modalidades tienen dimensionalidades muy
-%              diferentes (384D vs 12D).
-% REFERENCIAS: baltrusaitis_2019_multimodal, liang_2024_foundations
-% CONTENIDO:   Fusión temprana: concatenar features → un solo modelo.
-%              Problema con 384D + 13D: las 384 dimensiones semánticas
-%              ahogarían las 13 musicales por mayoría numérica.
-%              Fusión tardía: modelos/scores independientes por modalidad,
-%              combinados al final. Permite ponderar contribución relativa.
-%              Fusión intermedia: representaciones compartidas aprendidas
-%              (contrastive learning, joint embeddings). Requiere
-%              entrenamiento end-to-end — fuera del alcance de este trabajo.
+\textcite{baltrusaitis_2019_multimodal} y \textcite{liang_2024_foundations} proponen taxonomías de fusión multimodal que se diferencian por el nivel del pipeline en el que se combinan las modalidades.
+
+\textbf{Fusión temprana (early fusion, feature-level).} Las representaciones de las distintas modalidades se concatenan en un único vector de features antes de aplicar cualquier modelo de similitud o clasificación. Matemáticamente, dados vectores $\mathbf{v}_1 \in \mathbb{R}^{d_1}$ y $\mathbf{v}_2 \in \mathbb{R}^{d_2}$ de dos modalidades, el vector fusionado es $\mathbf{v} = [\mathbf{v}_1; \mathbf{v}_2] \in \mathbb{R}^{d_1 + d_2}$. La ventaja es conceptual: un único modelo procesa toda la información. La desventaja crítica aparece cuando las modalidades tienen dimensionalidades muy distintas: la modalidad de mayor dimensionalidad domina numéricamente en las métricas de distancia, diluyendo la señal de la modalidad pequeña. En el caso del presente trabajo, el vector semántico tiene 384 dimensiones y el musical 13; la concatenación directa produce un espacio donde las 384 dimensiones semánticas dominan al 97\% la geometría, aniquilando la contribución de las 13 musicales. El análisis empírico confirma esta intuición: el Hopkins del espacio concatenado ($0{,}74$) es inferior al de cualquiera de los espacios unimodales.
+
+\textbf{Fusión intermedia (model-level).} Las representaciones se combinan en capas intermedias de un modelo conjunto, aprendiendo una representación compartida donde ambas modalidades contribuyen equilibradamente. Los modelos contrastivos modernos como MuLan \parencite{huang_2022_mulan} y MusCALL \parencite{manco_2022_muscall} son ejemplos: se entrena conjuntamente un encoder de audio y uno de texto con un objetivo contrastivo (acercar pares correctos, alejar pares incorrectos), produciendo un espacio latente donde ambas modalidades son directamente comparables. La ventaja es que el modelo aprende las interacciones cross-modales. La desventaja es que requiere entrenamiento end-to-end con datos pareados y recursos computacionales significativos, lo que excede el alcance del presente trabajo.
+
+\textbf{Fusión tardía (late fusion, decision-level).} Cada modalidad produce su propio score de similitud o predicción de forma independiente; los scores se combinan al final mediante una función agregadora. La forma más simple es la combinación lineal ponderada:
+\begin{equation}
+    s_{\text{fusion}} = \alpha \cdot s_1 + (1 - \alpha) \cdot s_2
+    \label{eq:fusion-tardia}
+\end{equation}
+\noindent con $\alpha \in [0, 1]$ como peso relativo entre modalidades. La ventaja es que permite controlar explícitamente la contribución de cada modalidad y que no sufre el problema de dominancia dimensional: cada modalidad se procesa en su propio espacio con la métrica apropiada, y solo el score escalar final se combina. La desventaja es que las interacciones cross-modales no se aprenden automáticamente sino que deben inducirse mediante la optimización del peso.
+
+En este trabajo se adopta fusión tardía con combinación lineal por tres razones. Primero, preserva la contribución equilibrada de ambas modalidades sin requerir entrenamiento adicional. Segundo, permite inspeccionar y optimizar un único parámetro ($\alpha$) con interpretación clara, lo que facilita el análisis experimental. Tercero, las métricas apropiadas para cada espacio ---similitud coseno para semántico L2-normalizado, kernel gaussiano sobre euclídea para musical z-score--- son distintas y se aplican naturalmente bajo fusión tardía.
 
 \subsection{Fusión por Combinación Lineal de Scores}
 \label{subsec:fusion-lineal}
 
-% CONCEPTO:    score_final = α · score_semántico + (1-α) · score_musical.
-%              Normalización de scores, optimización de α.
-% USADO EN:    §5.7.1 Estrategia de Fusión, §5.7.2 Optimización de Pesos.
-%              src/config.py: OBJECTIVE_WEIGHTS.
-% REFERENCIAS: vogt_1999_linear_fusion, montague_2001_normalization
-% CONTENIDO:   Fórmula de combinación lineal. Requisito: scores comparables
-%              (misma escala, misma distribución). Normalización de scores:
-%              min-max, z-score, rank-based. Búsqueda de α óptimo:
-%              grid search sobre rango [0,1] con métrica de evaluación.
-%              Interpretación de α: peso relativo de cada modalidad en
-%              la recomendación final.
+La fusión lineal, formalizada en la Ecuación~\ref{eq:fusion-tardia}, es una \textit{combinación convexa} de los scores originales cuando $\alpha \in [0, 1]$: el resultado siempre está acotado por el mínimo y el máximo de los scores individuales, y los casos extremos ($\alpha = 0$ y $\alpha = 1$) recuperan los sistemas unimodales. Esta propiedad permite interpretar el espacio de $\alpha$ como un espectro continuo entre las dos modalidades.
+
+La aplicación correcta requiere que los scores sean \textit{comparables}: deben estar en la misma escala numérica y compartir la convención de mayor valor indica mayor similitud (o mayor relevancia, según el caso). Si los scores originales provienen de distribuciones con rangos o escalas distintos, se requiere \textit{normalización previa}. \textcite{vogt_1999_linear_fusion} y \textcite{montague_2001_normalization} discuten varias estrategias de normalización en el contexto de recuperación de información:
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Normalización min-max}: $s' = (s - s_{\min}) / (s_{\max} - s_{\min})$. Mapea los scores al intervalo $[0, 1]$. Sensible a outliers que comprimen los valores intermedios.
+    \item \textbf{Normalización z-score}: $s' = (s - \mu) / \sigma$. Centra y escala, pero no acota el rango.
+    \item \textbf{Normalización por ranking}: reemplazar los valores por sus posiciones ordenadas. Invariante a transformaciones monótonas de los scores originales, pero descarta información de magnitud.
+    \item \textbf{Kernel sobre distancias}: si los scores son distancias, aplicar un kernel (por ejemplo, gaussiano) que los convierta en similitudes acotadas.
+\end{itemize}
+
+En el presente trabajo, los scores de ambas modalidades se diseñan para estar directamente en $[0, 1]$ sin requerir normalización post-cálculo: el score semántico es la similitud coseno entre vectores L2-normalizados, naturalmente acotada en $[-1, 1]$ y empíricamente en $[0{,}69, 1{,}00]$; el score musical es la salida del kernel gaussiano sobre distancias euclídeas, acotada en $(0, 1]$ por construcción. Esto permite aplicar la fórmula de fusión lineal directamente.
+
+La búsqueda del $\alpha$ óptimo se realiza mediante \textit{grid search} sobre el rango $[0, 1]$ con granularidad fija. El procedimiento evalúa el sistema completo con cada valor de $\alpha$ según una métrica de calidad ---Precision@10 con género como proxy de relevancia, en este trabajo--- y selecciona el $\alpha$ que maximiza la métrica. La ventaja de grid search sobre alternativas más sofisticadas (optimización bayesiana, descenso por gradiente) es la transparencia total del espacio de búsqueda: la curva $\alpha \mapsto \text{P@10}$ se visualiza completamente y permite analizar la sensibilidad del sistema al peso de fusión.
+
+La interpretación de $\alpha^*$ óptimo es directa: indica qué fracción relativa de la decisión de recomendación proviene de cada modalidad. Valores extremos ($\alpha^* \to 0$ o $\alpha^* \to 1$) indicarían que una modalidad domina y que la fusión no aporta valor sobre un sistema unimodal. Valores intermedios indican que ambas modalidades contribuyen significativamente.
 
 \subsection{Complementariedad entre Modalidades}
 \label{subsec:complementariedad}
 
-% CONCEPTO:    Medir cuánta información nueva aporta una modalidad
-%              respecto a la otra. NMI como métrica de solapamiento.
-% USADO EN:    Evaluación cross-modal (Etapa 4 y 5).
-%              Benchmark v1: NMI cross-modal = 0.0567 (alta complementariedad).
-% REFERENCIAS: oramas_2018_multimodal_genre, liyanarachchi_2025_multimodal_mer,
-%              manco_2022_muscall, huang_2022_mulan
-% CONTENIDO:   NMI(C_semántico, C_musical): si los clusters semánticos y
-%              musicales son muy diferentes (NMI bajo), las modalidades
-%              capturan información complementaria → la fusión agrega valor.
-%              Si NMI es alto, ambas modalidades dicen lo mismo → fusión
-%              aporta poco. Fórmula de NMI: MI(U,V) / √(H(U)·H(V)).
-%              Interpretación en el contexto musical: las letras capturan
-%              temática, el audio captura sonoridad → alta complementariedad
-%              es esperable y deseable.
+Un prerrequisito para que la fusión multimodal aporte valor sobre sistemas unimodales es que las modalidades capturen información \textit{complementaria}. Si ambas modalidades produjeran exactamente la misma partición de los datos, la fusión agregaría ruido sin información nueva. La cuantificación de la complementariedad requiere una métrica que mida el solapamiento entre las representaciones que produce cada modalidad.
+
+La \textit{Información Mutua Normalizada} (NMI, \textit{Normalized Mutual Information}) mide el solapamiento entre dos particiones del mismo conjunto de datos. Dadas dos particiones $\mathcal{U} = \{U_1, \ldots, U_k\}$ y $\mathcal{V} = \{V_1, \ldots, V_l\}$ sobre $n$ objetos, la información mutua es:
+\begin{equation*}
+    I(\mathcal{U}, \mathcal{V}) = \sum_{i=1}^{k} \sum_{j=1}^{l} \frac{|U_i \cap V_j|}{n} \log \frac{n \cdot |U_i \cap V_j|}{|U_i| \cdot |V_j|}
+\end{equation*}
+
+La normalización produce un valor en $[0, 1]$:
+\begin{equation}
+    \text{NMI}(\mathcal{U}, \mathcal{V}) = \frac{I(\mathcal{U}, \mathcal{V})}{\sqrt{H(\mathcal{U}) \cdot H(\mathcal{V})}}
+    \label{eq:nmi}
+\end{equation}
+\noindent donde $H(\cdot)$ es la entropía de la partición. $\text{NMI} = 1$ indica coincidencia total entre particiones (módulo permutación de etiquetas); $\text{NMI} = 0$ indica independencia total.
+
+En el contexto de fusión multimodal, NMI se calcula entre las asignaciones de cluster producidas por aplicar el mismo algoritmo (o análogos) sobre cada modalidad por separado. Un NMI bajo indica que las particiones son diferentes ---las modalidades agrupan los objetos de forma distinta--- lo que implica que contienen información complementaria. Un NMI alto indica que ambas modalidades reflejan la misma estructura subyacente.
+
+\textcite{oramas_2018_multimodal_genre} documentan que, en datasets de música, las representaciones derivadas de audio y las derivadas de texto (metadatos, letras, reseñas) producen particiones con baja coincidencia, lo que justifica empíricamente la fusión multimodal en este dominio. Trabajos posteriores como \textcite{liyanarachchi_2025_multimodal_mer} extienden esta observación a la tarea de reconocimiento de emociones musicales: las emociones extraídas de audio y letras capturan dimensiones distintas del contenido afectivo y su fusión mejora las métricas de clasificación.
+
+En el presente trabajo, NMI se calcula entre las mejores particiones de clustering producidas sobre los espacios semántico y musical. El resultado empírico ---valor cercano a cero--- es consistente con la literatura y justifica cuantitativamente la decisión de fusionar ambas modalidades.
