@@ -125,3 +125,216 @@ Las principales limitaciones identificadas son:
 
     \item \textbf{Dependencia de fuente propietaria.} Las features ac\'{u}sticas de Spotify fueron obtenidas antes de la restricci\'{o}n de acceso a la API (noviembre de 2024). Investigadores futuros no podr\'{a}n replicar la obtenci\'{o}n de estas features por la misma v\'{\i}a, lo que limita la reproducibilidad externa del pipeline de datos.
 \end{enumerate}
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 3.7 — Planeación y Metodología
+% ---------------------------------------------------------------------------
+\section{Planeación y Metodología}
+\label{sec:planeacion-metodologia}
+
+\subsection{Metodología del proyecto}
+\label{subsec:metodologia}
+
+El presente proyecto se desarrolló bajo un enfoque metodológico iterativo por etapas, adaptado a las características particulares de un trabajo de tesis de grado realizado por dos coautores en modalidad de trabajo conjunto continuo. La selección de esta metodología responde a un análisis comparativo de las alternativas más establecidas en gestión de proyectos de software y de investigación.
+
+La metodología en cascada, basada en fases secuenciales rígidas (relevamiento, análisis, diseño, implementación, pruebas), resulta inadecuada para proyectos con un componente experimental significativo. En el dominio de Music Information Retrieval, las decisiones técnicas frecuentemente dependen de hallazgos empíricos que sólo se manifiestan al ejecutar experimentos: el comportamiento de un algoritmo de clustering sobre embeddings de alta dimensionalidad, la cobertura real de la ventana de tokens del modelo de lenguaje o la complementariedad efectiva entre modalidades no son determinables a priori. Una metodología que prohíba el retorno a etapas previas sería incompatible con la naturaleza iterativa de la investigación experimental.
+
+Las metodologías ágiles puras como SCRUM, por su parte, presuponen estructuras organizacionales (\textit{product owner}, \textit{scrum master}, equipo de desarrollo de tamaño mediano) y artefactos (\textit{backlog} priorizado, \textit{sprints} regulares, ceremonias de planificación y revisión) que no aplican naturalmente a un equipo de dos personas con dedicación parcial y un objetivo único de mediano plazo. La sobrecarga ceremonial de SCRUM superaría el beneficio que aportaría a un proyecto con esta escala y configuración.
+
+Se adoptó en consecuencia un enfoque iterativo por etapas con dos rasgos distintivos: el principio de \textbf{desarrollo y documentación simultáneos} y el modelo de \textbf{trabajo conjunto continuo}.
+
+\textbf{Desarrollo y documentación simultáneos.} Cada etapa del proyecto produce dos entregables verificables: el código funcional con sus artefactos asociados (datos procesados, modelos entrenados, métricas registradas) y la sección correspondiente del informe en \LaTeX{}. La redacción no se posterga hasta la finalización de los experimentos: se realiza junto a la ejecución de cada etapa, lo que evita el sesgo retrospectivo y obliga a que las decisiones técnicas queden documentadas en el momento en que se toman, con su justificación completa.
+
+\textbf{Trabajo conjunto continuo.} Los dos coautores trabajaron simultáneamente sobre cada artefacto, sin división por componente ni paralelización de tareas independientes. Este modelo, conceptualmente análogo al \textit{pair programming} extendido a la escala del proyecto completo, prioriza la calidad y la comprensión compartida sobre la velocidad de avance. Sus beneficios incluyen la revisión peer continua ---cada decisión técnica es discutida en tiempo real por ambos autores---, el modelo mental compartido ---ningún autor depende del otro para comprender una porción del sistema--- y la eliminación del overhead de coordinación formal ---no se requiere documentación interna de transferencia de conocimiento entre autores---. El costo asumido es un menor \textit{throughput} respecto a un equipo trabajando en paralelo, costo aceptable en un contexto donde el objetivo es producir un trabajo coherente y defendible por ambos autores antes que maximizar la velocidad de ejecución.
+
+\textbf{Estructura por etapas.} El proyecto se organiza en seis etapas secuenciales, cada una con entregables claramente definidos:
+
+\begin{enumerate}
+    \item \textbf{Fundación}: definición de la estructura del repositorio, configuración centralizada del proyecto, esqueleto del informe en \LaTeX{} con sus siete capítulos y tres anexos, e inicio de la investigación bibliográfica.
+    \item \textbf{Datos}: carga, validación, análisis exploratorio y preprocesamiento del dataset fuente, con documentación explícita del presupuesto de pérdida.
+    \item \textbf{Features}: vectorización semántica de letras mediante el modelo \texttt{multilingual-e5-small}, normalización de features acústicas y unificación de las representaciones en un único artefacto.
+    \item \textbf{Clustering}: evaluación de tendencia al agrupamiento mediante el estadístico de Hopkins, comparación sistemática de algoritmos sobre ambos espacios, análisis de complementariedad cross-modal y purificación.
+    \item \textbf{Recomendación}: implementación del sistema híbrido por k-vecinos más cercanos con fusión tardía, optimización del peso de fusión mediante \textit{grid search} y evaluación bajo métricas de precisión, diversidad y cobertura.
+    \item \textbf{Síntesis}: ejecución de pruebas de calidad externas, redacción de conclusiones, integración final y compilación del informe.
+\end{enumerate}
+
+\textbf{Garantías de reproducibilidad.} El enfoque incorpora tres mecanismos para asegurar la reproducibilidad de los resultados: (i) configuración centralizada en el módulo \texttt{src/config.py}, donde se definen todos los parámetros globales (semillas aleatorias, rutas, umbrales) y desde donde son consumidos por el resto del código, evitando definiciones locales dispersas; (ii) pre-registro de hipótesis antes de la ejecución de los experimentos, formalizado en la Sección~\ref{sec:hipotesis} de este capítulo, con el fin de evitar la formulación retrospectiva de hipótesis a partir de los resultados observados; (iii) versionado integral del proyecto mediante Git, incluyendo código, informe \LaTeX{} y archivos de métricas en formato JSON, lo que permite reconstruir el estado del proyecto en cualquier punto del cronograma.
+
+\subsection{Cronograma y diagrama de Gantt}
+\label{subsec:gantt}
+
+El proyecto se ejecuta en un horizonte temporal de 28 semanas, equivalente a aproximadamente siete meses de trabajo, con una dedicación estimada de 20 horas semanales por coautor. Esta carga es coherente con la asignación horaria típica de los proyectos finales de Ingeniería en universidades argentinas y resulta compatible con la cursada residual o el trabajo parcial habituales en estudiantes de los últimos cuatrimestres de carrera.
+
+La distribución por etapas refleja la complejidad relativa de cada componente del sistema. La Etapa 4 (Clustering) recibe la mayor asignación temporal por concentrar el grueso de la experimentación: comparación sistemática de cuatro algoritmos sobre dos espacios de representación, tuning de hiperparámetros, análisis de complementariedad cross-modal y purificación post-clustering. Las Etapas 1 (Fundación) y 6 (Síntesis) son las más breves, al concentrarse en actividades de configuración inicial e integración final, respectivamente. La Tabla~\ref{tab:cronograma} resume la distribución y la Figura~\ref{fig:gantt} la representa gráficamente.
+
+\begin{table}[h]
+\centering
+\caption{Distribución temporal del proyecto por etapa.}
+\label{tab:cronograma}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Etapa} & \textbf{Semanas} & \textbf{Duración} \\
+\midrule
+1. Fundación                 & 1--3   & 3 semanas \\
+2. Datos (EDA + Preprocesamiento) & 4--7   & 4 semanas \\
+3. Features                  & 8--13  & 6 semanas \\
+4. Clustering                & 14--20 & 7 semanas \\
+5. Recomendación             & 21--25 & 5 semanas \\
+6. Síntesis                  & 26--28 & 3 semanas \\
+\midrule
+\textbf{Total} & \multicolumn{2}{c}{\textbf{28 semanas (\(\approx\) 7 meses)}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=0.45cm,
+    y unit chart=0.55cm,
+    bar/.append style={fill=blue!40},
+    bar height=0.6,
+    title height=1,
+    title label font=\footnotesize\bfseries,
+    bar label font=\footnotesize,
+    milestone label font=\footnotesize,
+    milestone/.append style={fill=red!60},
+    group/.append style={fill=blue!70},
+]{1}{28}
+    \gantttitle{Semanas}{28} \\
+    \gantttitlelist{1,...,28}{1} \\
+    \ganttbar{Etapa 1: Fundación}{1}{3} \\
+    \ganttbar{Etapa 2: Datos}{4}{7} \\
+    \ganttbar{Etapa 3: Features}{8}{13} \\
+    \ganttbar{Etapa 4: Clustering}{14}{20} \\
+    \ganttbar{Etapa 5: Recomendación}{21}{25} \\
+    \ganttbar{Etapa 6: Síntesis}{26}{28} \\
+    \ganttbar[bar/.append style={fill=green!40}]{Investigación bibliográfica}{1}{12} \\
+    \ganttbar[bar/.append style={fill=green!40}]{Redacción Marco Teórico}{5}{22} \\
+    \ganttmilestone{Defensa}{28}
+\end{ganttchart}%
+}
+\caption{Diagrama de Gantt del proyecto. Las barras azules representan las seis etapas técnicas; las verdes, las actividades transversales de investigación bibliográfica y redacción del Marco Teórico, distribuidas a lo largo del cronograma.}
+\label{fig:gantt}
+\end{figure}
+
+Las actividades transversales no se contabilizan como etapas independientes pero ocupan tiempo significativo del cronograma. La investigación bibliográfica, formalizada en siete documentos de revisión sistemática que totalizan aproximadamente 147 fuentes, se ejecuta de forma intensiva durante las primeras semanas y se mantiene activa pero atenuada durante las etapas posteriores. La redacción del Marco Teórico (Capítulo~\ref{ch:marco-teorico}) se distribuye entre las Etapas 2 y 5, escribiéndose el contenido teórico de cada componente en la etapa en que se aborda su implementación. Las reuniones de sincronización entre los coautores son continuas por construcción del modelo de trabajo, sin requerir agendamiento formal.
+
+Los hitos verificables del cronograma corresponden a las ejecuciones registradas de cada etapa, cuyos resultados se persisten como archivos JSON en el directorio \texttt{results/metrics/}. Estos artefactos constituyen la evidencia objetiva del avance del proyecto y son los puntos de control de la metodología.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 3.8 — Estudios complementarios
+% ---------------------------------------------------------------------------
+\section{Estudios Complementarios}
+\label{sec:estudios}
+
+\subsection{Estudio económico}
+\label{subsec:estudio-economico}
+
+El estudio económico tiene como objetivo cuantificar los costos hipotéticos del proyecto bajo condiciones profesionales de mercado, considerando que el desarrollo se realizó en el contexto académico de una tesis de grado y que muchos de los recursos empleados (equipo personal de los autores, software de código abierto, datos públicos) no implican erogación monetaria directa. La cuantificación hipotética permite contextualizar el valor del trabajo realizado y dimensionar el ahorro asociado a la elección de tecnologías de código abierto frente a alternativas propietarias.
+
+\textbf{Costo humano.} Es el componente dominante del costo total. Bajo el modelo de trabajo conjunto descrito en la Sección~\ref{subsec:metodologia}, ambos coautores dedicaron las mismas 20 horas semanales durante las 28 semanas del proyecto. El factor de duplicación refleja la dedicación real de ambos autores y no una doble contabilización de productividad: la elección del modelo de trabajo, justificada metodológicamente por sus beneficios en calidad y comprensión compartida, asume conscientemente este costo. La tarifa de referencia se obtuvo de la tabla de honorarios profesionales sugeridos publicada por el Colegio de Profesionales de Ciencias Informáticas de la provincia de Entre Ríos (COPROCIER), cuyos valores son comparables a los publicados por el Consejo Profesional de Ciencias Informáticas de la Provincia de Córdoba (CPCIPC) y se adoptan como referencia regional para profesionales del centro del país.
+
+\begin{itemize}
+    \item Carga semanal por autor: 20 horas
+    \item Duración: 28 semanas
+    \item Total horas por autor: 560 horas
+    \item Total horas-hombre del proyecto: 1.120 horas
+    \item Categoría profesional aplicable: Programador Aplicaciones Junior
+    \item Tarifa horaria de referencia (COPROCIER, marzo 2025): \$\,34.983 ARS
+    \item \textbf{Costo humano total: \$\,39.180.960 ARS}
+\end{itemize}
+
+La selección de la categoría \textit{Programador Aplicaciones Junior} responde al perfil real de los autores: estudiantes de Ingeniería Informática en proceso de finalización de carrera, sin experiencia profesional senior previa demostrable. Aunque el contenido técnico del proyecto involucra técnicas propias de perfiles más especializados (científico de datos, especialista en NLP), la categoría junior es la más conservadora y refleja con mayor fidelidad la realidad del trabajo. Categorías como \textit{Científico de Datos / IA / ML}, con tarifa de \$\,90.657 ARS por hora, corresponderían a profesionales con formación senior consolidada, lo cual sería incongruente con el perfil de tesistas y inflaría artificialmente el costo proyectado.
+
+\textbf{Costo de infraestructura.} Comprende los recursos de hardware utilizados por los autores. La depreciación de los equipos personales prorrateada sobre el horizonte de 28 semanas, considerando un valor de adquisición de referencia y una vida útil de 36 meses, se estima en aproximadamente \$\,400.000 ARS para el conjunto de ambos equipos. El cómputo se ejecutó íntegramente en hardware local sin requerir servicios cloud: la operación más intensiva del pipeline ---la vectorización semántica del catálogo completo--- demandó dos horas y tres minutos de CPU, equivalente a aproximadamente USD 0,20 si se hubiese ejecutado en una instancia AWS EC2 \texttt{c5.large} bajo demanda.
+
+\textbf{Costo de software y modelos.} Es nulo. Todas las dependencias del proyecto son de código abierto, distribuidas bajo licencias permisivas: \texttt{Python}, \texttt{scikit-learn} (BSD), \texttt{numpy} (BSD), \texttt{pandas} (BSD), \texttt{sentence-transformers} (Apache 2.0), \texttt{hdbscan} (BSD) y \texttt{matplotlib} (PSF). El modelo \texttt{multilingual-e5-small}, distribuido por Microsoft a través de la plataforma Hugging Face bajo licencia MIT, no requiere pago por uso ni por inferencia. La eliminación de costos de software representa un ahorro significativo frente a alternativas propietarias.
+
+\textbf{Costo de datos.} Es nulo. El dataset fuente \parencite{nakhaee_2020_spotify_lyrics} está disponible públicamente en Kaggle bajo licencia abierta para uso no comercial e investigación.
+
+\textbf{Comparación con alternativas propietarias.} Si la vectorización semántica se hubiese realizado mediante una API comercial como OpenAI \texttt{text-embedding-3-small}, con tarifa de USD 0{,}02 por millón de tokens, el costo aproximado para las 17.964 letras (con un promedio de 600 tokens por letra) sería de aproximadamente USD 0,22 por una pasada completa del catálogo. Aunque el monto absoluto es marginal, la opción comercial presenta dos desventajas estratégicas frente a la solución de código abierto: el costo recurrente ante cada re-ejecución del pipeline durante la fase experimental ---con múltiples iteraciones de tuning, el costo escala linealmente--- y la dependencia de un proveedor cerrado (\textit{vendor lock-in}), con riesgos asociados a cambios de precio, limitaciones de tasa o discontinuación del servicio.
+
+\textbf{Costo total estimado del proyecto:} aproximadamente \$\,39.580.960 ARS, equivalentes a USD 34.000 al tipo de cambio MEP de abril de 2026. El costo humano representa más del 99\% del total, lo que refleja que el valor agregado del proyecto reside en el trabajo intelectual de diseño, implementación y evaluación, antes que en los recursos materiales empleados.
+
+\subsection{Análisis de riesgos}
+\label{subsec:riesgos}
+
+El análisis de riesgos del proyecto cubre cuatro dimensiones: técnicos (relacionados con tecnologías y dependencias externas), de datos (limitaciones intrínsecas del dataset), académicos (posibilidad de resultados que no confirmen las hipótesis) y de planificación (cronograma, disponibilidad de los autores). Cada riesgo se caracteriza por su probabilidad estimada antes de la ejecución del proyecto y por su impacto potencial sobre los objetivos. La Tabla~\ref{tab:riesgos} resume el análisis con la mitigación adoptada en cada caso.
+
+\begin{table}[h]
+\centering
+\caption{Matriz de riesgos del proyecto y mitigaciones adoptadas. P: probabilidad; I: impacto. Niveles: B (bajo), M (medio), A (alto).}
+\label{tab:riesgos}
+\small
+\begin{tabular}{p{0.6cm}p{4.5cm}cc p{6cm}}
+\toprule
+\textbf{ID} & \textbf{Riesgo} & \textbf{P} & \textbf{I} & \textbf{Mitigación adoptada} \\
+\midrule
+\multicolumn{5}{l}{\textit{Riesgos técnicos}} \\
+R1 & Deprecación de la API de \textit{audio features} de Spotify           & A & A & Uso de dataset preexistente extraído antes de la deprecación; documentación como limitación de reproducibilidad. \\
+R2 & Incompatibilidad por cambios de versión en librerías          & M & M & Fijación de versiones en archivo de requerimientos; entorno virtual aislado. \\
+R3 & Discontinuación del modelo \texttt{multilingual-e5-small}     & B & A & Archivado local de los pesos del modelo y de los embeddings generados. \\
+\midrule
+\multicolumn{5}{l}{\textit{Riesgos de datos}} \\
+R4 & Sesgo lingüístico (predominio del inglés)                     & A & M & Declaración explícita como limitación; uso de modelo multilingüe que mitiga parcialmente el sesgo. \\
+R5 & Sesgo de instrumentalidad (predominio de canciones vocales)  & A & B & Declaración explícita como limitación. \\
+R6 & Cobertura real de tokens menor a la estimada por heurística  & M & M & Implementación de chunking con agregación por promedio para garantizar cobertura del 100\%. \\
+\midrule
+\multicolumn{5}{l}{\textit{Riesgos académicos}} \\
+R7 & Hipótesis no confirmadas por los experimentos                & M & M & Pre-registro de hipótesis (Sección~\ref{sec:hipotesis}); compromiso de reportar resultados negativos. \\
+R8 & Resultados no reproducibles por terceros                     & B & A & Configuración centralizada; semillas fijas; publicación del código. \\
+\midrule
+\multicolumn{5}{l}{\textit{Riesgos de planificación}} \\
+R9 & Retrasos en el cronograma                                    & M & M & Re-priorización de tareas no críticas; control mediante hitos verificables (archivos JSON por etapa). \\
+R10 & Dependencia mutua de disponibilidad entre coautores          & B & A & Flexibilidad de horarios de sincronización; postergación de decisiones críticas hasta sesión conjunta. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Algunos riesgos identificados se materializaron durante la ejecución del proyecto y la mitigación adoptada permitió absorberlos sin comprometer los objetivos. El riesgo R1, relacionado con la deprecación de la API de \textit{audio features} de Spotify, ocurrió en noviembre de 2024 y fue absorbido íntegramente al disponer de un dataset preexistente que ya contenía las features extraídas previamente. El riesgo R4, asociado al sesgo lingüístico, se materializó (83.5\% de letras en inglés) y fue declarado explícitamente como limitación del trabajo en lugar de oculto. El riesgo R6, sobre cobertura real de la ventana de tokens, también se materializó (53.5\% real frente al 58.8\% estimado por heurística) y fue mitigado mediante la implementación de chunking con agregación por promedio.
+
+El modelo de trabajo conjunto introduce un riesgo específico (R10) de baja probabilidad pero potencialmente alto impacto: la dependencia mutua de disponibilidad. Si uno de los coautores no pudiese trabajar durante un período prolongado, el otro quedaría limitado en la toma de decisiones técnicas críticas, aunque podría continuar avanzando en tareas de redacción individual. La mitigación consistió en flexibilizar los horarios de sincronización y postergar las decisiones técnicas críticas hasta sesiones conjuntas, sin establecer cronogramas rígidos por sesión. El riesgo opuesto ---el cuello de botella unipersonal de conocimiento--- queda eliminado por construcción del modelo: ambos autores conocen integralmente el sistema al haber trabajado juntos sobre cada artefacto.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 3.9 — Aspectos legales y éticos
+% ---------------------------------------------------------------------------
+\section{Aspectos Legales y Éticos}
+\label{sec:legales-eticos}
+
+El desarrollo del presente proyecto involucra el procesamiento de tres tipos de contenido sujetos a marcos normativos diferenciados: features acústicas obtenidas mediante la API de Spotify, letras de canciones protegidas por derechos de autor y metadatos descriptivos del catálogo. Adicionalmente, las características del sistema implementado introducen consideraciones éticas vinculadas a sesgos algorítmicos y reproducibilidad. Esta sección documenta el análisis legal y ético realizado y las decisiones adoptadas en consecuencia.
+
+\textbf{Derechos de autor de las letras.} Las letras de las canciones constituyen obras literarias protegidas por derechos de autor de los compositores y editoriales musicales correspondientes. En la legislación argentina, la Ley 11.723 de Régimen Legal de la Propiedad Intelectual contempla en su artículo 10 la posibilidad de cita de obras protegidas con fines didácticos o científicos, bajo condiciones de extensión proporcional y atribución apropiada. A nivel internacional, el Convenio de Berna establece principios análogos. El presente trabajo opera sobre las letras únicamente para procesamiento computacional con fines de investigación: el contenido textual se vectoriza mediante un modelo de lenguaje preentrenado y se utiliza exclusivamente como insumo del pipeline de cálculo de similitud, sin reproducción ni distribución del texto literal en el informe ni en los artefactos publicables del proyecto.
+
+\textbf{Distribución del corpus.} Como corolario del punto anterior, el proyecto no redistribuye el corpus de letras procesadas. El dataset fuente original es accesible públicamente en Kaggle \parencite{nakhaee_2020_spotify_lyrics}, pero la descarga de cada usuario está mediada por los términos de servicio de la plataforma y por la licencia que su autor asignó. La publicación del repositorio del proyecto incluye el código fuente, los artefactos derivados de procesamiento (embeddings numéricos, matrices de features normalizadas, métricas) y la documentación, pero no incluye las letras en formato textual. Cualquier investigador que desee replicar los experimentos debe acceder al dataset fuente por sus medios y bajo los términos vigentes en el momento de la replicación.
+
+\textbf{Términos de uso de la API de Spotify.} Las features acústicas (\textit{danceability}, \textit{energy}, \textit{tempo} y demás descriptores) se obtuvieron antes de noviembre de 2024, fecha en la que Spotify restringió el acceso a la API de \textit{audio features} para nuevas aplicaciones. La obtención original se realizó bajo los términos de servicio vigentes en su momento, que permitían el uso académico de las features para investigación no comercial. El cambio de política posterior no invalida el uso retrospectivo de los datos obtenidos legítimamente, pero limita la reproducibilidad externa del pipeline para investigadores futuros, situación documentada explícitamente como limitación en la Sección~\ref{sec:alcance-limitaciones}.
+
+\textbf{Privacidad y protección de datos personales.} El sistema no procesa datos personales de usuarios: no se utiliza información de cuentas, historiales de reproducción, datos demográficos ni cualquier otro dato identificable. La operación del sistema es íntegramente sobre características intrínsecas de las canciones. En consecuencia, el régimen de protección de datos personales argentino (Ley 25.326) y normativas internacionales como el Reglamento General de Protección de Datos europeo (GDPR) no resultan aplicables al tratamiento de datos realizado en este trabajo.
+
+\textbf{Sesgos algorítmicos y declaración de limitaciones.} Los sistemas de recomendación pueden reproducir o amplificar sesgos presentes en los datos de entrenamiento o en el corpus sobre el que operan. El presente trabajo identifica explícitamente tres sesgos materializados en el catálogo: lingüístico (83.5\% de letras en inglés), de instrumentalidad (95.5\% de canciones vocales) y de género musical (sobrerrepresentación de pop, rap, rock y r\&b frente a otros estilos). Estos sesgos condicionan el comportamiento del sistema y limitan su capacidad para generalizar a contextos lingüísticos o estilísticos no representados en el catálogo. El compromiso ético adoptado consiste en documentar estas limitaciones de forma transparente en la Sección~\ref{sec:alcance-limitaciones} y en la presentación de resultados (Capítulo~\ref{ch:resultados}), sin presentar el sistema como neutro respecto a las propiedades del catálogo del que proviene.
+
+\textbf{Reproducibilidad y verificación independiente.} La publicación del código fuente íntegro, junto con la configuración del entorno y las semillas aleatorias que controlan los procesos no determinísticos, persigue un objetivo ético complementario al académico: permitir que terceros verifiquen los resultados reportados e identifiquen eventuales errores u oportunidades de mejora. Esta apertura es una práctica que la comunidad científica reconoce como deseable y que la disciplina específica (Music Information Retrieval) identifica como insuficientemente extendida.
+
+% ---------------------------------------------------------------------------
+% SECCIÓN 3.10 — Plan de pruebas de calidad
+% ---------------------------------------------------------------------------
+\section{Plan de Pruebas de Calidad}
+\label{sec:plan-pruebas}
+
+El sistema implementado se evalúa mediante métricas cuantitativas (Precision@10, diversidad intra-lista, cobertura del catálogo) que se reportan en el Capítulo~\ref{ch:resultados}. Estas métricas, calculadas sobre el género musical como \textit{ground truth} proxy, ofrecen una evaluación rigurosa pero parcial: pueden ocultar comportamientos cualitativos relevantes que las cifras agregadas no reflejan. Por esta razón, el plan de validación incluye un conjunto de \textbf{pruebas de calidad externas} que complementan la evaluación cuantitativa con análisis específicos sobre dimensiones que las métricas globales no capturan adecuadamente.
+
+Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyecto. Esta sección formaliza su definición y criterios de aceptación.
+
+\textbf{Prueba A --- Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad postulada por la hipótesis H1.
+
+\textbf{Prueba B --- Comparación con baselines numéricos.} Su objetivo es contextualizar la magnitud del Precision@10 obtenido por el sistema frente a recomendadores triviales que sirven como cota inferior. Se implementan tres baselines: recomendación aleatoria (cota inferior absoluta), recomendación por género mayoritario (cota inferior contextual) y recomendación por similitud sobre features acústicas crudas sin normalización (sistema mínimo razonable). El criterio de aceptación es que el sistema híbrido supere significativamente a cada baseline en Precision@10, demostrando que la sofisticación metodológica adoptada produce mejoras mensurables sobre alternativas más simples.
+
+\textbf{Prueba C --- Probes temáticos.} Su objetivo es verificar la capacidad del componente semántico para capturar similitud temática genuina más allá de la similitud por género musical. Se construye un conjunto reducido de queries temáticas dirigidas (canciones sobre desamor, canciones políticas, canciones sobre celebración, canciones narrativas) y se inspecciona si las recomendaciones recuperan otras canciones del mismo tema, incluso cuando pertenecen a géneros distintos. El criterio de aceptación es la recuperación efectiva de canciones temáticamente afines a través de fronteras de género, lo que validaría que el componente semántico aporta una dimensión de similitud no reducible a la afinidad acústica.
+
+\textbf{Prueba D --- Consistencia cross-language.} Su objetivo es verificar que el modelo \texttt{multilingual-e5-small} produce representaciones semánticamente coherentes para letras en idiomas distintos al inglés, dado el sesgo lingüístico del catálogo (83.5\% inglés). Se identifican canciones en español, portugués y otros idiomas con temáticas claramente reconocibles y se verifica si sus recomendaciones top-10 incluyen canciones de la misma temática, sin restringirse al mismo idioma. El criterio de aceptación es la observación de recuperación temática cross-lingual coherente, lo que respaldaría la decisión de adoptar un modelo multilingüe en lugar de uno monolingüe inglés con traducción previa.
+
+El resultado de cada prueba se documentará en el informe junto con las métricas cuantitativas del Capítulo~\ref{ch:resultados}, sustentando o matizando las conclusiones que las cifras por sí solas permitirían establecer.
