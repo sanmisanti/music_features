@@ -84,6 +84,10 @@ Principios establecidos durante la redaccion del Capitulo 2:
 - `\textcite` para autor como sujeto, `\parencite` para parentetico
 - No referenciar "la primera ejecucion" en el informe; presentar situaciones de forma general
 - No descartar opciones prematuramente; presentar el panorama
+- **Tono y posicionamiento**: el proyecto es una tesis para CONSTRUIR un recomendador, NO un paper con contribuciones metodologicas. No reclamar formalizacion de procedimientos, vacios del campo como espacios a explotar, ni estandares de reproducibilidad para que otros investigadores verifiquen. Limitar la descripcion a lo que el sistema SI hace; no enumerar lo que NO hace.
+- **Rol del clustering en el informe**: herramienta analitica/validacion (Hopkins de estructura, NMI de complementariedad cross-modal). NO es mecanismo de recomendacion. La recomendacion opera sobre similitudes k-NN.
+- **Division Estado de la Cuestion vs Solucion Propuesta**: el Estado de la Cuestion describe el panorama y trade-offs en terminos generales del campo. Las decisiones especificas del proyecto (con numeros concretos: 384+13=397, α=0.80, etc.) van en Solucion Propuesta, no en el Estado de la Cuestion.
+- **Sin guiones largos** (`---`) en el texto del informe. Reemplazar por comas, paréntesis o dos puntos según corresponda.
 
 ---
 

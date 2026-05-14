@@ -370,6 +370,8 @@ La combinación de información proveniente de modalidades distintas ---las letr
 
 El análisis de Hopkins sobre el espacio concatenado, reportado en la Sección~\ref{subsec:evaluacion-hopkins}, arrojó el valor más bajo de los cuatro espacios evaluados ($H = 0{,}7415$). La interpretación es directa: las 384 dimensiones semánticas dominan numéricamente sobre las 13 musicales cuando ambos espacios se concatenan, diluyendo la contribución del componente musical en cualquier cálculo de distancia sobre el espacio combinado. Por esta razón se adopta fusión tardía, que preserva la contribución equilibrada de cada modalidad y permite ponderarlas explícitamente.
 
+A esta razón empírica se suman dos propiedades estructurales que refuerzan la elección. La primera es la modularidad: cada componente, semántico y musical, puede desarrollarse, evaluarse y mejorarse de manera independiente, sin que un cambio en uno afecte al otro ni exija recomputar las representaciones del primero. La segunda es la interpretabilidad directa de la combinación: el peso asignado a cada modalidad es un único valor escalar que indica de manera transparente cuánto influye cada componente en el score final, lo que facilita el análisis de sensibilidad y la comunicación de los resultados experimentales.
+
 El sistema calcula dos scores de similitud independientes para cada par de canciones, uno en el espacio semántico y otro en el musical, y los combina linealmente mediante una única fórmula:
 \begin{equation}
     s(q, c) = \alpha \cdot s_{\text{sem}}(q, c) + (1 - \alpha) \cdot s_{\text{mus}}(q, c)
