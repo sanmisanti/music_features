@@ -7,13 +7,11 @@
 \section{Planteamiento del Problema}
 \label{sec:planteamiento}
 
-Los sistemas de recomendaci\'{o}n musical constituyen el mecanismo principal mediante el cual los oyentes descubren nueva m\'{u}sica en plataformas digitales con cat\'{a}logos de millones de canciones. Como se document\'{o} en el Estado de la Cuesti\'{o}n (Cap\'{\i}tulo~\ref{ch:estado-cuestion}), estos sistemas operan predominantemente sobre dos fuentes de informaci\'{o}n: el comportamiento de los usuarios ---qu\'{e} canciones escuchan, cu\'{a}les agregan a sus playlists, cu\'{a}nto tiempo dedican a cada una--- y las propiedades ac\'{u}sticas de las canciones ---energ\'{\i}a, tempo, valencia emocional, entre otras---. La primera fuente requiere datos de interacci\'{o}n que no siempre est\'{a}n disponibles, especialmente para artistas o canciones nuevas (el problema de \textit{cold-start}); la segunda captura c\'{o}mo suena una canci\'{o}n pero ignora lo que dice.
+Las plataformas de \textit{streaming} musical operan recomendadores que median entre cat\'{a}logos de decenas de millones de canciones y la atenci\'{o}n de cientos de millones de oyentes. Las arquitecturas p\'{u}blicamente documentadas de estos sistemas se apoyan en dos tipos de se\~{n}al: los patrones de interacci\'{o}n de los usuarios y las propiedades ac\'{u}sticas del audio. Spotify combina filtrado colaborativo sobre playlists con redes convolucionales sobre espectrogramas de audio \parencite{schedl_2018_challenges_mrs}; YouTube Music utiliza una arquitectura de redes neuronales profundas en dos etapas, con candidatos seleccionados a partir del historial de visualizaci\'{o}n y un \textit{ranker} que pondera m\'{u}ltiples atributos de interacci\'{o}n y metadatos \parencite{covington_2016_youtube_dnn}. Las letras, cuando aparecen en estas plataformas, ocupan funciones perif\'{e}ricas: en el Music Genome Project de Pandora personas describen canciónes con m\'{a}s de cuatrocientos atributos descriptivos manualmente, dentro de los cuales el contenido l\'{\i}rico figura como un rasgo m\'{a}s junto a la instrumentaci\'{o}n, el ritmo y la melod\'{\i}a, sin un tratamiento computacional diferenciado; los trabajos publicados por Amazon sobre an\'{a}lisis autom\'{a}tico de letras se orientan a la b\'{u}squeda, no a la generaci\'{o}n de recomendaciones \parencite{sundaramoorthy_2024_lyriclure}.
 
-Las letras de las canciones representan una tercera fuente de informaci\'{o}n cuya utilidad ha sido demostrada emp\'{\i}ricamente pero que permanece subexplorada como se\~{n}al primaria de recomendaci\'{o}n. \textcite{hu_2010_lyrics_audio_mood} demostraron que audio y letras capturan dimensiones complementarias de la similitud musical: el audio discrimina mejor las propiedades perceptuales, mientras que las letras distinguen categor\'{\i}as sem\'{a}nticamente ricas como la nostalgia o la rebeld\'{\i}a. \textcite{vystrcilova_2020_lyrics_audio} confirmaron que la combinaci\'{o}n de ambas fuentes produce mejores resultados que cualquiera de las dos por separado. Sin embargo, la integraci\'{o}n sistem\'{a}tica de informaci\'{o}n sem\'{a}ntica y ac\'{u}stica en un sistema de recomendaci\'{o}n basado en contenido presenta vac\'{\i}os que la literatura existente no ha abordado de forma conjunta.
+Esta ausencia contrasta con la evidencia sintetizada en el Cap\'{\i}tulo~\ref{ch:estado-cuestion}. Los trabajos all\'{\i} referenciados muestran que las letras capturan dimensiones de la similitud musical que los descriptores ac\'{u}sticos no representan, y que la combinaci\'{o}n de letras y audio produce, de forma consistente, mejores recomendaciones que el uso aislado de cualquiera de las dos modalidades.
 
-En primer lugar, las representaciones sem\'{a}nticas generadas por modelos de lenguaje operan en espacios de alta dimensionalidad (cientos de dimensiones), mientras que los descriptores ac\'{u}sticos constituyen un espacio de baja dimensionalidad (una docena de features). Esta asimetr\'{\i}a implica que las t\'{e}cnicas de clustering, las m\'{e}tricas de distancia y los criterios de evaluaci\'{o}n pueden comportarse de manera diferenciada en cada espacio, y no existe una metodolog\'{\i}a establecida para tratar ambos de forma integrada. En segundo lugar, los algoritmos de clustering inevitablemente producen asignaciones incorrectas, y la literatura reporta t\'{e}cnicas de refinamiento post-clustering que operan sobre una \'{u}nica representaci\'{o}n de los datos; no se han formalizado procedimientos de purificaci\'{o}n que consideren simult\'{a}neamente ambas modalidades para detectar y corregir asignaciones err\'{o}neas. En tercer lugar, la combinaci\'{o}n de recomendaciones provenientes de espacios con propiedades estad\'{\i}sticas distintas requiere estrategias de normalizaci\'{o}n y ponderaci\'{o}n cuyo dise\~{n}o \'{o}ptimo no es evidente a priori y debe determinarse emp\'{\i}ricamente.
-
-La revisi\'{o}n sistem\'{a}tica de la literatura confirma que, si bien los componentes individuales ---modelos de embeddings sem\'{a}nticos, algoritmos de clustering, estrategias de fusi\'{o}n ponderada--- se encuentran maduros como l\'{\i}neas de investigaci\'{o}n independientes, no existe un pipeline que los integre en un sistema de recomendaci\'{o}n musical evaluado experimentalmente de forma rigurosa. Este vac\'{\i}o define el problema que el presente trabajo aborda: el dise\~{n}o, implementaci\'{o}n y evaluaci\'{o}n de un sistema de recomendaci\'{o}n musical basado en contenido que integre informaci\'{o}n sem\'{a}ntica y ac\'{u}stica a trav\'{e}s de clustering optimizado en ambas modalidades, purificaci\'{o}n multimodal y fusi\'{o}n ponderada, bajo un protocolo experimental que permita determinar si la integraci\'{o}n produce recomendaciones de mayor calidad que los enfoques unimodales.
+El presente trabajo construye un sistema de recomendaci\'{o}n musical basado en contenido que integra letras y descriptores ac\'{u}sticos sobre un mismo cat\'{a}logo, y compara experimentalmente la calidad de sus recomendaciones frente a las que produce cada modalidad por separado.
 
 % ---------------------------------------------------------------------------
 % SECCI\'{O}N 3.2 --- Prop\'{o}sito del Proyecto
@@ -25,9 +23,7 @@ El presente proyecto propone el desarrollo de un sistema de recomendaci\'{o}n mu
 
 El sistema opera exclusivamente sobre las caracter\'{\i}sticas intr\'{\i}nsecas de las canciones, sin requerir datos de interacci\'{o}n de usuarios. Este enfoque basado en contenido aborda directamente el problema de \textit{cold-start}: el sistema puede generar recomendaciones para cualquier canci\'{o}n del cat\'{a}logo independientemente de si cuenta con historial de escucha previo. Adem\'{a}s, al prescindir de datos de comportamiento, los resultados reflejan la similitud intr\'{\i}nseca entre canciones y no los patrones de consumo de una poblaci\'{o}n espec\'{\i}fica de usuarios, lo que permite evaluar la contribuci\'{o}n de cada modalidad de forma aislada.
 
-La integraci\'{o}n de ambas modalidades se realiza mediante una arquitectura de tres etapas. Primero, se aplican t\'{e}cnicas de clustering sobre cada espacio de representaci\'{o}n ---ac\'{u}stico y sem\'{a}ntico--- para identificar agrupaciones naturales dentro del cat\'{a}logo. Segundo, se implementa un procedimiento de purificaci\'{o}n que utiliza informaci\'{o}n de ambas modalidades para refinar las asignaciones de clustering. Tercero, se combinan las recomendaciones derivadas de cada espacio mediante una estrategia de fusi\'{o}n ponderada cuyos pesos se optimizan emp\'{\i}ricamente.
-
-El prop\'{o}sito central no es construir un sistema de recomendaci\'{o}n que compita con las soluciones industriales ---las cuales disponen de datos de interacci\'{o}n masivos y recursos computacionales significativamente mayores---, sino evaluar experimentalmente si la incorporaci\'{o}n de informaci\'{o}n sem\'{a}ntica de letras, combinada con features ac\'{u}sticas mediante clustering y fusi\'{o}n ponderada, produce recomendaciones de mayor calidad que los enfoques unimodales.
+La integraci\'{o}n de ambas modalidades se desarrolla en tres fases. Primero, cada modalidad se representa num\'{e}ricamente: las letras se vectorizan mediante un modelo de lenguaje preentrenado y los descriptores ac\'{u}sticos se normalizan a una escala com\'{u}n. Segundo, cada espacio se caracteriza por separado y se cuantifica la complementariedad entre ambos; esta fase tiene un rol anal\'{\i}tico y de validaci\'{o}n previo a la fusi\'{o}n. Tercero, las recomendaciones se generan por k-vecinos m\'{a}s cercanos en cada espacio por separado y se combinan mediante una estrategia de fusi\'{o}n tard\'{\i}a cuya ponderaci\'{o}n se optimiza emp\'{\i}ricamente.
 
 % ---------------------------------------------------------------------------
 % SECCI\'{O}N 3.3 --- Objetivo General y Objetivos Espec\'{\i}ficos
@@ -35,7 +31,7 @@ El prop\'{o}sito central no es construir un sistema de recomendaci\'{o}n que com
 \section{Objetivo General}
 \label{sec:objetivo-general}
 
-Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que combine clustering optimizado de features ac\'{u}sticas con an\'{a}lisis sem\'{a}ntico de letras mediante embeddings de un modelo de lenguaje preentrenado, y validar experimentalmente que la integraci\'{o}n de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales.
+Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que combine features ac\'{u}sticas con an\'{a}lisis sem\'{a}ntico de letras mediante embeddings de un modelo de lenguaje preentrenado, y validar experimentalmente que la integraci\'{o}n de ambas modalidades produce recomendaciones de mayor calidad que los enfoques unimodales.
 
 \subsection{Objetivos Espec\'{\i}ficos}
 \label{sec:objetivos-especificos}
@@ -43,15 +39,15 @@ Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que
 \begin{enumerate}
     \item Caracterizar el dataset fuente documentando sus propiedades estad\'{\i}sticas, sesgos preexistentes y limitaciones.
 
-    \item Generar representaciones sem\'{a}nticas de las letras mediante un modelo de lenguaje multiling\"{u}e preentrenado, evaluando la cobertura de la ventana de tokens y mitigando el sesgo de truncamiento.
+    \item Generar representaciones sem\'{a}nticas de las letras mediante un modelo de lenguaje multiling\"{u}e preentrenado.
 
-    \item Realizar una evaluaci\'{o}n comparativa sistem\'{a}tica de algoritmos de clustering sobre los espacios musical y sem\'{a}ntico, incluyendo an\'{a}lisis de sensibilidad a hiperpar\'{a}metros.
+    \item Realizar una evaluaci\'{o}n comparativa sistem\'{a}tica de algoritmos de clustering sobre los espacios musical y sem\'{a}ntico.
 
-    \item Verificar emp\'{\i}ricamente la complementariedad entre los espacios de representaci\'{o}n mediante informaci\'{o}n mutua normalizada.
+    \item Verificar la complementariedad entre los espacios de representaci\'{o}n mediante informaci\'{o}n mutua normalizada.
 
-    \item Implementar un sistema de recomendaci\'{o}n h\'{\i}brido con fusi\'{o}n ponderada y optimizaci\'{o}n del peso de fusi\'{o}n mediante grid search.
+    \item Implementar un sistema de recomendaci\'{o}n h\'{\i}brido con fusi\'{o}n ponderada.
 
-    \item Evaluar el sistema completo bajo m\'{e}tricas de precisi\'{o}n, diversidad y cobertura del cat\'{a}logo, declarando expl\'{\i}citamente las limitaciones de los proxies utilizados.
+    \item Evaluar el sistema completo bajo m\'{e}tricas de precisi\'{o}n, diversidad y cobertura del cat\'{a}logo.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -63,13 +59,13 @@ Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que
 Las siguientes hip\'{o}tesis se formulan antes de la ejecuci\'{o}n de los experimentos, en concordancia con la pr\'{a}ctica de pre-registro que la literatura identifica como deseable pero infrecuente en el dominio de MIR.
 
 \begin{description}[leftmargin=2em, style=nextline]
-    \item[H1 --- Complementariedad de modalidades.] Las representaciones sem\'{a}nticas (embeddings de letras) y las representaciones ac\'{u}sticas (features de Spotify) capturan dimensiones distintas de la similitud musical. Se espera que la correlaci\'{o}n entre ambos espacios sea baja (NMI $< 0.15$), lo que indicar\'{\i}a que las modalidades aportan informaci\'{o}n no redundante.
+    \item[H1: Complementariedad de modalidades.] Las representaciones sem\'{a}nticas (embeddings de letras) y las representaciones ac\'{u}sticas (features de Spotify) capturan dimensiones distintas de la similitud musical. Se espera que la correlaci\'{o}n entre ambos espacios sea baja (NMI $< 0.15$), lo que indicar\'{\i}a que las modalidades aportan informaci\'{o}n no redundante.
 
-    \item[H2 --- Superioridad del enfoque multimodal.] La fusi\'{o}n ponderada de recomendaciones basadas en ambas modalidades produce mayor precisi\'{o}n (Precision@10) que las recomendaciones basadas en cualquiera de las dos modalidades por separado, utilizando el g\'{e}nero musical como ground truth proxy.
+    \item[H2: Superioridad del enfoque multimodal.] La fusi\'{o}n ponderada de recomendaciones basadas en ambas modalidades produce mayor precisi\'{o}n (Precision@10) que las recomendaciones basadas en cualquiera de las dos modalidades por separado, utilizando el g\'{e}nero musical como ground truth proxy.
 
-    \item[H3 --- Mejora por purificaci\'{o}n.] La purificaci\'{o}n post-clustering ---la eliminaci\'{o}n o reasignaci\'{o}n de canciones mal ubicadas seg\'{u}n criterios definidos sobre ambas modalidades--- mejora las m\'{e}tricas de calidad de clustering (Silhouette Score) respecto al clustering sin purificar.
+    \item[H3: Mejora por purificaci\'{o}n.] La purificaci\'{o}n post-clustering (la eliminaci\'{o}n o reasignaci\'{o}n de canciones mal ubicadas seg\'{u}n criterios definidos sobre ambas modalidades) mejora las m\'{e}tricas de calidad de clustering (Silhouette Score) respecto al clustering sin purificar.
 
-    \item[H4 --- Tendencia al agrupamiento.] Ambos espacios de representaci\'{o}n exhiben estructura interna susceptible de ser descubierta por algoritmos de clustering, medida por un estad\'{\i}stico de Hopkins significativamente superior a 0.5.
+    \item[H4: Tendencia al agrupamiento.] Ambos espacios de representaci\'{o}n exhiben estructura interna susceptible de ser descubierta por algoritmos de clustering, medida por un estad\'{\i}stico de Hopkins significativamente superior a 0.5.
 \end{description}
 
 % ---------------------------------------------------------------------------
@@ -80,13 +76,14 @@ Las siguientes hip\'{o}tesis se formulan antes de la ejecuci\'{o}n de los experi
 
 Los recursos empleados en el desarrollo del presente trabajo se organizan en cuatro categor\'{\i}as.
 
-\textbf{Datos.} El proyecto opera sobre el dataset p\'{u}blico de \textcite{nakhaee_2020_spotify_lyrics}, que contiene 18\,454 canciones con 12 features ac\'{u}sticas de Spotify, letras completas obtenidas de Genius, metadatos de g\'{e}nero y subg\'{e}nero, e informaci\'{o}n de idioma detectado autom\'{a}ticamente. El dataset se encuentra disponible en Kaggle y no requiere autorizaci\'{o}n especial para su uso en investigaci\'{o}n.
+\textbf{Datos.} El proyecto opera sobre el dataset p\'{u}blico de \textcite{nakhaee_2020_spotify_lyrics}, que contiene 18\,454 canciones con 12 features ac\'{u}sticas de Spotify, letras completas obtenidas de Genius, metadatos de g\'{e}nero y subg\'{e}nero, e informaci\'{o}n de idioma detectado autom\'{a}ticamente.
 
 \textbf{Tecnolog\'{\i}as de software.} La implementaci\'{o}n se realiza en Python, utilizando las siguientes librer\'{\i}as: \texttt{scikit-learn} para algoritmos de clustering (K-Means, Ward, Spectral Clustering) y m\'{e}tricas de evaluaci\'{o}n (Silhouette, Davies-Bouldin, NMI); \texttt{hdbscan} para el algoritmo HDBSCAN; \texttt{sentence-transformers} para la generaci\'{o}n de embeddings sem\'{a}nticos; \texttt{pandas} y \texttt{numpy} para procesamiento y transformaci\'{o}n de datos; y \texttt{matplotlib} para la generaci\'{o}n de figuras.
 
-\textbf{Modelo preentrenado.} La vectorizaci\'{o}n sem\'{a}ntica de letras utiliza el modelo \texttt{multilingual-e5-small} de Microsoft \parencite{wang_2022_e5}, disponible p\'{u}blicamente a trav\'{e}s de la plataforma Hugging Face. El modelo genera vectores de 384 dimensiones con una ventana de 512 tokens y soporte para m\'{a}s de 100 idiomas. Al tratarse de un modelo preentrenado, no requiere entrenamiento adicional para su uso en el presente trabajo.
+{\emergencystretch=3em
+\textbf{Modelo preentrenado.} La vectorizaci\'{o}n sem\'{a}ntica de letras utiliza el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} de Microsoft \parencite{wang_2022_e5}. El modelo genera vectores de 384 dimensiones con una ventana de 512 tokens y soporte para m\'{a}s de 100 idiomas. Al tratarse de un modelo preentrenado, no requiere entrenamiento adicional para su uso en el presente trabajo.\par}
 
-\textbf{Infraestructura.} Los experimentos se ejecutan en un entorno local sin requisitos de GPU. Los embeddings de 384 dimensiones pueden generarse en CPU en tiempos razonables para un dataset de la escala utilizada. Las semillas aleatorias se fijan de forma centralizada en la configuraci\'{o}n del proyecto para garantizar la reproducibilidad de los resultados.
+\textbf{Infraestructura.} Los experimentos se ejecutan en un entorno local sin requisitos de GPU.
 
 % ---------------------------------------------------------------------------
 % SECCI\'{O}N 3.6 --- Alcance y Limitaciones
@@ -101,9 +98,9 @@ El alcance del presente trabajo se circunscribe a los siguientes elementos:
 
     \item \textbf{Features ac\'{u}sticas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration\_ms), cuyas propiedades se describen en el Marco Te\'{o}rico (Secci\'{o}n~\ref{subsec:descriptores-spotify}).
 
-    \item \textbf{Features sem\'{a}nticas}: Las letras se vectorizan mediante el modelo \texttt{multilingual-e5-small} de Microsoft, produciendo embeddings de 384 dimensiones con una ventana de 512 tokens. Se emplea un modelo multiling\"{u}e sin traducci\'{o}n previa de las letras.
+    \item \textbf{Features sem\'{a}nticas}: Las letras se vectorizan mediante el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} de Microsoft, produciendo embeddings de 384 dimensiones con una ventana de 512 tokens. Se emplea un modelo multiling\"{u}e sin traducci\'{o}n previa de las letras.
 
-    \item \textbf{Algoritmos de clustering}: Se eval\'{u}an K-Means, Jer\'{a}rquico Aglomerativo, Spectral Clustering y HDBSCAN. No se incluyen enfoques de deep clustering ni modelos generativos.
+    \item \textbf{Algoritmos de clustering}: Se eval\'{u}an K-Means, Jer\'{a}rquico Aglomerativo, Spectral Clustering y HDBSCAN.
 
     \item \textbf{Evaluaci\'{o}n}: La validaci\'{o}n utiliza el g\'{e}nero musical como ground truth proxy para las m\'{e}tricas de recomendaci\'{o}n. Se reconoce expl\'{\i}citamente que el g\'{e}nero es una aproximaci\'{o}n imperfecta de la preferencia musical real, no una verdad absoluta.
 \end{itemize}
@@ -111,19 +108,13 @@ El alcance del presente trabajo se circunscribe a los siguientes elementos:
 Las principales limitaciones identificadas son:
 
 \begin{enumerate}
-    \item \textbf{Cobertura de letras.} El dataset contiene letras v\'{a}lidas para el 98.6\% de los registros (18\,202 de 18\,454). Las 252 canciones sin letras corresponden mayoritariamente a tracks instrumentales o de m\'{u}sica electr\'{o}nica sin transcripci\'{o}n en Genius. La p\'{e}rdida de datos en cada etapa del pipeline se documenta expl\'{\i}citamente mediante un presupuesto de p\'{e}rdida.
+    \item \textbf{Cobertura de letras.} El dataset contiene letras v\'{a}lidas para el 98.6\% de los registros (18\,202 de 18\,454). Las 252 canciones sin letras corresponden mayoritariamente a tracks instrumentales o de m\'{u}sica electr\'{o}nica sin transcripci\'{o}n en Genius. La p\'{e}rdida de datos en cada etapa del pipeline se documenta expl\'{\i}citamente.
 
-    \item \textbf{Sesgo ling\"{u}\'{\i}stico.} El 83.5\% de las letras est\'{a}n en ingl\'{e}s, con espa\~{n}ol en segundo lugar (9.2\%) y 33 idiomas adicionales que representan el 7.3\% restante (entrop\'{\i}a normalizada: 0.21). El modelo \texttt{multilingual-e5-small} soporta m\'{a}s de 100 idiomas, pero su rendimiento puede variar seg\'{u}n la representaci\'{o}n de cada idioma en sus datos de entrenamiento. Los resultados del sistema reflejan predominantemente el comportamiento sobre texto en ingl\'{e}s.
+    \item \textbf{Sesgo ling\"{u}\'{\i}stico.} El 83.5\% de las letras est\'{a}n en ingl\'{e}s, con espa\~{n}ol en segundo lugar (9.2\%) y 33 idiomas adicionales que representan el 7.3\% restante. El modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} soporta m\'{a}s de 100 idiomas, pero su rendimiento puede variar seg\'{u}n la representaci\'{o}n de cada idioma en sus datos de entrenamiento. Los resultados del sistema reflejan predominantemente el comportamiento sobre texto en ingl\'{e}s.
 
     \item \textbf{Sesgo de instrumentalidad.} El 95.5\% de las canciones tienen un valor de \textit{instrumentalness} inferior a 0.5, y el 82.3\% se ubica por debajo de 0.01. El cat\'{a}logo est\'{a} compuesto casi exclusivamente por canciones vocales, lo que impide evaluar el comportamiento del sistema sobre m\'{u}sica instrumental.
 
-    \item \textbf{Ventana de tokens.} Una estimaci\'{o}n heur\'{\i}stica indica que aproximadamente el 59\% de las letras caben dentro de la ventana de 512 tokens del modelo sin truncamiento. Las letras m\'{a}s extensas ---particularmente en g\'{e}neros narrativos--- perder\'{a}n informaci\'{o}n sem\'{a}ntica al ser truncadas. La cobertura real se medir\'{a} con el tokenizador del modelo durante la vectorizaci\'{o}n.
-
-    \item \textbf{Ausencia de datos de interacci\'{o}n.} No se utilizan datos de comportamiento de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido. Las m\'{e}tricas de evaluaci\'{o}n son intr\'{\i}nsecas (calidad de clustering) y basadas en el g\'{e}nero musical como ground truth proxy, reconociendo expl\'{\i}citamente que esta es una aproximaci\'{o}n imperfecta de la preferencia musical real.
-
-    \item \textbf{Escala.} Los experimentos se ejecutan sobre un dataset de 18\,454 canciones. La escalabilidad del sistema a cat\'{a}logos de millones de canciones no se valida en este trabajo.
-
-    \item \textbf{Dependencia de fuente propietaria.} Las features ac\'{u}sticas de Spotify fueron obtenidas antes de la restricci\'{o}n de acceso a la API (noviembre de 2024). Investigadores futuros no podr\'{a}n replicar la obtenci\'{o}n de estas features por la misma v\'{\i}a, lo que limita la reproducibilidad externa del pipeline de datos.
+    \item \textbf{Ausencia de datos de interacci\'{o}n.} Las m\'{e}tricas de evaluaci\'{o}n son intr\'{\i}nsecas (calidad de clustering) y basadas en el g\'{e}nero musical como ground truth proxy.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -135,35 +126,112 @@ Las principales limitaciones identificadas son:
 \subsection{Metodología del proyecto}
 \label{subsec:metodologia}
 
-El presente proyecto se desarrolló bajo un enfoque metodológico iterativo por etapas, adaptado a las características particulares de un trabajo de tesis de grado realizado por dos coautores en modalidad de trabajo conjunto continuo. La selección de esta metodología responde a un análisis comparativo de las alternativas más establecidas en gestión de proyectos de software y de investigación.
+El proyecto se desarrolló bajo un enfoque iterativo por etapas. El alcance se divide en bloques secuenciales acotados, cada uno con un objetivo definido y un conjunto de resultados esperados. Dentro de cada etapa se aplica un mismo ciclo de trabajo: se delimita el objetivo y los resultados a producir, se diseña e implementa la solución técnica correspondiente, se validan los resultados frente a los criterios establecidos para esa etapa y se documenta lo realizado en la sección del informe que corresponde. Una etapa se cierra cuando sus resultados están consolidados y validados, y sobre ellos se construye la siguiente, sin retomar decisiones anteriores salvo que el avance posterior lo exija. La redacción del informe avanza en paralelo a la implementación, de modo que las decisiones técnicas queden registradas con su justificación en el momento en que se toman.
 
-La metodología en cascada, basada en fases secuenciales rígidas (relevamiento, análisis, diseño, implementación, pruebas), resulta inadecuada para proyectos con un componente experimental significativo. En el dominio de Music Information Retrieval, las decisiones técnicas frecuentemente dependen de hallazgos empíricos que sólo se manifiestan al ejecutar experimentos: el comportamiento de un algoritmo de clustering sobre embeddings de alta dimensionalidad, la cobertura real de la ventana de tokens del modelo de lenguaje o la complementariedad efectiva entre modalidades no son determinables a priori. Una metodología que prohíba el retorno a etapas previas sería incompatible con la naturaleza iterativa de la investigación experimental.
-
-Las metodologías ágiles puras como SCRUM, por su parte, presuponen estructuras organizacionales (\textit{product owner}, \textit{scrum master}, equipo de desarrollo de tamaño mediano) y artefactos (\textit{backlog} priorizado, \textit{sprints} regulares, ceremonias de planificación y revisión) que no aplican naturalmente a un equipo de dos personas con dedicación parcial y un objetivo único de mediano plazo. La sobrecarga ceremonial de SCRUM superaría el beneficio que aportaría a un proyecto con esta escala y configuración.
-
-Se adoptó en consecuencia un enfoque iterativo por etapas con dos rasgos distintivos: el principio de \textbf{desarrollo y documentación simultáneos} y el modelo de \textbf{trabajo conjunto continuo}.
-
-\textbf{Desarrollo y documentación simultáneos.} Cada etapa del proyecto produce dos entregables verificables: el código funcional con sus artefactos asociados (datos procesados, modelos entrenados, métricas registradas) y la sección correspondiente del informe en \LaTeX{}. La redacción no se posterga hasta la finalización de los experimentos: se realiza junto a la ejecución de cada etapa, lo que evita el sesgo retrospectivo y obliga a que las decisiones técnicas queden documentadas en el momento en que se toman, con su justificación completa.
-
-\textbf{Trabajo conjunto continuo.} Los dos coautores trabajaron simultáneamente sobre cada artefacto, sin división por componente ni paralelización de tareas independientes. Este modelo, conceptualmente análogo al \textit{pair programming} extendido a la escala del proyecto completo, prioriza la calidad y la comprensión compartida sobre la velocidad de avance. Sus beneficios incluyen la revisión peer continua ---cada decisión técnica es discutida en tiempo real por ambos autores---, el modelo mental compartido ---ningún autor depende del otro para comprender una porción del sistema--- y la eliminación del overhead de coordinación formal ---no se requiere documentación interna de transferencia de conocimiento entre autores---. El costo asumido es un menor \textit{throughput} respecto a un equipo trabajando en paralelo, costo aceptable en un contexto donde el objetivo es producir un trabajo coherente y defendible por ambos autores antes que maximizar la velocidad de ejecución.
+El equipo está formado por dos alumnos. La investigación bibliográfica, el análisis y depuración del dataset, el estudio comparativo de los espacios de representación mediante clustering, la comparación de métricas entre espacios y la integración final que articula el sistema de recomendación se abordaron de forma conjunta. La construcción del componente musical y la del componente semántico se distribuyeron entre los dos, asumiendo cada uno la responsabilidad técnica principal sobre uno de los dos espacios.
 
 \textbf{Estructura por etapas.} El proyecto se organiza en seis etapas secuenciales, cada una con entregables claramente definidos:
 
 \begin{enumerate}
-    \item \textbf{Fundación}: definición de la estructura del repositorio, configuración centralizada del proyecto, esqueleto del informe en \LaTeX{} con sus siete capítulos y tres anexos, e inicio de la investigación bibliográfica.
-    \item \textbf{Datos}: carga, validación, análisis exploratorio y preprocesamiento del dataset fuente, con documentación explícita del presupuesto de pérdida.
-    \item \textbf{Features}: vectorización semántica de letras mediante el modelo \texttt{multilingual-e5-small}, normalización de features acústicas y unificación de las representaciones en un único artefacto.
+    \item \textbf{Fundación}: definición de la estructura del repositorio, configuración centralizada del proyecto e inicio de la investigación bibliográfica.
+    \item \textbf{Datos}: carga, validación, análisis exploratorio y preprocesamiento del dataset fuente, con documentación explícita.
+    \item \textbf{Features}: vectorización semántica de letras mediante el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small}, normalización de features acústicas y unificación de las representaciones en un único artefacto.
     \item \textbf{Clustering}: evaluación de tendencia al agrupamiento mediante el estadístico de Hopkins, comparación sistemática de algoritmos sobre ambos espacios, análisis de complementariedad cross-modal y purificación.
     \item \textbf{Recomendación}: implementación del sistema híbrido por k-vecinos más cercanos con fusión tardía, optimización del peso de fusión mediante \textit{grid search} y evaluación bajo métricas de precisión, diversidad y cobertura.
     \item \textbf{Síntesis}: ejecución de pruebas de calidad externas, redacción de conclusiones, integración final y compilación del informe.
 \end{enumerate}
 
-\textbf{Garantías de reproducibilidad.} El enfoque incorpora tres mecanismos para asegurar la reproducibilidad de los resultados: (i) configuración centralizada en el módulo \texttt{src/config.py}, donde se definen todos los parámetros globales (semillas aleatorias, rutas, umbrales) y desde donde son consumidos por el resto del código, evitando definiciones locales dispersas; (ii) pre-registro de hipótesis antes de la ejecución de los experimentos, formalizado en la Sección~\ref{sec:hipotesis} de este capítulo, con el fin de evitar la formulación retrospectiva de hipótesis a partir de los resultados observados; (iii) versionado integral del proyecto mediante Git, incluyendo código, informe \LaTeX{} y archivos de métricas en formato JSON, lo que permite reconstruir el estado del proyecto en cualquier punto del cronograma.
+La Figura~\ref{fig:metodologia} ilustra el funcionamiento de la metodología aplicada al proyecto, articulando sus dos niveles: la secuencia macro de las seis etapas y el ciclo de trabajo micro que se aplica dentro de cada una.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    stage/.style={
+        rectangle, draw=blue!55!black, very thick, rounded corners=3pt,
+        minimum width=2.1cm, minimum height=1.25cm, align=center,
+        fill=blue!12, font=\footnotesize, inner sep=3pt
+    },
+    cyclestep/.style={
+        rectangle, draw=orange!75!black, very thick, rounded corners=3pt,
+        minimum width=2.4cm, minimum height=1.05cm, align=center,
+        fill=orange!10, font=\footnotesize, inner sep=3pt
+    },
+    docstep/.style={
+        rectangle, draw=orange!75!black, very thick, rounded corners=3pt,
+        minimum width=2.4cm, minimum height=1.05cm, align=center,
+        fill=orange!25, font=\footnotesize, inner sep=3pt
+    },
+    bigarrow/.style={-{Latex[length=3mm]}, very thick, blue!55!black},
+    cycarrow/.style={-{Latex[length=2.5mm]}, thick, orange!80!black},
+    callout/.style={dashed, gray!55, thick},
+    tierlabel/.style={font=\small\bfseries\sffamily, color=black!75},
+    midlabel/.style={font=\footnotesize\itshape, color=gray!40!black},
+    docnote/.style={font=\scriptsize\itshape, color=gray!50!black, align=center}
+]
+
+% ============================
+% TIER 1: STAGES (TOP)
+% ============================
+\node[tierlabel] at (7, 6.6) {ETAPAS DEL PROYECTO};
+
+\node[stage] (s1) at (0, 4.1)  {\large\textbf{1}\\[0.05cm]Fundación};
+\node[stage] (s2) at (2.8, 4.1) {\large\textbf{2}\\[0.05cm]Datos};
+\node[stage] (s3) at (5.6, 4.1) {\large\textbf{3}\\[0.05cm]Features};
+\node[stage] (s4) at (8.4, 4.1) {\large\textbf{4}\\[0.05cm]Clustering};
+\node[stage] (s5) at (11.2, 4.1) {\large\textbf{5}\\[0.05cm]Recomendación};
+\node[stage] (s6) at (14.0, 4.1) {\large\textbf{6}\\[0.05cm]Síntesis};
+
+\draw[bigarrow] (s1) -- (s2);
+\draw[bigarrow] (s2) -- (s3);
+\draw[bigarrow] (s3) -- (s4);
+\draw[bigarrow] (s4) -- (s5);
+\draw[bigarrow] (s5) -- (s6);
+
+% Backward arrow: possibility of returning to a prior stage
+\draw[dashed, gray!55!black, semithick, -{Latex[length=2.5mm]}]
+    (s6.north) to[bend right=22]
+    node[midway, fill=white, inner sep=2pt, font=\scriptsize\itshape, color=gray!45!black]
+    {Retorno excepcional cuando el avance posterior lo exige}
+    (s1.north);
+
+% ============================
+% MIDDLE CONNECTOR
+% ============================
+\node[midlabel] at (7, 2.55) {Cada etapa se ejecuta aplicando el siguiente ciclo de trabajo:};
+
+\draw[callout] (s1.south west) -- (-0.3, 1.15);
+\draw[callout] (s6.south east) -- (15.3, 1.15);
+
+% ============================
+% TIER 2: CYCLE (BOTTOM)
+% ============================
+\node[cyclestep] (c1) at (0.5, 0.6) {\textbf{1.} Objetivo\\y entregables};
+\node[cyclestep] (c2) at (3.95, 0.6) {\textbf{2.} Diseño e\\implementación};
+\node[cyclestep] (c3) at (7.4, 0.6) {\textbf{3.} Validación\\de resultados};
+\node[docstep]   (c4) at (10.85, 0.6) {\textbf{4.} Documentación\\en \LaTeX{}};
+\node[cyclestep] (c5) at (14.3, 0.6) {\textbf{5.} Cierre y\\consolidación};
+
+\draw[cycarrow] (c1) -- (c2);
+\draw[cycarrow] (c2) -- (c3);
+\draw[cycarrow] (c3) -- (c4);
+\draw[cycarrow] (c4) -- (c5);
+
+% Parallel documentation indicator
+\draw[orange!80!black, very thick, decorate, decoration={brace, amplitude=4pt, mirror}]
+    ([yshift=-3pt]c2.south west) -- ([yshift=-3pt]c4.south east)
+    node[docnote, midway, below=10pt] {La documentación en \LaTeX{} avanza en paralelo a la implementación};
+
+\end{tikzpicture}%
+}
+\caption{Funcionamiento de la metodología iterativa por etapas aplicada al proyecto. El nivel superior representa la secuencia de las seis etapas en que se descompone el proyecto; la flecha discontinua indica que, si bien el avance es secuencial por defecto, se contempla la posibilidad de retomar etapas anteriores cuando el progreso posterior lo exige. El nivel inferior detalla el ciclo de trabajo que se aplica dentro de cada etapa: definición del objetivo y entregables, diseño e implementación, validación, documentación en \LaTeX{} y cierre. La documentación no es una fase aislada al final del ciclo sino que avanza en paralelo a la implementación, lo que permite registrar las decisiones técnicas en el momento en que se toman.}
+\label{fig:metodologia}
+\end{figure}
 
 \subsection{Cronograma y diagrama de Gantt}
 \label{subsec:gantt}
 
-El proyecto se ejecuta en un horizonte temporal de 28 semanas, equivalente a aproximadamente siete meses de trabajo, con una dedicación estimada de 20 horas semanales por coautor. Esta carga es coherente con la asignación horaria típica de los proyectos finales de Ingeniería en universidades argentinas y resulta compatible con la cursada residual o el trabajo parcial habituales en estudiantes de los últimos cuatrimestres de carrera.
+El proyecto se ejecuta en un horizonte temporal de 28 semanas, equivalente a aproximadamente siete meses de trabajo, con una dedicación estimada de 20 horas semanales por coautor.
 
 La distribución por etapas refleja la complejidad relativa de cada componente del sistema. La Etapa 4 (Clustering) recibe la mayor asignación temporal por concentrar el grueso de la experimentación: comparación sistemática de cuatro algoritmos sobre dos espacios de representación, tuning de hiperparámetros, análisis de complementariedad cross-modal y purificación post-clustering. Las Etapas 1 (Fundación) y 6 (Síntesis) son las más breves, al concentrarse en actividades de configuración inicial e integración final, respectivamente. La Tabla~\ref{tab:cronograma} resume la distribución y la Figura~\ref{fig:gantt} la representa gráficamente.
 
@@ -250,13 +318,13 @@ El estudio económico tiene como objetivo cuantificar los costos hipotéticos de
 
 La selección de la categoría \textit{Programador Aplicaciones Junior} responde al perfil real de los autores: estudiantes de Ingeniería Informática en proceso de finalización de carrera, sin experiencia profesional senior previa demostrable. Aunque el contenido técnico del proyecto involucra técnicas propias de perfiles más especializados (científico de datos, especialista en NLP), la categoría junior es la más conservadora y refleja con mayor fidelidad la realidad del trabajo. Categorías como \textit{Científico de Datos / IA / ML}, con tarifa de \$\,90.657 ARS por hora, corresponderían a profesionales con formación senior consolidada, lo cual sería incongruente con el perfil de tesistas y inflaría artificialmente el costo proyectado.
 
-\textbf{Costo de infraestructura.} Comprende los recursos de hardware utilizados por los autores. La depreciación de los equipos personales prorrateada sobre el horizonte de 28 semanas, considerando un valor de adquisición de referencia y una vida útil de 36 meses, se estima en aproximadamente \$\,400.000 ARS para el conjunto de ambos equipos. El cómputo se ejecutó íntegramente en hardware local sin requerir servicios cloud: la operación más intensiva del pipeline ---la vectorización semántica del catálogo completo--- demandó dos horas y tres minutos de CPU, equivalente a aproximadamente USD 0,20 si se hubiese ejecutado en una instancia AWS EC2 \texttt{c5.large} bajo demanda.
+\textbf{Costo de infraestructura.} Comprende los recursos de hardware utilizados por los autores. La depreciación de los equipos personales prorrateada sobre el horizonte de 28 semanas, considerando un valor de adquisición de referencia y una vida útil de 36 meses, se estima en aproximadamente \$\,400.000 ARS para el conjunto de ambos equipos. El cómputo se ejecutó íntegramente en hardware local sin requerir servicios cloud: la operación más intensiva del pipeline (la vectorización semántica del catálogo completo) demandó dos horas y tres minutos de CPU, equivalente a aproximadamente USD 0,20 si se hubiese ejecutado en una instancia AWS EC2 \texttt{c5.large} bajo demanda.
 
-\textbf{Costo de software y modelos.} Es nulo. Todas las dependencias del proyecto son de código abierto, distribuidas bajo licencias permisivas: \texttt{Python}, \texttt{scikit-learn} (BSD), \texttt{numpy} (BSD), \texttt{pandas} (BSD), \texttt{sentence-transformers} (Apache 2.0), \texttt{hdbscan} (BSD) y \texttt{matplotlib} (PSF). El modelo \texttt{multilingual-e5-small}, distribuido por Microsoft a través de la plataforma Hugging Face bajo licencia MIT, no requiere pago por uso ni por inferencia. La eliminación de costos de software representa un ahorro significativo frente a alternativas propietarias.
+\textbf{Costo de software y modelos.} Es nulo. Todas las dependencias del proyecto son de código abierto, distribuidas bajo licencias permisivas: \texttt{Python}, \texttt{scikit-learn} (BSD), \texttt{numpy} (BSD), \texttt{pandas} (BSD), \texttt{sentence-transformers} (Apache 2.0), \texttt{hdbscan} (BSD) y \texttt{matplotlib} (PSF). El modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small}, distribuido por Microsoft a través de la plataforma Hugging Face bajo licencia MIT, no requiere pago por uso ni por inferencia. La eliminación de costos de software representa un ahorro significativo frente a alternativas propietarias.
 
 \textbf{Costo de datos.} Es nulo. El dataset fuente \parencite{nakhaee_2020_spotify_lyrics} está disponible públicamente en Kaggle bajo licencia abierta para uso no comercial e investigación.
 
-\textbf{Comparación con alternativas propietarias.} Si la vectorización semántica se hubiese realizado mediante una API comercial como OpenAI \texttt{text-embedding-3-small}, con tarifa de USD 0{,}02 por millón de tokens, el costo aproximado para las 17.964 letras (con un promedio de 600 tokens por letra) sería de aproximadamente USD 0,22 por una pasada completa del catálogo. Aunque el monto absoluto es marginal, la opción comercial presenta dos desventajas estratégicas frente a la solución de código abierto: el costo recurrente ante cada re-ejecución del pipeline durante la fase experimental ---con múltiples iteraciones de tuning, el costo escala linealmente--- y la dependencia de un proveedor cerrado (\textit{vendor lock-in}), con riesgos asociados a cambios de precio, limitaciones de tasa o discontinuación del servicio.
+\textbf{Comparación con alternativas propietarias.} Si la vectorización semántica se hubiese realizado mediante una API comercial como OpenAI \texttt{text-embedding-3-small}, con tarifa de USD 0{,}02 por millón de tokens, el costo aproximado para las 17.964 letras (con un promedio de 600 tokens por letra) sería de aproximadamente USD 0,22 por una pasada completa del catálogo. Aunque el monto absoluto es marginal, la opción comercial presenta dos desventajas estratégicas frente a la solución de código abierto: el costo recurrente ante cada re-ejecución del pipeline durante la fase experimental (con múltiples iteraciones de tuning, el costo escala linealmente) y la dependencia de un proveedor cerrado (\textit{vendor lock-in}), con riesgos asociados a cambios de precio, limitaciones de tasa o discontinuación del servicio.
 
 \textbf{Costo total estimado del proyecto:} aproximadamente \$\,39.580.960 ARS, equivalentes a USD 34.000 al tipo de cambio MEP de abril de 2026. El costo humano representa más del 99\% del total, lo que refleja que el valor agregado del proyecto reside en el trabajo intelectual de diseño, implementación y evaluación, antes que en los recursos materiales empleados.
 
@@ -277,7 +345,7 @@ El análisis de riesgos del proyecto cubre cuatro dimensiones: técnicos (relaci
 \multicolumn{5}{l}{\textit{Riesgos técnicos}} \\
 R1 & Deprecación de la API de \textit{audio features} de Spotify           & A & A & Uso de dataset preexistente extraído antes de la deprecación; documentación como limitación de reproducibilidad. \\
 R2 & Incompatibilidad por cambios de versión en librerías          & M & M & Fijación de versiones en archivo de requerimientos; entorno virtual aislado. \\
-R3 & Discontinuación del modelo \texttt{multilingual-e5-small}     & B & A & Archivado local de los pesos del modelo y de los embeddings generados. \\
+R3 & Discontinuación del modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small}     & B & A & Archivado local de los pesos del modelo y de los embeddings generados. \\
 \midrule
 \multicolumn{5}{l}{\textit{Riesgos de datos}} \\
 R4 & Sesgo lingüístico (predominio del inglés)                     & A & M & Declaración explícita como limitación; uso de modelo multilingüe que mitiga parcialmente el sesgo. \\
@@ -297,7 +365,7 @@ R10 & Dependencia mutua de disponibilidad entre coautores          & B & A & Fle
 
 Algunos riesgos identificados se materializaron durante la ejecución del proyecto y la mitigación adoptada permitió absorberlos sin comprometer los objetivos. El riesgo R1, relacionado con la deprecación de la API de \textit{audio features} de Spotify, ocurrió en noviembre de 2024 y fue absorbido íntegramente al disponer de un dataset preexistente que ya contenía las features extraídas previamente. El riesgo R4, asociado al sesgo lingüístico, se materializó (83.5\% de letras en inglés) y fue declarado explícitamente como limitación del trabajo en lugar de oculto. El riesgo R6, sobre cobertura real de la ventana de tokens, también se materializó (53.5\% real frente al 58.8\% estimado por heurística) y fue mitigado mediante la implementación de chunking con agregación por promedio.
 
-El modelo de trabajo conjunto introduce un riesgo específico (R10) de baja probabilidad pero potencialmente alto impacto: la dependencia mutua de disponibilidad. Si uno de los coautores no pudiese trabajar durante un período prolongado, el otro quedaría limitado en la toma de decisiones técnicas críticas, aunque podría continuar avanzando en tareas de redacción individual. La mitigación consistió en flexibilizar los horarios de sincronización y postergar las decisiones técnicas críticas hasta sesiones conjuntas, sin establecer cronogramas rígidos por sesión. El riesgo opuesto ---el cuello de botella unipersonal de conocimiento--- queda eliminado por construcción del modelo: ambos autores conocen integralmente el sistema al haber trabajado juntos sobre cada artefacto.
+El modelo de trabajo conjunto introduce un riesgo específico (R10) de baja probabilidad pero potencialmente alto impacto: la dependencia mutua de disponibilidad. Si uno de los coautores no pudiese trabajar durante un período prolongado, el otro quedaría limitado en la toma de decisiones técnicas críticas, aunque podría continuar avanzando en tareas de redacción individual. La mitigación consistió en flexibilizar los horarios de sincronización y postergar las decisiones técnicas críticas hasta sesiones conjuntas, sin establecer cronogramas rígidos por sesión. El riesgo opuesto (el cuello de botella unipersonal de conocimiento) queda eliminado por construcción del modelo: ambos autores conocen integralmente el sistema al haber trabajado juntos sobre cada artefacto.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 3.9 — Aspectos legales y éticos
@@ -329,12 +397,12 @@ El sistema implementado se evalúa mediante métricas cuantitativas (Precision@1
 
 Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyecto. Esta sección formaliza su definición y criterios de aceptación.
 
-\textbf{Prueba A --- Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad postulada por la hipótesis H1.
+\textbf{Prueba A: Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad postulada por la hipótesis H1.
 
-\textbf{Prueba B --- Comparación con baselines numéricos.} Su objetivo es contextualizar la magnitud del Precision@10 obtenido por el sistema frente a recomendadores triviales que sirven como cota inferior. Se implementan tres baselines: recomendación aleatoria (cota inferior absoluta), recomendación por género mayoritario (cota inferior contextual) y recomendación por similitud sobre features acústicas crudas sin normalización (sistema mínimo razonable). El criterio de aceptación es que el sistema híbrido supere significativamente a cada baseline en Precision@10, demostrando que la sofisticación metodológica adoptada produce mejoras mensurables sobre alternativas más simples.
+\textbf{Prueba B: Comparación con baselines numéricos.} Su objetivo es contextualizar la magnitud del Precision@10 obtenido por el sistema frente a recomendadores triviales que sirven como cota inferior. Se implementan tres baselines: recomendación aleatoria (cota inferior absoluta), recomendación por género mayoritario (cota inferior contextual) y recomendación por similitud sobre features acústicas crudas sin normalización (sistema mínimo razonable). El criterio de aceptación es que el sistema híbrido supere significativamente a cada baseline en Precision@10, demostrando que la sofisticación metodológica adoptada produce mejoras mensurables sobre alternativas más simples.
 
-\textbf{Prueba C --- Probes temáticos.} Su objetivo es verificar la capacidad del componente semántico para capturar similitud temática genuina más allá de la similitud por género musical. Se construye un conjunto reducido de queries temáticas dirigidas (canciones sobre desamor, canciones políticas, canciones sobre celebración, canciones narrativas) y se inspecciona si las recomendaciones recuperan otras canciones del mismo tema, incluso cuando pertenecen a géneros distintos. El criterio de aceptación es la recuperación efectiva de canciones temáticamente afines a través de fronteras de género, lo que validaría que el componente semántico aporta una dimensión de similitud no reducible a la afinidad acústica.
+\textbf{Prueba C: Probes temáticos.} Su objetivo es verificar la capacidad del componente semántico para capturar similitud temática genuina más allá de la similitud por género musical. Se construye un conjunto reducido de queries temáticas dirigidas (canciones sobre desamor, canciones políticas, canciones sobre celebración, canciones narrativas) y se inspecciona si las recomendaciones recuperan otras canciones del mismo tema, incluso cuando pertenecen a géneros distintos. El criterio de aceptación es la recuperación efectiva de canciones temáticamente afines a través de fronteras de género, lo que validaría que el componente semántico aporta una dimensión de similitud no reducible a la afinidad acústica.
 
-\textbf{Prueba D --- Consistencia cross-language.} Su objetivo es verificar que el modelo \texttt{multilingual-e5-small} produce representaciones semánticamente coherentes para letras en idiomas distintos al inglés, dado el sesgo lingüístico del catálogo (83.5\% inglés). Se identifican canciones en español, portugués y otros idiomas con temáticas claramente reconocibles y se verifica si sus recomendaciones top-10 incluyen canciones de la misma temática, sin restringirse al mismo idioma. El criterio de aceptación es la observación de recuperación temática cross-lingual coherente, lo que respaldaría la decisión de adoptar un modelo multilingüe en lugar de uno monolingüe inglés con traducción previa.
+\textbf{Prueba D: Consistencia cross-language.} Su objetivo es verificar que el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} produce representaciones semánticamente coherentes para letras en idiomas distintos al inglés, dado el sesgo lingüístico del catálogo (83.5\% inglés). Se identifican canciones en español, portugués y otros idiomas con temáticas claramente reconocibles y se verifica si sus recomendaciones top-10 incluyen canciones de la misma temática, sin restringirse al mismo idioma. El criterio de aceptación es la observación de recuperación temática cross-lingual coherente, lo que respaldaría la decisión de adoptar un modelo multilingüe en lugar de uno monolingüe inglés con traducción previa.
 
 El resultado de cada prueba se documentará en el informe junto con las métricas cuantitativas del Capítulo~\ref{ch:resultados}, sustentando o matizando las conclusiones que las cifras por sí solas permitirían establecer.
