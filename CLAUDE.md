@@ -88,6 +88,8 @@ Principios establecidos durante la redaccion del Capitulo 2:
 - **Rol del clustering en el informe**: herramienta analitica/validacion (Hopkins de estructura, NMI de complementariedad cross-modal). NO es mecanismo de recomendacion. La recomendacion opera sobre similitudes k-NN.
 - **Division Estado de la Cuestion vs Solucion Propuesta**: el Estado de la Cuestion describe el panorama y trade-offs en terminos generales del campo. Las decisiones especificas del proyecto (con numeros concretos: 384+13=397, α=0.80, etc.) van en Solucion Propuesta, no en el Estado de la Cuestion.
 - **Sin guiones largos** (`---`) en el texto del informe. Reemplazar por comas, paréntesis o dos puntos según corresponda.
+- **Capitulo 3 con tono de planificacion, no retrospectivo**: el Capitulo 3 (Definicion del Problema) describe el proyecto en perspectiva de planificacion. Riesgos como "mitigacion prevista" (no "adoptada"), cronograma como distribucion planificada del equipo, sin parrafos que narren si los riesgos se materializaron o si las heuristicas resultaron acertadas. El analisis a posteriori va en §6 (Resultados) y §7 (Conclusiones).
+- **Estudio economico**: se adopta la escala de honorarios COPAIPA (Salta, enero 2026) sobre un equipo profesional planificado de 4 perfiles (Lider de Proyecto, Analista Funcional, Responsable de Desarrollo, Desarrollador), no sobre la dedicacion real de los coautores. Costo total resultante: $17.274.662 ARS (~USD 12.300). El PDF de referencia esta en `docs/COPAIPA/`.
 
 ---
 
@@ -196,18 +198,18 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 
 | Archivo | Capitulo | Estado |
 |---------|----------|--------|
-| `thesis/main.tex` | Documento maestro | Completo |
-| `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion | Borrador |
-| `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** |
-| `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | Pendiente |
-| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Esqueleto anotado (6 secciones, 21 subsecciones, §4.3 escrito) |
+| `thesis/main.tex` | Documento maestro | Completo (incluye `pdflscape` para Gantt apaisado) |
+| `thesis/chapters/01_introduccion.tex` | Cap 1: Introduccion | Ampliado (§1.1-§1.4) |
+| `thesis/chapters/03_estado_cuestion.tex` | Cap 2: Estado de la Cuestion | **Completo** (revisado 2026-05-13) |
+| `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | **Completo** (rediseno cronograma + estudio economico COPAIPA + riesgos 2026-05-20) |
+| `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Completo (§4.1-§4.6, 8 subsecciones en §4.5) |
 | `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | Completo (§5.1-§5.7) |
-| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Pendiente |
-| `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Pendiente |
-| `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Pendiente |
-| `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas | Pendiente |
-| `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad | Pendiente |
-| `thesis/bibliography.bib` | Referencias (~58 entradas) | En progreso |
+| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Completo (§6.1-§6.7, §6.7 Plan de Pruebas agregado 2026-05-20) |
+| `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Completo (§7.1-§7.4) |
+| `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Completo |
+| `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas | Completo |
+| `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad | Completo |
+| `thesis/bibliography.bib` | Referencias (~65 entradas) | En progreso |
 
 **Nota**: Los nombres de archivo (01\_, 02\_, etc.) no corresponden al orden de capitulos. El orden real esta definido por la secuencia de `\input` en `main.tex`.
 
