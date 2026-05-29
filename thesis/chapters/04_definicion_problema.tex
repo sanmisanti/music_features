@@ -227,18 +227,7 @@ El cronograma del proyecto es la distribución temporal planificada del conjunto
 
 El proyecto se ejecuta en un horizonte temporal de 28 semanas, equivalente a aproximadamente siete meses de trabajo.
 
-Cada etapa se descompone internamente en subetapas:
-
-\begin{itemize}
-    \item \textbf{Etapa 1: Fundación (3 semanas).} Definición de la estructura del repositorio, esqueleto del informe y configuración del proyecto.
-    \item \textbf{Etapa 2: Datos (4 semanas).} Carga y validación del dataset fuente, análisis exploratorio (EDA) y preprocesamiento mediante filtros sobre las letras y las features acústicas.
-    \item \textbf{Etapa 3: Features (7 semanas).} Vectorización semántica de las letras, normalización de las features musicales y unificación de ambas representaciones.
-    \item \textbf{Etapa 4: Clustering (8 semanas).} Cálculo de estadísticos en cada espacio para verificar la tendencia al agrupamiento, evaluación comparativa de algoritmos sobre ambos espacios, análisis de complementariedad y purificación post-clustering.
-    \item \textbf{Etapa 5: Recomendación (6 semanas).} Implementación de los recomendadores k-NN sobre cada espacio de representación, fusión tardía con optimización del peso $\alpha$, y evaluación de precisión y cobertura del catálogo.
-    \item \textbf{Etapa 6: Síntesis (4 semanas).} Ejecución de pruebas de calidad sobre el recomendador, redacción de conclusiones e integración final, y compilación del informe.
-\end{itemize}
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Distribución temporal del proyecto por etapa. Las semanas de transición entre etapas adyacentes solapan en una semana, lo que refleja la preparación del setup de la etapa siguiente mientras se cierran los entregables de la anterior.}
 \label{tab:cronograma}
@@ -258,18 +247,28 @@ Cada etapa se descompone internamente en subetapas:
 \end{tabular}
 \end{table}
 
+Cada etapa se descompone internamente en subetapas:
+
+\begin{itemize}
+    \item \textbf{Etapa 1: Fundación (3 semanas).} Definición de la estructura del repositorio, esqueleto del informe y configuración del proyecto.
+    \item \textbf{Etapa 2: Datos (4 semanas).} Carga y validación del dataset fuente, análisis exploratorio (EDA) y preprocesamiento mediante filtros sobre las letras y las features acústicas.
+    \item \textbf{Etapa 3: Features (7 semanas).} Vectorización semántica de las letras, normalización de las features musicales y unificación de ambas representaciones.
+    \item \textbf{Etapa 4: Clustering (8 semanas).} Cálculo de estadísticos en cada espacio para verificar la tendencia al agrupamiento, evaluación comparativa de algoritmos sobre ambos espacios, análisis de complementariedad y purificación post-clustering.
+    \item \textbf{Etapa 5: Recomendación (6 semanas).} Implementación de los recomendadores k-NN sobre cada espacio de representación, fusión tardía con optimización del peso $\alpha$, y evaluación de precisión y cobertura del catálogo.
+    \item \textbf{Etapa 6: Síntesis (4 semanas).} Ejecución de pruebas de calidad sobre el recomendador, redacción de conclusiones e integración final, y compilación del informe.
+\end{itemize}
+
 \clearpage
 \begin{landscape}
 \thispagestyle{empty}
 \centering
-\vspace*{\fill}
 \makebox[\textwidth][c]{%
 \begin{ganttchart}[
     hgrid,
     vgrid,
     x unit=0.65cm,
-    y unit chart=0.5cm,
-    y unit title=0.6cm,
+    y unit chart=0.46cm,
+    y unit title=0.55cm,
     bar/.append style={fill=blue!35, draw=blue!60!black},
     bar height=0.65,
     bar label font=\footnotesize,
@@ -321,7 +320,6 @@ Cada etapa se descompone internamente en subetapas:
 \par\medskip
 \captionof{figure}{Diagrama de Gantt del proyecto. Las barras azul oscuro representan las seis etapas técnicas como grupos contenedores; las barras azul claro indican las subetapas dentro de cada grupo. Las barras verde y naranja en la parte inferior corresponden a las actividades transversales que se ejecutan en paralelo a las etapas.}
 \label{fig:gantt}
-\vspace*{\fill}
 \end{landscape}
 
 Las actividades transversales no constituyen etapas independientes pero atraviesan el cronograma. La investigación bibliográfica se concentra entre las Etapas 1 y 2; más adelante continúa como lectura focalizada dentro de cada etapa técnica. La redacción del informe avanza de forma continua desde la Etapa 1, escribiéndose el contenido de cada componente en la etapa en que se aborda su implementación.
@@ -329,68 +327,51 @@ Las actividades transversales no constituyen etapas independientes pero atravies
 \subsection{Análisis FODA}
 \label{subsec:foda}
 
-El análisis FODA (Fortalezas, Oportunidades, Debilidades y Amenazas) es una herramienta de planificación que organiza la situación de un proyecto en función de dos ejes. El primer eje distingue entre factores internos, propios del proyecto y sobre los que el equipo tiene control directo, y factores externos, que provienen del entorno y condicionan el desarrollo sin que el equipo pueda modificarlos. El segundo eje separa los factores favorables de los desfavorables. Del cruce de ambos ejes surgen los cuatro cuadrantes del análisis: las fortalezas (internas y favorables), las debilidades (internas y desfavorables), las oportunidades (externas y favorables) y las amenazas (externas y desfavorables). A partir de este diagnóstico se derivan estrategias que cruzan los cuadrantes para orientar las decisiones del proyecto. A continuación se identifican los cuatro cuadrantes y se formulan las estrategias FO y FA previstas.
+El análisis FODA (Fortalezas, Oportunidades, Debilidades y Amenazas) es una herramienta de planificación que organiza la situación de un proyecto en función de dos ejes. El primer eje distingue entre factores internos, propios del proyecto y sobre los que el equipo tiene control directo, y factores externos, que provienen del entorno y condicionan el desarrollo sin que el equipo pueda modificarlos. El segundo eje separa los factores favorables de los desfavorables. Del cruce de ambos ejes surgen los cuatro cuadrantes del análisis: las fortalezas (internas y favorables), las debilidades (internas y desfavorables), las oportunidades (externas y favorables) y las amenazas (externas y desfavorables). A partir de este diagnóstico se derivan estrategias que cruzan los cuadrantes para orientar las decisiones del proyecto. A continuación se identifican los cuatro cuadrantes y se formulan las estrategias derivadas de su cruce.
 
-\textbf{Fortalezas (F).} Factores internos favorables del proyecto.
+\textbf{Fortalezas.} Factores internos favorables, tanto del producto como del proceso de desarrollo.
 \begin{itemize}
-    \item \textbf{F1.} Enfoque multimodal que integra dos espacios de representación complementarios, el semántico de las letras y el acústico de las features musicales, capaz de producir recomendaciones que ninguno de los dos espacios genera por separado.
-    \item \textbf{F2.} Metodología iterativa por etapas con documentación simultánea, que asegura la trazabilidad de cada decisión técnica junto con su justificación en el momento en que se toma.
-    \item \textbf{F3.} Controles de reproducibilidad incorporados desde el diseño: semillas fijas, configuración centralizada y versionado de los artefactos intermedios.
-    \item \textbf{F4.} Preprocesamiento del dataset con presupuesto de pérdida documentado y pre-registro de las hipótesis, que reduce el riesgo de sesgos metodológicos.
-    \item \textbf{F5.} Uso de un modelo de \textit{embeddings} multilingüe de código abierto con estrategia de \textit{chunking}, que elimina el sesgo de truncamiento en las letras de mayor extensión.
+    \item Recomendador multimodal que integra dos espacios de representación complementarios, el semántico de las letras y el acústico de las features musicales, capaz de capturar afinidades que ninguno de los dos espacios detecta por separado.
+    \item Recomendación basada en contenido, que opera sobre los atributos intrínsecos de cada canción y no sobre un historial de interacciones; ello permite incorporar y sugerir piezas nuevas o de catálogo poco consumido desde su ingreso.
+    \item Fusión tardía con un peso de combinación ajustable y componentes desacoplados, que calibra el balance entre la similitud semántica y la acústica, y permite adaptar o reemplazar cada componente sin reentrenar el resto del sistema.
+    \item Fidelidad de la representación semántica: cobertura completa del contenido de cada letra mediante \textit{chunking}, que elimina el sesgo de truncamiento, junto con un soporte multilingüe sobre un mismo espacio vectorial que homogeneiza la comparación entre idiomas.
+    \item Transparencia de las recomendaciones: al operar sobre el contenido, cada sugerencia es explicable en términos de afinidad de letra o de audio, a diferencia de los modelos colaborativos de caja negra.
+    \item Cobertura total del catálogo: dado que toda canción dispone de ambas representaciones, el sistema puede generar recomendaciones para cualquier ítem, sin huecos derivados de la ausencia de datos de interacción.
 \end{itemize}
 
-\textbf{Oportunidades (O).} Factores externos favorables del entorno.
+\textbf{Oportunidades.} Factores externos favorables del entorno.
 \begin{itemize}
-    \item \textbf{O1.} Disponibilidad de datasets públicos de gran escala (Spotify a través de Kaggle, letras de Genius) que habilitan la construcción del corpus sin costo de adquisición.
-    \item \textbf{O2.} Madurez de los modelos de \textit{embeddings} multilingües de código abierto, reutilizables sin necesidad de entrenarlos desde cero.
-    \item \textbf{O3.} Interés sostenido del campo en la recomendación basada en contenido como vía para mitigar el problema de arranque en frío (\textit{cold-start}) que afecta a los enfoques puramente colaborativos.
-    \item \textbf{O4.} Ecosistema consolidado de bibliotecas científicas de Python para vectorización, clustering y evaluación, que reduce el esfuerzo de implementación.
+    \item Disponibilidad de datasets públicos de gran escala (Spotify a través de Kaggle, letras de Genius) que habilitan la construcción del corpus sin costo de adquisición.
+    \item Madurez de los modelos de \textit{embeddings} multilingües de código abierto, reutilizables sin necesidad de entrenarlos desde cero.
+    \item La recomendación basada en contenido mitiga el problema de arranque en frío (\textit{cold-start}) que afecta a los enfoques puramente colaborativos, dado que no requiere historial de interacciones para operar.
+    \item Ecosistema consolidado de bibliotecas científicas de Python para vectorización, clustering y evaluación, que reduce el esfuerzo de implementación.
 \end{itemize}
 
-\textbf{Debilidades (D).} Factores internos desfavorables del proyecto.
+\textbf{Debilidades.} Factores internos desfavorables del proyecto.
 \begin{itemize}
-    \item \textbf{D1.} El género musical se emplea como proxy del ground truth, que no constituye una verdad absoluta sobre la similitud percibida entre canciones.
-    \item \textbf{D2.} La evaluación es offline, sin retroalimentación de usuarios reales sobre la calidad de las recomendaciones.
-    \item \textbf{D3.} Recursos computacionales acotados, que extienden los tiempos de procesamiento de las etapas más costosas, en particular la vectorización semántica.
-    \item \textbf{D4.} Equipo reducido a dos integrantes, lo que limita la capacidad de paralelizar tareas y atender frentes simultáneos.
+    \item La evaluación de la calidad se apoya en una referencia de similitud aproximada y no en un criterio definitivo, dado que la afinidad entre canciones admite cierto grado de interpretación.
+    \item La evaluación es offline, sin retroalimentación de usuarios reales sobre la calidad de las recomendaciones.
+    \item Recursos computacionales acotados, que extienden los tiempos de procesamiento de las etapas más costosas, en particular la vectorización semántica.
+    \item Equipo reducido a dos integrantes, lo que limita la capacidad de paralelizar tareas y atender frentes simultáneos.
 \end{itemize}
 
-\textbf{Amenazas (A).} Factores externos desfavorables del entorno.
+\textbf{Amenazas.} Factores externos desfavorables del entorno.
 \begin{itemize}
-    \item \textbf{A1.} Restricciones legales y de licencia sobre las letras de canciones, que condicionan la redistribución del dataset.
-    \item \textbf{A2.} Dependencia de fuentes de datos externas, sujetas a cambios de disponibilidad o de condiciones de acceso.
-    \item \textbf{A3.} Desbalance lingüístico del dataset fuente, con predominancia del inglés, que puede sesgar la representación semántica hacia ese idioma.
-    \item \textbf{A4.} Evolución acelerada del campo, que puede dejar obsoletas técnicas o modelos durante el desarrollo del proyecto.
+    \item Restricciones legales y de licencia sobre las letras de canciones, que condicionan la redistribución del dataset.
+    \item Dependencia de fuentes de datos externas, sujetas a cambios de disponibilidad o de condiciones de acceso.
+    \item Desbalance lingüístico del dataset fuente, con predominancia del inglés, que puede sesgar la representación semántica hacia ese idioma.
+    \item Evolución acelerada del campo, que puede dejar obsoletas técnicas o modelos durante el desarrollo del proyecto.
 \end{itemize}
 
-\textbf{Estrategias FO (ofensivas).} Emplean las fortalezas para aprovechar las oportunidades del entorno.
-\begin{itemize}
-    \item \textbf{(F1, O3).} Aprovechar el enfoque multimodal basado en contenido para abordar el problema de arranque en frío, recomendando canciones de catálogo reciente o poco consumido a partir de su contenido y no de un historial de interacciones.
-    \item \textbf{(F5, O2).} Capitalizar la madurez de los modelos multilingües de código abierto, combinándolos con la estrategia de \textit{chunking} para maximizar la cobertura semántica sin incurrir en costos de entrenamiento.
-    \item \textbf{(F3, O4).} Apoyar los controles de reproducibilidad en el ecosistema consolidado de Python, de modo que el pipeline completo resulte reejecutable y verificable sobre los datasets públicos disponibles.
-\end{itemize}
+A partir de los cuatro cuadrantes se derivan las estrategias del proyecto, planteadas en términos generales.
 
-\textbf{Estrategias FA (defensivas).} Emplean las fortalezas para mitigar las amenazas del entorno.
-\begin{itemize}
-    \item \textbf{(F1, A3).} El componente acústico, independiente del idioma, compensa parcialmente el sesgo lingüístico del componente semántico, atenuando el efecto del predominio del inglés en el dataset.
-    \item \textbf{(F2, A4).} La metodología por etapas con cierre documentado acota el impacto de la evolución del campo, al consolidar cada bloque sobre decisiones registradas y permitir incorporar avances en etapas posteriores sin rehacer las anteriores.
-    \item \textbf{(F3, A2).} El versionado de los artefactos intermedios y la configuración centralizada reducen la dependencia de la disponibilidad continua de las fuentes externas, dado que el trabajo se sustenta sobre copias locales reproducibles.
-\end{itemize}
+\textbf{Estrategias FO (ofensivas).} Emplean las fortalezas internas para capitalizar las oportunidades del entorno. El carácter multimodal y basado en contenido del sistema lo posiciona para aprovechar el ecosistema disponible: atiende el arranque en frío al recomendar cualquier canción del catálogo a partir de su contenido, capitaliza los modelos de \textit{embeddings} multilingües de código abierto para representar letras en cualquier idioma sin costos de entrenamiento, y apoya la construcción del pipeline en herramientas científicas consolidadas que reducen el esfuerzo de implementación.
 
-\textbf{Estrategias DO (de reorientación).} Emplean las oportunidades del entorno para corregir las debilidades internas.
-\begin{itemize}
-    \item \textbf{(D2, O3).} Suplir la ausencia de retroalimentación de usuarios reales apoyándose en las prácticas de evaluación basada en contenido consolidadas en el campo, adoptando métricas de precisión, diversidad y cobertura ampliamente aceptadas como aproximación a la calidad percibida.
-    \item \textbf{(D3, O2, O4).} Atenuar la limitación de recursos computacionales reutilizando modelos de \textit{embeddings} preentrenados de código abierto y el ecosistema científico de Python, evitando el costo de entrenar desde cero y aprovechando implementaciones optimizadas de las etapas más exigentes.
-    \item \textbf{(D1, O1).} Mitigar la naturaleza proxy del ground truth aprovechando la escala de los datasets públicos, cuya cantidad de canciones por género aporta volumen suficiente para que las métricas basadas en ese proxy resulten estadísticamente significativas.
-\end{itemize}
+\textbf{Estrategias FA (defensivas).} Emplean las fortalezas internas para neutralizar o amortiguar las amenazas del entorno. La complementariedad de las dos modalidades aporta robustez frente a las amenazas externas: el componente acústico, independiente del idioma, contrarresta el sesgo lingüístico del corpus; la arquitectura desacoplada de fusión tardía permite sustituir el modelo o las features a medida que el campo evoluciona; y disponer de dos fuentes de información reduce la dependencia de cualquiera de ellas en particular.
 
-\textbf{Estrategias DA (de supervivencia).} Buscan reducir simultáneamente las debilidades internas y la exposición a las amenazas externas.
-\begin{itemize}
-    \item \textbf{(D4, A4).} Frente a un equipo reducido y a la evolución acelerada del campo, acotar el alcance a un objetivo bien delimitado y a técnicas estables y suficientemente validadas, evitando la dispersión en líneas experimentales que excedan la capacidad del equipo.
-    \item \textbf{(D1, A3).} Ante un ground truth proxy y un dataset con sesgo lingüístico, declarar ambas condiciones de forma explícita como limitaciones del estudio, de modo que la interpretación de los resultados quede acotada al alcance real de los datos.
-    \item \textbf{(D3, A2).} Frente a recursos acotados y a la dependencia de fuentes externas, fijar tempranamente una copia local del dataset y los artefactos intermedios, evitando reprocesamientos costosos y la exposición a cambios de disponibilidad de las fuentes.
-\end{itemize}
+\textbf{Estrategias DO (de reorientación).} Aprovechan las oportunidades del entorno para corregir o compensar las debilidades internas. En este proyecto: la adopción de métricas de evaluación basadas en contenido ampliamente aceptadas suple la falta de retroalimentación de usuarios reales; la reutilización de modelos preentrenados y del ecosistema científico de Python mitiga la limitación de recursos computacionales; y la escala de los datasets públicos aporta respaldo estadístico a las métricas de evaluación.
+
+\textbf{Estrategias DA (de supervivencia).} Buscan minimizar las debilidades internas y reducir al mismo tiempo la exposición a las amenazas externas. Frente a la combinación de limitaciones internas y amenazas externas, la planificación acota el alcance a un objetivo delimitado y a técnicas estables, y declara de forma explícita las limitaciones del estudio para enmarcar la interpretación de los resultados.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 3.8 — Estudios complementarios
