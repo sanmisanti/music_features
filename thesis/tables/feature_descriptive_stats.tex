@@ -2,7 +2,7 @@
 \centering
 \caption{Estadísticas descriptivas de las features musicales del dataset fuente.}
 \label{tab:feature_descriptive_stats}
-\small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrrrr}
 \toprule
 Feature & N & Media & DE & Mín & Q1 & Mediana & Q3 & Máx & Outliers (\%) \\
@@ -20,5 +20,6 @@ valence & 18\,454 & 0.52 & 0.23 & 0.00 & 0.34 & 0.52 & 0.70 & 0.99 & 0.0 \\
 tempo & 18\,454 & 120.81 & 27.59 & 37.11 & 98.86 & 120.05 & 135.98 & 214.05 & 1.1 \\
 duration\_ms & 18\,454 & 230\,319.31 & 57\,255.09 & 31\,893.00 & 193\,230.25 & 221\,340.00 & 258\,078.25 & 517\,810.00 & 3.6 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}

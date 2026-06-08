@@ -45,7 +45,7 @@ def generate_descriptive_stats_table(profiles: Dict[str, FeatureProfile]) -> str
 \centering
 \caption{Estadísticas descriptivas de las features musicales del dataset fuente.}
 \label{tab:feature_descriptive_stats}
-\small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrrrr}
 \toprule
 Feature & N & Media & DE & Mín & Q1 & Mediana & Q3 & Máx & Outliers (\%) \\
@@ -69,7 +69,8 @@ Feature & N & Media & DE & Mín & Q1 & Mediana & Q3 & Máx & Outliers (\%) \\
         rows.append(row)
 
     footer = r"""\bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}"""
 
     content = header + "\n".join(rows) + "\n" + footer
