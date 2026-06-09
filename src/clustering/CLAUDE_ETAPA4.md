@@ -201,26 +201,28 @@ Si alguna hipotesis se rechaza, se documenta como resultado negativo en el infor
 
 | Espacio | Algoritmo | K | Sil_macro | Sil_micro | DB | NMI_genero |
 |---------|-----------|---|-----------|-----------|-----|-----------|
-| Musical 13D | HDBSCAN (min_size=200) | 2 | 0.1991 | 0.1887 | 1.9748 | 0.0277 |
+| Musical 13D | K-Means++ | 5 | 0.1028 | 0.0982 | 2.2282 | 0.1133 |
 | Semantico 384D | K-Means++ | 5 | 0.0362 | 0.0277 | 5.0523 | 0.1885 |
-| Semantico UMAP 30D | HDBSCAN (min_size=200) | 3 | 0.9131 | 0.8237 | 0.1619 | 0.1227 |
+| Semantico UMAP 30D | HDBSCAN (min_size=200) | 3 | 0.9137 | 0.8251 | 0.1607 | 0.1227 |
 
-**NMI cross-modal: 0.0096** (entre semantico 384D K-Means k=5 y musical HDBSCAN k=2).
+> **Actualizacion (seleccion coverage-aware, re-ejecutado 2026-06-08):** `select_best_configuration` ahora descarta configs que dejan > 50% de puntos como ruido (`MAX_NOISE_PCT=0.50` en `config.py`). En el espacio musical esto descarta el HDBSCAN k=2 (84% ruido, solo agrupaba 2.871/17.964 canciones con Silhouette inflado de 0.1991) y selecciona el K-Means k=5 de cobertura total. El NMI cross-modal pasa a usar el mejor semantico por Silhouette (UMAP k=3) en vez de preferir 384D. Tablas 5.8 y 5.9 regeneradas; corrida completa en 1280 s.
 
-**H2: CONFIRMED** — Sil musical (0.1991) > Sil semantico (0.0362).
-**H3: CONFIRMED** — NMI cross-modal (0.0096) < 0.15. Complementariedad casi total.
+**NMI cross-modal: 0.0298** (entre semantico UMAP HDBSCAN k=3 y musical K-Means k=5, ambos con cobertura total y estructura real; antes 0.0096 con 384D K-Means k=5 vs musical HDBSCAN k=2 con 84% ruido). Sigue indicando complementariedad casi total.
+
+**H2: CONFIRMED** — Sil musical K-Means k=5 (0.1028) > Sil semantico 384D (0.0362).
+**H3: CONFIRMED** — NMI cross-modal (0.0298) < 0.15. Complementariedad casi total.
 
 **Hallazgos clave del multi-algoritmo:**
 
 1. **Semantico 384D: clustering muy pobre.** Hopkins fue alto (0.9472) pero Silhouette fue 0.0362 — la estructura existe pero no se traduce en clusters bien separados. La curse-of-dimensionality no afecta la deteccion de estructura (Hopkins) pero si la calidad de particion (Silhouette). HDBSCAN fue completamente inutilizable en 384D (100% noise con min_size >= 100).
 
-2. **Musical 13D: clustering debil.** K-Means fue el mejor algoritmo de particion (Sil_macro=0.1028 con k=5). HDBSCAN encontro 2 regiones densas pero con 84% noise. Los clusters musicales no correlacionan con genero (NMI=0.0277).
+2. **Musical 13D: estructura difusa.** La mejor particion de cobertura total es K-Means k=5 (Sil_macro=0.1028, 5 grupos de 803-6441 canciones, 0% ruido). HDBSCAN no produce una particion representativa: aisla solo 2 bolsones densos (885 y 1986 canciones) y descarta el 84% como ruido; su Silhouette aparente (0.1991) se mide solo sobre el 16% agrupado, por lo que se descarta por el criterio de cobertura (>50% ruido). Los clusters musicales no correlacionan con genero (NMI_genero=0.1133).
 
 3. **Semantico UMAP 30D: resultado mas prometedor.** UMAP es esencial para clustering del espacio semantico. HDBSCAN encontro 3 clusters con solo 3.6% noise y Sil_macro=0.9131. K-Means/Ward dieron Sil_macro 0.5-0.68 pero con k>=6 generaron clusters degenerados. La estructura natural del espacio semantico proyectado es de ~3-5 grupos.
 
 4. **Granularidad natural baja.** El espacio musical tiene ~2 regiones densas, el semantico ~3 grupos. Con clusters de 5,000-9,000 canciones, el clustering no tiene granularidad suficiente para recomendacion fina. Forzar K mas altos produce clusters degenerados o de baja calidad.
 
-5. **NMI cross-modal extremadamente bajo (0.0096).** Los clusters semanticos y musicales son practicamente independientes, incluso mas que en v1 (0.0567). Esto justifica plenamente la fusion multimodal.
+5. **NMI cross-modal muy bajo (0.0298).** Los clusters semanticos (UMAP k=3) y musicales (K-Means k=5) son practicamente independientes. Con la config previa (384D k=5 vs HDBSCAN k=2) el valor fue 0.0096; el recalculo sobre las particiones de cobertura total da 0.0298, igualmente cercano a 0. Esto justifica plenamente la fusion multimodal.
 
 6. **Implicacion para Etapa 5**: k-NN directo como mecanismo primario de recomendacion. Clustering como herramienta analitica y auxiliar de diversificacion.
 
@@ -228,8 +230,8 @@ Si alguna hipotesis se rechaza, se documenta como resultado negativo en el infor
 
 | Metrica | v2 | v1 | Nota |
 |---------|----|----|------|
-| NMI cross-modal | 0.0096 | 0.0567 | Complementariedad aun mayor en v2 |
-| Sil musical (mejor) | 0.1991 (HDBSCAN k=2) | 0.1554 (baseline) | No directamente comparable (HDBSCAN vs K-Means, 84% noise) |
+| NMI cross-modal | 0.0298 (UMAP k=3 vs K-Means k=5) | 0.0567 | Recalculado sobre particiones de cobertura total |
+| Sil musical (mejor) | 0.1028 (K-Means k=5) | 0.1554 (baseline) | Cobertura total; HDBSCAN k=2 descartado por 84% ruido |
 | Sil semantico 384D | 0.0362 | ~0.06-0.11 (K-Means) | v2 ligeramente peor, dataset mas grande |
 
 ### Paso 4: Purificacion — COMPLETADO (2026-04-05)

@@ -120,6 +120,9 @@ UMAP_MIN_DIST = 0.1
 
 # Umbrales de calidad de clustering
 MIN_CLUSTER_PCT = 0.01  # rechazar clusters < 1% del dataset
+MAX_NOISE_PCT = 0.50  # rechazar configs que dejan > 50% de puntos como ruido
+#                       (cobertura insuficiente: el Silhouette se infla al
+#                        medirse solo sobre los puntos mas densos)
 PURIFICATION_MAX_REMOVAL_PCT = 0.15  # max 15% de datos eliminados
 PURIFICATION_SIGMA_THRESHOLD = 2.0  # umbral para distancia al centroide
 

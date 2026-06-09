@@ -185,9 +185,9 @@ El codigo y documentacion de la primera ejecucion permanecen en el repositorio c
 |---------|----------|----------|-------|
 | Hopkins Semantico (384D) | 0.7752 +/- 0.0015 | **0.9472 +/- 0.0028** | +0.172, E5 + chunking + dataset mayor |
 | Hopkins Musical (12/13D) | 0.7871 +/- 0.0022 | **0.8298 +/- 0.0103** | +0.043, dataset mayor + key circular |
-| Silhouette mejor semantico | ~0.06-0.11 | **0.9131 (UMAP 30D)** | HDBSCAN k=3, transformacion radical con UMAP |
+| Silhouette mejor semantico | ~0.06-0.11 | **0.9137 (UMAP 30D)** | HDBSCAN k=3, transformacion radical con UMAP |
 | Silhouette post-purif. musical | 0.2893 | **0.1351** | K-Means k=5, no comparable (dataset y features distintos) |
-| NMI cross-modal | 0.0567 | **0.0096** | Complementariedad aun mayor en v2 |
+| NMI cross-modal | 0.0567 | **0.0298** | Entre UMAP k=3 y musical K-Means k=5 (cobertura total); antes 0.0096 con 384D k=5 vs HDBSCAN k=2 (84% ruido) |
 | Precision@10 hibrido | 0.398 | Pendiente (Etapa 5) | Benchmark de recomendacion |
 
 ---

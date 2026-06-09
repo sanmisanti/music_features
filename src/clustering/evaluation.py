@@ -235,6 +235,7 @@ def compute_cross_modal_nmi(
 
 def select_best_configuration(
     metrics_list: List[ClusteringMetrics],
+    max_noise_pct: float = 0.5,
 ) -> Optional[ClusteringMetrics]:
     """
     Selecciona la mejor configuracion por triangulacion.
@@ -242,13 +243,23 @@ def select_best_configuration(
     Criterio:
     1. Filtrar configuraciones con has_degenerate_clusters=True
     2. Filtrar configuraciones con n_clusters_found < 2
-    3. Ordenar por silhouette_macro descendente
-    4. En empate (diferencia < 0.01): preferir menor davies_bouldin
+    3. Filtrar configuraciones con cobertura insuficiente (ruido > max_noise_pct)
+    4. Ordenar por silhouette_macro descendente
+    5. En empate (diferencia < 0.01): preferir menor davies_bouldin
+
+    El filtro de cobertura evita seleccionar configuraciones que descartan la
+    mayoria de los puntos como ruido: un HDBSCAN que agrupa solo el subconjunto
+    mas denso obtiene un Silhouette alto sobre esos pocos puntos, pero no
+    representa la estructura global del espacio. Sin este filtro, una particion
+    que cubre el 16% del catalogo puede desplazar a una de cobertura total con
+    estructura mas debil pero representativa.
 
     Parameters
     ----------
     metrics_list : list of ClusteringMetrics
         Todas las configuraciones evaluadas para un espacio.
+    max_noise_pct : float
+        Fraccion maxima de puntos clasificados como ruido admitida (0-1).
 
     Returns
     -------
@@ -263,6 +274,26 @@ def select_best_configuration(
     if not valid:
         logger.warning("Ninguna configuracion valida encontrada")
         return None
+
+    # Filtrar por cobertura: descartar configs con demasiado ruido
+    covered = [
+        m for m in valid
+        if m.n_samples == 0 or (m.n_noise / m.n_samples) <= max_noise_pct
+    ]
+    if covered:
+        n_descartadas = len(valid) - len(covered)
+        if n_descartadas:
+            logger.info(
+                "  %d configuracion(es) descartada(s) por ruido > %.0f%%",
+                n_descartadas, max_noise_pct * 100,
+            )
+        valid = covered
+    else:
+        logger.warning(
+            "  Todas las configuraciones superan el umbral de ruido %.0f%%; "
+            "se selecciona sin filtrar por cobertura.",
+            max_noise_pct * 100,
+        )
 
     # Ordenar por silhouette_macro desc, luego davies_bouldin asc
     valid.sort(key=lambda m: (-m.silhouette_macro, m.davies_bouldin))
