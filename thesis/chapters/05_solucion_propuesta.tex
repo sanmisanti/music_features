@@ -206,12 +206,12 @@ El proceso de vectorización completo (codificación de los 32\,303 fragmentos e
 \section{Componente Musical: Features Acústicas}
 \label{sec:componente-musical}
 
-Las 12 features acústicas de Spotify (descritas formalmente en la Sección~\ref{sec:features-musicales} del Marco Teórico) requieren dos transformaciones antes de poder utilizarse en algoritmos basados en distancia euclidiana: una codificación adecuada de la variable categórica circular \textit{key}, y una normalización de escala que iguale la contribución de todas las features.
+Las 12 features acústicas de Spotify requieren dos transformaciones antes de poder utilizarse en algoritmos basados en distancia euclidiana: una codificación adecuada de la variable categórica circular \textit{key}, y una normalización de escala que iguale la contribución de todas las features.
 
 \subsection{Codificación circular de la tonalidad}
 \label{subsec:codificacion-circular}
 
-La feature \textit{key} codifica la tonalidad de cada canción como un número entero entre 0 (Do) y 11 (Si). Aunque esta representación numérica es conveniente para almacenamiento, introduce relaciones de magnitud artificiales cuando se utiliza directamente en cálculos de distancia: Do sostenido (\textit{key} = 1) aparece numéricamente ``más cercano'' a Re (\textit{key} = 2) que a Si (\textit{key} = 11), cuando en realidad Si y Do son tonalidades adyacentes en el círculo cromático. Aplicar \textit{z-score} directamente a esta variable preservaría estas relaciones espurias (la estandarización es una transformación lineal que mantiene las distancias relativas entre valores).
+La feature \textit{key} codifica la tonalidad de cada canción como un número entero entre 0 (Do) y 11 (Si). Aunque esta representación numérica es conveniente para almacenamiento, introduce relaciones de magnitud artificiales cuando se utiliza directamente en cálculos de distancia: Do sostenido (\textit{key} = 1) aparece numéricamente ``más cercano'' a Re (\textit{key} = 2) que a Si (\textit{key} = 11), cuando en realidad Si y Do son tonalidades adyacentes en el círculo cromático. Aplicar \textit{z-score} directamente a esta variable preservaría estas relaciones falsas.
 
 Para preservar la naturaleza circular de la tonalidad, se aplica una codificación trigonométrica que mapea cada valor a un punto en el círculo unitario mediante dos componentes:
 
@@ -232,7 +232,7 @@ La codificación circular reemplaza una columna (\textit{key}) por dos (\textit{
 
 Las features acústicas operan en escalas heterogéneas: los índices perceptuales varían entre 0 y 1, \textit{loudness} se mide en decibelios (rango típico: $-34$ a 0~dB), \textit{tempo} en BPM (37 a 214), y \textit{duration\_ms} en milisegundos (31\,893 a 517\,810). Si estas features se utilizan directamente en algoritmos como K-Means o el enlace de Ward, las features con mayor rango numérico dominarían el cálculo: \textit{duration\_ms}, con valores del orden de $10^5$, contribuiría desproporcionadamente más que \textit{danceability}, con valores entre 0 y 1, independientemente de su relevancia para el agrupamiento.
 
-Para igualar la contribución de cada feature, se aplica una normalización \textit{z-score} (estandarización) sobre las 13 features resultantes (incluyendo \textit{key\_sin} y \textit{key\_cos}). La transformación para cada valor $x_{ij}$ de la feature $j$ es:
+Para igualar la contribución de cada feature, se aplica una normalización \textit{z-score} sobre las 13 features resultantes (incluyendo \textit{key\_sin} y \textit{key\_cos}). La transformación para cada valor $x_{ij}$ de la feature $j$ es:
 
 \begin{equation}
     z_{ij} = \frac{x_{ij} - \bar{x}_j}{\sigma_j}
@@ -243,9 +243,9 @@ Para igualar la contribución de cada feature, se aplica una normalización \tex
 
 \input{tables/normalization_stats}
 
-El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 13 features antes y después de la normalización. Las componentes \textit{key\_sin} y \textit{key\_cos} presentan valores pre-normalización en el rango $[-1, 1]$ (propiedad inherente de las funciones trigonométricas), a diferencia de las features originales que operan en escalas diversas. Tras la estandarización, las verificaciones post-normalización confirman la corrección del proceso: la media máxima por feature respeta la tolerancia de $10^{-6}$ y la desviación máxima de la desviación estándar respecto a 1.0 se mantiene dentro de la misma tolerancia. No se introducen valores NaN durante la transformación.
+El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 13 features antes y después de la normalización.
 
-El resultado es una matriz de $17\,964 \times 13$ valores float32, alineada por \texttt{track\_id} con los embeddings semánticos.
+\FloatBarrier
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.5 — Unificación de Representaciones
@@ -253,7 +253,7 @@ El resultado es una matriz de $17\,964 \times 13$ valores float32, alineada por 
 \section{Unificación de Representaciones}
 \label{sec:unificacion}
 
-Las dos secciones anteriores producen representaciones complementarias para cada canción: un vector semántico de 384 dimensiones que captura el significado de las letras, y un vector musical de 13 dimensiones que describe las propiedades acústicas. Ambas representaciones están alineadas (cada canción ocupa la misma posición en ambas matrices, identificada por su \texttt{track\_id}) pero residen en archivos independientes. La unificación empaqueta ambos espacios de features junto con los metadatos necesarios para la evaluación (género musical, nombre de la canción, artista) en un único archivo que constituye la entrada para la etapa de clustering.
+Las dos secciones anteriores producen representaciones complementarias para cada canción: un vector semántico de 384 dimensiones que captura el significado de las letras, y un vector musical de 13 dimensiones que describe las propiedades acústicas. Ambas representaciones están alineadas (por su \texttt{track\_id}) pero residen en archivos independientes. La unificación empaqueta ambos espacios de features junto con los metadatos necesarios para la evaluación (género musical, nombre de la canción, artista) en un único archivo que constituye la entrada para la etapa de clustering.
 
 \input{tables/unified_summary}
 
@@ -271,7 +271,7 @@ El Cuadro~\ref{tab:unified_summary} detalla la composición del dataset unificad
     \item Las etiquetas de género contienen exactamente 6 valores únicos, con la distribución esperada: pop (3\,879), rock (3\,507), r\&b (3\,314), rap (3\,279), latin (2\,132) y edm (1\,853).
 \end{itemize}
 
-El dataset unificado resultante (17\,964 canciones, cada una descrita por un vector semántico de 384 dimensiones y un vector musical de 13 dimensiones, acompañada de sus metadatos) constituye la entrada completa para la etapa de clustering multimodal que se describe en la sección siguiente.
+El dataset unificado resultante constituye la entrada completa para la etapa de clustering multimodal que se describe en la sección siguiente.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.6 — Clustering Multimodal
@@ -288,9 +288,9 @@ El análisis se realiza sobre tres espacios: el espacio semántico original de 3
 \subsection{Evaluación de Tendencia al Agrupamiento}
 \label{subsec:evaluacion-hopkins}
 
-Antes de aplicar algoritmos de clustering, es necesario verificar que los datos presentan estructura interna. El estadístico de Hopkins (descrito formalmente en la Sección~\ref{subsec:hopkins} del Marco Teórico) compara las distancias entre los puntos reales y sus vecinos más cercanos contra las distancias equivalentes generadas desde una distribución uniforme de referencia. Un valor cercano a 0.5 indica que los datos son indistinguibles de ruido aleatorio; valores superiores a 0.7 se interpretan como tendencia significativa al agrupamiento \parencite{lawson_1990_hopkins}.
+Antes de aplicar algoritmos de clustering, es necesario verificar que los datos presentan estructura interna. El estadístico de Hopkins compara las distancias entre los puntos reales y sus vecinos más cercanos contra las distancias equivalentes generadas desde una distribución uniforme de referencia. Un valor cercano a 0.5 indica que los datos son indistinguibles de ruido aleatorio; valores superiores a 0.7 se interpretan como tendencia significativa al agrupamiento \parencite{lawson_1990_hopkins}.
 
-La evaluación se ejecuta sobre los cuatro espacios con 30 iteraciones bootstrap y 100 muestras por iteración, generando intervalos de confianza al 95\%. Un detalle técnico relevante es la distribución de referencia empleada: para el espacio semántico original, cuyos embeddings están normalizados a norma L2 unitaria y por tanto residen en la superficie de una hiperesfera, los puntos uniformes de referencia se generan sobre la hiperesfera (vectores normales multivariados re-normalizados) y la distancia se calcula mediante similitud coseno. Para los demás espacios, los puntos de referencia se generan en el hipercubo con distancia euclídea estándar.
+La evaluación se ejecuta sobre los cuatro espacios con 30 iteraciones y 100 muestras por iteración, generando intervalos de confianza al 95\%. Un detalle técnico relevante es la distribución de referencia empleada: para el espacio semántico original, cuyos embeddings están normalizados a norma L2 unitaria y por tanto residen en la superficie de una hiperesfera, los puntos uniformes de referencia se generan sobre la hiperesfera (vectores normales multivariados re-normalizados) y la distancia se calcula mediante similitud coseno. Para los demás espacios, los puntos de referencia se generan en el hipercubo con distancia euclídea estándar.
 
 \input{tables/hopkins_results}
 
@@ -301,15 +301,15 @@ La proyección UMAP a 30 dimensiones del espacio semántico produce un Hopkins d
 \subsection{Selección de Algoritmo y Configuración}
 \label{subsec:seleccion-algoritmo}
 
-Con la tendencia al agrupamiento confirmada, el paso siguiente es determinar qué algoritmo y qué número de clusters produce la partición de mayor calidad en cada espacio. Se evalúan tres familias de algoritmos (K-Means++, enlace de Ward y HDBSCAN) que representan, respectivamente, partición por centroides, aglomeración jerárquica por varianza y agrupación por densidad (véase la Sección~\ref{sec:clustering-teoria} del Marco Teórico para la definición formal de cada uno). K-Means++ y Ward se ejecutan con $K \in \{5, 6, 7, 8\}$; HDBSCAN recibe el parámetro \texttt{min\_cluster\_size} $\in \{50, 100, 200, 300, 500\}$ y determina el número de clusters automáticamente.
+Con la tendencia al agrupamiento confirmada, el paso siguiente es determinar qué algoritmo y qué número de clusters produce la partición de mayor calidad en cada espacio. Se evalúan tres familias de algoritmos (K-Means++, Ward y HDBSCAN) que representan, respectivamente, partición por centroides, aglomeración jerárquica por varianza y agrupación por densidad. K-Means++ y Ward se ejecutan con $K \in \{5, 6, 7, 8\}$; HDBSCAN recibe el parámetro \texttt{min\_cluster\_size} $\in \{50, 100, 200, 300, 500\}$ y determina el número de clusters automáticamente.
 
-La selección de la mejor configuración se basa en la triangulación de dos métricas internas: el coeficiente de Silhouette en su variante \textit{macro-averaged} (promedio por cluster en lugar de por punto) y el índice de Davies-Bouldin. \textcite{chicco_2025_silhouette_db} demuestran empíricamente que estas dos métricas exhiben 100\% de consistencia con el índice de Rand ajustado como métrica externa, frente al 70\% del índice de Calinski-Harabasz. La variante macro del Silhouette se adopta como métrica primaria para evitar la inflación que produce la variante micro (estándar en scikit-learn) ante distribuciones degeneradas: un cluster que contenga el 99\% de los datos domina el promedio global y puede producir valores artificialmente altos. Complementariamente, cualquier configuración que genere algún cluster con menos del 1\% del dataset se descarta automáticamente como degenerada.
+La selección de la mejor configuración se basa en la triangulación de dos métricas internas: el coeficiente de Silhouette en su variante \textit{macro-averaged} (promedio por cluster) y el índice de Davies-Bouldin. \textcite{chicco_2025_silhouette_db} demuestran empíricamente que estas dos métricas exhiben 100\% de consistencia con el índice de Rand ajustado como métrica externa, frente al 70\% del índice de Calinski-Harabasz. La variante macro del Silhouette se adopta como métrica primaria para evitar la inflación que produce la variante micro (estándar en scikit-learn) ante distribuciones degeneradas: un cluster que contenga el 99\% de los datos domina el promedio global y puede producir valores artificialmente altos. Complementariamente, cualquier configuración que genere algún cluster con menos del 1\% del dataset se descarta automáticamente como degenerada.
 
 \input{tables/clustering_best_configs}
 
 El Cuadro~\ref{tab:clustering_best_configs} presenta la mejor configuración identificada para cada espacio. Los resultados revelan tres hallazgos principales.
 
-En primer lugar, el espacio semántico original de 384 dimensiones produce un clustering muy pobre (Silhouette macro de 0.0362) a pesar de su alto Hopkins. La estructura existe (los puntos no están distribuidos uniformemente) pero no se traduce en clusters bien separados: las regiones de alta densidad se solapan gradualmente en lugar de estar separadas por fronteras nítidas. Este fenómeno es una manifestación directa de la maldición de la dimensionalidad descrita en la Sección~\ref{subsec:curse-dimensionality}: en 384 dimensiones, las distancias entre puntos se comprimen y los algoritmos de partición pierden capacidad discriminativa. HDBSCAN resulta completamente inutilizable en este espacio, clasificando el 100\% de los puntos como ruido para cualquier \texttt{min\_cluster\_size} $\geq 100$.
+En primer lugar, el espacio semántico original de 384 dimensiones produce un clustering muy pobre (Silhouette macro de 0.0362) a pesar de su alto Hopkins. La estructura existe (los puntos no están distribuidos uniformemente) pero no se traduce en clusters bien separados: las regiones de alta densidad se solapan gradualmente en lugar de estar separadas por fronteras nítidas. Este fenómeno es una manifestación directa de la maldición de la dimensionalidad, en 384 dimensiones, las distancias entre puntos se comprimen y los algoritmos de partición pierden capacidad discriminativa. HDBSCAN resulta completamente inutilizable en este espacio, clasificando el 100\% de los puntos como ruido para cualquier \texttt{min\_cluster\_size} $\geq 100$.
 
 En segundo lugar, la proyección UMAP a 30 dimensiones transforma radicalmente la calidad del clustering semántico. HDBSCAN identifica 3 clusters con un Silhouette macro de 0.9131 y apenas un 3.6\% de puntos clasificados como ruido. Esta mejora confirma que la estructura detectada por Hopkins en 384 dimensiones es real pero inaccesible para los algoritmos de clustering sin reducción dimensional previa. Los intentos de forzar más clusters en este espacio (tanto con K-Means como con Ward para $K \geq 6$) producen configuraciones degeneradas: el algoritmo mantiene los 2--3 grupos naturales y fragmenta los bordes en micro-clusters espurios de pocas decenas de canciones. Con K-Means $K = 5$ (la granularidad máxima sin degeneración), el Silhouette desciende a 0.528 y los clusters siguen siendo muy desiguales (uno con 9\,167 canciones y otro con 237).
 
@@ -332,7 +332,7 @@ Esta observación determina la estrategia de recomendación para la Sección~\re
 \subsection{Purificación de Clusters}
 \label{subsec:purificacion}
 
-Los algoritmos de clustering cometen errores de asignación, especialmente en las zonas fronterizas entre grupos donde los puntos están aproximadamente equidistantes de dos o más centroides. La purificación post-clustering busca mejorar la cohesión interna de los clusters identificando y eliminando estos puntos mal asignados. Como se señala en la Sección~\ref{subsec:purificacion-teoria} del Marco Teórico, este procedimiento no cuenta con un framework formal consolidado en la literatura \parencite{dinh_2021_clustering_refinement}; la formalización implementada en este trabajo constituye una contribución metodológica del proyecto.
+Los algoritmos de clustering cometen errores de asignación, especialmente en las zonas fronterizas entre grupos donde los puntos están aproximadamente equidistantes de dos o más centroides. La purificación post-clustering busca mejorar la cohesión interna de los clusters identificando y eliminando estos puntos mal asignados. Dado que no existe un procedimiento estándar único para esta tarea \parencite{dinh_2021_clustering_refinement}, se adopta un criterio concreto, ajustado a las necesidades de este trabajo, que se describe a continuación.
 
 La estrategia de purificación combina dos criterios complementarios. El primer criterio identifica puntos con coeficiente de Silhouette individual negativo: un punto cuyo Silhouette es negativo está, en promedio, más cerca de los puntos de otro cluster que de los de su propio cluster, lo que indica una asignación incorrecta. El segundo criterio identifica outliers dentro de cada cluster: puntos cuya distancia al centroide de su cluster excede la media más dos desviaciones estándar de las distancias del cluster. La estrategia combinada aplica la unión de ambos conjuntos de puntos flaggeados, con un presupuesto máximo de remoción del 15\% para evitar una pérdida excesiva de datos. Si la unión de puntos flaggeados excede este presupuesto, se priorizan los puntos con Silhouette más negativo (los más claramente mal asignados).
 
