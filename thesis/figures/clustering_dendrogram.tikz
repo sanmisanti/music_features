@@ -1,0 +1,71 @@
+% Dendrogram Ward - two panels: scatter (left) + dendrogram (right)
+\begin{tikzpicture}[line width=0.7pt, font=\footnotesize]
+
+  %% ---- Panel izquierdo: scatter [0..4.8] x [0..4.5] -----------------
+  \draw[gray!20, very thin] (0,0) rectangle (4.8,4.5);
+  \node[above, font=\small\bfseries] at (2.4,4.5) {Datos originales};
+  \node[below, font=\scriptsize] at (2.4,-0.15) {Dim. 1};
+  \node[rotate=90, font=\scriptsize] at (-0.3,2.25) {Dim. 2};
+
+  %% cluster A
+  \fill[blue!70!black] (0.9,3.4) circle (3pt);
+  \fill[blue!70!black] (1.5,3.0) circle (3pt);
+  \fill[blue!70!black] (1.0,2.5) circle (3pt);
+  %% cluster B
+  \fill[green!60!black] (1.0,1.0) circle (3pt);
+  \fill[green!60!black] (1.7,0.7) circle (3pt);
+  %% cluster C
+  \fill[orange!80!black] (3.4,2.1) circle (3pt);
+  \fill[orange!80!black] (4.0,1.6) circle (3pt);
+  \fill[orange!80!black] (3.6,2.9) circle (3pt);
+
+  %% ---- Panel derecho: dendrograma [5.4..13.2] x [0..4.5] -----------
+  \node[above, font=\small\bfseries] at (9.3,4.5) {Dendrograma (Ward)};
+
+  %% Eje Y (sin punta de flecha para evitar conflicto con arrows.meta)
+  \draw[very thin, gray!50] (5.4,0) -- (5.4,4.4);
+  \node[rotate=90, font=\scriptsize] at (4.95,2.2) {Distancia de fusion};
+  \foreach \h/\y in {0/0, 1/1, 2/2, 3/3, 4/4}{
+    \draw[very thin, gray!50] (5.35,\y) -- (5.4,\y);
+    \node[left, font=\scriptsize, gray!60] at (5.35,\y) {\h};
+  }
+
+  %% Hojas (y=0): A = 5.9, 6.8, 7.7 | B = 8.9, 9.8 | C = 11.0, 11.9, 12.8
+  \foreach \x in {5.9, 6.8, 7.7}      { \fill[blue!70!black]   (\x,0) circle (2.5pt); }
+  \foreach \x in {8.9, 9.8}           { \fill[green!60!black]  (\x,0) circle (2.5pt); }
+  \foreach \x in {11.0, 11.9, 12.8}   { \fill[orange!80!black] (\x,0) circle (2.5pt); }
+
+  %% Fusiones cluster A (azul)
+  %  (5.9, 6.8) -> h=0.7, centro=6.35
+  \draw[blue!70!black] (5.9,0) -- (5.9,0.7) -- (6.8,0.7) -- (6.8,0);
+  %  (6.35, 7.7) -> h=1.6, centro=7.025
+  \draw[blue!70!black] (6.35,0.7) -- (6.35,1.6) -- (7.7,1.6) -- (7.7,0);
+
+  %% Fusion cluster B (verde)
+  %  (8.9, 9.8) -> h=0.9, centro=9.35
+  \draw[green!60!black] (8.9,0) -- (8.9,0.9) -- (9.8,0.9) -- (9.8,0);
+
+  %% Fusiones cluster C (naranja)
+  %  (11.0, 11.9) -> h=0.75, centro=11.45
+  \draw[orange!80!black] (11.0,0) -- (11.0,0.75) -- (11.9,0.75) -- (11.9,0);
+  %  (11.45, 12.8) -> h=1.8, centro=12.125
+  \draw[orange!80!black] (11.45,0.75) -- (11.45,1.8) -- (12.8,1.8) -- (12.8,0);
+
+  %% Fusion A+B (gris)
+  %  centroA=7.025, centroB=9.35, h=3.2, centroAB=8.1875
+  \draw[gray!55] (7.025,1.6) -- (7.025,3.2) -- (9.35,3.2) -- (9.35,0.9);
+
+  %% Fusion (A+B)+C (gris claro)
+  %  centroAB=8.1875, centroC=12.125, h=4.3
+  \draw[gray!35] (8.1875,3.2) -- (8.1875,4.3) -- (12.125,4.3) -- (12.125,1.8);
+
+  %% Linea de corte (rojo discontinuo) -> produce 3 clusters
+  \draw[red!70!black, dashed, line width=1.2pt] (5.45,3.0) -- (13.3,3.0);
+  \node[right, font=\scriptsize, red!70!black] at (13.3,3.0) {Corte $\to$ 3 clusters};
+
+  %% Etiquetas de clusters
+  \node[below=2pt, font=\scriptsize, blue!70!black]   at (6.8, 0)  {A};
+  \node[below=2pt, font=\scriptsize, green!60!black]  at (9.35,0)  {B};
+  \node[below=2pt, font=\scriptsize, orange!80!black] at (11.9,0)  {C};
+
+\end{tikzpicture}

@@ -1,0 +1,116 @@
+% Comparacion K-Means vs HDBSCAN en tres geometrias de datos sinteticos.
+% Fila 1 (y=4.0): K-Means.   Fila 2 (y=0.0): HDBSCAN.
+% Columnas: blobs esfericos | formas no convexas (lunas) | datos con outliers.
+\begin{tikzpicture}[line width=0.7pt, font=\footnotesize]
+
+  %% Encabezados de columnas
+  \node[font=\small\bfseries] at (1.9, 7.6)  {Blobs esfericos};
+  \node[font=\small\bfseries] at (6.1, 7.6)  {Formas no convexas};
+  \node[font=\small\bfseries] at (10.3, 7.6) {Con outliers};
+
+  %% Etiquetas de filas
+  \node[rotate=90, font=\small\bfseries] at (-0.7, 5.6) {K-Means};
+  \node[rotate=90, font=\small\bfseries] at (-0.7, 1.6) {HDBSCAN};
+
+  %% ==================================================================
+  %% FILA 1: K-Means (yshift = 4.0)
+  %% ==================================================================
+
+  %% (1,1) K-Means + Blobs
+  \begin{scope}[shift={(0,4.0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    \fill[blue!18]   (1.05,0.95) circle (0.72); \draw[blue!50]   (1.05,0.95) circle (0.72);
+    \fill[green!18]  (2.90,0.85) circle (0.62); \draw[green!50]  (2.90,0.85) circle (0.62);
+    \fill[orange!22] (1.90,2.45) circle (0.68); \draw[orange!55] (1.90,2.45) circle (0.68);
+    \node[blue!75!black,   font=\bfseries] at (1.05,0.95) {$\times$};
+    \node[green!75!black,  font=\bfseries] at (2.90,0.85) {$\times$};
+    \node[orange!85!black, font=\bfseries] at (1.90,2.45) {$\times$};
+  \end{scope}
+
+  %% (1,2) K-Means + Lunas (divide incorrectamente)
+  \begin{scope}[shift={(4.2,4.0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    %% Luna superior (azul): clip a mitad superior, hueco blanco
+    \begin{scope}
+      \clip (0,1.5) rectangle (3.8,3.2);
+      \fill[blue!18]  (1.9,1.5) circle (1.3);
+      \fill[white]    (2.35,1.5) circle (1.05);
+      \draw[blue!50]  (1.9,1.5) circle (1.3);
+    \end{scope}
+    %% Luna inferior (naranja): clip a mitad inferior, hueco blanco
+    \begin{scope}
+      \clip (0,0) rectangle (3.8,1.5);
+      \fill[orange!22]  (1.9,1.5) circle (1.3);
+      \fill[white]      (1.45,1.5) circle (1.05);
+      \draw[orange!55]  (1.9,1.5) circle (1.3);
+    \end{scope}
+    %% Frontera incorrecta de K-Means (linea vertical)
+    \draw[gray!60, dashed, line width=1.0pt] (1.9,0) -- (1.9,3.2);
+    \node[blue!75!black,   font=\bfseries] at (0.9,2.0) {$\times$};
+    \node[orange!85!black, font=\bfseries] at (2.9,1.0) {$\times$};
+  \end{scope}
+
+  %% (1,3) K-Means + Outliers (los asigna al cluster mas cercano)
+  \begin{scope}[shift={(8.4,4.0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    \fill[blue!18]  (1.0,2.1) circle (0.65); \draw[blue!50]  (1.0,2.1) circle (0.65);
+    \fill[green!18] (2.8,1.1) circle (0.65); \draw[green!50] (2.8,1.1) circle (0.65);
+    \node[blue!75!black,  font=\bfseries] at (1.0,2.1) {$\times$};
+    \node[green!75!black, font=\bfseries] at (2.8,1.1) {$\times$};
+    %% Outliers coloreados segun cluster mas cercano
+    \fill[blue!75!black]  (0.3,0.5) circle (2pt);
+    \fill[blue!75!black]  (1.9,2.9) circle (2pt);
+    \fill[blue!75!black]  (0.4,1.5) circle (2pt);
+    \fill[green!75!black] (3.5,0.5) circle (2pt);
+    \fill[green!75!black] (2.1,0.3) circle (2pt);
+    \fill[green!75!black] (3.4,2.4) circle (2pt);
+  \end{scope}
+
+  %% ==================================================================
+  %% FILA 2: HDBSCAN (yshift = 0)
+  %% ==================================================================
+
+  %% (2,1) HDBSCAN + Blobs (correcto, sin centroides)
+  \begin{scope}[shift={(0,0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    \fill[blue!18]   (1.05,0.95) circle (0.72); \draw[blue!50]   (1.05,0.95) circle (0.72);
+    \fill[green!18]  (2.90,0.85) circle (0.62); \draw[green!50]  (2.90,0.85) circle (0.62);
+    \fill[orange!22] (1.90,2.45) circle (0.68); \draw[orange!55] (1.90,2.45) circle (0.68);
+  \end{scope}
+
+  %% (2,2) HDBSCAN + Lunas (correctamente identificadas)
+  \begin{scope}[shift={(4.2,0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    %% Luna superior (azul)
+    \begin{scope}
+      \clip (0,1.5) rectangle (3.8,3.2);
+      \fill[blue!18] (1.9,1.5) circle (1.3);
+      \fill[white]   (2.35,1.5) circle (1.05);
+      \draw[blue!50] (1.9,1.5) circle (1.3);
+    \end{scope}
+    %% Luna inferior (naranja)
+    \begin{scope}
+      \clip (0,0) rectangle (3.8,1.5);
+      \fill[orange!22]  (1.9,1.5) circle (1.3);
+      \fill[white]      (1.45,1.5) circle (1.05);
+      \draw[orange!55]  (1.9,1.5) circle (1.3);
+    \end{scope}
+  \end{scope}
+
+  %% (2,3) HDBSCAN + Outliers marcados como ruido (gris)
+  \begin{scope}[shift={(8.4,0)}]
+    \draw[gray!20, very thin] (0,0) rectangle (3.8,3.2);
+    \fill[blue!18]  (1.0,2.1) circle (0.65); \draw[blue!50]  (1.0,2.1) circle (0.65);
+    \fill[green!18] (2.8,1.1) circle (0.65); \draw[green!50] (2.8,1.1) circle (0.65);
+    %% Outliers como ruido (gris)
+    \fill[gray!50] (0.3,0.5) circle (2pt);
+    \fill[gray!50] (1.9,2.9) circle (2pt);
+    \fill[gray!50] (0.4,1.5) circle (2pt);
+    \fill[gray!50] (3.5,0.5) circle (2pt);
+    \fill[gray!50] (2.1,0.3) circle (2pt);
+    \fill[gray!50] (3.4,2.4) circle (2pt);
+    \fill[gray!50] (2.65,2.75) circle (2pt);
+    \node[right, font=\scriptsize, gray!60] at (2.7,2.75) {ruido};
+  \end{scope}
+
+\end{tikzpicture}
