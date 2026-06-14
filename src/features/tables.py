@@ -85,9 +85,6 @@ Métrica & Valor \\
         ("Desviación estándar", _fmt(report.std_tokens, 1)),
         ("Mínimo", _fmt(report.min_tokens)),
         ("Máximo", _fmt(report.max_tokens)),
-        ("Percentil 90", _fmt(report.p90_tokens)),
-        ("Percentil 95", _fmt(report.p95_tokens)),
-        ("Percentil 99", _fmt(report.p99_tokens)),
     ]
 
     for label, value in dist_rows:

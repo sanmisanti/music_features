@@ -26,7 +26,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 2.45
+        "elapsed_seconds": 2.06
       },
       {
         "algorithm": "kmeans",
@@ -36,25 +36,25 @@
         "n_noise": 0,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 2569,
-          "1": 785,
-          "2": 4769,
-          "3": 2235,
-          "4": 3525,
+          "0": 2236,
+          "1": 4778,
+          "2": 2569,
+          "3": 3516,
+          "4": 784,
           "5": 4081
         },
-        "silhouette_micro": 0.091993,
-        "silhouette_macro": 0.094498,
-        "davies_bouldin": 2.155667,
+        "silhouette_micro": 0.092016,
+        "silhouette_macro": 0.094506,
+        "davies_bouldin": 2.155477,
         "calinski_harabasz": 1585.82,
-        "ari_genre": 0.059556,
-        "nmi_genre": 0.099495,
+        "ari_genre": 0.059352,
+        "nmi_genre": 0.099215,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.65
+        "elapsed_seconds": 0.25
       },
       {
         "algorithm": "kmeans",
@@ -83,7 +83,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.81
+        "elapsed_seconds": 0.31
       },
       {
         "algorithm": "kmeans",
@@ -113,7 +113,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.96
+        "elapsed_seconds": 0.33
       },
       {
         "algorithm": "ward",
@@ -138,7 +138,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 21.43
+        "elapsed_seconds": 6.55
       },
       {
         "algorithm": "ward",
@@ -164,7 +164,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 21.2
+        "elapsed_seconds": 6.51
       },
       {
         "algorithm": "ward",
@@ -191,7 +191,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 18.95
+        "elapsed_seconds": 6.59
       },
       {
         "algorithm": "ward",
@@ -219,76 +219,76 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 17.46
+        "elapsed_seconds": 6.53
       },
       {
         "algorithm": "hdbscan",
         "space_name": "musical_13d",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 9629,
+        "n_noise": 9866,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 5150,
-          "1": 3185
+          "0": 5018,
+          "1": 3080
         },
-        "silhouette_micro": 0.140782,
-        "silhouette_macro": 0.145156,
-        "davies_bouldin": 2.415036,
-        "calinski_harabasz": 1300.69,
-        "ari_genre": 0.02343,
-        "nmi_genre": 0.025833,
+        "silhouette_micro": 0.14215,
+        "silhouette_macro": 0.146682,
+        "davies_bouldin": 2.399629,
+        "calinski_harabasz": 1277.71,
+        "ari_genre": 0.023677,
+        "nmi_genre": 0.026604,
         "params": {
           "min_cluster_size": 50,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 8.49
+        "elapsed_seconds": 3.63
       },
       {
         "algorithm": "hdbscan",
         "space_name": "musical_13d",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 12259,
+        "n_noise": 12621,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 2070,
-          "1": 3635
+          "0": 3419,
+          "1": 1924
         },
-        "silhouette_micro": 0.159689,
-        "silhouette_macro": 0.165165,
-        "davies_bouldin": 2.227555,
-        "calinski_harabasz": 1028.15,
-        "ari_genre": 0.02139,
-        "nmi_genre": 0.031695,
+        "silhouette_micro": 0.162658,
+        "silhouette_macro": 0.168341,
+        "davies_bouldin": 2.20107,
+        "calinski_harabasz": 983.05,
+        "ari_genre": 0.020149,
+        "nmi_genre": 0.031952,
         "params": {
           "min_cluster_size": 100,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 8.96
+        "elapsed_seconds": 3.85
       },
       {
         "algorithm": "hdbscan",
         "space_name": "musical_13d",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 15093,
+        "n_noise": 15074,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 885,
-          "1": 1986
+          "0": 1998,
+          "1": 892
         },
-        "silhouette_micro": 0.188712,
-        "silhouette_macro": 0.199131,
-        "davies_bouldin": 1.974808,
-        "calinski_harabasz": 602.29,
-        "ari_genre": 0.009254,
-        "nmi_genre": 0.027711,
+        "silhouette_micro": 0.188453,
+        "silhouette_macro": 0.198838,
+        "davies_bouldin": 1.976677,
+        "calinski_harabasz": 605.64,
+        "ari_genre": 0.009332,
+        "nmi_genre": 0.027852,
         "params": {
           "min_cluster_size": 200,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 9.47
+        "elapsed_seconds": 4.41
       },
       {
         "algorithm": "hdbscan",
@@ -308,7 +308,7 @@
           "min_cluster_size": 300,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 9.87
+        "elapsed_seconds": 4.85
       },
       {
         "algorithm": "hdbscan",
@@ -328,7 +328,7 @@
           "min_cluster_size": 500,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 11.71
+        "elapsed_seconds": 5.63
       }
     ],
     "semantic_384d": [
@@ -357,7 +357,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 12.74
+        "elapsed_seconds": 3.18
       },
       {
         "algorithm": "kmeans",
@@ -385,7 +385,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 9.2
+        "elapsed_seconds": 4.09
       },
       {
         "algorithm": "kmeans",
@@ -414,7 +414,7 @@
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 11.6
+        "elapsed_seconds": 5.66
       },
       {
         "algorithm": "kmeans",
@@ -424,27 +424,27 @@
         "n_noise": 0,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 2985,
-          "1": 2795,
-          "2": 867,
-          "3": 3156,
-          "4": 2929,
-          "5": 1107,
-          "6": 2354,
-          "7": 1771
+          "0": 3176,
+          "1": 866,
+          "2": 1105,
+          "3": 2352,
+          "4": 2931,
+          "5": 1772,
+          "6": 2978,
+          "7": 2784
         },
-        "silhouette_micro": 0.01555,
-        "silhouette_macro": 0.015965,
-        "davies_bouldin": 5.573129,
+        "silhouette_micro": 0.015527,
+        "silhouette_macro": 0.015931,
+        "davies_bouldin": 5.57501,
         "calinski_harabasz": 303.59,
-        "ari_genre": 0.130593,
-        "nmi_genre": 0.18466,
+        "ari_genre": 0.130731,
+        "nmi_genre": 0.184736,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 13.13
+        "elapsed_seconds": 6.4
       },
       {
         "algorithm": "ward",
@@ -469,7 +469,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 68.6
+        "elapsed_seconds": 28.24
       },
       {
         "algorithm": "ward",
@@ -495,7 +495,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 67.94
+        "elapsed_seconds": 26.98
       },
       {
         "algorithm": "ward",
@@ -522,7 +522,7 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 67.58
+        "elapsed_seconds": 28.59
       },
       {
         "algorithm": "ward",
@@ -550,30 +550,30 @@
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 68.36
+        "elapsed_seconds": 26.74
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_384d",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 4049,
+        "n_noise": 4004,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 13863,
+          "0": 13908,
           "1": 52
         },
-        "silhouette_micro": 0.082069,
-        "silhouette_macro": 0.509914,
-        "davies_bouldin": 0.94285,
-        "calinski_harabasz": 68.81,
-        "ari_genre": 0.014672,
-        "nmi_genre": 0.028983,
+        "silhouette_micro": 0.081843,
+        "silhouette_macro": 0.509809,
+        "davies_bouldin": 0.943202,
+        "calinski_harabasz": 68.75,
+        "ari_genre": 0.01455,
+        "nmi_genre": 0.028859,
         "params": {
           "min_cluster_size": 50,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 269.97
+        "elapsed_seconds": 173.47
       },
       {
         "algorithm": "hdbscan",
@@ -593,7 +593,7 @@
           "min_cluster_size": 100,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 272.78
+        "elapsed_seconds": 166.66
       },
       {
         "algorithm": "hdbscan",
@@ -613,7 +613,7 @@
           "min_cluster_size": 200,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 264.11
+        "elapsed_seconds": 163.26
       },
       {
         "algorithm": "hdbscan",
@@ -633,7 +633,7 @@
           "min_cluster_size": 300,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 268.36
+        "elapsed_seconds": 161.51
       },
       {
         "algorithm": "hdbscan",
@@ -653,7 +653,7 @@
           "min_cluster_size": 500,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 270.05
+        "elapsed_seconds": 154.53
       }
     ],
     "semantic_umap": [
@@ -665,24 +665,24 @@
         "n_noise": 0,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 5947,
-          "1": 1740,
-          "2": 9167,
-          "3": 873,
+          "0": 5923,
+          "1": 1739,
+          "2": 961,
+          "3": 9104,
           "4": 237
         },
-        "silhouette_micro": 0.417754,
-        "silhouette_macro": 0.527966,
-        "davies_bouldin": 1.062432,
-        "calinski_harabasz": 17213.79,
-        "ari_genre": 0.100749,
-        "nmi_genre": 0.163551,
+        "silhouette_micro": 0.419466,
+        "silhouette_macro": 0.526303,
+        "davies_bouldin": 1.052647,
+        "calinski_harabasz": 17404.2,
+        "ari_genre": 0.099995,
+        "nmi_genre": 0.160168,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.56
+        "elapsed_seconds": 0.34
       },
       {
         "algorithm": "kmeans",
@@ -692,25 +692,25 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 5897,
-          "1": 832,
-          "2": 1740,
-          "3": 9086,
-          "4": 237,
+          "0": 5915,
+          "1": 1739,
+          "2": 237,
+          "3": 820,
+          "4": 9081,
           "5": 172
         },
-        "silhouette_micro": 0.43037,
-        "silhouette_macro": 0.599733,
-        "davies_bouldin": 1.039196,
-        "calinski_harabasz": 16607.68,
-        "ari_genre": 0.099739,
-        "nmi_genre": 0.16063,
+        "silhouette_micro": 0.429251,
+        "silhouette_macro": 0.599681,
+        "davies_bouldin": 1.03831,
+        "calinski_harabasz": 16650.88,
+        "ari_genre": 0.09993,
+        "nmi_genre": 0.160855,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.59
+        "elapsed_seconds": 0.18
       },
       {
         "algorithm": "kmeans",
@@ -720,26 +720,26 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 701,
-          "1": 1740,
-          "2": 9091,
-          "3": 237,
-          "4": 5902,
-          "5": 121,
-          "6": 172
+          "0": 9073,
+          "1": 1739,
+          "2": 237,
+          "3": 172,
+          "4": 5911,
+          "5": 706,
+          "6": 126
         },
-        "silhouette_micro": 0.434764,
-        "silhouette_macro": 0.558663,
-        "davies_bouldin": 0.982371,
-        "calinski_harabasz": 16756.56,
-        "ari_genre": 0.100154,
-        "nmi_genre": 0.161146,
+        "silhouette_micro": 0.435582,
+        "silhouette_macro": 0.554662,
+        "davies_bouldin": 0.991051,
+        "calinski_harabasz": 16861.88,
+        "ari_genre": 0.100054,
+        "nmi_genre": 0.160829,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.71
+        "elapsed_seconds": 0.19
       },
       {
         "algorithm": "kmeans",
@@ -749,27 +749,27 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 575,
-          "1": 172,
-          "2": 1740,
-          "3": 5895,
-          "4": 237,
-          "5": 9092,
-          "6": 127,
-          "7": 126
+          "0": 1739,
+          "1": 5914,
+          "2": 237,
+          "3": 9075,
+          "4": 127,
+          "5": 579,
+          "6": 172,
+          "7": 121
         },
-        "silhouette_micro": 0.442891,
-        "silhouette_macro": 0.612874,
-        "davies_bouldin": 0.894612,
-        "calinski_harabasz": 17294.66,
-        "ari_genre": 0.100067,
-        "nmi_genre": 0.163296,
+        "silhouette_micro": 0.44289,
+        "silhouette_macro": 0.614552,
+        "davies_bouldin": 0.888429,
+        "calinski_harabasz": 17327.96,
+        "ari_genre": 0.100177,
+        "nmi_genre": 0.163281,
         "params": {
           "init": "k-means++",
           "n_init": 20,
           "max_iter": 500
         },
-        "elapsed_seconds": 0.92
+        "elapsed_seconds": 0.22
       },
       {
         "algorithm": "ward",
@@ -779,22 +779,22 @@
         "n_noise": 0,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 1037,
-          "1": 9199,
-          "2": 1740,
+          "0": 1049,
+          "1": 10156,
+          "2": 1739,
           "3": 237,
-          "4": 5751
+          "4": 4783
         },
-        "silhouette_micro": 0.404395,
-        "silhouette_macro": 0.516146,
-        "davies_bouldin": 1.06559,
-        "calinski_harabasz": 16781.33,
-        "ari_genre": 0.098472,
-        "nmi_genre": 0.157875,
+        "silhouette_micro": 0.409931,
+        "silhouette_macro": 0.528041,
+        "davies_bouldin": 1.062674,
+        "calinski_harabasz": 16932.28,
+        "ari_genre": 0.1051,
+        "nmi_genre": 0.1661,
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 16.4
+        "elapsed_seconds": 6.86
       },
       {
         "algorithm": "ward",
@@ -804,23 +804,23 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 865,
-          "1": 9199,
-          "2": 1740,
+          "0": 877,
+          "1": 10156,
+          "2": 1739,
           "3": 237,
-          "4": 5751,
+          "4": 4783,
           "5": 172
         },
-        "silhouette_micro": 0.414209,
-        "silhouette_macro": 0.592245,
-        "davies_bouldin": 1.054464,
-        "calinski_harabasz": 16235.73,
-        "ari_genre": 0.098545,
-        "nmi_genre": 0.159509,
+        "silhouette_micro": 0.419444,
+        "silhouette_macro": 0.601333,
+        "davies_bouldin": 1.05418,
+        "calinski_harabasz": 16241.98,
+        "ari_genre": 0.105187,
+        "nmi_genre": 0.167695,
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 16.02
+        "elapsed_seconds": 6.73
       },
       {
         "algorithm": "ward",
@@ -830,24 +830,24 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 738,
-          "1": 9199,
-          "2": 1740,
+          "0": 732,
+          "1": 10156,
+          "2": 145,
           "3": 237,
-          "4": 5751,
+          "4": 4783,
           "5": 172,
-          "6": 127
+          "6": 1739
         },
-        "silhouette_micro": 0.421573,
-        "silhouette_macro": 0.646973,
-        "davies_bouldin": 1.012784,
-        "calinski_harabasz": 16040.12,
-        "ari_genre": 0.098693,
-        "nmi_genre": 0.162434,
+        "silhouette_micro": 0.424606,
+        "silhouette_macro": 0.544959,
+        "davies_bouldin": 1.043379,
+        "calinski_harabasz": 16244.18,
+        "ari_genre": 0.105358,
+        "nmi_genre": 0.167604,
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 15.95
+        "elapsed_seconds": 6.82
       },
       {
         "algorithm": "ward",
@@ -857,164 +857,164 @@
         "n_noise": 0,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 679,
-          "1": 9199,
-          "2": 1740,
-          "3": 59,
-          "4": 5751,
+          "0": 605,
+          "1": 10156,
+          "2": 145,
+          "3": 127,
+          "4": 4783,
           "5": 172,
-          "6": 127,
+          "6": 1739,
           "7": 237
         },
-        "silhouette_micro": 0.426162,
-        "silhouette_macro": 0.680146,
-        "davies_bouldin": 0.900021,
-        "calinski_harabasz": 16491.62,
-        "ari_genre": 0.098757,
-        "nmi_genre": 0.162157,
+        "silhouette_micro": 0.432563,
+        "silhouette_macro": 0.60288,
+        "davies_bouldin": 0.97005,
+        "calinski_harabasz": 16672.87,
+        "ari_genre": 0.105465,
+        "nmi_genre": 0.170343,
         "params": {
           "linkage": "ward"
         },
-        "elapsed_seconds": 17.61
+        "elapsed_seconds": 6.67
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_umap",
         "k": 11,
         "n_clusters_found": 11,
-        "n_noise": 392,
+        "n_noise": 433,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
-          "0": 60,
+          "0": 59,
           "1": 237,
-          "2": 127,
-          "3": 172,
-          "4": 70,
+          "2": 70,
+          "3": 127,
+          "4": 172,
           "5": 73,
-          "6": 1740,
+          "6": 1739,
           "7": 58,
-          "8": 14878,
-          "9": 98,
-          "10": 59
+          "8": 14835,
+          "9": 58,
+          "10": 103
         },
-        "silhouette_micro": 0.619515,
-        "silhouette_macro": 0.89816,
-        "davies_bouldin": 0.202451,
-        "calinski_harabasz": 15788.9,
-        "ari_genre": 0.043953,
-        "nmi_genre": 0.137851,
+        "silhouette_micro": 0.622387,
+        "silhouette_macro": 0.898633,
+        "davies_bouldin": 0.20388,
+        "calinski_harabasz": 15945.47,
+        "ari_genre": 0.04371,
+        "nmi_genre": 0.136886,
         "params": {
           "min_cluster_size": 50,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 6.19
+        "elapsed_seconds": 3.68
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_umap",
         "k": 6,
         "n_clusters_found": 6,
-        "n_noise": 585,
+        "n_noise": 666,
         "has_degenerate_clusters": true,
         "cluster_sizes": {
           "0": 237,
           "1": 127,
           "2": 172,
-          "3": 1740,
-          "4": 226,
-          "5": 14877
+          "3": 1739,
+          "4": 225,
+          "5": 14798
         },
-        "silhouette_micro": 0.654857,
-        "silhouette_macro": 0.886567,
-        "davies_bouldin": 0.232367,
-        "calinski_harabasz": 28796.81,
-        "ari_genre": 0.043791,
-        "nmi_genre": 0.12534,
+        "silhouette_micro": 0.65865,
+        "silhouette_macro": 0.887606,
+        "davies_bouldin": 0.231378,
+        "calinski_harabasz": 29251.51,
+        "ari_genre": 0.043449,
+        "nmi_genre": 0.124027,
         "params": {
           "min_cluster_size": 100,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 6.97
+        "elapsed_seconds": 3.95
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_umap",
         "k": 3,
         "n_clusters_found": 3,
-        "n_noise": 653,
+        "n_noise": 648,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
           "0": 237,
-          "1": 1740,
-          "2": 15334
+          "1": 15340,
+          "2": 1739
         },
-        "silhouette_micro": 0.823708,
-        "silhouette_macro": 0.913096,
-        "davies_bouldin": 0.16193,
-        "calinski_harabasz": 41040.12,
-        "ari_genre": 0.043215,
-        "nmi_genre": 0.122651,
+        "silhouette_micro": 0.825088,
+        "silhouette_macro": 0.913686,
+        "davies_bouldin": 0.160719,
+        "calinski_harabasz": 41760.29,
+        "ari_genre": 0.043206,
+        "nmi_genre": 0.122736,
         "params": {
           "min_cluster_size": 200,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 7.94
+        "elapsed_seconds": 4.57
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_umap",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 987,
+        "n_noise": 929,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 1740,
-          "1": 15237
+          "0": 15295,
+          "1": 1740
         },
-        "silhouette_micro": 0.829255,
-        "silhouette_macro": 0.881273,
-        "davies_bouldin": 0.170896,
-        "calinski_harabasz": 80855.81,
-        "ari_genre": 0.043272,
-        "nmi_genre": 0.11594,
+        "silhouette_micro": 0.826998,
+        "silhouette_macro": 0.879923,
+        "davies_bouldin": 0.172165,
+        "calinski_harabasz": 76406.14,
+        "ari_genre": 0.043119,
+        "nmi_genre": 0.116622,
         "params": {
           "min_cluster_size": 300,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 8.2
+        "elapsed_seconds": 5.46
       },
       {
         "algorithm": "hdbscan",
         "space_name": "semantic_umap",
         "k": 2,
         "n_clusters_found": 2,
-        "n_noise": 987,
+        "n_noise": 930,
         "has_degenerate_clusters": false,
         "cluster_sizes": {
-          "0": 1741,
-          "1": 15236
+          "0": 15295,
+          "1": 1739
         },
-        "silhouette_micro": 0.829263,
-        "silhouette_macro": 0.880955,
-        "davies_bouldin": 0.171195,
-        "calinski_harabasz": 80925.19,
-        "ari_genre": 0.043259,
-        "nmi_genre": 0.115839,
+        "silhouette_micro": 0.827092,
+        "silhouette_macro": 0.880317,
+        "davies_bouldin": 0.171791,
+        "calinski_harabasz": 76484.46,
+        "ari_genre": 0.043123,
+        "nmi_genre": 0.11669,
         "params": {
           "min_cluster_size": 500,
           "metric": "euclidean"
         },
-        "elapsed_seconds": 8.78
+        "elapsed_seconds": 6.63
       }
     ]
   },
   "best_per_space": {
     "musical_13d": {
-      "algorithm": "hdbscan",
-      "k": 2,
-      "silhouette_macro": 0.199131,
-      "davies_bouldin": 1.974808,
-      "nmi_genre": 0.027711
+      "algorithm": "kmeans",
+      "k": 5,
+      "silhouette_macro": 0.102771,
+      "davies_bouldin": 2.228232,
+      "nmi_genre": 0.113335
     },
     "semantic_384d": {
       "algorithm": "kmeans",
@@ -1026,33 +1026,33 @@
     "semantic_umap": {
       "algorithm": "hdbscan",
       "k": 3,
-      "silhouette_macro": 0.913096,
-      "davies_bouldin": 0.16193,
-      "nmi_genre": 0.122651
+      "silhouette_macro": 0.913686,
+      "davies_bouldin": 0.160719,
+      "nmi_genre": 0.122736
     }
   },
   "cross_modal_nmi": {
-    "value": 0.009568,
-    "semantic_space_used": "semantic_384d",
-    "semantic_config": "kmeans_k5",
-    "musical_config": "hdbscan_k2"
+    "value": 0.029754,
+    "semantic_space_used": "semantic_umap",
+    "semantic_config": "hdbscan_k3",
+    "musical_config": "kmeans_k5"
   },
   "hypothesis_H2": {
     "statement": "Silhouette musical > Silhouette semantico",
-    "silhouette_musical": 0.199131,
+    "silhouette_musical": 0.102771,
     "silhouette_semantic": 0.036185,
     "verdict": "CONFIRMED"
   },
   "hypothesis_H3": {
     "statement": "NMI cross-modal < 0.15",
-    "nmi_value": 0.009568,
+    "nmi_value": 0.029754,
     "verdict": "CONFIRMED"
   },
   "umap_params": {
     "n_components": 30,
     "n_neighbors": 15,
     "min_dist": 0.1,
-    "elapsed_seconds": 71.4
+    "elapsed_seconds": 19.16
   },
   "benchmarks_v1": {
     "nmi_cross_modal": 0.0567,

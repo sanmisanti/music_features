@@ -61,7 +61,7 @@ def generate_data_loss_budget_table(budget_entries, n_loudness_clipped, original
 \caption{Presupuesto de pérdida de datos (\textit{data loss budget}) del preprocesamiento.}
 \label{tab:data_loss_budget}
 \small
-\begin{tabular}{lrrrrl}
+\begin{tabular}{lrrrrp{6cm}}
 \toprule
 Filtro & Antes & Después & Pérdida & \% & Justificación \\
 \midrule

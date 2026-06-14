@@ -34,6 +34,7 @@ logger = logging.getLogger("src.clustering.run_clustering")
 from src.config import (
     CLUSTERING_K_RANGE,
     HDBSCAN_MIN_CLUSTER_SIZES,
+    MAX_NOISE_PCT,
     METRICS_DIR,
     NUMPY_SEED,
     RANDOM_SEED,
@@ -193,7 +194,9 @@ def main():
 
     for space_name in spaces:
         logger.info("  --- %s ---", space_name)
-        best = select_best_configuration(all_metrics[space_name])
+        best = select_best_configuration(
+            all_metrics[space_name], max_noise_pct=MAX_NOISE_PCT,
+        )
         best_per_space[space_name] = best
 
         if best is not None:
@@ -210,15 +213,32 @@ def main():
     logger.info("PASO 8: NMI cross-modal")
     logger.info("=" * 60)
 
-    # Usar el mejor clustering semantico (preferir 384D si existe, sino UMAP)
-    best_sem = best_per_space.get("semantic_384d")
-    best_sem_result = best_results_per_space.get("semantic_384d")
-    sem_space_used = "semantic_384d"
+    # NMI cross-modal: comparar clusterings con estructura REAL. El clustering
+    # semantico en 384D es inutilizable (Silhouette ~0.04; HDBSCAN colapsa a
+    # 100% ruido), por lo que una particion arbitraria daria un NMI ~0 trivial.
+    # Se elige, entre los espacios semanticos disponibles, el de mayor
+    # Silhouette macro (UMAP), de modo que el NMI compare dos agrupamientos
+    # genuinos (semantico UMAP vs musical) y la complementariedad medida no sea
+    # un artefacto de una particion sin estructura.
+    sem_candidates = []
+    for name in ("semantic_umap", "semantic_384d"):
+        cfg = best_per_space.get(name)
+        res = best_results_per_space.get(name)
+        if cfg is not None and res is not None:
+            sem_candidates.append((name, cfg, res))
 
-    if best_sem is None:
-        best_sem = best_per_space.get("semantic_umap")
-        best_sem_result = best_results_per_space.get("semantic_umap")
-        sem_space_used = "semantic_umap"
+    best_sem = None
+    best_sem_result = None
+    sem_space_used = None
+    if sem_candidates:
+        sem_space_used, best_sem, best_sem_result = max(
+            sem_candidates, key=lambda t: t[1].silhouette_macro,
+        )
+        logger.info(
+            "  Espacio semantico para NMI: %s (%s k=%d, Sil_macro=%.4f)",
+            sem_space_used, best_sem.algorithm, best_sem.k,
+            best_sem.silhouette_macro,
+        )
 
     best_mus = best_per_space.get("musical_13d")
     best_mus_result = best_results_per_space.get("musical_13d")
