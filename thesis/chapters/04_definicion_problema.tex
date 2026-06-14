@@ -96,7 +96,7 @@ El alcance del presente trabajo se circunscribe a los siguientes elementos:
 \begin{itemize}
     \item \textbf{Dataset}: El sistema opera sobre un cat\'{a}logo de 18\,454 canciones provenientes de un dataset p\'{u}blico de Kaggle \parencite{nakhaee_2020_spotify_lyrics} que combina features ac\'{u}sticas de la API de Spotify con letras obtenidas de Genius. No se utilizan datos de interacci\'{o}n de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido.
 
-    \item \textbf{Features ac\'{u}sticas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration\_ms), cuyas propiedades se describen en el Marco Te\'{o}rico (Secci\'{o}n~\ref{subsec:descriptores-spotify}).
+    \item \textbf{Features ac\'{u}sticas}: Se utilizan las 12 features de audio provistas por la API de Spotify (danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, tempo, loudness, key, mode, duration\_ms), cuyas propiedades se describen en la Soluci\'{o}n Propuesta (Secci\'{o}n~\ref{subsec:fuentes}).
 
     \item \textbf{Features sem\'{a}nticas}: Las letras se vectorizan mediante el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} de Microsoft, produciendo embeddings de 384 dimensiones con una ventana de 512 tokens. Se emplea un modelo multiling\"{u}e sin traducci\'{o}n previa de las letras.
 
