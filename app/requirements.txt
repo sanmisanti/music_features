@@ -1,0 +1,6 @@
+# Dependencias del frontend (API REST del recomendador).
+# El nucleo de calculo (numpy, scipy) ya forma parte del entorno del proyecto.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+numpy>=1.20
+scipy>=1.5
