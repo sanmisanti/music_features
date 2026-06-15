@@ -61,6 +61,7 @@ from src.recommendation.plots import (
 )
 from src.recommendation.tables import (
     generate_fusion_strategy_table,
+    generate_genre_coverage_table,
     generate_grid_search_table,
     generate_optimal_metrics_table,
     generate_precision_per_genre_table,
@@ -253,6 +254,7 @@ def main():
     generate_grid_search_table(opt_result)
     generate_optimal_metrics_table(optimal_metrics)
     generate_precision_per_genre_table(optimal_metrics, genre_counts)
+    generate_genre_coverage_table(optimal_metrics)
     generate_v1_comparison_table(optimal_metrics, v2_at_v1_p10)
 
     # =========================================================================

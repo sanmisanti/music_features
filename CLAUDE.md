@@ -35,7 +35,7 @@ Desarrollar el proyecto paso a paso, produciendo simultaneamente codigo funciona
 - [x] Etapa 3: Features — preprocesamiento, vectorizacion E5 (17,964 x 384), normalizacion musical (17,964 x 13, key circular), unificacion NPZ (28.11 MB, 8 arrays), redaccion LaTeX completada (§5.3, §5.4, §5.5)
 - [x] Etapa 4: Clustering — codigo completado (Hopkins, multi-algoritmo, purificacion, UMAP 2D), H1-H4 confirmadas. Ver **[`src/clustering/CLAUDE_ETAPA4.md`](src/clustering/CLAUDE_ETAPA4.md)**
 - [x] Etapa 5: Recomendacion — sistema hibrido implementado (k-NN + fusion tardia), α óptimo = 0.80, P@10 = 0.4447, cobertura catalogo 95.5%
-- [x] Redaccion LaTeX completa — 7 capitulos + 3 anexos (2,309 lineas total). §4 Marco Teorico escrito (§4.1, §4.2, §4.4, §4.5 con 8 subsecciones, §4.6); §5.7 Sistema de Recomendacion; §6 Resultados completo; §7 Conclusiones; §1 Introduccion ampliada; Anexos A-C
+- [x] Redaccion LaTeX completa — 7 capitulos. §4 Marco Teorico escrito (§4.1, §4.2, §4.4, §4.5 con 8 subsecciones, §4.6); §5.7 Sistema de Recomendacion; §6 Resultados completo; §7 Conclusiones; §1 Introduccion ampliada. Los 3 anexos (A-C) se eliminaron el 2026-06-14 por ser demasiado tecnicos; su contenido util se integro al Cap 6 (ver tabla ESTRUCTURA DEL INFORME)
 - [ ] Etapa 6: Sintesis — pendiente compilacion final, pruebas de calidad externas (ver **[`PLAN_FINALIZACION.md`](PLAN_FINALIZACION.md)** y **[`src/recommendation/PRUEBAS_CALIDAD.md`](src/recommendation/PRUEBAS_CALIDAD.md)**)
 
 ---
@@ -204,12 +204,15 @@ Formato: APA 7ma Edicion, compilacion con biblatex + biber.
 | `thesis/chapters/04_definicion_problema.tex` | Cap 3: Definicion del Problema | **Completo** (rediseno cronograma + estudio economico COPAIPA + riesgos 2026-05-20) |
 | `thesis/chapters/02_marco_teorico.tex` | Cap 4: Marco Teorico | Completo (§4.1-§4.6, 8 subsecciones en §4.5) |
 | `thesis/chapters/05_solucion_propuesta.tex` | Cap 5: Solucion Propuesta | Completo (§5.1-§5.7) |
-| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Completo (§6.1-§6.7, §6.7 Plan de Pruebas agregado 2026-05-20) |
+| `thesis/chapters/06_resultados.tex` | Cap 6: Resultados Experimentales | Completo (§6.1 Clustering, §6.2 Recomendacion, §6.3 Costo Computacional, §6.4 Comparativo, §6.5 Discusion, §6.6 Plan de Pruebas) |
 | `thesis/chapters/07_conclusiones.tex` | Cap 7: Conclusiones y Futuras Lineas | Completo (§7.1-§7.4) |
-| `thesis/appendices/A_configuraciones.tex` | Anexo A: Configuraciones | Completo |
-| `thesis/appendices/B_metricas.tex` | Anexo B: Metricas Detalladas | Completo |
-| `thesis/appendices/C_reproducibilidad.tex` | Anexo C: Reproducibilidad | Completo |
 | `thesis/bibliography.bib` | Referencias (~65 entradas) | En progreso |
+
+**Anexos eliminados (2026-06-14)**: los tres anexos (A Configuraciones, B Metricas, C Reproducibilidad) se eliminaron por ser excesivamente tecnicos para un proyecto de grado. Su contenido util se integro al Cap 6: las 3 tablas exhaustivas de clustering a §6.1, la cobertura por genero a §6.2, y los tiempos de ejecucion a §6.3 (Costo Computacional). La distribucion de clusters en recomendaciones, el volcado de `config.py` (Anexo A) y la guia de reproducibilidad (Anexo C) se descartaron; el detalle reproducible permanece en el codigo y los JSON de `results/metrics/`.
+
+Las dos tablas integradas se generan desde codigo (no se editan a mano):
+- **Cobertura por genero** (`tab:coverage_per_genre`): `generate_genre_coverage_table()` en `src/recommendation/tables.py`, invocada desde `run_recommendation.py`. Lee `genre_coverage` de las metricas de Etapa 5.
+- **Tiempos de ejecucion** (`tab:tiempos_ejecucion`): `generate_timing_table()` en **`src/reporting/timing.py`** (`python -m src.reporting.timing`). Agrega el tiempo total de cada etapa leyendo `results/metrics/`. Requiere instrumentacion: cada `run_*.py` ahora registra `total_elapsed_seconds` de nivel superior en su JSON. Hasta que cada etapa se re-ejecute con esta instrumentacion, el generador usa valores de respaldo de logs de la ejecucion previa (solo vectorizacion y recomendacion ya tienen su tiempo persistido en JSON). Re-ejecutar las etapas baratas (segundos) y clustering (~40 min) hace que la tabla provenga unicamente de los JSON; la vectorizacion (2h) no necesita repetirse.
 
 **Nota**: Los nombres de archivo (01\_, 02\_, etc.) no corresponden al orden de capitulos. El orden real esta definido por la secuencia de `\input` en `main.tex`.
 

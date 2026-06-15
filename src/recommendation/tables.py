@@ -160,6 +160,40 @@ def generate_precision_per_genre_table(
     return content
 
 
+def generate_genre_coverage_table(metrics: RecommendationMetrics) -> str:
+    """Tabla de cobertura del catalogo desglosada por genero."""
+    coverage = {
+        g: v for g, v in metrics.genre_coverage.items()
+        if not g.startswith("_")
+    }
+    ordered = sorted(coverage.items(), key=lambda kv: kv[1], reverse=True)
+
+    lines = [
+        r"\begin{table}[htbp]",
+        r"  \centering",
+        r"  \caption{Cobertura del catálogo por género al $\alpha$ óptimo}",
+        r"  \label{tab:coverage_per_genre}",
+        r"  \begin{tabular}{lr}",
+        r"    \toprule",
+        r"    Género & Cobertura \\",
+        r"    \midrule",
+    ]
+
+    for genre, value in ordered:
+        genre_escaped = genre.replace("&", r"\&")
+        lines.append(f"    {genre_escaped} & {value * 100:.2f}\\% \\\\")
+
+    lines.extend([
+        r"    \bottomrule",
+        r"  \end{tabular}",
+        r"\end{table}",
+    ])
+
+    content = "\n".join(lines)
+    _save_table(content, "coverage_per_genre")
+    return content
+
+
 def generate_v1_comparison_table(
     v2_metrics: RecommendationMetrics,
     v2_at_v1_weights: float,

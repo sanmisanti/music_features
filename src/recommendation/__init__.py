@@ -27,6 +27,7 @@ from src.recommendation.optimizer import (
 )
 from src.recommendation.tables import (
     generate_fusion_strategy_table,
+    generate_genre_coverage_table,
     generate_grid_search_table,
     generate_optimal_metrics_table,
     generate_precision_per_genre_table,

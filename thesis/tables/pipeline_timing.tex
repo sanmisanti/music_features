@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+    \centering
+    \caption{Tiempos de ejecución por etapa del pipeline (CPU, sin GPU).}
+    \label{tab:tiempos_ejecucion}
+    \begin{tabular}{lr}
+        \toprule
+        Etapa & Tiempo aproximado \\
+        \midrule
+        EDA y preprocesamiento & 17 s \\
+        Vectorización semántica (E5) & 7\,378 s ($\approx$ 2 h 03 min) \\
+        Normalización y unificación & $<$ 1 s \\
+        Hopkins (30 iteraciones, 4 espacios) & 90 s \\
+        Multi-algoritmo de clustering & 2\,400 s ($\approx$ 40 min) \\
+        Purificación combinada & 88 s \\
+        Recomendación completa & 136 s ($\approx$ 2 min) \\
+        \bottomrule
+    \end{tabular}
+\end{table}

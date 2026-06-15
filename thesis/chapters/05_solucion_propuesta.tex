@@ -55,13 +55,31 @@ Las 12 features acústicas que Spotify calcula para cada canción capturan propi
 
 \input{tables/feature_descriptive_stats}
 
-El Cuadro~\ref{tab:feature_descriptive_stats} presenta el perfil estadístico completo de las 12 features. Todas las features están completas, sin embargo, las distribuciones revelan varios patrones relevantes para el diseño del sistema.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/feature_distributions.pdf}
+    \caption{Distribuciones marginales de las doce features acústicas en el dataset fuente.}
+    \label{fig:feature_distributions}
+\end{figure}
+
+El Cuadro~\ref{tab:feature_descriptive_stats} presenta el perfil estadístico completo de las 12 features y la Figura~\ref{fig:feature_distributions} muestra sus distribuciones marginales. Todas las features están completas, sin embargo, las distribuciones revelan varios patrones relevantes para el diseño del sistema.
 
 En primer lugar, varias features exhiben asimetría positiva pronunciada: \textit{instrumentalness} (asimetría = 3.82), \textit{liveness} (2.11) y \textit{speechiness} (1.96) concentran la gran mayoría de sus valores cerca de cero, con colas extendidas hacia valores altos. El caso de \textit{instrumentalness} es particularmente extremo: su mediana es 0.0, su media es 0.05 y el 82.27\% de los valores se ubican por debajo de 0.01. Esto indica que el catálogo está dominado por canciones vocales, lo cual tiene implicaciones directas para el análisis de letras: la vasta mayoría de las canciones debería poseer contenido lírico procesable.
 
 En segundo lugar, \textit{loudness} presenta 4 valores que exceden 0~dB, el máximo teórico para audio digital no clipeado. Si bien estos casos son escasos (0.02\% del dataset), constituyen anomalías que deben contemplarse en la etapa de preprocesamiento. Además, la feature presenta la mayor proporción de outliers (2.84\%) junto con \textit{duration\_ms} (3.65\%), lo cual es esperable: la primera refleja la variabilidad técnica de las grabaciones y la segunda, la existencia de canciones atípicamente cortas o largas.
 
 En tercer lugar, \textit{key} y \textit{mode} son variables categóricas codificadas numéricamente. Su tratamiento como features continuas en algoritmos de distancia (como los utilizados por K-Means) puede introducir relaciones de magnitud artificiales (por ejemplo, que Do sostenido sea numéricamente ``más cercano'' a Re que a Si). Esta consideración deberá abordarse en la etapa de clustering.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/correlation_matrix.pdf}
+    \caption{Matriz de correlaciones de Pearson entre las features acústicas. Las correlaciones con valor absoluto superior a $0{,}5$ se resumen en el Cuadro~\ref{tab:high_correlations}.}
+    \label{fig:correlation_matrix}
+\end{figure}
+
+\input{tables/high_correlations}
+
+Finalmente, el análisis de correlaciones entre las features (Figura~\ref{fig:correlation_matrix}) revela un bajo nivel de redundancia. El Cuadro~\ref{tab:high_correlations} lista los únicos dos pares que superan una correlación absoluta de $0{,}5$: \textit{energy} correlaciona positivamente con \textit{loudness} ($r = 0{,}6748$) y negativamente con \textit{acousticness} ($r = -0{,}5460$). Estos patrones son musicalmente esperables (las canciones con mayor intensidad perceptual tienden a ser más fuertes y menos acústicas) y no comprometen la aplicabilidad de las features en su conjunto.
 
 % --- Contenido lírico ---
 

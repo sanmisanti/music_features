@@ -15,11 +15,11 @@ El objetivo general planteado en el Capítulo~\ref{ch:definicion-problema} ---de
 
 \textbf{Generación de representaciones.} Se produjeron dos representaciones numéricas complementarias por canción: un vector semántico de 384 dimensiones generado por \texttt{multilingual-e5-small} sobre las letras, y un vector musical de 13 dimensiones derivado de las features acústicas de Spotify (tras codificación circular de la tonalidad y estandarización z-score). La estrategia de \textit{chunking con agregación por promedio} para letras que exceden la ventana de 512 tokens permitió alcanzar cobertura completa del contenido textual, eliminando el sesgo sistemático por longitud que introduciría el truncamiento.
 
-\textbf{Validación estructural mediante clustering.} Las cuatro hipótesis pre-registradas fueron confirmadas experimentalmente. Los espacios semántico (Hopkins $0{,}9472$) y musical (Hopkins $0{,}8298$) exhiben tendencia al agrupamiento significativa (H1). El espacio musical produce clusters más cohesivos que el semántico en su dimensionalidad original (H2), si bien la reducción dimensional mediante UMAP eleva el Silhouette semántico de $0{,}036$ a $0{,}913$. La información mutua normalizada entre particiones semánticas y musicales es $0{,}0096$ ---próxima a independencia total---, lo que valida cuantitativamente la complementariedad de las modalidades y justifica empíricamente la fusión (H3). La purificación combinada formalizada en este trabajo mejora el Silhouette sin exceder el presupuesto de remoción del 15\% (H4).
+\textbf{Validación estructural mediante clustering.} El análisis de clustering verificó la estructura de los espacios de representación. Los espacios semántico (Hopkins $0{,}9472$) y musical (Hopkins $0{,}8298$) exhiben tendencia al agrupamiento significativa. El espacio musical produce clusters más cohesivos que el semántico en su dimensionalidad original, si bien la reducción dimensional mediante UMAP eleva el Silhouette semántico de $0{,}036$ a $0{,}913$. La información mutua normalizada entre particiones semánticas y musicales es $0{,}0298$ (próxima a independencia total), lo que valida cuantitativamente la complementariedad de las modalidades y justifica empíricamente la fusión. La purificación combinada mejora el Silhouette sin exceder el presupuesto de remoción del 15\%.
 
 \textbf{Sistema de recomendación.} El sistema implementa búsqueda $k$-NN con fusión tardía de similitudes, adoptando similitud coseno sobre embeddings semánticos L2-normalizados y distancia euclídea convertida mediante kernel gaussiano sobre features musicales z-score. El parámetro $\sigma$ del kernel se determina por la heurística de la mediana, eliminando hiperparámetros libres. La optimización del peso de fusión $\alpha$ mediante grid search sobre 21 valores identifica un óptimo $\alpha^* = 0{,}80$, con Precision@10 $= 0{,}4447$. Los extremos unimodales ---solo musical y solo semántico--- producen Precision@10 cercanas entre sí ($0{,}3648$ y $0{,}3613$ respectivamente), cuantificando el aporte del componente musical como capacidad discriminativa complementaria al semántico. La cobertura del catálogo al $\alpha$ óptimo es del $95{,}54\%$, indicando ausencia de sesgo severo de popularidad.
 
-En síntesis, la evidencia experimental confirma la hipótesis central del trabajo: la integración multimodal de letras y features acústicas produce recomendaciones de mayor calidad que los enfoques unimodales, con un peso óptimo que favorece la componente semántica pero conserva aporte significativo de la musical.
+En síntesis, la evidencia experimental confirma el planteo central del trabajo: la integración multimodal de letras y features acústicas produce recomendaciones de mayor calidad que los enfoques unimodales, con un peso óptimo que favorece la componente semántica pero conserva aporte significativo de la musical.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 7.2 — Contribuciones del Trabajo
@@ -32,13 +32,11 @@ Las contribuciones del trabajo pueden organizarse en tres categorías: metodoló
 \subsection*{Contribuciones metodológicas}
 
 \begin{itemize}[leftmargin=2em]
-    \item \textbf{Pre-registro de hipótesis}. Las cuatro hipótesis evaluadas (H1-H4) se formularon y documentaron antes de ejecutar los experimentos correspondientes, en contraste con la práctica común de formular hipótesis post-hoc tras observar los resultados. Este enfoque protege contra el sesgo de confirmación y fortalece la validez inferencial del análisis.
-
     \item \textbf{Presupuesto explícito de pérdida de datos}. Cada filtro aplicado al dataset cuenta con justificación documentada y cuantificación del impacto. La pérdida total (2{,}66\%) es modesta y rastreable hasta cada canción excluida, en contraposición a enfoques que reducen el dataset mediante criterios implícitos sin documentar el efecto.
 
     \item \textbf{Declaración upfront del ground truth proxy}. El uso del género musical como proxy de relevancia se declara explícitamente desde la definición de la metodología, con reconocimiento de sus limitaciones (subjetividad, no exclusividad mutua, dimensionalidad única). Esta transparencia condiciona la interpretación de las métricas y evita conclusiones sobredimensionadas.
 
-    \item \textbf{Formalización de procedimiento de purificación}. El procedimiento de purificación combinada ---Silhouette negativo + distancia al centroide con presupuesto de remoción--- se formaliza como algoritmo reproducible con métricas pre/post explícitas. La revisión de literatura confirmó que no existe un framework consolidado para purificación post-clustering, lo que posiciona este procedimiento como contribución metodológica del trabajo.
+    \item \textbf{Procedimiento de purificación combinada}. La purificación (Silhouette negativo y distancia al centroide) se implementó como procedimiento reproducible con métricas pre/post explícitas, mejorando la cohesión de las particiones sin exceder un presupuesto de remoción del 15\%.
 
     \item \textbf{Tratamiento diferenciado de variables categóricas cíclicas}. La codificación circular mediante funciones trigonométricas para la feature \textit{key} (tonalidad) preserva la topología del círculo cromático, a diferencia de codificaciones numéricas directas o one-hot que introducen relaciones espurias.
 \end{itemize}
@@ -46,7 +44,7 @@ Las contribuciones del trabajo pueden organizarse en tres categorías: metodoló
 \subsection*{Contribuciones empíricas}
 
 \begin{itemize}[leftmargin=2em]
-    \item \textbf{Cuantificación de la complementariedad cross-modal}. El NMI de $0{,}0096$ entre particiones semánticas y musicales establece un valor cuantitativo para la independencia de ambas modalidades en el dominio musical, complementando resultados cualitativos de la literatura previa.
+    \item \textbf{Cuantificación de la complementariedad cross-modal}. El NMI de $0{,}0298$ entre particiones semánticas y musicales establece un valor cuantitativo para la independencia de ambas modalidades en el dominio musical, complementando resultados cualitativos de la literatura previa.
 
     \item \textbf{Documentación de la paradoja Hopkins-Silhouette en alta dimensionalidad}. El contraste entre Hopkins alto ($0{,}9472$) y Silhouette bajo ($0{,}036$) sobre el espacio semántico de 384 dimensiones, y su resolución mediante reducción UMAP, constituye evidencia empírica del efecto diferencial de la maldición de la dimensionalidad sobre detección de estructura versus separabilidad de particiones.
 

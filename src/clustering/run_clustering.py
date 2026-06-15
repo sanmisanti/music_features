@@ -385,6 +385,8 @@ def main():
                 "nmi_genre": best.nmi_genre,
             }
 
+    metrics["total_elapsed_seconds"] = round(time.time() - start_time, 1)
+
     metrics_path = METRICS_DIR / "etapa4_clustering.json"
     with open(metrics_path, "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2, ensure_ascii=False)
