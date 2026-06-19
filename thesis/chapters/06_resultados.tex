@@ -1,146 +1,7 @@
 \chapter{Resultados Experimentales}
 \label{ch:resultados}
 
-Este capítulo presenta los resultados cuantitativos obtenidos en la ejecución del pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta}. Se organiza en cuatro secciones: los resultados del análisis de clustering sobre los espacios de representación, los resultados del sistema de recomendación híbrido, el análisis comparativo con la literatura y una discusión crítica de los hallazgos y sus limitaciones. Todos los valores reportados son exactamente reproducibles: el comportamiento estocástico del pipeline (inicialización de K-Means++, UMAP, muestreos y bootstrap) está fijado mediante semillas aleatorias constantes centralizadas en la configuración del proyecto.
-
-% ---------------------------------------------------------------------------
-% SECCIÓN 6.1 — Resultados de Clustering
-% ---------------------------------------------------------------------------
-\section{Resultados de Clustering}
-\label{sec:resultados-clustering}
-
-Esta sección presenta los resultados del análisis de clustering sobre los espacios de representación. Se examinan cuatro aspectos: la tendencia al agrupamiento de cada espacio (estadístico de Hopkins), la cohesión relativa de las particiones según la dimensionalidad, la complementariedad entre las modalidades semántica y musical (NMI cross-modal), y el efecto del procedimiento de purificación sobre la calidad de los clusters.
-
-% -----------------------
-% 6.1.1 Hopkins
-% -----------------------
-\subsection{Tendencia al Agrupamiento}
-\label{subsec:resultados-hopkins}
-
-El análisis de tendencia al agrupamiento evalúa si ambos espacios de representación (semántico y musical) exhiben estructura significativa, definida como un Hopkins $H > 0{,}7$ con intervalo de confianza bootstrap al 95\%. El análisis se aplicó sobre cuatro espacios: el semántico original en 384 dimensiones con métrica coseno y distribución uniforme sobre la hiperesfera, el semántico proyectado a 30 dimensiones mediante UMAP con métrica euclídea, el musical de 13 dimensiones con métrica euclídea, y el espacio concatenado de 397 dimensiones como referencia.
-
-\input{tables/hopkins_results}
-
-El Cuadro~\ref{tab:hopkins_results} y la Figura~\ref{fig:hopkins_results} presentan los resultados. Los cuatro espacios superan el umbral de $0{,}7$ establecido como umbral de tendencia significativa. El espacio semántico original exhibe $H = 0{,}9472 \pm 0{,}0028$, un valor notablemente alto que indica una estructura interna pronunciada en los embeddings de letras. El espacio musical, con $H = 0{,}8298 \pm 0{,}0103$ en 13 dimensiones, muestra estructura moderada pero igualmente significativa. El espacio concatenado obtiene el valor más bajo ($H = 0{,}7415$), lo que refleja que concatenar las 384 dimensiones semánticas con las 13 musicales diluye la contribución de estas últimas.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figures/hopkins_results.pdf}
-    \caption{Estadístico de Hopkins por espacio con intervalo de confianza al 95\%. La línea punteada marca el umbral de tendencia significativa ($H = 0{,}7$).}
-    \label{fig:hopkins_results}
-\end{figure}
-
-Un resultado de particular interés es que la proyección UMAP a 30 dimensiones produce un Hopkins \emph{superior} ($H = 0{,}9923$) al del espacio original de 384 dimensiones. Este hallazgo es relevante en relación con la preocupación metodológica sobre la pérdida de potencia de Hopkins en altas dimensiones documentada en la literatura. Si la alta dimensionalidad estuviera inflando artificialmente el valor de Hopkins, la proyección a menor dimensionalidad (que mitiga la concentración de distancias) debería producir un valor menor, no mayor. El resultado inverso confirma que el valor $0{,}9472$ en 384 dimensiones es conservador y no artefacto: UMAP concentra la estructura existente en menos dimensiones y la hace más detectable, sin inventarla.
-
-Ambos espacios contienen estructura real, lo que legitima la aplicación de algoritmos de clustering sobre las representaciones producidas en el pipeline de features.
-
-% -----------------------
-% 6.1.2 Comparación de algoritmos
-% -----------------------
-\subsection{Comparación de Algoritmos}
-\label{subsec:comparacion-algoritmos}
-
-Se evalúa a continuación si el espacio musical de 13 dimensiones produce clusters más cohesivos que el espacio semántico de 384 dimensiones, dado el efecto esperable de la maldición de la dimensionalidad sobre las métricas internas de calidad. La métrica primaria de selección es el Silhouette macro-promediado, complementado por el índice de Davies-Bouldin \parencite{chicco_2025_silhouette_db}.
-
-Se evaluaron las combinaciones de tres familias algorítmicas (K-Means++ con $K \in \{5, 6, 7, 8\}$, enlace de Ward con los mismos valores de $K$ y HDBSCAN con \texttt{min\_cluster\_size} $\in \{50, 100, 200, 300, 500\}$) sobre los tres espacios: musical 13D, semántico 384D y semántico UMAP 30D. La mejor configuración por espacio se seleccionó mediante triangulación entre Silhouette macro más alto y Davies-Bouldin más bajo, descartando automáticamente dos tipos de configuración no representativa: las que generan algún cluster con menos del 1\% del dataset (degeneradas) y las que clasifican como ruido a más del 50\% de las canciones (cobertura insuficiente). Este segundo criterio evita que un algoritmo basado en densidad obtenga un Silhouette elevado agrupando únicamente el subconjunto más denso del espacio y descartando la mayoría de los puntos como ruido, un valor que no reflejaría la estructura global del catálogo.
-
-\input{tables/clustering_best_configs}
-
-El Cuadro~\ref{tab:clustering_best_configs} presenta la mejor configuración identificada en cada espacio. El espacio semántico 384D obtiene un Silhouette macro de $0{,}0362$ con K-Means++ y $K = 5$, un valor muy cercano a cero que indica particiones de baja calidad pese al Hopkins elevado reportado en la subsección anterior. HDBSCAN fracasó completamente en 384D, clasificando el 100\% de los puntos como ruido para cualquier \texttt{min\_cluster\_size} $\geq 100$, consecuencia directa de la maldición de la dimensionalidad sobre métodos basados en densidad. El espacio musical 13D alcanzó su mejor partición de cobertura total con K-Means++ y $K = 5$ (Silhouette macro de $0{,}1028$); la configuración HDBSCAN que obtenía un Silhouette nominalmente superior ($0{,}1991$) se descartó por clasificar como ruido al 84\% del catálogo, agrupando solo dos bolsones densos. El espacio semántico UMAP 30D produjo el mejor resultado del experimento, con HDBSCAN identificando tres clusters y Silhouette macro de $0{,}9137$.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_musical_13d.pdf}
-        \caption{Musical 13D}
-    \end{subfigure}
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_384d.pdf}
-        \caption{Semántico 384D}
-    \end{subfigure}
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_umap.pdf}
-        \caption{Semántico UMAP 30D}
-    \end{subfigure}
-    \caption{Comparación de Silhouette macro-promediado entre algoritmos y configuraciones por espacio.}
-    \label{fig:silhouette_comparison}
-\end{figure}
-
-El resultado confirma la cohesión superior del espacio musical en baja dimensionalidad: el Silhouette musical ($0{,}1028$) supera al semántico en el espacio original ($0{,}0362$). Sin embargo, la observación crítica es que la \emph{reducción dimensional mediante UMAP} transforma drásticamente la calidad del clustering semántico, pasando de $0{,}0362$ a $0{,}9137$. Este resultado ilustra que la estructura detectada por Hopkins en 384 dimensiones es real pero inaccesible a los algoritmos de partición sin preprocesamiento dimensional. Los tres clusters identificados en el espacio semántico UMAP muestran tamaños desbalanceados (15\,340, 1\,739 y 237 canciones, más 648 puntos clasificados como ruido, el 3{,}6\%), reflejando que la granularidad natural del contenido lírico del dataset es baja.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/umap_clusters_semantic_umap.pdf}
-        \caption{Clusters semánticos (HDBSCAN, $K = 3$)}
-    \end{subfigure}
-    \begin{subfigure}{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/umap_genres_semantic_umap.pdf}
-        \caption{Géneros sobre el mismo espacio}
-    \end{subfigure}
-    \caption{Proyección UMAP 2D del espacio semántico, coloreada por cluster (izquierda) y por género (derecha).}
-    \label{fig:umap_semantic}
-\end{figure}
-
-El Cuadro~\ref{tab:clustering_best_configs} resume únicamente la mejor configuración por espacio. Por completitud, los Cuadros~\ref{tab:clustering_comparison_musical_13d}, \ref{tab:clustering_comparison_semantic_384d} y \ref{tab:clustering_comparison_semantic_umap} reportan la totalidad de las configuraciones evaluadas sobre cada espacio. Para cada combinación de algoritmo y parámetro se incluyen las métricas de Silhouette macro-promediado, Davies-Bouldin, Calinski-Harabasz, ARI y NMI contra género, número de clusters obtenidos, número de puntos clasificados como ruido (aplicable a HDBSCAN) e indicador de degeneración (cluster con menos del 1\% del dataset). Estas tablas evidencian el patrón discutido: HDBSCAN colapsa en ruido total sobre el espacio semántico 384D, las particiones de cobertura total en el espacio musical 13D obtienen Silhouette bajo de forma consistente, y la proyección UMAP 30D es el único espacio donde el clustering alcanza cohesión alta.
-
-\input{tables/clustering_comparison_musical_13d}
-
-\input{tables/clustering_comparison_semantic_384d}
-
-\input{tables/clustering_comparison_semantic_umap}
-
-\subsubsection*{Complementariedad cross-modal}
-
-El siguiente análisis cuantifica si los clusters semánticos y musicales capturan información complementaria, mediante un NMI (\textit{Normalized Mutual Information}) cuyo valor inferior a $0{,}15$ entre las asignaciones de cluster producidas en cada modalidad indicaría independencia sustancial. Esta verificación es central para justificar la fusión multimodal: si los clusters de ambos espacios fueran equivalentes, agregar el componente musical no aportaría información nueva sobre el semántico.
-
-\input{tables/cross_modal_nmi}
-
-El Cuadro~\ref{tab:cross_modal_nmi} reporta el NMI entre la mejor configuración semántica (HDBSCAN con $K = 3$ sobre el espacio UMAP 30D) y la mejor partición musical de cobertura total (K-Means++ con $K = 5$ sobre 13D). Ambas particiones se eligen sobre agrupamientos con estructura real y cobertura del catálogo completo, de modo que el NMI mide complementariedad genuina y no el solapamiento entre particiones arbitrarias. El valor obtenido es $\text{NMI} = 0{,}0298$, prácticamente cero, lo que indica que las dos particiones son casi completamente independientes. Conocer el cluster semántico de una canción aporta información marginal sobre su cluster musical, y viceversa.
-
-El valor obtenido se ubica muy por debajo del umbral ($0{,}0298 \ll 0{,}15$), confirmando la independencia entre modalidades con amplio margen. Este resultado constituye la validación empírica central para la fusión multimodal implementada en la Sección~\ref{sec:sistema-hibrido}: ambas modalidades aportan información discriminativa no redundante.
-
-% -----------------------
-% 6.1.3 Purificación
-% -----------------------
-\subsection{Efecto de la Purificación}
-\label{subsec:efecto-purificacion}
-
-Finalmente, se evalúa si el procedimiento de purificación combinada descrito en la Sección~\ref{subsec:purificacion} mejora el Silhouette macro sin eliminar más del 15\% de los datos en ninguno de los espacios. La purificación se aplicó sobre dos configuraciones candidatas: K-Means++ con $K = 5$ en el espacio musical (Silhouette inicial $0{,}1028$, con margen de mejora) y HDBSCAN con $K = 3$ en el espacio semántico UMAP (Silhouette inicial $0{,}9137$, ya alto).
-
-\input{tables/purification_results}
-
-El Cuadro~\ref{tab:purification_results} reporta las métricas antes y después de la purificación en ambos espacios, y la Figura~\ref{fig:purification_comparison} las visualiza comparativamente. En el espacio musical, la purificación alcanzó el presupuesto máximo del 15\% (2\,694 puntos eliminados de los 17\,964 iniciales), produciendo una mejora de Silhouette macro del $31{,}5\%$ relativo (de $0{,}1028$ a $0{,}1351$) y un descenso del Davies-Bouldin de $2{,}2282$ a $1{,}9973$. En el espacio semántico UMAP, la purificación fue marginal: solo $522$ puntos ($3{,}0\%$) fueron removidos, con mejora de Silhouette del $1{,}0\%$ relativo y descenso leve del Davies-Bouldin.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/purification_comparison.pdf}
-    \caption{Silhouette macro y Davies-Bouldin antes y después de la purificación en los dos espacios. La purificación aporta mejora significativa en el espacio musical (margen disponible alto) y marginal en el semántico UMAP (partición inicial ya de alta calidad).}
-    \label{fig:purification_comparison}
-\end{figure}
-
-La purificación mejora la calidad en ambos espacios sin exceder el presupuesto de remoción del 15\%. El contraste entre ellos ilustra un principio general: la purificación aporta valor proporcional a la cantidad de errores de asignación del algoritmo base. HDBSCAN, al poder clasificar puntos ambiguos como ruido, comete pocos errores de asignación forzada, por lo que el margen de mejora disponible es estrecho. K-Means, al asignar cada punto al centroide más cercano, acumula errores en las fronteras difusas que la purificación corrige.
-
-No obstante, el valor absoluto del Silhouette musical tras la purificación ($0{,}1351$) sigue siendo bajo. Esto indica que el problema del espacio musical es estructural (las features acústicas varían de forma continua y las fronteras entre agrupaciones son inherentemente difusas) y no se resuelve por refinamiento de asignaciones.
-
-\subsubsection*{Síntesis de resultados de clustering}
-
-Los hallazgos clave de esta sección son:
-
-\begin{itemize}[leftmargin=2em]
-    \item Los embeddings semánticos y las features musicales contienen estructura real y significativa.
-    \item La maldición de la dimensionalidad afecta la capacidad de partición en 384D pero no la detección de estructura (contraste entre Hopkins y Silhouette). UMAP es necesario como preprocesamiento para clustering en este espacio.
-    \item El espacio musical produce clusters más cohesivos en baja dimensionalidad, aunque la granularidad natural es baja (su mejor partición de cobertura total resuelve en 5 grupos de baja cohesión).
-    \item Los espacios semántico y musical son casi completamente independientes (NMI $= 0{,}0298$), lo que legitima la fusión multimodal.
-    \item La purificación aporta mejoras medibles sin violar el presupuesto de remoción del 15\%, con magnitud proporcional a la calidad inicial del algoritmo.
-\end{itemize}
-
-La baja granularidad natural del clustering (5 grupos musicales de baja cohesión, 3 semánticos, con tamaños desbalanceados en ambos casos) determina la decisión arquitectónica del sistema de recomendación: k-NN directo como mecanismo primario, sin clustering como paso intermedio obligatorio. Los resultados del sistema así diseñado se presentan a continuación.
+Este capítulo presenta los resultados cuantitativos obtenidos en la ejecución del pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta}. Se organiza en tres secciones: los resultados del sistema de recomendación híbrido, el costo computacional del pipeline y el plan de pruebas de calidad. Todos los valores reportados son exactamente reproducibles: el comportamiento estocástico del pipeline (muestreos aleatorios y procedimientos de inicialización) está fijado mediante semillas aleatorias constantes centralizadas en la configuración del proyecto.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 6.2 — Resultados de Recomendación
@@ -148,11 +9,7 @@ La baja granularidad natural del clustering (5 grupos musicales de baja cohesió
 \section{Resultados de Recomendación}
 \label{sec:resultados-recomendacion}
 
-Esta sección presenta los resultados del sistema de recomendación híbrido descrito en la Sección~\ref{sec:sistema-hibrido}. Se reportan el valor del parámetro $\sigma$ del kernel gaussiano, la evolución de Precision@$K$ a lo largo del grid search sobre $\alpha$, las métricas completas al valor óptimo identificado, el análisis desagregado por género, y las métricas complementarias de diversidad y cobertura.
-
-\subsection{Parámetros Pre-computados}
-
-El parámetro $\sigma$ del kernel gaussiano fue determinado por la heurística de la mediana sobre una muestra aleatoria de 5\,000 canciones, generando aproximadamente 12{,}5 millones de distancias pairwise. El valor obtenido fue $\sigma = 4{,}7634$, que se empleó en la construcción de la matriz de similitudes musicales del sistema. La matriz de similitudes semánticas produjo valores en el rango $[0{,}6912,\; 1{,}0000]$ con media $0{,}8702$; la matriz musical, tras la conversión por kernel, produjo valores en $[0{,}0026,\; 1{,}0000]$ con media $0{,}5887$. La distribución del score musical es considerablemente más amplia que la del semántico, lo que refleja que la distancia euclídea preserva mayor capacidad discriminativa global en 13 dimensiones que la similitud coseno en 384 dimensiones.
+Esta sección presenta los resultados del sistema de recomendación híbrido descrito en la Sección~\ref{sec:sistema-hibrido}. Se reportan la evolución de Precision@$K$ a lo largo del grid search sobre $\alpha$, las métricas completas al valor óptimo identificado, el análisis desagregado por género, y las métricas complementarias de diversidad y cobertura.
 
 \subsection{Grid Search sobre $\alpha$}
 
@@ -167,7 +24,7 @@ El Cuadro~\ref{tab:recommendation_grid_search} presenta los resultados del grid 
     \label{fig:alpha_precision}
 \end{figure}
 
-El valor óptimo $\alpha = 0{,}80$ indica que el sistema produce recomendaciones de mayor calidad cuando el componente semántico aporta el 80\% del score fusionado y el musical el 20\% restante. Este resultado es coherente con la expectativa de que las letras capturan dimensiones semánticas (temática, narrativa, registro lírico) que los descriptores acústicos de bajo nivel no alcanzan a discriminar a nivel de canción individual. Simultáneamente, la caída de Precision@10 al pasar de $\alpha = 0{,}80$ a $\alpha = 1{,}00$ ($0{,}4447 \to 0{,}3613$, una reducción de $8{,}3$ puntos absolutos) demuestra que el $20\%$ de peso del componente musical aporta capacidad discriminativa adicional que el componente semántico por sí solo no provee.
+El valor óptimo $\alpha = 0{,}80$ indica que el sistema produce recomendaciones de mayor calidad cuando el componente semántico aporta el 80\% del score fusionado y el musical el 20\% restante. Este resultado es coherente con la expectativa de que las letras capturan dimensiones semánticas (temática, narrativa, registro lírico) que los descriptores acústicos de bajo nivel no alcanzan a discriminar a nivel de canción individual. Simultáneamente, la caída de Precision@10 al pasar de $\alpha = 0{,}80$ a $\alpha = 1{,}00$ ($0{,}4447 \to 0{,}3613$, una reducción de $8{,}3$ puntos absolutos) demuestra que el $20\%$ de peso del componente musical aporta capacidad discriminativa adicional que el componente semántico por sí solo no provee. El origen de ese aporte está en el rango dinámico de cada similitud. Las similitudes en el espacio semántico se concentran en el rango $[0{,}69,\,1{,}00]$, lo que comprime la capacidad de ordenamiento entre candidatos cercanos; el kernel gaussiano sobre el espacio musical, en cambio, expande la discriminación al rango completo $[0{,}00,\,1{,}00]$. La fusión preserva así la precisión temática del componente semántico y le añade poder de desempate musical en la cola del ranking, donde el semántico carece de granularidad.
 
 \subsection{Métricas al $\alpha$ Óptimo}
 
@@ -183,35 +40,13 @@ El Cuadro~\ref{tab:coverage_per_genre} desglosa esta cobertura por género, ente
 
 \input{tables/recommendation_precision_per_genre}
 
-El Cuadro~\ref{tab:recommendation_precision_per_genre} desglosa la Precision@10 al $\alpha$ óptimo por género de la query, y la Figura~\ref{fig:precision_genre} la visualiza. El rango de variación entre géneros es amplio, desde $0{,}3051$ para EDM hasta $0{,}6902$ para rap, con una diferencia absoluta de más de 38 puntos. El género rap alcanza el valor máximo debido a dos propiedades convergentes: por un lado, el vocabulario de rap incluye términos distintivos (slang, referencias culturales específicas) que el modelo de embeddings captura con precisión; por otro, las features acústicas de rap (alto \textit{speechiness}, tempo elevado, baja \textit{acousticness}) forman un cluster musical compacto. Ambas modalidades convergen en la misma agrupación. En contraste, EDM es un género que frecuentemente incluye canciones con letras mínimas o instrumentales, lo que limita el valor del componente semántico, mientras que acústicamente se solapa con subconjuntos de pop.
+El Cuadro~\ref{tab:recommendation_precision_per_genre} desglosa la Precision@10 al $\alpha$ óptimo por género de la query, y la Figura~\ref{fig:precision_genre} la visualiza. El rango de variación entre géneros es amplio, desde $0{,}3051$ para EDM hasta $0{,}6902$ para rap, con una diferencia absoluta de más de 38 puntos: rap se ubica por encima de la media global y EDM por debajo. Esta disparidad se relaciona con las limitaciones del género como proxy de relevancia, analizadas en la Sección~\ref{sec:limitaciones}.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{figures/recommendation_precision_genre.pdf}
     \caption{Precision@10 por género de la query al $\alpha$ óptimo. La línea vertical marca la media global.}
     \label{fig:precision_genre}
-\end{figure}
-
-\subsection{Diversidad y Cobertura en Función de $\alpha$}
-
-La Figura~\ref{fig:diversity_coverage} presenta la evolución de la ILD semántica y la cobertura del catálogo en función de $\alpha$, evaluada en un subconjunto representativo de la grilla. Al aumentar $\alpha$, la ILD semántica disminuye (las recomendaciones se vuelven más homogéneas en contenido temático) mientras que la cobertura del catálogo disminuye moderadamente (el sistema concentra recomendaciones en menos canciones únicas). El valor óptimo $\alpha = 0{,}80$ se ubica en un punto intermedio donde se preserva razonable diversidad y cobertura.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.85\linewidth]{figures/recommendation_diversity_coverage.pdf}
-    \caption{Intra-List Diversity semántica (eje izquierdo) y cobertura del catálogo (eje derecho) en función de $\alpha$.}
-    \label{fig:diversity_coverage}
-\end{figure}
-
-\subsection{Distribución de Scores}
-
-La Figura~\ref{fig:score_distributions} presenta las distribuciones de scores de fusión al $\alpha$ óptimo, separadas según relevancia (mismo género vs distinto género respecto a la query). La distribución de scores de recomendaciones relevantes (mismo género) está desplazada hacia valores más altos que la de no relevantes, pero existe solapamiento considerable entre ambas. Este solapamiento explica parcialmente por qué la Precision@10 es $0{,}44$ y no superior: el sistema no produce una separación binaria clara entre canciones relevantes e irrelevantes según el proxy de género, sino un ranking continuo en el que la correlación con el género es positiva pero imperfecta.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.85\linewidth]{figures/recommendation_score_distributions.pdf}
-    \caption{Distribución de scores de fusión para recomendaciones relevantes (mismo género que la query) vs no relevantes.}
-    \label{fig:score_distributions}
 \end{figure}
 
 % ---------------------------------------------------------------------------
@@ -225,37 +60,7 @@ Los tiempos de ejecución del pipeline completo sobre las 17\,964 canciones se m
 \input{tables/pipeline_timing}
 
 % ---------------------------------------------------------------------------
-% SECCIÓN 6.4 — Análisis Comparativo con Literatura
-% ---------------------------------------------------------------------------
-\section{Análisis Comparativo con Literatura}
-\label{sec:analisis-comparativo}
-
-Los resultados del sistema pueden contextualizarse respecto a trabajos previos en recomendación musical multimodal reportados en la literatura. \textcite{hu_2010_lyrics_audio_mood} documentan que la combinación de audio y letras captura dimensiones de similitud complementarias: audio discrimina mejor propiedades perceptuales, letras distinguen categorías semánticamente ricas. \textcite{vystrcilova_2020_lyrics_audio} confirman empíricamente que la combinación produce mejores resultados que cualquiera de las dos fuentes por separado. Los resultados del presente trabajo son consistentes con ambas observaciones: el NMI cross-modal de $0{,}0298$ cuantifica la complementariedad entre modalidades, y la curva de Precision@10 en función de $\alpha$ muestra que la fusión supera en al menos $8$ puntos porcentuales a los extremos unimodales.
-
-% ---------------------------------------------------------------------------
-% SECCIÓN 6.5 — Discusión
-% ---------------------------------------------------------------------------
-\section{Discusión}
-\label{sec:discusion}
-
-Los resultados presentados permiten tres observaciones críticas sobre el sistema propuesto y sus limitaciones.
-
-\subsubsection*{La paradoja Hopkins-Silhouette en alta dimensionalidad}
-
-El espacio semántico original presenta Hopkins $0{,}9472$ (estructura interna fuerte) pero Silhouette macro $0{,}0362$ (particiones de baja calidad). Esta aparente paradoja refleja que \textit{detección de estructura} y \textit{separabilidad de particiones} son propiedades distintas afectadas de forma diferencial por la dimensionalidad. Hopkins compara distancias al vecino más cercano contra una referencia uniforme y puede detectar estructura aun cuando las distancias absolutas estén concentradas; Silhouette mide la cohesión de clusters respecto a sus vecinos, lo que requiere que las distancias inter-cluster sean significativamente mayores que las intra-cluster. En alta dimensionalidad las distancias se concentran, lo que aplana el contraste requerido por Silhouette pero no invalida la detección por Hopkins. La reducción a 30 dimensiones con UMAP restaura la separabilidad y permite que ambas métricas indiquen estructura concordante. Este hallazgo tiene implicaciones metodológicas: un Silhouette bajo en alta dimensionalidad no implica ausencia de estructura; puede reflejar únicamente que los algoritmos de partición no pueden capturarla en ese espacio.
-
-\subsubsection*{Dominancia semántica con aporte musical no trivial}
-
-El valor óptimo $\alpha = 0{,}80$ indica dominancia del componente semántico, pero la caída de $8{,}3$ puntos de Precision@10 al pasar a $\alpha = 1{,}00$ demuestra que el componente musical no es prescindible. Una lectura simple del óptimo llevaría a proponer un sistema puramente semántico, descartando las features acústicas; los datos refutan esa simplificación. El rol del componente musical parece ser provisión de capacidad discriminativa complementaria en una dimensión donde el semántico carece de granularidad: el espacio semántico restringe el rango de similitudes a $[0{,}69, 1{,}00]$, comprimiendo la capacidad de ordenamiento, mientras que el kernel musical expande la discriminación hacia el rango completo $[0{,}00, 1{,}00]$. La fusión preserva la precisión semántica y agrega precisión musical en la cola del ranking.
-
-\subsubsection*{Limitaciones del proxy de evaluación}
-
-La métrica Precision@K depende del género musical como proxy de relevancia. El análisis por género revela que esta dependencia introduce desigualdades: EDM obtiene $0{,}3051$ y rap $0{,}6902$, variabilidad no completamente atribuible a diferencias en la calidad del sistema. Parte de la variación refleja que las etiquetas de género de la fuente original (playlists de Spotify) no siempre son consistentes con el contenido musical de la canción (por ejemplo, remixes cruzan géneros pero mantienen la etiqueta del artista), y parte refleja limitaciones genuinas de la fusión para géneros con letras mínimas o solapamiento acústico con otros géneros. La inspección cualitativa de recomendaciones específicas (documentada en \texttt{src/recommendation/PRUEBAS\_CALIDAD.md}) identificó dos patrones problemáticos del dataset fuente que afectan la experiencia percibida independientemente de la métrica: canciones duplicadas con \textit{track IDs} distintos (producto del scraping desde múltiples playlists) que generan recomendaciones redundantes, y etiquetas de género inconsistentes para un mismo artista o canción. Estos problemas no se originan en el algoritmo sino en la construcción del dataset fuente, pero impactan directamente la utilidad práctica del sistema. Su tratamiento se discute como limitación y línea futura en el Capítulo~\ref{ch:conclusiones}.
-
-La Precision@10 de $0{,}4447$ sugiere que aproximadamente cuatro de cada diez recomendaciones comparten género con la query. La interpretación de este valor requiere cautela: un sistema que recomiende canciones al azar del mismo género obtendría Precision@K unitaria por construcción, por lo que el valor absoluto no establece calidad sin comparación con baselines. La caracterización completa del rendimiento del sistema en relación con baselines triviales (random, random-por-género, TF-IDF sobre letras) queda señalada como trabajo pendiente documentado en el Capítulo~\ref{ch:conclusiones}.
-
-% ---------------------------------------------------------------------------
-% SECCIÓN 6.6 — Plan de pruebas de calidad
+% SECCIÓN 6.5 — Plan de pruebas de calidad
 % ---------------------------------------------------------------------------
 \section{Plan de Pruebas de Calidad}
 \label{sec:plan-pruebas}
@@ -264,7 +69,7 @@ El sistema implementado se evalúa mediante métricas cuantitativas (Precision@1
 
 Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyecto. Esta sección formaliza su definición y criterios de aceptación.
 
-\textbf{Prueba A: Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad entre modalidades verificada cuantitativamente en la Sección~\ref{subsec:comparacion-algoritmos}.
+\textbf{Prueba A: Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad entre modalidades verificada cuantitativamente en la Sección~\ref{subsec:seleccion-algoritmo}.
 
 \textbf{Prueba B: Comparación con baselines numéricos.} Su objetivo es contextualizar la magnitud del Precision@10 obtenido por el sistema frente a recomendadores triviales que sirven como cota inferior. Se implementan tres baselines: recomendación aleatoria (cota inferior absoluta), recomendación por género mayoritario (cota inferior contextual) y recomendación por similitud sobre features acústicas crudas sin normalización (sistema mínimo razonable). El criterio de aceptación es que el sistema híbrido supere significativamente a cada baseline en Precision@10, demostrando que la sofisticación metodológica adoptada produce mejoras mensurables sobre alternativas más simples.
 

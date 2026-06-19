@@ -312,9 +312,16 @@ La evaluación se ejecuta sobre los cuatro espacios con 30 iteraciones y 100 mue
 
 \input{tables/hopkins_results}
 
-El Cuadro~\ref{tab:hopkins_results} presenta los resultados. Los cuatro espacios superan el umbral de 0.7, confirmando que ambas representaciones contienen estructura real. El espacio semántico original exhibe un valor de Hopkins notablemente alto ($H = 0.9472$), lo que indica que los embeddings de letras capturan agrupaciones temáticas pronunciadas. El espacio musical, con $H = 0.8298$ en 13 dimensiones, muestra una estructura más moderada pero igualmente significativa. El espacio concatenado obtiene el valor más bajo ($H = 0.7415$), coherente con la expectativa de que la dimensionalidad desproporcionada del componente semántico diluye la contribución del componente musical cuando ambos se combinan directamente.
+El Cuadro~\ref{tab:hopkins_results} y la Figura~\ref{fig:hopkins_results} presentan los resultados. Los cuatro espacios superan el umbral de 0.7, confirmando que ambas representaciones contienen estructura real. El espacio semántico original exhibe un valor de Hopkins notablemente alto ($H = 0.9472 \pm 0.0028$), lo que indica que los embeddings de letras capturan agrupaciones temáticas pronunciadas. El espacio musical, con $H = 0.8298 \pm 0.0103$ en 13 dimensiones, muestra una estructura más moderada pero igualmente significativa. El espacio concatenado obtiene el valor más bajo ($H = 0.7415$), coherente con la expectativa de que la dimensionalidad desproporcionada del componente semántico diluye la contribución del componente musical cuando ambos se combinan directamente.
 
 La proyección UMAP a 30 dimensiones del espacio semántico produce un Hopkins de 0.9923, superior al del espacio original. Este resultado es informativo respecto a una preocupación metodológica sobre el uso de Hopkins en alta dimensionalidad: \textcite{aggarwal_2001_dimensionality} documentan que en espacios de muchas dimensiones la diferencia relativa entre la distancia al vecino más cercano y al más lejano tiende a cero, lo que podría inflar artificialmente el estadístico de Hopkins. Si este efecto estuviera presente, la proyección a 30 dimensiones (que mitiga la concentración de distancias) debería producir un valor \textit{menor}, no mayor. El resultado inverso confirma que el valor de 0.9472 en 384 dimensiones es conservador: UMAP concentra la estructura en menos dimensiones, lo que facilita su detección, pero no la inventa.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/hopkins_results.pdf}
+    \caption{Estadístico de Hopkins por espacio con intervalo de confianza al 95\%. La línea punteada marca el umbral de tendencia significativa ($H = 0{,}7$).}
+    \label{fig:hopkins_results}
+\end{figure}
 
 \subsection{Selección de Algoritmo y Configuración}
 \label{subsec:seleccion-algoritmo}
@@ -327,19 +334,66 @@ La selección de la mejor configuración se basa en la triangulación de dos mé
 
 El Cuadro~\ref{tab:clustering_best_configs} presenta la mejor configuración identificada para cada espacio. Los resultados revelan tres hallazgos principales.
 
-En primer lugar, el espacio semántico original de 384 dimensiones produce un clustering muy pobre (Silhouette macro de 0.0362) a pesar de su alto Hopkins. La estructura existe (los puntos no están distribuidos uniformemente) pero no se traduce en clusters bien separados: las regiones de alta densidad se solapan gradualmente en lugar de estar separadas por fronteras nítidas. Este fenómeno es una manifestación directa de la maldición de la dimensionalidad, en 384 dimensiones, las distancias entre puntos se comprimen y los algoritmos de partición pierden capacidad discriminativa. HDBSCAN resulta completamente inutilizable en este espacio, clasificando el 100\% de los puntos como ruido para cualquier \texttt{min\_cluster\_size} $\geq 100$.
+En primer lugar, el espacio semántico original de 384 dimensiones produce un clustering muy pobre (Silhouette macro de 0.0362) a pesar de su alto Hopkins. La estructura existe (los puntos no están distribuidos uniformemente) pero no se traduce en clusters bien separados: las regiones de alta densidad se solapan gradualmente en lugar de estar separadas por fronteras nítidas. Este fenómeno es una manifestación directa de la maldición de la dimensionalidad, en 384 dimensiones, las distancias entre puntos se comprimen y los algoritmos de partición pierden capacidad discriminativa. El contraste entre un Hopkins alto y un Silhouette bajo no es contradictorio: ambas métricas miden propiedades distintas, afectadas de forma diferencial por la dimensionalidad. Hopkins compara la distancia al vecino más cercano contra una referencia uniforme y detecta estructura aun cuando las distancias absolutas estén concentradas; el Silhouette, en cambio, exige que las distancias inter-cluster superen significativamente a las intra-cluster, condición que la concentración de distancias aplana. Un Silhouette bajo en alta dimensionalidad no implica entonces ausencia de estructura, sino únicamente que los algoritmos de partición no logran capturarla en ese espacio, como confirma su recuperación al reducir la dimensionalidad. HDBSCAN resulta completamente inutilizable en este espacio, clasificando el 100\% de los puntos como ruido para cualquier \texttt{min\_cluster\_size} $\geq 100$.
 
-En segundo lugar, la proyección UMAP a 30 dimensiones transforma radicalmente la calidad del clustering semántico. HDBSCAN identifica 3 clusters con un Silhouette macro de 0.9137 y apenas un 3.6\% de puntos clasificados como ruido. Esta mejora confirma que la estructura detectada por Hopkins en 384 dimensiones es real pero inaccesible para los algoritmos de clustering sin reducción dimensional previa. Los intentos de forzar más clusters en este espacio (tanto con K-Means como con Ward para $K \geq 6$) producen configuraciones degeneradas: el algoritmo mantiene los 2--3 grupos naturales y fragmenta los bordes en micro-clusters espurios de pocas decenas de canciones. Con K-Means $K = 5$ (la granularidad máxima sin degeneración), el Silhouette desciende a 0.5263 y los clusters siguen siendo muy desiguales (uno con 9\,104 canciones y otro con 237).
+En segundo lugar, la proyección UMAP a 30 dimensiones transforma radicalmente la calidad del clustering semántico. HDBSCAN identifica 3 clusters de tamaños muy desiguales (15\,340, 1\,739 y 237 canciones) con un Silhouette macro de 0.9137 y apenas un 3.6\% de puntos (648 canciones) clasificados como ruido. Esta mejora confirma que la estructura detectada por Hopkins en 384 dimensiones es real pero inaccesible para los algoritmos de clustering sin reducción dimensional previa. Los intentos de forzar más clusters en este espacio (tanto con K-Means como con Ward para $K \geq 6$) producen configuraciones degeneradas: el algoritmo mantiene los 2--3 grupos naturales y fragmenta los bordes en micro-clusters espurios de pocas decenas de canciones. Con K-Means $K = 5$ (la granularidad máxima sin degeneración), el Silhouette desciende a 0.5263 y los clusters siguen siendo muy desiguales (uno con 9\,104 canciones y otro con 237).
 
 En tercer lugar, el espacio musical de 13 dimensiones presenta una estructura difusa y de baja granularidad. A diferencia del espacio semántico, su baja dimensionalidad descarta la maldición de la dimensionalidad como causa: las features acústicas se distribuyen de forma gradual, sin un corte nítido donde, por ejemplo, ``alta energía'' termina y ``baja energía'' empieza, lo que produce fronteras difusas entre grupos independientemente del algoritmo utilizado. La mejor partición de cobertura total es K-Means $K = 5$, con un Silhouette macro de 0.1028 y cinco grupos que reparten la totalidad de las 17\,964 canciones (entre 803 y 6\,441 canciones por grupo). HDBSCAN, en cambio, no produce una partición representativa del espacio: aísla únicamente dos pequeños bolsones densos (885 y 1\,986 canciones) y clasifica como ruido al 84\% del catálogo. Su Silhouette aparentemente superior (0.1991) se calcula solo sobre ese 16\% agrupado, por lo que la configuración se descarta por el criterio de cobertura. El bajo Silhouette de la mejor partición de cobertura total confirma que la granularidad natural del espacio musical es baja.
 
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/silhouette_comparison_musical_13d.pdf}
+        \caption{Musical 13D}
+    \end{subfigure}
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_384d.pdf}
+        \caption{Semántico 384D}
+    \end{subfigure}
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_umap.pdf}
+        \caption{Semántico UMAP 30D}
+    \end{subfigure}
+    \caption{Comparación de Silhouette macro-promediado entre algoritmos y configuraciones por espacio.}
+    \label{fig:silhouette_comparison}
+\end{figure}
+
+La Figura~\ref{fig:silhouette_comparison} compara el Silhouette macro de las configuraciones evaluadas en cada espacio, y la Figura~\ref{fig:umap_semantic} proyecta en dos dimensiones la mejor partición semántica sobre UMAP, contrastando los clusters obtenidos con la distribución de géneros.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/umap_clusters_semantic_umap.pdf}
+        \caption{Clusters semánticos (HDBSCAN, $K = 3$)}
+    \end{subfigure}
+    \begin{subfigure}{0.48\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/umap_genres_semantic_umap.pdf}
+        \caption{Géneros sobre el mismo espacio}
+    \end{subfigure}
+    \caption{Proyección UMAP 2D del espacio semántico, coloreada por cluster (izquierda) y por género (derecha).}
+    \label{fig:umap_semantic}
+\end{figure}
+
+El Cuadro~\ref{tab:clustering_best_configs} resume únicamente la mejor configuración por espacio. Por completitud, los Cuadros~\ref{tab:clustering_comparison_musical_13d}, \ref{tab:clustering_comparison_semantic_384d} y \ref{tab:clustering_comparison_semantic_umap} reportan la totalidad de las configuraciones evaluadas sobre cada espacio, con las métricas de Silhouette macro-promediado, Davies-Bouldin, Calinski-Harabasz, ARI y NMI contra género, número de clusters, puntos clasificados como ruido e indicador de degeneración.
+
+\input{tables/clustering_comparison_musical_13d}
+
+\input{tables/clustering_comparison_semantic_384d}
+
+\input{tables/clustering_comparison_semantic_umap}
+
 \subsubsection*{Complementariedad cross-modal}
 
-Para justificar la fusión multimodal, es necesario demostrar que los dos espacios capturan información diferente. Si los clusters semánticos y musicales fueran equivalentes, la fusión no aportaría valor. La Información Mutua Normalizada (NMI) entre las asignaciones de cluster de ambas modalidades cuantifica este solapamiento: un NMI cercano a 1 indica que ambas particiones dicen lo mismo, mientras que un NMI cercano a 0 indica complementariedad total.
+Para justificar la fusión multimodal, es necesario demostrar que los dos espacios capturan información diferente. Si los clusters semánticos y musicales fueran equivalentes, la fusión no aportaría valor. La Información Mutua Normalizada (NMI) entre las asignaciones de cluster de ambas modalidades cuantifica este solapamiento: un NMI cercano a 1 indica que ambas particiones dicen lo mismo, mientras que un NMI cercano a 0 indica complementariedad total. Se adopta un umbral de $0{,}15$ como criterio: un valor por debajo de ese umbral indica independencia sustancial entre las modalidades.
 
 \input{tables/cross_modal_nmi}
 
-El Cuadro~\ref{tab:cross_modal_nmi} reporta el NMI calculado entre el mejor clustering semántico (la proyección UMAP con HDBSCAN, $K = 3$) y la mejor partición musical de cobertura total (K-Means, $K = 5$). Ambas particiones se eligen sobre agrupamientos con estructura real y cobertura del catálogo completo, de modo que el NMI mide complementariedad genuina y no el solapamiento entre particiones arbitrarias. El valor obtenido, 0.0298, es cercano a cero, lo que indica una complementariedad prácticamente total: las agrupaciones temáticas que emergen del análisis de letras no se corresponden con las agrupaciones sonoras que emergen de las features acústicas. Este resultado es esperable: una canción acústica y melancólica puede compartir temática de desamor con una balada electrónica, mientras que dos canciones de alta energía pueden tratar temas completamente distintos. La complementariedad casi total entre ambas modalidades constituye la justificación empírica para la fusión multimodal que se implementa en la Sección~\ref{sec:sistema-hibrido}.
+El Cuadro~\ref{tab:cross_modal_nmi} reporta el NMI calculado entre el mejor clustering semántico (la proyección UMAP con HDBSCAN, $K = 3$) y la mejor partición musical de cobertura total (K-Means, $K = 5$). Ambas particiones se eligen sobre agrupamientos con estructura real y cobertura del catálogo completo, de modo que el NMI mide complementariedad genuina y no el solapamiento entre particiones arbitrarias. El valor obtenido, $0.0298$, se ubica muy por debajo del umbral ($0{,}0298 \ll 0{,}15$) y es cercano a cero, lo que indica una complementariedad prácticamente total: las agrupaciones temáticas que emergen del análisis de letras no se corresponden con las agrupaciones sonoras que emergen de las features acústicas. Este resultado es esperable: una canción acústica y melancólica puede compartir temática de desamor con una balada electrónica, mientras que dos canciones de alta energía pueden tratar temas completamente distintos. La complementariedad casi total entre ambas modalidades constituye la justificación empírica para la fusión multimodal que se implementa en la Sección~\ref{sec:sistema-hibrido}.
 
 \subsubsection*{Implicaciones para el sistema de recomendación}
 
@@ -408,7 +462,9 @@ La Ecuación~\ref{eq:euclidea} produce valores en $[0, \infty)$ donde un valor m
 
 El kernel gaussiano mapea distancia cero a similitud unitaria y decae suavemente hacia cero a medida que la distancia aumenta. El parámetro $\sigma$ controla la velocidad de ese decaimiento: valores pequeños producen un kernel puntiagudo donde solo distancias muy pequeñas generan similitud alta; valores grandes producen un kernel ancho donde distancias moderadas también generan similitud significativa.
 
-La elección de $\sigma$ se realiza mediante la \textit{heurística de la mediana}, estándar en métodos kernel: se calcula la mediana de las distancias euclídeas entre pares de puntos sobre una muestra aleatoria de canciones, y se adopta ese valor como $\sigma$. Este procedimiento calibra automáticamente el kernel a la escala natural de los datos y evita introducir un hiperparámetro libre. Sobre una muestra de 5\,000 canciones (que produce aproximadamente 12{,}5 millones de distancias pairwise), el valor resultante fue $\sigma = 4{,}76$.
+La elección de $\sigma$ se realiza mediante la \textit{heurística de la mediana}, estándar en métodos kernel: se calcula la mediana de las distancias euclídeas entre pares de puntos sobre una muestra aleatoria de canciones, y se adopta ese valor como $\sigma$. Este procedimiento calibra automáticamente el kernel a la escala natural de los datos y evita introducir un hiperparámetro libre. Sobre una muestra de 5\,000 canciones (que produce aproximadamente 12{,}5 millones de distancias pairwise), el valor resultante fue $\sigma = 4{,}7634$.
+
+Las matrices de similitud resultantes reflejan las distintas propiedades de cada métrica: la matriz semántica produce valores en el rango $[0{,}6912,\; 1{,}0000]$ con media $0{,}8702$, mientras que la matriz musical, tras la conversión por kernel, produce valores en $[0{,}0026,\; 1{,}0000]$ con media $0{,}5887$. La distribución del score musical es considerablemente más amplia que la del semántico, lo que refleja que la distancia euclídea preserva mayor capacidad discriminativa global en 13 dimensiones que la similitud coseno en 384 dimensiones.
 
 \input{tables/recommendation_fusion_strategy}
 
@@ -476,7 +532,14 @@ Se computan dos variantes. La ILD semántica utiliza la distancia coseno $d(u, v
 
 \paragraph{Cobertura por género.} Variante por categoría de la métrica anterior: para cada género $g$, se calcula la fracción de canciones de ese género que aparecen en alguna recomendación. Revela desbalances de representación por género.
 
-Las tres métricas complementarias se reportan conjuntamente con la precisión al valor óptimo de $\alpha$, permitiendo analizar el trade-off entre relevancia, diversidad y cobertura.
+Las tres métricas complementarias se reportan conjuntamente con la precisión al valor óptimo de $\alpha$, permitiendo analizar el trade-off entre relevancia, diversidad y cobertura. La Figura~\ref{fig:diversity_coverage} ilustra ese trade-off al recorrer la grilla: presenta la evolución de la ILD semántica y la cobertura del catálogo en función de $\alpha$. Al aumentar $\alpha$, la ILD semántica disminuye (las recomendaciones se vuelven más homogéneas en contenido temático) mientras que la cobertura del catálogo disminuye moderadamente (el sistema concentra recomendaciones en menos canciones únicas). El valor óptimo $\alpha = 0{,}80$ se ubica en un punto intermedio donde se preserva razonable diversidad y cobertura.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/recommendation_diversity_coverage.pdf}
+    \caption{Intra-List Diversity semántica (eje izquierdo) y cobertura del catálogo (eje derecho) en función de $\alpha$.}
+    \label{fig:diversity_coverage}
+\end{figure}
 
 \subsubsection*{Resumen del pipeline de recomendación}
 
