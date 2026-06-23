@@ -50,7 +50,7 @@ La elección de la función de similitud $s$ depende de la naturaleza de las car
 \begin{equation*}
     s_{\text{sem}}(q, i) = \hat{\mathbf{e}}_q \cdot \hat{\mathbf{e}}_i \in [-1, 1]
 \end{equation*}
-\noindent En teoría el coseno va de $-1$ a $1$, pero en la práctica estos vectores se concentran en una región acotada del espacio, de modo que los valores que aparecen son positivos y se mueven en una franja estrecha.
+\noindent En teoría el coseno recorre todo el intervalo $[-1, 1]$, pero en la práctica no se observa ese rango completo. Al estar L2-normalizados, todos los embeddings quedan sobre la esfera unitaria, y los modelos de lenguaje tienden a ubicarlos en un cono angosto de esa esfera en lugar de repartirlos de forma uniforme (propiedad conocida como anisotropía). A esto se suma que aquí todas las entradas son objetos del mismo tipo (letras de canciones, con vocabulario, idioma y estructura compartidos), por lo que sus vectores apuntan en direcciones parecidas. El ángulo entre dos canciones cualesquiera rara vez supera los $90^\circ$, de modo que los valores que aparecen son positivos y se concentran en una franja estrecha.
 
 \textbf{Similitud basada en distancia.} Cuando las características son atributos con valores concretos (energía, tempo, duración), dos ítems se parecen cuando esos valores quedan cerca entre sí. La distancia euclídea mide esa cercanía, pero tiene un problema: funciona al revés de una similitud (cuanto menor la distancia, mayor el parecido) y no tiene límite superior. Para convertirla en una similitud acotada entre 0 y 1, se aplica el \textit{kernel gaussiano}:
 \begin{equation}
