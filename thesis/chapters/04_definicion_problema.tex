@@ -51,25 +51,7 @@ Desarrollar e implementar un sistema de recomendaci\'{o}n musical multimodal que
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
-% SECCI\'{O}N 3.4 --- Hip\'{o}tesis
-% ---------------------------------------------------------------------------
-\section{Hip\'{o}tesis}
-\label{sec:hipotesis}
-
-Las siguientes hip\'{o}tesis se formulan antes de la ejecuci\'{o}n de los experimentos, en concordancia con la pr\'{a}ctica de pre-registro que la literatura identifica como deseable pero infrecuente en el dominio de MIR.
-
-\begin{description}[leftmargin=2em, style=nextline]
-    \item[H1: Complementariedad de modalidades.] Las representaciones sem\'{a}nticas (embeddings de letras) y las representaciones ac\'{u}sticas (features de Spotify) capturan dimensiones distintas de la similitud musical. Se espera que la correlaci\'{o}n entre ambos espacios sea baja (NMI $< 0.15$), lo que indicar\'{\i}a que las modalidades aportan informaci\'{o}n no redundante.
-
-    \item[H2: Superioridad del enfoque multimodal.] La fusi\'{o}n ponderada de recomendaciones basadas en ambas modalidades produce mayor precisi\'{o}n (Precision@10) que las recomendaciones basadas en cualquiera de las dos modalidades por separado, utilizando el g\'{e}nero musical como ground truth proxy.
-
-    \item[H3: Mejora por purificaci\'{o}n.] La purificaci\'{o}n post-clustering (la eliminaci\'{o}n o reasignaci\'{o}n de canciones mal ubicadas seg\'{u}n criterios definidos sobre ambas modalidades) mejora las m\'{e}tricas de calidad de clustering (Silhouette Score) respecto al clustering sin purificar.
-
-    \item[H4: Tendencia al agrupamiento.] Ambos espacios de representaci\'{o}n exhiben estructura interna susceptible de ser descubierta por algoritmos de clustering, medida por un estad\'{\i}stico de Hopkins significativamente superior a 0.5.
-\end{description}
-
-% ---------------------------------------------------------------------------
-% SECCI\'{O}N 3.5 --- Recursos del Proyecto
+% SECCI\'{O}N 3.4 --- Recursos del Proyecto
 % ---------------------------------------------------------------------------
 \section{Recursos del Proyecto}
 \label{sec:recursos}
@@ -91,7 +73,7 @@ Los recursos empleados en el desarrollo del presente trabajo se organizan en cua
 \section{Alcance y Limitaciones}
 \label{sec:alcance-limitaciones}
 
-El alcance del presente trabajo se circunscribe a los siguientes elementos:
+El alcance del presente trabajo se ajusta a los siguientes elementos:
 
 \begin{itemize}
     \item \textbf{Dataset}: El sistema opera sobre un cat\'{a}logo de 18\,454 canciones provenientes de un dataset p\'{u}blico de Kaggle \parencite{nakhaee_2020_spotify_lyrics} que combina features ac\'{u}sticas de la API de Spotify con letras obtenidas de Genius. No se utilizan datos de interacci\'{o}n de usuarios (historial de reproducciones, ratings), por lo que el enfoque es puramente basado en contenido.
@@ -102,7 +84,7 @@ El alcance del presente trabajo se circunscribe a los siguientes elementos:
 
     \item \textbf{Algoritmos de clustering}: Se eval\'{u}an K-Means, Jer\'{a}rquico Aglomerativo, Spectral Clustering y HDBSCAN.
 
-    \item \textbf{Evaluaci\'{o}n}: La validaci\'{o}n utiliza el g\'{e}nero musical como ground truth proxy para las m\'{e}tricas de recomendaci\'{o}n. Se reconoce expl\'{\i}citamente que el g\'{e}nero es una aproximaci\'{o}n imperfecta de la preferencia musical real, no una verdad absoluta.
+    \item \textbf{Evaluaci\'{o}n}: La validaci\'{o}n utiliza el g\'{e}nero musical como ground truth proxy para las m\'{e}tricas de recomendaci\'{o}n.
 \end{itemize}
 
 Las principales limitaciones identificadas son:
@@ -113,8 +95,6 @@ Las principales limitaciones identificadas son:
     \item \textbf{Sesgo ling\"{u}\'{\i}stico.} El 83.5\% de las letras est\'{a}n en ingl\'{e}s, con espa\~{n}ol en segundo lugar (9.2\%) y 33 idiomas adicionales que representan el 7.3\% restante. El modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} soporta m\'{a}s de 100 idiomas, pero su rendimiento puede variar seg\'{u}n la representaci\'{o}n de cada idioma en sus datos de entrenamiento. Los resultados del sistema reflejan predominantemente el comportamiento sobre texto en ingl\'{e}s.
 
     \item \textbf{Sesgo de instrumentalidad.} El 95.5\% de las canciones tienen un valor de \textit{instrumentalness} inferior a 0.5, y el 82.3\% se ubica por debajo de 0.01. El cat\'{a}logo est\'{a} compuesto casi exclusivamente por canciones vocales, lo que impide evaluar el comportamiento del sistema sobre m\'{u}sica instrumental.
-
-    \item \textbf{Ausencia de datos de interacci\'{o}n.} Las m\'{e}tricas de evaluaci\'{o}n son intr\'{\i}nsecas (calidad de clustering) y basadas en el g\'{e}nero musical como ground truth proxy.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -126,11 +106,11 @@ Las principales limitaciones identificadas son:
 \subsection{Metodología del proyecto}
 \label{subsec:metodologia}
 
-El proyecto se desarrolló bajo un enfoque iterativo por etapas. El alcance se divide en bloques secuenciales acotados, cada uno con un objetivo definido y un conjunto de resultados esperados. Dentro de cada etapa se aplica un mismo ciclo de trabajo: se delimita el objetivo y los resultados a producir, se diseña e implementa la solución técnica correspondiente, se validan los resultados frente a los criterios establecidos para esa etapa y se documenta lo realizado en la sección del informe que corresponde. Una etapa se cierra cuando sus resultados están consolidados y validados, y sobre ellos se construye la siguiente, sin retomar decisiones anteriores salvo que el avance posterior lo exija. La redacción del informe avanza en paralelo a la implementación, de modo que las decisiones técnicas queden registradas con su justificación en el momento en que se toman.
+El proyecto se desarrolló bajo un enfoque iterativo por etapas. El alcance se divide en bloques secuenciales acotados, cada uno con un objetivo definido y un conjunto de resultados esperados. Dentro de cada etapa se aplica un mismo ciclo de trabajo: se delimita el objetivo y los resultados a producir, se diseña e implementa la solución técnica correspondiente, se validan los resultados y se documenta lo realizado. Una etapa se cierra cuando sus resultados están consolidados y validados, y sobre ellos se construye la siguiente.
 
 El equipo está formado por dos alumnos. La investigación bibliográfica, el análisis y depuración del dataset, el estudio comparativo de los espacios de representación mediante clustering, la comparación de métricas entre espacios y la integración final que articula el sistema de recomendación se abordaron de forma conjunta. La construcción del componente musical y la del componente semántico se distribuyeron entre los dos, asumiendo cada uno la responsabilidad técnica principal sobre uno de los dos espacios.
 
-\textbf{Estructura por etapas.} El proyecto se organiza en seis etapas secuenciales, cada una con entregables claramente definidos:
+\textbf{Estructura por etapas.} El proyecto se organiza en seis etapas secuenciales, cada una con entregables definidos:
 
 \begin{enumerate}
     \item \textbf{Fundación}: definición de la estructura del repositorio, configuración centralizada del proyecto e inicio de la investigación bibliográfica.
@@ -138,7 +118,7 @@ El equipo está formado por dos alumnos. La investigación bibliográfica, el an
     \item \textbf{Features}: vectorización semántica de letras mediante el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small}, normalización de features acústicas y unificación de las representaciones en un único artefacto.
     \item \textbf{Clustering}: evaluación de tendencia al agrupamiento mediante el estadístico de Hopkins, comparación sistemática de algoritmos sobre ambos espacios, análisis de complementariedad cross-modal y purificación.
     \item \textbf{Recomendación}: implementación del sistema híbrido por k-vecinos más cercanos con fusión tardía, optimización del peso de fusión mediante \textit{grid search} y evaluación bajo métricas de precisión, diversidad y cobertura.
-    \item \textbf{Síntesis}: ejecución de pruebas de calidad externas, redacción de conclusiones, integración final y compilación del informe.
+    \item \textbf{Síntesis}: ejecución de pruebas de calidad, redacción de conclusiones, integración final y compilación del informe.
 \end{enumerate}
 
 La Figura~\ref{fig:metodologia} ilustra el funcionamiento de la metodología aplicada al proyecto, articulando sus dos niveles: la secuencia macro de las seis etapas y el ciclo de trabajo micro que se aplica dentro de cada una.
@@ -247,17 +227,6 @@ El proyecto se ejecuta en un horizonte temporal de 28 semanas, equivalente a apr
 \end{tabular}
 \end{table}
 
-Cada etapa se descompone internamente en subetapas:
-
-\begin{itemize}
-    \item \textbf{Etapa 1: Fundación (3 semanas).} Definición de la estructura del repositorio, esqueleto del informe y configuración del proyecto.
-    \item \textbf{Etapa 2: Datos (4 semanas).} Carga y validación del dataset fuente, análisis exploratorio (EDA) y preprocesamiento mediante filtros sobre las letras y las features acústicas.
-    \item \textbf{Etapa 3: Features (7 semanas).} Vectorización semántica de las letras, normalización de las features musicales y unificación de ambas representaciones.
-    \item \textbf{Etapa 4: Clustering (8 semanas).} Cálculo de estadísticos en cada espacio para verificar la tendencia al agrupamiento, evaluación comparativa de algoritmos sobre ambos espacios, análisis de complementariedad y purificación post-clustering.
-    \item \textbf{Etapa 5: Recomendación (6 semanas).} Implementación de los recomendadores k-NN sobre cada espacio de representación, fusión tardía con optimización del peso $\alpha$, y evaluación de precisión y cobertura del catálogo.
-    \item \textbf{Etapa 6: Síntesis (4 semanas).} Ejecución de pruebas de calidad sobre el recomendador, redacción de conclusiones e integración final, y compilación del informe.
-\end{itemize}
-
 \clearpage
 \begin{landscape}
 \thispagestyle{empty}
@@ -335,13 +304,13 @@ El análisis FODA (Fortalezas, Oportunidades, Debilidades y Amenazas) es una her
     \item Recomendación basada en contenido, que opera sobre los atributos intrínsecos de cada canción y no sobre un historial de interacciones; ello permite incorporar y sugerir piezas nuevas o de catálogo poco consumido desde su ingreso.
     \item Fusión tardía con un peso de combinación ajustable y componentes desacoplados, que calibra el balance entre la similitud semántica y la acústica, y permite adaptar o reemplazar cada componente sin reentrenar el resto del sistema.
     \item Fidelidad de la representación semántica: cobertura completa del contenido de cada letra mediante \textit{chunking}, que elimina el sesgo de truncamiento, junto con un soporte multilingüe sobre un mismo espacio vectorial que homogeneiza la comparación entre idiomas.
-    \item Transparencia de las recomendaciones: al operar sobre el contenido, cada sugerencia es explicable en términos de afinidad de letra o de audio, a diferencia de los modelos colaborativos de caja negra.
+    \item Transparencia de las recomendaciones: al operar sobre el contenido, cada sugerencia es explicable en términos de afinidad de letra o de audio.
     \item Cobertura total del catálogo: dado que toda canción dispone de ambas representaciones, el sistema puede generar recomendaciones para cualquier ítem, sin huecos derivados de la ausencia de datos de interacción.
 \end{itemize}
 
 \textbf{Oportunidades.} Factores externos favorables del entorno.
 \begin{itemize}
-    \item Disponibilidad de datasets públicos de gran escala (Spotify a través de Kaggle, letras de Genius) que habilitan la construcción del corpus sin costo de adquisición.
+    \item Disponibilidad de datasets públicos de gran escala (Spotify a través de Kaggle, letras de Genius) que habilitan la construcción  sin costo de adquisición.
     \item Madurez de los modelos de \textit{embeddings} multilingües de código abierto, reutilizables sin necesidad de entrenarlos desde cero.
     \item La recomendación basada en contenido mitiga el problema de arranque en frío (\textit{cold-start}) que afecta a los enfoques puramente colaborativos, dado que no requiere historial de interacciones para operar.
     \item Ecosistema consolidado de bibliotecas científicas de Python para vectorización, clustering y evaluación, que reduce el esfuerzo de implementación.
@@ -367,7 +336,7 @@ A partir de los cuatro cuadrantes se derivan las estrategias del proyecto, plant
 
 \textbf{Estrategias FO (ofensivas).} Emplean las fortalezas internas para capitalizar las oportunidades del entorno. El carácter multimodal y basado en contenido del sistema lo posiciona para aprovechar el ecosistema disponible: atiende el arranque en frío al recomendar cualquier canción del catálogo a partir de su contenido, capitaliza los modelos de \textit{embeddings} multilingües de código abierto para representar letras en cualquier idioma sin costos de entrenamiento, y apoya la construcción del pipeline en herramientas científicas consolidadas que reducen el esfuerzo de implementación.
 
-\textbf{Estrategias FA (defensivas).} Emplean las fortalezas internas para neutralizar o amortiguar las amenazas del entorno. La complementariedad de las dos modalidades aporta robustez frente a las amenazas externas: el componente acústico, independiente del idioma, contrarresta el sesgo lingüístico del corpus; la arquitectura desacoplada de fusión tardía permite sustituir el modelo o las features a medida que el campo evoluciona; y disponer de dos fuentes de información reduce la dependencia de cualquiera de ellas en particular.
+\textbf{Estrategias FA (defensivas).} Emplean las fortalezas internas para neutralizar o amortiguar las amenazas del entorno. La complementariedad de las dos modalidades aporta robustez frente a las amenazas externas: el componente acústico, independiente del idioma, contrarresta el sesgo lingüístico; la arquitectura desacoplada de fusión tardía permite sustituir el modelo o las features a medida que el campo evoluciona; y disponer de dos fuentes de información reduce la dependencia de cualquiera de ellas en particular.
 
 \textbf{Estrategias DO (de reorientación).} Aprovechan las oportunidades del entorno para corregir o compensar las debilidades internas. En este proyecto: la adopción de métricas de evaluación basadas en contenido ampliamente aceptadas suple la falta de retroalimentación de usuarios reales; la reutilización de modelos preentrenados y del ecosistema científico de Python mitiga la limitación de recursos computacionales; y la escala de los datasets públicos aporta respaldo estadístico a las métricas de evaluación.
 
@@ -388,7 +357,7 @@ El presente estudio económico se plantea como un ejercicio hipotético de plani
 
 \begin{table}[h]
 \centering
-\caption{Composición del equipo profesional y costo humano del proyecto, según escala COPAIPA (enero 2026). La tarifa horaria se deriva del valor sugerido por COPAIPA para un proyecto de 100 horas por rol.}
+\caption{Composición del equipo profesional y costo humano del proyecto, según escala COPAIPA (enero 2026).}
 \label{tab:costo-humano}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccrr}
@@ -454,9 +423,6 @@ R9 & Pérdida de continuidad por baja prolongada de un perfil crítico del equip
 \section{Aspectos Legales}
 \label{sec:legales}
 
-El desarrollo del presente proyecto involucra el procesamiento de letras de canciones protegidas por derechos de autor y, en términos generales, plantea la cuestión sobre el tratamiento de datos personales. Esta sección documenta el encuadre normativo aplicable a ambos puntos y las decisiones adoptadas.
+El desarrollo del presente proyecto involucra el procesamiento de letras de canciones protegidas por derechos de autor. Esta sección documenta el encuadre normativo aplicable y las decisiones adoptadas.
 
 \textbf{Derechos de autor de las letras.} Las letras de las canciones constituyen obras literarias protegidas por derechos de autor de los compositores y editoriales musicales correspondientes. En la legislación argentina, la Ley 11.723 de Régimen Legal de la Propiedad Intelectual contempla en su artículo 10 la posibilidad de cita de obras protegidas con fines didácticos o científicos, bajo condiciones de extensión proporcional y atribución apropiada. A nivel internacional, el Convenio de Berna establece principios análogos. El presente trabajo opera sobre las letras únicamente para procesamiento computacional con fines de investigación: el contenido textual se vectoriza mediante un modelo de lenguaje preentrenado y se utiliza exclusivamente como insumo del pipeline de cálculo de similitud, sin reproducción ni distribución del texto literal en el informe ni en los artefactos publicables del proyecto.
-
-\textbf{Privacidad y protección de datos personales.} El sistema no procesa datos personales de usuarios: no se utiliza información de cuentas, historiales de reproducción, datos demográficos ni cualquier otro dato identificable. La operación del sistema es íntegramente sobre características intrínsecas de las canciones.
-
