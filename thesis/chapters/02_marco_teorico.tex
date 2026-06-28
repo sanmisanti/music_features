@@ -97,7 +97,7 @@ La arquitectura Transformer \parencite{vaswani_2017_attention} representó un ca
 
 \subsubsection*{Mecanismo de atención}
 
-La intuición es directa: para entender el significado de un token en su contexto, el modelo lo compara con todos los demás de la secuencia y decide cuáles son relevantes. Por ejemplo, para interpretar \textit{banco} en \textit{retiré dinero del banco}, el modelo asigna un peso alto a \textit{dinero} (que revela que se trata de una institución financiera y no de un asiento) y un peso bajo a palabras como \textit{del}, que no aportan información disambiguadora. Esos pesos son la atención: cuantifican cuánto contribuye cada token al significado del token bajo análisis \parencite{vaswani_2017_attention}.
+La intuición es directa: para entender el significado de un token en su contexto, el modelo lo compara con todos los demás de la secuencia y decide cuáles son relevantes. Por ejemplo, para interpretar \textit{banco} en \textit{retiré dinero del banco}, el modelo asigna un peso alto a \textit{dinero} (que revela que se trata de una institución financiera y no de un asiento) y un peso bajo a palabras como \textit{del}, que no aportan información relevante. Esos pesos son la atención: cuantifican cuánto contribuye cada token al significado del token bajo análisis \parencite{vaswani_2017_attention}.
 
 Internamente, cada token genera tres representaciones: una \textit{query} (qué estoy buscando en los demás tokens), una \textit{key} (qué información ofrezco a los demás) y un \textit{value} (qué información quiero transmitir si me eligen). El modelo compara la query de cada token con las keys de todos los demás para calcular un puntaje de compatibilidad, convierte esos puntajes en pesos (que suman 1), y los usa para combinar los values en la nueva representación del token. El resultado es una representación que ya no depende solo de la palabra en sí, sino de todo el contexto en que aparece. Cuando este mecanismo opera dentro de la misma secuencia, se denomina \textit{self-attention}: cada token se actualiza mirando a todos los demás.
 
@@ -124,27 +124,28 @@ El resultado del preentrenamiento es un modelo que produce, para cada token de e
 
 \subsubsection*{Ajuste fino}
 
-Una vez preentrenado sobre texto general, BERT puede adaptarse a tareas específicas mediante \textit{fine-tuning}: se agrega una capa de salida adecuada a la tarea (clasificación, extracción de información, respuesta a preguntas) y se continúa el entrenamiento sobre datos etiquetados de ese dominio. Este enfoque resultó transformador para el campo: en 2018, BERT estableció el estado del arte en once tareas de comprensión del lenguaje natural de forma simultánea \parencite{devlin_2019_bert}, demostrando que un único modelo preentrenado puede adaptarse eficientemente a dominios muy distintos con relativamente pocos datos etiquetados.
+Una vez preentrenado sobre texto general, BERT puede adaptarse a tareas específicas mediante \textit{fine-tuning} \parencite{devlin_2019_bert}, un caso de \textit{aprendizaje por transferencia}: en lugar de entrenar un modelo desde cero con pesos aleatorios, se parte de los pesos ya aprendidos durante el preentrenamiento, que codifican conocimiento lingüístico general, y se los especializa para la tarea de destino.
+
+El procedimiento combina dos elementos. Primero, se añade sobre el modelo una capa de salida acorde a la tarea: por ejemplo, una capa de clasificación que proyecta el vector del texto al número de categorías deseadas, o una capa de regresión para predecir un valor continuo. Segundo, se continúa el entrenamiento sobre un conjunto de datos etiquetados del dominio, propagando el error tanto a la nueva capa como a los pesos preexistentes del modelo, de modo que ambos se ajustan de forma conjunta. Como el punto de partida no es aleatorio sino un modelo que ya comprende el lenguaje, este ajuste se realiza con una tasa de aprendizaje pequeña y durante pocas épocas: el objetivo es reorientar suavemente las representaciones hacia la tarea, no reaprenderlas. La consecuencia práctica es que tareas para las que se dispone de pocos datos etiquetados pueden aprovechar el conocimiento adquirido durante el preentrenamiento sobre corpus masivos, lo que reduce de forma considerable la cantidad de ejemplos anotados necesarios.
 
 \subsubsection*{Limitación para comparación de textos}
 
-BERT incluye un token especial (\texttt{[CLS]}) al inicio de cada secuencia, cuyo vector final se usa como representación global del texto en tareas de clasificación. Sin embargo, este token se optimizó para clasificar, no para comparar textos por similitud semántica: si se toman los vectores \texttt{[CLS]} de dos textos similares y se mide la similitud coseno entre ellos, los resultados son pobres. Esta limitación dio lugar a una familia de modelos especializados en producir representaciones de texto directamente comparables por similitud, conocidos como modelos de \textit{sentence embeddings}, que se describen en la subsección siguiente.
+Dado que BERT produce un vector por cada token de entrada, las tareas que requieren un único vector representativo de todo el texto (como la clasificación) necesitan algún mecanismo para condensar esa secuencia de vectores en uno solo. BERT resuelve esto incorporando un token artificial llamado \texttt{[CLS]} (de \textit{classification}) al inicio de cada secuencia, que no corresponde a ninguna palabra del texto. Como atraviesa el mismo mecanismo de atención que el resto, este token atiende a todos los demás y el modelo aprende a acumular en su vector final un resumen de la secuencia completa, que se utiliza entonces como representación global del texto. Sin embargo, este token se optimizó para clasificar, no para comparar textos por similitud semántica: si se toman los vectores \texttt{[CLS]} de dos textos similares y se mide la similitud coseno entre ellos, los resultados son pobres. Esta limitación dio lugar a una familia de modelos especializados en producir representaciones de texto directamente comparables por similitud, conocidos como modelos de \textit{sentence embeddings}, que se describen en la subsección siguiente.
 
 \subsection{Sentence Embeddings}
 \label{subsec:sentence-embeddings}
 
 Los modelos de \textit{sentence embeddings} resuelven la limitación de BERT para comparación semántica. En lugar de producir un vector distinto por cada token, generan un único vector por texto, construido promediando los vectores de todos los tokens de la secuencia. Este promedio, denominado \textit{mean pooling}, integra la contribución de cada palabra de forma equitativa y, a diferencia del vector \texttt{[CLS]}, no delega la representación del texto en un token especial diseñado para otra finalidad. El resultado es un vector de tamaño fijo que resume el contenido del texto completo.
 
-La clave está en cómo ese vector se entrena para que tenga sentido semántico. Sentence-BERT \parencite{reimers_2019_sentencebert} es el modelo fundacional de esta familia: toma pares de frases con anotación de similitud (por ejemplo, extraídos de conjuntos de datos de inferencia de lenguaje natural, donde una paráfrasis es similar y una contradicción es disímil) y ajusta el modelo para que los vectores de frases similares queden cerca y los de frases disímiles queden lejos. Este tipo de ajuste se denomina \textit{entrenamiento contrastivo}: el modelo recibe simultáneamente un ejemplo que debe acercar y otro que debe alejar, y los pesos se actualizan para satisfacer ambas presiones a la vez. La consecuencia directa es que la similitud coseno entre dos vectores resultantes no es una medida arbitraria, sino que refleja directamente cuán parecido es el significado de los dos textos.
+La clave está en cómo se entrena ese vector para que su cercanía a otros vectores signifique algo. El \textit{mean pooling} por sí solo produce un vector por texto, pero nada garantiza todavía que dos textos de significado parecido queden cerca en el espacio: para lograrlo hace falta un entrenamiento específico.
+
+Sentence-BERT \parencite{reimers_2019_sentencebert} es el modelo fundacional de esta familia y resuelve el problema aprendiendo, a partir de ejemplos, qué significa que dos frases sean parecidas. Para ello utiliza pares de frases previamente etiquetados según su grado de similitud. Una fuente habitual de estos pares son los conjuntos de datos de \textit{inferencia de lenguaje natural}, en los que cada par de frases viene clasificado según la relación entre ellas: una paráfrasis (dos maneras distintas de decir lo mismo) constituye un par similar, mientras que una contradicción constituye un par disímil.
+
+Con estos ejemplos, el modelo se ajusta para que los vectores de las frases similares queden cerca y los de las frases disímiles queden lejos. Este procedimiento se denomina \textit{entrenamiento contrastivo} porque el modelo aprende por contraste: en cada paso recibe a la vez un ejemplo que debe acercar y otro que debe alejar, y actualiza sus pesos para satisfacer ambas presiones de forma simultánea. Repetido sobre una gran cantidad de pares, el efecto acumulado es que el espacio vectorial termina organizado por significado. La consecuencia directa es que la similitud coseno entre dos vectores deja de ser una medida arbitraria y pasa a reflejar cuán parecido es el significado de los dos textos.
 
 \subsubsection*{Búsqueda semántica}
 
 La propiedad práctica de este espacio es que permite recuperar textos por significado en lugar de por coincidencia de palabras. Dado un texto de consulta, se calcula la similitud coseno entre su vector y los vectores de todos los textos del catálogo, y se devuelven los más cercanos. A diferencia de la búsqueda por palabras clave, que exige coincidencia léxica exacta, este mecanismo captura similitud de significado aunque los textos usen vocabulario completamente distinto: la frase \textit{está muy contento} y la frase \textit{se siente feliz} producirán vectores cercanos aunque no compartan ninguna palabra.
-
-\subsubsection*{Extensiones multilingües: E5}
-
-Modelos posteriores como E5 \parencite{wang_2022_e5} extienden el enfoque de Sentence-BERT con entrenamiento contrastivo a mayor escala y soporte para más de cien idiomas. E5 incorpora además \textit{prefijos de instrucción}: cada texto recibe un prefijo que indica su rol. Los textos que actúan como consulta se anteponen con \texttt{"query: "} y los textos del catálogo con \texttt{"passage: "}. Aunque el mismo modelo procesa ambos, el prefijo orienta las capas de atención para producir representaciones distintas según si el texto busca o es buscado, lo que resulta especialmente útil cuando la consulta es corta y los documentos del catálogo son largos.
-
 
 % ==========================================================================
 % SECCIÓN 4.3 — Normalización y Codificación de Features
@@ -182,7 +183,7 @@ Así todos los vectores quedan con norma 1: se descarta la magnitud y solo se co
 
 Para usar variables categóricas en algoritmos de distancia hay que codificarlas como números, y la forma de hacerlo modifica las distancias y, con ellas, los grupos resultantes. Existen dos casos cualitativamente distintos.
 
-\textbf{Variables binarias.} Una variable que toma dos valores (por ejemplo, la modalidad mayor/menor en música, codificada como 0 o 1) admite el z-score directamente: la transformación mapea ambos valores a puntos equidistantes del cero y los escala para que aporten varianza unitaria, sin introducir ambigüedades de orden.
+\textbf{Variables binarias.} Una variable que toma solo dos valores (por ejemplo, la modalidad musical: mayor o menor, codificada como 0 o 1) no presenta ninguna dificultad. Al haber un único par de valores, existe una sola distancia posible entre ellos, y cualquier escala numérica la respeta sin distorsionarla. Aplicar el z-score (restar la media y dividir por la desviación estándar) se limita a reubicar esos dos puntos de forma simétrica alrededor del cero y a llevarlos a una escala comparable con la del resto de las características, sin alterar su relación. Por eso una variable binaria puede normalizarse directamente, igual que cualquier variable numérica.
 
 \textbf{Variables categóricas cíclicas.} Algunas variables ordinales tienen carácter cíclico: el extremo superior y el inferior son en realidad vecinos. La tonalidad musical es el ejemplo paradigmático: si se codifica como un entero del 0 al 11 (Do = 0, Do\# = 1, \ldots, Si = 11), Do y Si aparecen numéricamente alejados cuando en realidad son tonalidades adyacentes. Aplicar z-score o distancia euclídea directamente sobre ese entero introduce una relación de magnitud artificial que no existe en el dominio. La solución es la \textit{codificación circular}, que proyecta cada categoría sobre un círculo de período $P$ mediante seno y coseno:
 \begin{equation}
@@ -216,7 +217,7 @@ Antes de agrupar conviene verificar que los datos realmente tienen estructura, e
 
 El estadístico de Hopkins \parencite{lawson_1990_hopkins} mide esa \textit{tendencia al agrupamiento} mediante una comparación conceptualmente sencilla: se toman puntos reales del conjunto y puntos generados aleatoriamente en la misma región, y se mide cuán cerca está cada tipo de punto de su vecino real más cercano. Si los datos tienen estructura (zonas densas y zonas vacías), los puntos reales tendrán vecinos muy cercanos mientras que los aleatorios caerán en zonas dispersas; las dos distancias serán muy distintas. Si los datos son uniformes, ambas distancias serán similares. El estadístico combina esta comparación en un valor entre 0 y 1: cercano a 0,5 indica distribución uniforme; superior a 0,7 indica tendencia clara al agrupamiento.
 
-Como el resultado depende de qué puntos aleatorios se generan, se repite el cálculo varias veces y se reportan la media e intervalo de confianza. En espacios de alta dimensión, las distancias entre puntos tienden a concentrarse y Hopkins pierde algo de poder discriminativo, aspecto que se retoma en la Sección~\ref{subsec:curse-dimensionality}.
+Como el resultado depende de qué puntos aleatorios se generan, se repite el cálculo varias veces y se reportan la media e intervalo de confianza.
 
 \subsection{K-Means y K-Means++}
 \label{subsec:kmeans}
@@ -265,11 +266,9 @@ Sin un ground truth externo, la calidad de una partición se mide por propiedade
 
 El valor global puede calcularse promediando sobre todos los puntos (\textit{micro}) o por cluster y luego entre clusters (\textit{macro}). La versión micro favorece a los clusters más grandes; la macro da igual peso a cada cluster y es preferible cuando los tamaños son desiguales \parencite{chicco_2025_silhouette_db}.
 
-\textbf{Davies-Bouldin} evalúa, para cada cluster, la peor relación entre su dispersión interna y su separación respecto de otro cluster, y promedia ese peor caso sobre todos los grupos. Cuanto menor el valor, mejor la partición.
+\textbf{Davies-Bouldin} parte de una idea concreta: dos clusters se confunden cuando son internamente dispersos y, a la vez, sus centros están cerca, porque en ese caso tienden a solaparse. Para cada cluster, la métrica busca su \textit{peor vecino}, es decir, el otro cluster con el que esa combinación de dispersión y cercanía resulta más desfavorable, y registra ese peor caso. El índice es el promedio de esos peores casos sobre todos los grupos. Como lo que mide es solapamiento, un valor bajo es bueno: indica clusters compactos y bien alejados entre sí, mientras que un valor alto delata grupos difusos o demasiado próximos.
 
-\textbf{Calinski-Harabasz} es la razón entre la dispersión entre clusters y la dispersión interna: cuanto mayor, mejor.
-
-\textcite{chicco_2025_silhouette_db} muestran que Silhouette y Davies-Bouldin son más fiables que Calinski-Harabász para evaluar particiones sin ground truth externo.
+\textbf{Calinski-Harabasz} compara dos dispersiones: cuánto se separan los clusters entre sí (qué tan lejos queda el centro de cada cluster del centro global de los datos) frente a cuán dispersos son por dentro (qué tan lejos queda cada punto del centro de su propio cluster). El índice es el cociente entre ambas, de modo que aumenta cuando los grupos están muy separados unos de otros y son a la vez compactos internamente.
 
 \subsection{Maldición de la Dimensionalidad}
 \label{subsec:curse-dimensionality}
@@ -287,6 +286,13 @@ UMAP \parencite{mcinnes_2018_umap} es una técnica no lineal que primero constru
 
 \textcite{allaoui_2020_umap_clustering} muestran que usar UMAP como paso previo al clustering mejora notablemente la calidad en datos de alta dimensión, al concentrar la estructura en pocas dimensiones y aliviar la maldición de la dimensionalidad.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/UMAP.jpg}
+    \caption{Reducción dimensional con UMAP. El panel izquierdo muestra una nube de puntos en un espacio de tres dimensiones, coloreada según siete clusters; el panel derecho muestra su proyección a dos dimensiones obtenida con UMAP. Los puntos cercanos en el espacio original conservan su proximidad en la proyección, de modo que los siete grupos permanecen separados y la estructura de vecindades se preserva al reducir la dimensionalidad.}
+    \label{fig:umap}
+\end{figure}
+
 % ==========================================================================
 % SECCIÓN 4.6 — Representaciones Multimodales y Fusión
 % ==========================================================================
@@ -300,7 +306,7 @@ UMAP \parencite{mcinnes_2018_umap} es una técnica no lineal que primero constru
 %              Etapa 5: fusión ponderada de scores semánticos y musicales.
 % INVESTIGACIÓN: 05_fusion_multimodal.md (18 fuentes)
 
-Las representaciones multimodales combinan información de fuentes heterogéneas (texto, audio, imágenes) en un sistema único, partiendo de la idea de que cada modalidad aporta aspectos complementarios y que juntas describen mejor el fenómeno que por separado. En música, la combinación habitual es audio (propiedades acústicas) con texto (letras).
+Las representaciones multimodales combinan información de fuentes heterogéneas (texto, audio, imágenes) en un sistema único, partiendo de la idea de que cada modalidad aporta aspectos complementarios y que juntas describen mejor el fenómeno que por separado.
 
 \subsection{Taxonomía de Fusión Multimodal}
 \label{subsec:taxonomia-fusion}
@@ -309,7 +315,7 @@ Las representaciones multimodales combinan información de fuentes heterogéneas
 
 \textbf{Fusión temprana (a nivel de features).} Se concatenan los vectores de las modalidades en uno solo antes de aplicar cualquier modelo. Es simple de implementar, pero introduce un problema de dominancia dimensional: cuando las dimensionalidades de las modalidades son muy dispares, la modalidad de mayor dimensión domina las distancias y la de menor dimensión pierde influencia efectiva, independientemente de su valor informativo.
 
-\textbf{Fusión intermedia (a nivel de modelo).} Las modalidades se combinan dentro de un modelo que aprende un espacio compartido. Los modelos contrastivos de audio y texto como MuLan \parencite{huang_2022_mulan} y MusCALL \parencite{manco_2022_muscall} son ejemplos. Capturan interacciones entre modalidades, pero requieren entrenamiento end-to-end con grandes corpus de pares alineados y recursos computacionales significativos.
+\textbf{Fusión intermedia (a nivel de modelo).} En lugar de combinar las modalidades al principio (como la temprana) o al final (como la tardía), aquí la combinación ocurre \textit{durante} el aprendizaje: se entrena un único modelo que recibe ambas modalidades a la vez y aprende a proyectarlas a un mismo espacio, de modo que los elementos que se corresponden entre sí queden cerca. La forma habitual de lograrlo es el entrenamiento contrastivo sobre pares de modalidades: se le muestran al modelo pares correctos (por ejemplo, un fragmento de audio junto con la descripción textual que realmente le corresponde) y pares incorrectos, y se lo ajusta para acercar los primeros y alejar los segundos. El espacio resultante alinea audio y texto, de modo que una consulta en una modalidad puede recuperar elementos de la otra. Su ventaja es que el modelo aprende las interacciones finas entre modalidades en lugar de tratarlas por separado, pero el costo es alto: exige entrenar el modelo completo desde cero (\textit{end-to-end}) sobre grandes cantidades de pares audio-texto ya emparejados, con recursos computacionales considerables.
 
 \textbf{Fusión tardía (a nivel de decisión).} Cada modalidad opera de forma independiente hasta producir un score de similitud; los scores se combinan al final mediante una combinación lineal ponderada:
 \begin{equation}
@@ -334,4 +340,6 @@ Para que la fusión aporte algo, las modalidades deben capturar información \te
 
 La \textit{Información Mutua Normalizada} (NMI) cuantifica el solapamiento entre dos particiones de un mismo conjunto. Su valor está acotado entre 0 y 1: $\text{NMI} = 1$ significa que las dos particiones coinciden por completo, y $\text{NMI} = 0$ que son estadísticamente independientes. En fusión multimodal, se calcula NMI entre los clusters que produce cada modalidad de forma independiente: un valor bajo indica que cada modalidad agrupa los datos según criterios distintos y que, por tanto, se complementan; un valor alto, que ambas reflejan la misma estructura subyacente.
 
-\textcite{oramas_2018_multimodal_genre} muestran que, en música, las representaciones de audio y de texto producen agrupamientos con poca coincidencia, lo que respalda empíricamente la fusión. \textcite{liyanarachchi_2025_multimodal_mer} llegan a una conclusión análoga en reconocimiento de emociones: audio y letras capturan dimensiones afectivas distintas y combinarlas mejora la clasificación.
+La idea detrás de la métrica es preguntarse: si supiéramos a qué grupo pertenece un elemento según una de las particiones, ¿cuánto nos ayudaría eso a adivinar a qué grupo pertenece según la otra? Esa cantidad de información compartida se mide comparando, para cada par de grupos, cuántos elementos tienen en común frente a cuántos compartirían por puro azar si las dos particiones fueran independientes. Si los grupos coinciden mucho más de lo que el azar predice, las particiones comparten información; si coinciden justo lo esperado por azar, no comparten nada.
+
+Esa información compartida se expresa luego en términos relativos a lo máximo que las particiones podrían compartir, de modo que el resultado quede siempre entre 0 y 1 y sea comparable aunque cada modalidad produzca un número distinto de grupos. El resultado se interpreta directamente: un valor cercano a 1 indica que ambas modalidades agrupan los datos prácticamente igual, mientras que un valor cercano a 0 indica que cada una los organiza según criterios propios. Es este último caso, el de NMI baja, el que confirma que las modalidades aportan información complementaria y que combinarlas tiene sentido.
