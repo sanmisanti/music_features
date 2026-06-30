@@ -173,13 +173,13 @@ El modelo seleccionado es \texttt{multilingual-e5-small}, un modelo de embedding
 La selección de este modelo se fundamenta en cuatro propiedades relevantes para el proyecto:
 
 \begin{enumerate}[leftmargin=2em]
-    \item \textbf{Dimensionalidad.} El modelo genera vectores de 384 dimensiones. Esta dimensionalidad mantiene acotado el costo computacional y de memoria de las operaciones de distancia que requieren el clustering y la búsqueda de vecinos más cercanos sobre las casi 18\,000 canciones del catálogo, frente a modelos de mayor dimensionalidad (768 o 1\,024) que incrementan ambos costos. Se priorizó así un modelo compacto, manteniéndolo dentro de la familia E5 para no resignar capacidad de representación.
-
-    \item \textbf{Ventana de contexto.} El modelo procesa secuencias de hasta 512 tokens (las unidades de texto que el modelo utiliza internamente, que pueden ser palabras completas o fragmentos de palabras). Dado que la letra musical promedio del dataset genera 607 tokens (según se detalla en la sección siguiente), una ventana de este tamaño reduce la fracción de contenido que debe ser truncada o dividida para su procesamiento.
+    \item \textbf{Ventana de contexto.} El modelo procesa secuencias de hasta 512 tokens. Dado que la letra musical promedio del dataset genera 607 tokens, una ventana de este tamaño reduce la fracción de contenido que debe ser truncada o dividida para su procesamiento.
 
     \item \textbf{Soporte multilingüe.} El modelo soporta más de 100 idiomas. Aunque el 83.5\% del dataset está en inglés, el 16.5\% restante incluye canciones en español, alemán, portugués y otros 32 idiomas. Un modelo monolingüe descartaría la señal semántica de estas canciones o generaría representaciones degradadas.
 
-    \item \textbf{Prefijo de tarea.} A diferencia de modelos genéricos, E5 utiliza un prefijo textual (\texttt{"passage: "}) que indica al modelo el tipo de tarea a realizar. Este mecanismo permite que el mismo modelo genere representaciones optimizadas para distintos propósitos (búsqueda, clasificación, agrupamiento) sin reentrenamiento.
+    \item \textbf{Prefijo de tarea.} A diferencia de modelos genéricos, E5 utiliza un prefijo textual (\texttt{"passage: "}) que indica al modelo el tipo de tarea a realizar. Este mecanismo permite que el mismo modelo genere representaciones optimizadas para distintos propósitos sin reentrenamiento.
+
+    \item \textbf{Dimensionalidad.} El modelo genera vectores de 384 dimensiones. Esta dimensionalidad mantiene acotado el costo computacional y de memoria de las operaciones de distancia que requieren el clustering y la búsqueda de vecinos más cercanos sobre las casi 18\,000 canciones del catálogo. Manteniéndolo dentro de la familia E5 para no resignar capacidad de representación.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ Antes de vectorizar las letras, es necesario determinar qué fracción del conte
 
 El Cuadro~\ref{tab:token_coverage} presenta los resultados de la medición con el tokenizador real del modelo. La cobertura efectiva es de 53.48\% (9\,607 de 17\,964 canciones dentro de la ventana), inferior a la estimación heurística. La distribución de tokens por canción tiene una media de 607, mediana de 486 y desviación estándar de 433, con un rango amplio: desde 16 tokens (letras extremadamente breves) hasta 4\,104 tokens (letras extensas que exceden la ventana por un factor de 8).
 
-Que el 46.52\% de las canciones exceda la ventana de contexto plantea un problema metodológico concreto: si estas letras simplemente se truncan a 512 tokens, el sistema descartaría toda la información semántica posterior a ese punto. Dos canciones con contenido temático idéntico pero distinta longitud producirían embeddings diferentes (no por una diferencia semántica real, sino por un artefacto del pipeline). Este sesgo sistemático por longitud debe evitarse.
+Que el 46.52\% de las canciones exceda la ventana de contexto plantea un problema metodológico concreto: si estas letras simplemente se truncan a 512 tokens, el sistema descartaría toda la información semántica posterior a ese punto. Dos canciones con contenido temático idéntico pero distinta longitud podrían producir embeddings diferentes (no por una diferencia semántica real, sino por un artefacto del pipeline). Este sesgo sistemático por longitud debe evitarse.
 
 % ---------------------------------------------------------------------------
 % SUBSECCIÓN 5.3.3 — Estrategia de Chunking
@@ -205,16 +205,16 @@ Que el 46.52\% de las canciones exceda la ventana de contexto plantea un problem
 Para eliminar la pérdida de información por truncamiento, se implementa una estrategia de \textit{chunking} (división del texto en fragmentos solapados) con agregación por promedio. El procedimiento opera de la siguiente manera:
 
 \begin{enumerate}[leftmargin=2em]
-    \item \textbf{División en chunks.} Cada letra que excede la capacidad del modelo se divide en fragmentos de 450 tokens de contenido. El modelo necesita 5 tokens adicionales de overhead (3 tokens para el prefijo de tarea \texttt{"passage: "} y 2 tokens especiales que delimitan el inicio y fin de la secuencia), por lo que cada fragmento utiliza 455 de los 512 tokens disponibles. Los fragmentos consecutivos comparten 50 tokens de solapamiento (\textit{overlap}), lo que produce un avance efectivo (\textit{stride}) de 400 tokens entre fragmentos. Este solapamiento preserva la continuidad semántica en las fronteras: una oración que cae en el límite entre dos fragmentos es procesada completa por al menos uno de ellos.
+    \item \textbf{División en chunks.} Cada letra que excede la capacidad del modelo se divide en fragmentos de 450 tokens de contenido. El modelo necesita 5 tokens adicionales de overhead (3 tokens para el prefijo de tarea \texttt{"passage: "} y 2 tokens especiales que delimitan el inicio y fin de la secuencia), por lo que cada fragmento utiliza 455 de los 512 tokens disponibles. Los fragmentos consecutivos comparten 50 tokens de solapamiento, lo que produce un avance efectivo de 400 tokens entre fragmentos. Este solapamiento preserva la continuidad semántica en las fronteras: una oración que cae en el límite entre dos fragmentos es procesada completa por al menos uno de ellos.
 
     \item \textbf{Codificación independiente.} Cada fragmento se procesa por el modelo de forma independiente, generando un vector de 384 dimensiones por fragmento.
 
-    \item \textbf{Agregación por promedio.} Los vectores de todos los fragmentos de una canción se combinan mediante un promedio aritmético simple, y el vector resultante se re-normaliza a norma L2 unitaria. Esta normalización garantiza que todos los vectores del dataset (tanto los de canciones cortas que no requirieron chunking como los de canciones largas procesadas en múltiples fragmentos) habiten en la misma hiperesfera unitaria, lo que permite calcular similitudes coseno de forma consistente.
+    \item \textbf{Agregación por promedio.} Los vectores de todos los fragmentos de una canción se combinan mediante un promedio aritmético simple, y el vector resultante se re-normaliza a norma L2 unitaria. Esta normalización garantiza que todos los vectores del dataset (tanto los de canciones cortas que no requirieron chunking como los de canciones largas procesadas en múltiples fragmentos) habiten en la misma hiperesfera unitaria, lo que permite calcular similitudes.
 \end{enumerate}
 
-Las canciones cuyas letras generan 507 tokens o menos (450 de contenido más los 5 de overhead, con un margen de seguridad) pasan directamente al modelo sin división. El resultado es que el 53.3\% de las canciones (9\,583) se procesa sin chunking y el 46.7\% restante (8\,381) se divide en múltiples fragmentos, generando un total de 32\,303 chunks con un promedio de 1.80 chunks por canción (2.71 chunks por canción entre las que requieren división).
+Las canciones cuyas letras generan 507 tokens o menos (los 512 de la ventana menos los 5 de overhead) caben completas en la ventana y pasan directamente al modelo sin división. El resultado es que el 53.3\% de las canciones (9\,583) se procesa sin chunking y el 46.7\% restante (8\,381) se divide en múltiples fragmentos, generando un total de 32\,303 chunks con un promedio de 1.80 chunks por canción (2.71 chunks por canción entre las que requieren división).
 
-El proceso de vectorización completo (codificación de los 32\,303 fragmentos en lotes de 64, agregación y re-normalización) produce una matriz de embeddings de dimensiones $17\,964 \times 384$ en formato float32, con las siguientes propiedades verificadas: norma L2 media de 1.0000 (desviación estándar 0.0000), cero vectores nulos, cero valores NaN, y cero dimensiones muertas (dimensiones donde todos los vectores tienen el mismo valor, lo que indicaría que el modelo no utiliza esa dimensión para discriminar entre textos). La cobertura del contenido semántico es ahora del 100\%: ninguna canción pierde información por truncamiento.
+El proceso de vectorización completo produce una matriz de embeddings de dimensiones $17\,964 \times 384$ en formato float32, con norma L2 media de 1.0000, cero vectores nulos, cero valores NaN, y cero dimensiones muertas (dimensiones donde todos los vectores tienen el mismo valor). La cobertura del contenido semántico es ahora del 100\%, ninguna canción pierde información por truncamiento.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.4 — Componente Musical
@@ -227,39 +227,22 @@ Las 12 features acústicas de Spotify requieren dos transformaciones antes de po
 \subsection{Codificación circular de la tonalidad}
 \label{subsec:codificacion-circular}
 
-La feature \textit{key} codifica la tonalidad de cada canción como un número entero entre 0 (Do) y 11 (Si). Aunque esta representación numérica es conveniente para almacenamiento, introduce relaciones de magnitud artificiales cuando se utiliza directamente en cálculos de distancia: Do sostenido (\textit{key} = 1) aparece numéricamente ``más cercano'' a Re (\textit{key} = 2) que a Si (\textit{key} = 11), cuando en realidad Si y Do son tonalidades adyacentes en el círculo cromático. Aplicar \textit{z-score} directamente a esta variable preservaría estas relaciones falsas.
+La feature \textit{key} codifica la tonalidad de cada canción como un número entero entre 0 (Do) y 11 (Si). El inconveniente es que las tonalidades no se ordenan a lo largo de una recta, sino que forman un ciclo, como las horas en la esfera de un reloj: después de Si (11) la escala regresa a Do (0). Por eso Si y Do son tonalidades vecinas, aunque como números (11 y 0) sean los más alejados de toda la serie. Si se usara el entero tal cual en un cálculo de distancia, el algoritmo concluiría que Do sostenido (\textit{key} = 1) se parece a Re (\textit{key} = 2) pero no a Si (\textit{key} = 11), cuando musicalmente Si y Do están pegados. Aplicar \textit{z-score} sobre el entero conservaría esa relación falsa.
 
-Para preservar la naturaleza circular de la tonalidad, se aplica una codificación trigonométrica que mapea cada valor a un punto en el círculo unitario mediante dos componentes:
+La solución es ubicar cada tonalidad sobre un círculo en lugar de sobre una recta, de modo que el 11 y el 0 queden literalmente uno al lado del otro. Esto se logra con la codificación circular descrita en el Marco Teórico (Ecuación~\ref{eq:circular-teo}): las doce tonalidades se reparten de forma equiespaciada sobre la circunferencia, y la posición de cada una se describe con dos coordenadas, \textit{key\_sin} y \textit{key\_cos} (su altura vertical y su desplazamiento horizontal sobre el círculo). Hacen falta dos valores en lugar de uno porque un único número no basta para señalar un punto sobre una circunferencia.
 
-\begin{equation}
-    \textit{key\_sin} = \sin\!\left(\frac{2\pi \cdot \textit{key}}{12}\right), \qquad
-    \textit{key\_cos} = \cos\!\left(\frac{2\pi \cdot \textit{key}}{12}\right)
-    \label{eq:circular-key}
-\end{equation}
+Con esta representación, cada tonalidad ocupa una posición equidistante sobre el círculo y la distancia entre dos de esos puntos refleja su verdadera proximidad armónica. Do (\textit{key} = 0) y Si (\textit{key} = 11), que como enteros parecían los extremos opuestos de la serie, quedan ahora tan cerca como cualquier otro par de tonalidades consecutivas.
 
-En esta representación, cada tonalidad ocupa una posición equidistante en el círculo, y la distancia euclidiana entre dos puntos $(\sin\theta_a, \cos\theta_a)$ y $(\sin\theta_b, \cos\theta_b)$ refleja correctamente la proximidad entre las tonalidades correspondientes. Do (\textit{key} = 0) y Si (\textit{key} = 11) quedan a la misma distancia que cualquier otro par de tonalidades consecutivas.
-
-La feature \textit{mode} (modalidad, valores 0 o 1) es una variable binaria que no presenta este problema: con solo dos valores posibles, la normalización \textit{z-score} produce una transformación lineal que centra y escala los dos niveles de forma matemáticamente correcta, sin introducir relaciones de magnitud artificiales.
-
-La codificación circular reemplaza una columna (\textit{key}) por dos (\textit{key\_sin}, \textit{key\_cos}), incrementando la dimensionalidad del espacio musical de 12 a 13 features.
+La feature \textit{mode} (modalidad, valores 0 o 1) es binaria, se normaliza directamente con \textit{z-score} sin requerir tratamiento especial.
 
 \subsection{Normalización \textit{z-score}}
 \label{subsec:normalizacion-zscore}
 
-Las features acústicas operan en escalas heterogéneas: los índices perceptuales varían entre 0 y 1, \textit{loudness} se mide en decibelios (rango típico: $-34$ a 0~dB), \textit{tempo} en BPM (37 a 214), y \textit{duration\_ms} en milisegundos (31\,893 a 517\,810). Si estas features se utilizan directamente en algoritmos como K-Means o el enlace de Ward, las features con mayor rango numérico dominarían el cálculo: \textit{duration\_ms}, con valores del orden de $10^5$, contribuiría desproporcionadamente más que \textit{danceability}, con valores entre 0 y 1, independientemente de su relevancia para el agrupamiento.
+Las features acústicas operan en escalas heterogéneas: los índices perceptuales varían entre 0 y 1, \textit{loudness} se mide en decibelios ($-34$ a 0~dB), \textit{tempo} en BPM (37 a 214), y \textit{duration\_ms} en milisegundos (31\,893 a 517\,810). Si estas features se utilizan directamente en algoritmos como K-Means o el enlace de Ward, las features con mayor rango numérico dominarían el cálculo: \textit{duration\_ms}, con valores del orden de $10^5$, contribuiría desproporcionadamente más que \textit{danceability}, con valores entre 0 y 1, independientemente de su relevancia para el agrupamiento.
 
-Para igualar la contribución de cada feature, se aplica una normalización \textit{z-score} sobre las 13 features resultantes (incluyendo \textit{key\_sin} y \textit{key\_cos}). La transformación para cada valor $x_{ij}$ de la feature $j$ es:
-
-\begin{equation}
-    z_{ij} = \frac{x_{ij} - \bar{x}_j}{\sigma_j}
-    \label{eq:zscore}
-\end{equation}
-
-\noindent donde $\bar{x}_j$ y $\sigma_j$ son la media y la desviación estándar de la feature $j$ calculadas sobre las 17\,964 canciones del dataset seleccionado. Tras la transformación, todas las features comparten la misma escala y centro, lo que permite que el algoritmo de clustering las pondere de forma equitativa.
+Para igualar la contribución de cada feature, se aplica la normalización \textit{z-score} sobre las 13 features resultantes (incluyendo \textit{key\_sin} y \textit{key\_cos}), tomando la media y la desviación estándar de cada feature calculadas sobre las 17\,964 canciones del dataset seleccionado. Tras la transformación, todas las features comparten la misma escala y centro, lo que permite que el algoritmo de clustering las pondere de forma equitativa.
 
 \input{tables/normalization_stats}
-
-El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 13 features antes y después de la normalización.
 
 \FloatBarrier
 
@@ -271,14 +254,12 @@ El Cuadro~\ref{tab:normalization_stats} presenta las estadísticas de las 13 fea
 
 Las dos secciones anteriores producen representaciones complementarias para cada canción: un vector semántico de 384 dimensiones que captura el significado de las letras, y un vector musical de 13 dimensiones que describe las propiedades acústicas. Ambas representaciones están alineadas (por su \texttt{track\_id}) pero residen en archivos independientes. La unificación empaqueta ambos espacios de features junto con los metadatos necesarios para la evaluación (género musical, nombre de la canción, artista) en un único archivo que constituye la entrada para la etapa de clustering.
 
-\input{tables/unified_summary}
-
-El Cuadro~\ref{tab:unified_summary} detalla la composición del dataset unificado. El proceso de unificación incluye una batería de verificaciones de integridad cruzada que confirman la consistencia entre los distintos componentes:
+El proceso de unificación incluye una batería de verificaciones de integridad cruzada que confirman la consistencia entre los distintos componentes:
 
 \begin{itemize}[leftmargin=2em]
-    \item Los 17\,964 \texttt{track\_id} del dataset seleccionado coinciden exactamente (en cantidad y orden) con los almacenados durante la vectorización, lo que garantiza que el embedding semántico de la posición $i$ corresponde a la misma canción que las features musicales de la posición $i$.
+    \item Los 17\,964 \texttt{track\_id} del dataset seleccionado coinciden exactamente con los almacenados durante la vectorización, lo que garantiza que el embedding semántico de la posición $i$ corresponde a la misma canción que las features musicales de la posición $i$.
 
-    \item Las matrices numéricas no contienen valores NaN: cero en los embeddings semánticos ($17\,964 \times 384$ valores) y cero en las features musicales ($17\,964 \times 13$ valores).
+    \item Las matrices numéricas no contienen valores NaN.
 
     \item Los embeddings semánticos mantienen norma L2 unitaria (media = 1.0000, desviación estándar = 0.0000), confirmando que la re-normalización posterior al chunking se preservó correctamente.
 
@@ -295,11 +276,11 @@ El dataset unificado resultante constituye la entrada completa para la etapa de 
 \section{Clustering Multimodal}
 \label{sec:clustering-multimodal}
 
-El clustering sobre las representaciones del dataset cumple dos roles diferenciados en este trabajo. El primero es analítico: verificar que los embeddings semánticos y las features musicales contienen estructura interna real (agrupaciones naturales de canciones similares) y no son indistinguibles de ruido uniforme. Sin esta verificación, cualquier sistema de recomendación construido sobre estas representaciones operaría sobre una premisa no validada. El segundo rol es funcional: evaluar si las agrupaciones detectadas tienen granularidad suficiente para servir como mecanismo de recomendación alternativo o complementario a la búsqueda directa por vecinos más cercanos.
+El clustering sobre las representaciones del dataset cumple dos roles diferenciados en este trabajo. El primero es analítico: verificar que los embeddings semánticos y las features musicales contienen estructura interna real y no son indistinguibles de ruido uniforme. Sin esta verificación, cualquier sistema de recomendación construido sobre estas representaciones operaría sobre una premisa no validada. El segundo rol es funcional: evaluar si las agrupaciones detectadas tienen granularidad suficiente para servir como mecanismo de recomendación alternativo o complementario a la búsqueda directa por vecinos más cercanos.
 
 La evaluación se organiza en dos pasos secuenciales. Primero, el estadístico de Hopkins determina si los datos exhiben tendencia al agrupamiento. Segundo, una comparación multi-algoritmo identifica la mejor configuración de clustering para cada espacio y cuantifica la complementariedad entre modalidades.
 
-El análisis se realiza sobre tres espacios: el espacio semántico original de 384 dimensiones, una proyección UMAP de este espacio a 30 dimensiones, y el espacio musical de 13 dimensiones. El espacio concatenado (397 dimensiones) se evalúa únicamente en el test de Hopkins, ya que las 384 dimensiones semánticas dominan numéricamente sobre las 13 musicales, diluyendo la contribución de estas últimas en cualquier algoritmo basado en distancia.
+El análisis contempla cuatro espacios de representación: el espacio semántico original de 384 dimensiones, una proyección UMAP de este espacio a 30 dimensiones, el espacio musical de 13 dimensiones, y el espacio concatenado de 397 dimensiones. Los tres primeros reciben el análisis completo (test de Hopkins y comparación multi-algoritmo). El espacio concatenado se evalúa únicamente en el test de Hopkins, ya que las 384 dimensiones semánticas dominan numéricamente sobre las 13 musicales, diluyendo la contribución de estas últimas en cualquier algoritmo basado en distancia.
 
 \subsection{Evaluación de Tendencia al Agrupamiento}
 \label{subsec:evaluacion-hopkins}

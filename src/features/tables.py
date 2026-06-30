@@ -129,7 +129,7 @@ def generate_normalization_table(report: NormalizationReport) -> str:
     """
     content = r"""\begin{table}[htbp]
 \centering
-\caption{Estadísticas de las features musicales antes y después de la normalización \textit{z-score}.}
+\caption{Estadísticas de las features musicales antes y después de la normalización \textit{z-score}, sobre las 17\,964 canciones del dataset procesado.}
 \label{tab:normalization_stats}
 \small
 \begin{tabular}{lrrrrrrr}
