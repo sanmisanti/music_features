@@ -307,7 +307,7 @@ La proyección UMAP a 30 dimensiones del espacio semántico produce un Hopkins d
 
 Con la tendencia al agrupamiento confirmada, el paso siguiente es determinar qué algoritmo y qué número de clusters produce la partición de mayor calidad en cada espacio. Se evalúan tres familias de algoritmos (K-Means++, Ward y HDBSCAN) que representan, respectivamente, partición por centroides, aglomeración jerárquica por varianza y agrupación por densidad. K-Means++ y Ward se ejecutan con $K \in \{5, 6, 7, 8\}$; HDBSCAN recibe el parámetro \texttt{min\_cluster\_size} $\in \{50, 100, 200, 300, 500\}$ y determina el número de clusters automáticamente.
 
-La selección de la mejor configuración se basa en la triangulación de dos métricas internas: el coeficiente de Silhouette en su variante \textit{macro-averaged} (promedio por cluster) y el índice de Davies-Bouldin. \textcite{chicco_2025_silhouette_db} demuestran empíricamente que estas dos métricas exhiben 100\% de consistencia con el índice de Rand ajustado como métrica externa, frente al 70\% del índice de Calinski-Harabasz. La variante macro del Silhouette se adopta como métrica primaria para evitar la inflación que produce la variante micro (estándar en scikit-learn) ante distribuciones degeneradas: un cluster que contenga el 99\% de los datos domina el promedio global y puede producir valores artificialmente altos. Complementariamente, se descartan dos tipos de configuración no representativa: las que generan algún cluster con menos del 1\% del dataset (degeneradas) y las que clasifican como ruido a más del 50\% de las canciones. Este segundo criterio es necesario porque un algoritmo basado en densidad como HDBSCAN puede obtener un Silhouette alto agrupando únicamente el subconjunto más denso del espacio y descartando la mayoría de los puntos como ruido; ese Silhouette se calcula sobre una fracción minoritaria del catálogo y no refleja la estructura global, por lo que una partición de ese tipo no constituye una base válida de comparación.
+La selección de la mejor configuración se basa en la triangulación de dos métricas internas: el coeficiente de Silhouette en su variante \textit{macro-averaged} (promedio por cluster) y el índice de Davies-Bouldin. \textcite{chicco_2025_silhouette_db} demuestran empíricamente que estas dos métricas exhiben 100\% de consistencia con el índice de Rand ajustado como métrica externa, frente al 70\% del índice de Calinski-Harabasz. La variante macro del Silhouette se adopta como métrica primaria para evitar la inflación que produce la variante micro ante distribuciones degeneradas: un cluster que contenga el 99\% de los datos domina el promedio global y puede producir valores artificialmente altos. Complementariamente, se descartan dos tipos de configuración no representativa: las que generan algún cluster con menos del 1\% del dataset (degeneradas) y las que clasifican como ruido a más del 50\% de las canciones. Este segundo criterio es necesario porque un algoritmo basado en densidad como HDBSCAN puede obtener un Silhouette alto agrupando únicamente el subconjunto más denso del espacio y descartando la mayoría de los puntos como ruido; ese Silhouette se calcula sobre una fracción minoritaria del catálogo y no refleja la estructura global, por lo que una partición de ese tipo no constituye una base válida de comparación.
 
 \input{tables/clustering_best_configs}
 
@@ -318,53 +318,6 @@ En primer lugar, el espacio semántico original de 384 dimensiones produce un cl
 En segundo lugar, la proyección UMAP a 30 dimensiones transforma radicalmente la calidad del clustering semántico. HDBSCAN identifica 3 clusters de tamaños muy desiguales (15\,340, 1\,739 y 237 canciones) con un Silhouette macro de 0.9137 y apenas un 3.6\% de puntos (648 canciones) clasificados como ruido. Esta mejora confirma que la estructura detectada por Hopkins en 384 dimensiones es real pero inaccesible para los algoritmos de clustering sin reducción dimensional previa. Los intentos de forzar más clusters en este espacio (tanto con K-Means como con Ward para $K \geq 6$) producen configuraciones degeneradas: el algoritmo mantiene los 2--3 grupos naturales y fragmenta los bordes en micro-clusters espurios de pocas decenas de canciones. Con K-Means $K = 5$ (la granularidad máxima sin degeneración), el Silhouette desciende a 0.5263 y los clusters siguen siendo muy desiguales (uno con 9\,104 canciones y otro con 237).
 
 En tercer lugar, el espacio musical de 13 dimensiones presenta una estructura difusa y de baja granularidad. A diferencia del espacio semántico, su baja dimensionalidad descarta la maldición de la dimensionalidad como causa: las features acústicas se distribuyen de forma gradual, sin un corte nítido donde, por ejemplo, ``alta energía'' termina y ``baja energía'' empieza, lo que produce fronteras difusas entre grupos independientemente del algoritmo utilizado. La mejor partición de cobertura total es K-Means $K = 5$, con un Silhouette macro de 0.1028 y cinco grupos que reparten la totalidad de las 17\,964 canciones (entre 803 y 6\,441 canciones por grupo). HDBSCAN, en cambio, no produce una partición representativa del espacio: aísla únicamente dos pequeños bolsones densos (885 y 1\,986 canciones) y clasifica como ruido al 84\% del catálogo. Su Silhouette aparentemente superior (0.1991) se calcula solo sobre ese 16\% agrupado, por lo que la configuración se descarta por el criterio de cobertura. El bajo Silhouette de la mejor partición de cobertura total confirma que la granularidad natural del espacio musical es baja.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_musical_13d.pdf}
-        \caption{Musical 13D}
-    \end{subfigure}
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_384d.pdf}
-        \caption{Semántico 384D}
-    \end{subfigure}
-    \begin{subfigure}{0.32\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/silhouette_comparison_semantic_umap.pdf}
-        \caption{Semántico UMAP 30D}
-    \end{subfigure}
-    \caption{Comparación de Silhouette macro-promediado entre algoritmos y configuraciones por espacio.}
-    \label{fig:silhouette_comparison}
-\end{figure}
-
-La Figura~\ref{fig:silhouette_comparison} compara el Silhouette macro de las configuraciones evaluadas en cada espacio, y la Figura~\ref{fig:umap_semantic} proyecta en dos dimensiones la mejor partición semántica sobre UMAP, contrastando los clusters obtenidos con la distribución de géneros.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/umap_clusters_semantic_umap.pdf}
-        \caption{Clusters semánticos (HDBSCAN, $K = 3$)}
-    \end{subfigure}
-    \begin{subfigure}{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/umap_genres_semantic_umap.pdf}
-        \caption{Géneros sobre el mismo espacio}
-    \end{subfigure}
-    \caption{Proyección UMAP 2D del espacio semántico, coloreada por cluster (izquierda) y por género (derecha).}
-    \label{fig:umap_semantic}
-\end{figure}
-
-El Cuadro~\ref{tab:clustering_best_configs} resume únicamente la mejor configuración por espacio. Por completitud, los Cuadros~\ref{tab:clustering_comparison_musical_13d}, \ref{tab:clustering_comparison_semantic_384d} y \ref{tab:clustering_comparison_semantic_umap} reportan la totalidad de las configuraciones evaluadas sobre cada espacio, con las métricas de Silhouette macro-promediado, Davies-Bouldin, Calinski-Harabasz, ARI y NMI contra género, número de clusters, puntos clasificados como ruido e indicador de degeneración.
-
-\input{tables/clustering_comparison_musical_13d}
-
-\input{tables/clustering_comparison_semantic_384d}
-
-\input{tables/clustering_comparison_semantic_umap}
 
 \subsubsection*{Complementariedad cross-modal}
 
@@ -378,7 +331,7 @@ El Cuadro~\ref{tab:cross_modal_nmi} reporta el NMI calculado entre el mejor clus
 
 Los resultados del clustering revelan que la granularidad natural de los datos es baja: 3 grupos en el espacio semántico y, en el musical, una estructura difusa que la mejor partición de cobertura total resuelve en 5 grupos de baja cohesión. En ambos casos los clusters agrupan miles de canciones cada uno (hasta 6\,441 en el musical), de modo que la pertenencia a un mismo cluster es una señal demasiado débil para generar recomendaciones precisas (equivaldría a recomendar una fracción sustancial del catálogo). Forzar una granularidad mayor produce particiones degeneradas o de baja calidad.
 
-Esta observación determina la estrategia de recomendación para la Sección~\ref{sec:sistema-hibrido}: el mecanismo primario será la búsqueda directa de los $K$ vecinos más cercanos (\textit{k-NN}) mediante distancia coseno, que opera a nivel de canción individual y no requiere una partición previa. El clustering se conserva como herramienta auxiliar de diversificación: los pocos clusters naturales (3 en el espacio semántico, 5 en el musical) permiten verificar que las recomendaciones no se concentran en un único grupo temático o sonoro.
+Esta observación determina la estrategia de recomendación para la Sección~\ref{sec:sistema-hibrido}: el mecanismo primario será la búsqueda directa de los $K$ vecinos más cercanos (\textit{k-NN}) mediante distancia coseno, que opera a nivel de canción individual y no requiere una partición previa.
 
 % ---------------------------------------------------------------------------
 % SECCIÓN 5.7 — Sistema de Recomendación Híbrido
