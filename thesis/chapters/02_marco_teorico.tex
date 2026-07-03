@@ -59,6 +59,43 @@ La elección de la función de similitud $s$ depende de la naturaleza de las car
 \end{equation}
 \noindent Dos ítems idénticos (distancia 0) obtienen similitud 1; a medida que se alejan, el valor cae suavemente hacia 0. El parámetro $\sigma$ controla qué tan rápido ocurre esa caída: un $\sigma$ demasiado pequeño hace que casi todo parezca distinto, y uno demasiado grande hace que casi todo parezca igual. El valor habitual es la distancia mediana entre pares del conjunto, que calibra el kernel en el rango real de los datos.
 
+\subsection{Evaluación de Recomendaciones}
+\label{subsec:evaluacion-recomendaciones}
+
+Una vez que el sistema devuelve sus $K$ recomendaciones para una consulta, resta medir su calidad. La métrica más difundida para listas top-$K$ es la \textit{Precision@K}: la fracción de las $K$ recomendaciones que resultan \textit{relevantes} para la consulta. Formalmente, para una query $q$ cuyas $K$ recomendaciones son $\{r_1, \ldots, r_K\}$,
+\begin{equation}
+    \text{P@K}(q) = \frac{1}{K} \sum_{i=1}^{K} \mathbb{1}[\,r_i \text{ es relevante para } q\,]
+    \label{eq:precision-at-k}
+\end{equation}
+\noindent donde $\mathbb{1}[\cdot]$ es la \textit{función indicadora}, que vale 1 cuando la condición se cumple y 0 en caso contrario. La métrica global del sistema se obtiene promediando la precisión sobre todas las consultas evaluadas:
+\begin{equation}
+    \text{P@K} = \frac{1}{N} \sum_{q \in D} \text{P@K}(q)
+    \label{eq:precision-global}
+\end{equation}
+\noindent con $N$ el número de consultas del conjunto de evaluación $D$. La métrica recorre el intervalo $[0, 1]$: alcanza su máximo cuando las $K$ recomendaciones son todas relevantes y, en un sistema que recomienda al azar, se aproxima a la proporción de ítems relevantes en el catálogo (la \textit{tasa base}), que actúa como piso de referencia por debajo del cual el sistema no aporta valor.
+
+Aplicar la Ecuación~\ref{eq:precision-at-k} exige un criterio de relevancia, es decir, un \textit{ground truth} que indique qué ítems son pertinentes para cada consulta. Cuando no se dispone de evaluaciones humanas a gran escala, ese criterio suele aproximarse mediante una etiqueta ya presente en los datos que actúa como \textit{proxy} de relevancia. La elección de ese proxy condiciona por completo la interpretación de la métrica y constituye una decisión de diseño propia de cada sistema.
+
+La precisión mide un único aspecto de la calidad: la relevancia de los ítems recuperados. Un sistema puede alcanzar alta precisión y aun así resultar deficiente si recomienda siempre lo mismo o si concentra sus sugerencias en una porción mínima del catálogo. Por eso la evaluación se complementa con métricas que capturan dimensiones ortogonales a la relevancia \parencite{kaminskas_2016_beyond}.
+
+\subsubsection*{Diversidad intra-lista}
+
+La \textit{diversidad intra-lista} (ILD, \textit{Intra-List Diversity}) mide cuán distintos son entre sí los ítems de una misma lista de recomendaciones \parencite{ziegler_2005_topic_diversification}. Se define como la distancia promedio entre todos los pares de ítems de la lista: para una lista $R = \{r_1, \ldots, r_K\}$,
+\begin{equation}
+    \text{ILD}(R) = \frac{2}{K(K-1)} \sum_{1 \leq i < j \leq K} d(r_i, r_j)
+    \label{eq:ild}
+\end{equation}
+\noindent donde $d(\cdot,\cdot)$ es una distancia definida sobre el espacio de representación de los ítems. Un valor alto indica una lista heterogénea (ítems variados entre sí); un valor bajo, una lista redundante donde las recomendaciones se parecen mucho. Como la ILD depende de la distancia elegida, un mismo conjunto de recomendaciones puede resultar diverso en un espacio de representación y homogéneo en otro.
+
+\subsubsection*{Cobertura del catálogo}
+
+La \textit{cobertura del catálogo} mide qué fracción del catálogo llega efectivamente a ser recomendada cuando el sistema genera listas para todas las consultas posibles \parencite{kaminskas_2016_beyond}. Si $R_K(q)$ es la lista de top-$K$ recomendaciones para la consulta $q$ y $D$ el catálogo completo,
+\begin{equation}
+    \text{Coverage} = \frac{\left| \bigcup_{q \in D} R_K(q) \right|}{|D|}
+    \label{eq:coverage}
+\end{equation}
+\noindent Un valor bajo revela \textit{sesgo de popularidad}: el sistema concentra sus recomendaciones en unos pocos ítems y deja el resto del catálogo sin exposición. Un valor alto indica un uso balanceado del catálogo. La cobertura es independiente de la relevancia: un sistema puede ser preciso y a la vez tener cobertura baja si acierta pero siempre con los mismos ítems.
+
 
 
 % ==========================================================================
