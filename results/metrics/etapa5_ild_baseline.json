@@ -1,0 +1,30 @@
+{
+  "config": {
+    "n_songs": 17964,
+    "top_k": 10,
+    "n_random_lists": 17964,
+    "seed": 42
+  },
+  "baseline_random": {
+    "ild_semantic": 0.129737,
+    "ild_semantic_std": 0.008197,
+    "ild_musical": 4.920323,
+    "ild_musical_std": 0.484001
+  },
+  "observed_system": {
+    "alpha": 0.8,
+    "ild_semantic": 0.095656,
+    "ild_musical": 2.635702
+  },
+  "comparison": {
+    "semantic": {
+      "ratio_observed_over_baseline": 0.737308,
+      "separation_std": 4.1576
+    },
+    "musical": {
+      "ratio_observed_over_baseline": 0.535677,
+      "separation_std": 4.7203
+    }
+  },
+  "total_elapsed_seconds": 4.23
+}

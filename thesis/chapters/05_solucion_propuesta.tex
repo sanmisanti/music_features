@@ -389,8 +389,6 @@ La grilla evaluada consta de 21 valores equiespaciados: $\alpha \in \{0{,}00,\; 
     \item Evaluar la calidad de las recomendaciones generadas mediante la métrica Precision@K con distintos valores de $K$.
 \end{enumerate}
 
-La métrica de selección es \textbf{Precision@10}. Se reportan adicionalmente Precision@5 y Precision@20 para observar el decaimiento de la precisión con $K$ creciente.
-
 \subsubsection*{Ground truth: el género como proxy de relevancia}
 
 La evaluación de recomendaciones requiere definir cuándo una recomendación es \textit{relevante} respecto a una query. En ausencia de evaluaciones humanas a gran escala sobre el dataset, se adopta el género musical como \textit{proxy} de relevancia: una recomendación se considera relevante si comparte etiqueta de género con la query. Esta elección se declara explícitamente por sus limitaciones conocidas: las etiquetas son asignaciones subjetivas de la industria con acuerdo inter-evaluador del orden del 70-80\%, no son mutuamente excluyentes (una canción puede pertenecer a varios géneros) y capturan una única dimensión de similitud musical. En consecuencia, un sistema puede producir recomendaciones excelentes en términos subjetivos que crucen géneros y queden marcadas como no relevantes, y viceversa.
@@ -405,28 +403,13 @@ Bajo esta convención la función indicadora de relevancia vale 1 cuando la reco
 
 El sistema se evalúa, más allá de la relevancia que mide Precision@10, con las dos métricas complementarias definidas en la Sección~\ref{subsec:evaluacion-recomendaciones}: la diversidad intra-lista y la cobertura del catálogo. A continuación se detalla cómo se aplicó cada una a este sistema y los valores obtenidos al peso óptimo $\alpha = 0{,}80$.
 
-\paragraph{Diversidad intra-lista.} La ILD (Ecuación~\ref{eq:ild}) se computa en dos variantes, una por espacio de representación: la \textit{ILD semántica} emplea la distancia coseno $d(u, v) = 1 - s_{\text{coseno}}(u, v)$ sobre los embeddings, y la \textit{ILD musical} la distancia euclídea sobre las features estandarizadas. Al $\alpha$ óptimo, la ILD semántica es $0{,}0957$, un valor bajo coherente con que las recomendaciones son por construcción semánticamente cercanas a la query; la ILD musical es $2{,}6357$, que refleja una dispersión mayor, ya que las recomendaciones, aun siendo próximas en contenido, cubren un rango más amplio de propiedades acústicas.
+\paragraph{Diversidad intra-lista.} La ILD (Ecuación~\ref{eq:ild}) se computa en dos variantes, una por espacio de representación: la \textit{ILD semántica} emplea la distancia coseno $d(u, v) = 1 - s_{\text{coseno}}(u, v)$ sobre los embeddings, y la \textit{ILD musical} la distancia euclídea sobre las features estandarizadas. Al $\alpha$ óptimo, la ILD semántica es $0{,}0957$ y la ILD musical, $2{,}6357$.
 
-\paragraph{Cobertura del catálogo.} La cobertura (Ecuación~\ref{eq:coverage}) se calcula generando las listas top-10 para las 17\,964 canciones del catálogo. El sistema alcanza un $95{,}54\%$: 17\,156 canciones distintas aparecen como recomendación para al menos una query, lo que descarta un sesgo severo de popularidad. Como desagregación se reporta además la \textit{cobertura por género}, la fracción de canciones de cada género que llega a recomendarse, que permite detectar desbalances de exposición entre géneros; su desglose completo se presenta en la Sección~\ref{sec:resultados-recomendacion}.
+Como la ILD carece de escala absoluta (Sección~\ref{subsec:evaluacion-recomendaciones}), estos valores solo cobran sentido frente a un punto de referencia medido con la misma distancia. Se adopta como referencia la diversidad de un \textit{recomendador aleatorio}, para cada una de las 17\,964 canciones del catálogo se genera una lista de diez canciones muestreadas de forma uniforme y sin repetición del propio catálogo; sobre cada lista se computa su ILD con las mismas dos distancias que emplea el sistema, y el promedio sobre las 17\,964 listas constituye el piso esperado cuando no interviene ningún criterio de similitud. Este baseline arroja una ILD musical de $4{,}92$ y una semántica de $0{,}13$.
 
-Estas métricas exponen un \textit{trade-off} con la relevancia que la Figura~\ref{fig:diversity_coverage} ilustra al recorrer la grilla de $\alpha$: presenta la evolución de la ILD semántica y la cobertura del catálogo en función de $\alpha$. Al aumentar $\alpha$, la ILD semántica disminuye (las recomendaciones se vuelven más homogéneas en contenido temático) y la cobertura del catálogo disminuye moderadamente (el sistema concentra recomendaciones en menos canciones únicas). El valor óptimo $\alpha = 0{,}80$ se ubica en un punto intermedio donde se preserva razonable diversidad y cobertura.
+Es decir, las listas son más cohesivas que una selección al azar en los dos espacios, lo que confirma que tanto el componente semántico como el musical agrupan canciones afines en lugar de producir listas arbitrarias.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.85\linewidth]{figures/recommendation_diversity_coverage.pdf}
-    \caption{Intra-List Diversity semántica (eje izquierdo) y cobertura del catálogo (eje derecho) en función de $\alpha$.}
-    \label{fig:diversity_coverage}
-\end{figure}
+\paragraph{Cobertura del catálogo.} El sistema alcanza un $95{,}54\%$: 17\,162 canciones distintas aparecen como recomendación para al menos una consulta, y solo 802 (el $4{,}46\%$) no se recomiendan nunca.
 
-\subsubsection*{Resumen del pipeline de recomendación}
+Una cobertura tan alta indica que el sistema no concentra sus sugerencias en un núcleo reducido de canciones, sino que expone casi todo el catálogo. Como cada canción es vecina cercana de algún conjunto de consultas, casi todas encuentran ocasión de ser recuperadas. La ausencia de un sesgo severo de popularidad es una propiedad deseable, pues evita el círculo en que unos pocos ítems muy expuestos acaparan las recomendaciones mientras el resto del catálogo permanece invisible para el usuario.
 
-El sistema propuesto queda caracterizado por los siguientes elementos:
-
-\begin{itemize}[leftmargin=2em]
-    \item Búsqueda k-NN exhaustiva, sin aproximaciones ni pre-filtrado por cluster.
-    \item Similitud coseno en el espacio semántico ($\mathbb{R}^{384}$, L2-normalizado).
-    \item Similitud derivada de distancia euclídea y kernel gaussiano con $\sigma$ por heurística de la mediana en el espacio musical ($\mathbb{R}^{13}$, \textit{z-score}).
-    \item Fusión tardía por combinación lineal con peso $\alpha$ optimizado por grid search sobre 21 valores.
-    \item Optimización de $\alpha$ contra Precision@10 con género como proxy de ground truth.
-    \item Reporte complementario de ILD semántica y musical, cobertura del catálogo y cobertura por género.
-\end{itemize}
