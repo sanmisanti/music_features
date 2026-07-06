@@ -395,13 +395,41 @@ La evaluación de recomendaciones requiere definir cuándo una recomendación es
 
 Bajo esta convención la función indicadora de relevancia vale 1 cuando la recomendación comparte género con la query ($g_i = g_q$) y 0 en caso contrario. Sus valores extremos sirven de referencia para interpretar los resultados: un sistema que siempre recomienda canciones del género de la query alcanza Precision@K unitaria, mientras que uno que recomienda al azar obtiene aproximadamente la proporción del género dominante en el dataset, que fija el piso de referencia.
 
+\subsubsection*{Resultados de la optimización}
+
+El Cuadro~\ref{tab:recommendation_grid_search} presenta los resultados del grid search para los 21 valores de $\alpha$ evaluados, y la Figura~\ref{fig:alpha_precision} los visualiza. La curva de Precision@10 en función de $\alpha$ es suave y unimodal: crece desde $\alpha = 0{,}00$ (solo musical, P@10 $= 0{,}3648$) hasta un máximo en $\alpha = 0{,}80$ (P@10 $= 0{,}4447$) y decrece hacia $\alpha = 1{,}00$ (solo semántico, P@10 $= 0{,}3613$). La variación entre los extremos $\alpha = 0$ y $\alpha = 1$ es pequeña (ambos producen Precision@10 alrededor de $0{,}36$), lo que indica que ambas modalidades por separado aportan información de calidad comparable; el valor agregado de la fusión surge en el rango intermedio.
+
+\input{tables/recommendation_grid_search}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/recommendation_alpha_precision.pdf}
+    \caption{Precision@$K$ en función de $\alpha$ (peso del componente semántico) para $K \in \{5, 10, 20\}$. La línea vertical marca el valor óptimo $\alpha = 0{,}80$.}
+    \label{fig:alpha_precision}
+\end{figure}
+
+El óptimo identificado es $\alpha = 0{,}80$: el sistema produce recomendaciones de mayor calidad cuando el componente semántico aporta el 80\% del score fusionado y el musical el 20\% restante. Este resultado es coherente con la expectativa de que las letras capturan dimensiones semánticas (temática, narrativa, registro lírico) que los descriptores acústicos de bajo nivel no alcanzan a discriminar a nivel de canción individual. Simultáneamente, la caída de Precision@10 al pasar de $\alpha = 0{,}80$ a $\alpha = 1{,}00$ ($0{,}4447 \to 0{,}3613$, una reducción de $8{,}3$ puntos absolutos) demuestra que el $20\%$ de peso del componente musical aporta capacidad discriminativa adicional que el componente semántico por sí solo no provee. El origen de ese aporte está en el rango dinámico de cada similitud, descrito en la Sección~\ref{subsec:fusion}: las similitudes en el espacio semántico se concentran en el rango $[0{,}69,\,1{,}00]$, lo que comprime la capacidad de ordenamiento entre candidatos cercanos, mientras que el kernel gaussiano sobre el espacio musical expande la discriminación al rango completo $[0{,}00,\,1{,}00]$. La fusión preserva así la precisión temática del componente semántico y le añade poder de desempate musical en la cola del ranking, donde el semántico carece de granularidad.
+
+El Cuadro~\ref{tab:recommendation_precision_per_genre} desglosa la Precision@10 al $\alpha$ óptimo por género de la query, y la Figura~\ref{fig:precision_genre} la visualiza. El rango de variación entre géneros es amplio, desde $0{,}3051$ para EDM hasta $0{,}6902$ para rap, una diferencia absoluta de más de 38 puntos: rap se ubica por encima de la media global y EDM por debajo. Esta disparidad se relaciona con las limitaciones del género como proxy de relevancia, analizadas en la Sección~\ref{sec:limitaciones}.
+
+\input{tables/recommendation_precision_per_genre}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/recommendation_precision_genre.pdf}
+    \caption{Precision@10 por género de la query al $\alpha$ óptimo. La línea vertical marca la media global.}
+    \label{fig:precision_genre}
+\end{figure}
+
 % ---------------------------------------------------------------------------
 % SUBSECCIÓN 5.7.3 — Evaluación Complementaria
 % ---------------------------------------------------------------------------
 \subsection{Métricas Complementarias de Evaluación}
 \label{subsec:metricas-evaluacion}
 
-El sistema se evalúa, más allá de la relevancia que mide Precision@10, con las dos métricas complementarias definidas en la Sección~\ref{subsec:evaluacion-recomendaciones}: la diversidad intra-lista y la cobertura del catálogo. A continuación se detalla cómo se aplicó cada una a este sistema y los valores obtenidos al peso óptimo $\alpha = 0{,}80$.
+El sistema se evalúa, más allá de la relevancia que mide Precision@10, con las dos métricas complementarias definidas en la Sección~\ref{subsec:evaluacion-recomendaciones}: la diversidad intra-lista y la cobertura del catálogo. El Cuadro~\ref{tab:recommendation_optimal_metrics} consolida las métricas del sistema en el punto de operación óptimo ($\alpha = 0{,}80$), reuniendo las de precisión ya presentadas con las complementarias. A continuación se detalla cómo se aplicó cada una de estas últimas a este sistema y los valores obtenidos.
+
+\input{tables/recommendation_optimal_metrics}
 
 \paragraph{Diversidad intra-lista.} La ILD (Ecuación~\ref{eq:ild}) se computa en dos variantes, una por espacio de representación: la \textit{ILD semántica} emplea la distancia coseno $d(u, v) = 1 - s_{\text{coseno}}(u, v)$ sobre los embeddings, y la \textit{ILD musical} la distancia euclídea sobre las features estandarizadas. Al $\alpha$ óptimo, la ILD semántica es $0{,}0957$ y la ILD musical, $2{,}6357$.
 
@@ -412,4 +440,8 @@ Es decir, las listas son más cohesivas que una selección al azar en los dos es
 \paragraph{Cobertura del catálogo.} El sistema alcanza un $95{,}54\%$: 17\,162 canciones distintas aparecen como recomendación para al menos una consulta, y solo 802 (el $4{,}46\%$) no se recomiendan nunca.
 
 Una cobertura tan alta indica que el sistema no concentra sus sugerencias en un núcleo reducido de canciones, sino que expone casi todo el catálogo. Como cada canción es vecina cercana de algún conjunto de consultas, casi todas encuentran ocasión de ser recuperadas. La ausencia de un sesgo severo de popularidad es una propiedad deseable, pues evita el círculo en que unos pocos ítems muy expuestos acaparan las recomendaciones mientras el resto del catálogo permanece invisible para el usuario.
+
+El Cuadro~\ref{tab:coverage_per_genre} desglosa esta cobertura por género, entendida como la fracción de canciones de cada género que aparece como recomendación al menos una vez en las 17\,964 listas generadas. Todos los géneros superan el 93\% de cobertura y la variación entre ellos es de menos de cuatro puntos absolutos, lo que descarta un sesgo severo de popularidad por género.
+
+\input{tables/coverage_per_genre}
 

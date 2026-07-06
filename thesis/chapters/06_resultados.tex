@@ -1,56 +1,10 @@
 \chapter{Resultados Experimentales}
 \label{ch:resultados}
 
-Este capítulo presenta los resultados cuantitativos obtenidos en la ejecución del pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta}. Se organiza en tres secciones: los resultados del sistema de recomendación híbrido, el costo computacional del pipeline y el plan de pruebas de calidad. Todos los valores reportados son exactamente reproducibles: el comportamiento estocástico del pipeline (muestreos aleatorios y procedimientos de inicialización) está fijado mediante semillas aleatorias constantes centralizadas en la configuración del proyecto.
+Este capítulo presenta los resultados a nivel de sistema completo del pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta}. Los resultados de cada componente (cobertura de la vectorización, estructura de las representaciones, calidad del clustering y calibración del sistema de recomendación) se reportan junto a su desarrollo en el Capítulo~\ref{ch:solucion-propuesta}, de modo que cada mecanismo se presenta con su resultado inmediato. Este capítulo se organiza en dos secciones: el costo computacional del pipeline y el plan de pruebas de calidad. Todos los valores reportados son exactamente reproducibles: el comportamiento estocástico del pipeline (muestreos aleatorios y procedimientos de inicialización) está fijado mediante semillas aleatorias constantes centralizadas en la configuración del proyecto.
 
 % ---------------------------------------------------------------------------
-% SECCIÓN 6.2 — Resultados de Recomendación
-% ---------------------------------------------------------------------------
-\section{Resultados de Recomendación}
-\label{sec:resultados-recomendacion}
-
-Esta sección presenta los resultados del sistema de recomendación híbrido descrito en la Sección~\ref{sec:sistema-hibrido}. Se reportan la evolución de Precision@$K$ a lo largo del grid search sobre $\alpha$, las métricas completas al valor óptimo identificado, el análisis desagregado por género, y las métricas complementarias de diversidad y cobertura.
-
-\subsection{Grid Search sobre $\alpha$}
-
-\input{tables/recommendation_grid_search}
-
-El Cuadro~\ref{tab:recommendation_grid_search} presenta los resultados del grid search para los 21 valores de $\alpha$ evaluados, y la Figura~\ref{fig:alpha_precision} los visualiza. La curva de Precision@10 en función de $\alpha$ es suave y unimodal, creciendo desde $\alpha = 0{,}00$ (solo musical, P@10 $= 0{,}3648$) hasta un máximo en $\alpha = 0{,}80$ (P@10 $= 0{,}4447$), y decreciendo hacia $\alpha = 1{,}00$ (solo semántico, P@10 $= 0{,}3613$). La variación entre los extremos $\alpha = 0$ y $\alpha = 1$ es pequeña (ambos producen Precision@10 alrededor de $0{,}36$), lo que indica que ambas modalidades por separado aportan información de calidad comparable. El valor agregado de la fusión surge en el rango intermedio.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.85\linewidth]{figures/recommendation_alpha_precision.pdf}
-    \caption{Precision@$K$ en función de $\alpha$ (peso del componente semántico) para $K \in \{5, 10, 20\}$. La línea vertical marca el valor óptimo $\alpha = 0{,}80$.}
-    \label{fig:alpha_precision}
-\end{figure}
-
-El valor óptimo $\alpha = 0{,}80$ indica que el sistema produce recomendaciones de mayor calidad cuando el componente semántico aporta el 80\% del score fusionado y el musical el 20\% restante. Este resultado es coherente con la expectativa de que las letras capturan dimensiones semánticas (temática, narrativa, registro lírico) que los descriptores acústicos de bajo nivel no alcanzan a discriminar a nivel de canción individual. Simultáneamente, la caída de Precision@10 al pasar de $\alpha = 0{,}80$ a $\alpha = 1{,}00$ ($0{,}4447 \to 0{,}3613$, una reducción de $8{,}3$ puntos absolutos) demuestra que el $20\%$ de peso del componente musical aporta capacidad discriminativa adicional que el componente semántico por sí solo no provee. El origen de ese aporte está en el rango dinámico de cada similitud. Las similitudes en el espacio semántico se concentran en el rango $[0{,}69,\,1{,}00]$, lo que comprime la capacidad de ordenamiento entre candidatos cercanos; el kernel gaussiano sobre el espacio musical, en cambio, expande la discriminación al rango completo $[0{,}00,\,1{,}00]$. La fusión preserva así la precisión temática del componente semántico y le añade poder de desempate musical en la cola del ranking, donde el semántico carece de granularidad.
-
-\subsection{Métricas al $\alpha$ Óptimo}
-
-\input{tables/recommendation_optimal_metrics}
-
-El Cuadro~\ref{tab:recommendation_optimal_metrics} resume las métricas del sistema evaluado en $\alpha = 0{,}80$. La Precision@5 es $0{,}4671$, la Precision@10 es $0{,}4447$ y la Precision@20 es $0{,}4268$, mostrando la decadencia esperable de la precisión con valores crecientes de $K$. La Intra-List Diversity semántica es $0{,}0957$, valor bajo consistente con que las recomendaciones son por definición semánticamente cercanas a la query. La ILD musical alcanza $2{,}6357$, indicando mayor dispersión en el espacio acústico (las recomendaciones, aunque semánticamente próximas, cubren un rango más amplio en propiedades musicales). La cobertura del catálogo es $95{,}54\%$: de las 17\,964 canciones, 17\,156 aparecen como recomendación para alguna query, lo que indica ausencia de sesgo severo de popularidad.
-
-El Cuadro~\ref{tab:coverage_per_genre} desglosa esta cobertura por género, entendida como la fracción de canciones de cada género que aparece como recomendación al menos una vez en las 17\,964 listas generadas. Todos los géneros superan el 93\% de cobertura y la variación entre ellos es de menos de cuatro puntos absolutos, lo que descarta un sesgo severo de popularidad por género.
-
-\input{tables/coverage_per_genre}
-
-\subsection{Análisis por Género}
-
-\input{tables/recommendation_precision_per_genre}
-
-El Cuadro~\ref{tab:recommendation_precision_per_genre} desglosa la Precision@10 al $\alpha$ óptimo por género de la query, y la Figura~\ref{fig:precision_genre} la visualiza. El rango de variación entre géneros es amplio, desde $0{,}3051$ para EDM hasta $0{,}6902$ para rap, con una diferencia absoluta de más de 38 puntos: rap se ubica por encima de la media global y EDM por debajo. Esta disparidad se relaciona con las limitaciones del género como proxy de relevancia, analizadas en la Sección~\ref{sec:limitaciones}.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figures/recommendation_precision_genre.pdf}
-    \caption{Precision@10 por género de la query al $\alpha$ óptimo. La línea vertical marca la media global.}
-    \label{fig:precision_genre}
-\end{figure}
-
-% ---------------------------------------------------------------------------
-% SECCIÓN 6.3 — Costo Computacional
+% SECCIÓN 6.1 — Costo Computacional
 % ---------------------------------------------------------------------------
 \section{Costo Computacional}
 \label{sec:costo-computacional}
@@ -60,12 +14,12 @@ Los tiempos de ejecución del pipeline completo sobre las 17\,964 canciones se m
 \input{tables/pipeline_timing}
 
 % ---------------------------------------------------------------------------
-% SECCIÓN 6.5 — Plan de pruebas de calidad
+% SECCIÓN 6.2 — Plan de pruebas de calidad
 % ---------------------------------------------------------------------------
 \section{Plan de Pruebas de Calidad}
 \label{sec:plan-pruebas}
 
-El sistema implementado se evalúa mediante métricas cuantitativas (Precision@10, diversidad intra-lista, cobertura del catálogo) que se reportan en este capítulo. Estas métricas, calculadas sobre el género musical como \textit{ground truth} proxy, ofrecen una evaluación rigurosa pero parcial: pueden ocultar comportamientos cualitativos relevantes que las cifras agregadas no reflejan. Por esta razón, el plan de validación incluye un conjunto de \textbf{pruebas de calidad externas} que complementan la evaluación cuantitativa con análisis específicos sobre dimensiones que las métricas globales no capturan adecuadamente.
+El sistema implementado se evalúa mediante métricas cuantitativas (Precision@10, diversidad intra-lista, cobertura del catálogo) que se reportan junto al desarrollo del sistema de recomendación en la Sección~\ref{sec:sistema-hibrido}. Estas métricas, calculadas sobre el género musical como \textit{ground truth} proxy, ofrecen una evaluación rigurosa pero parcial: pueden ocultar comportamientos cualitativos relevantes que las cifras agregadas no reflejan. Por esta razón, el plan de validación incluye un conjunto de \textbf{pruebas de calidad externas} que complementan la evaluación cuantitativa con análisis específicos sobre dimensiones que las métricas globales no capturan adecuadamente.
 
 Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyecto. Esta sección formaliza su definición y criterios de aceptación.
 
@@ -77,4 +31,4 @@ Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyect
 
 \textbf{Prueba D: Consistencia cross-language.} Su objetivo es verificar que el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} produce representaciones semánticamente coherentes para letras en idiomas distintos al inglés, dado el sesgo lingüístico del catálogo (83.5\% inglés). Se identifican canciones en español, portugués y otros idiomas con temáticas claramente reconocibles y se verifica si sus recomendaciones top-10 incluyen canciones de la misma temática, sin restringirse al mismo idioma. El criterio de aceptación es la observación de recuperación temática cross-lingual coherente, lo que respaldaría la decisión de adoptar un modelo multilingüe en lugar de uno monolingüe inglés con traducción previa.
 
-El resultado de cada prueba se documentará en el informe junto con las métricas cuantitativas presentadas en este capítulo, sustentando o matizando las conclusiones que las cifras por sí solas permitirían establecer.
+El resultado de cada prueba se documentará en el informe junto con las métricas cuantitativas presentadas en la Sección~\ref{sec:sistema-hibrido}, sustentando o matizando las conclusiones que las cifras por sí solas permitirían establecer.
