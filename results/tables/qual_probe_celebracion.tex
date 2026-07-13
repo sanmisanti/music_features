@@ -1,0 +1,29 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Probe temático de celebración: \emph{I Gotta Feeling} (The Black Eyed Peas)}
+  \label{tab:qual_probe_celebracion}
+  \small
+  \begin{tabular}{clllccc}
+    \toprule
+    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\
+    \midrule
+    1 & I Gotta Feeling - Edit & The Black Eyed Peas & latin & en & 1.000 & 0.837 \\
+    2 & Time of Our Lives & Pitbull & pop\textsuperscript{*} & en & 0.930 & 0.923 \\
+    3 & This Is How We Do It & Montell Jordan & r\&b\textsuperscript{*} & en & 0.921 & 0.923 \\
+    4 & Stay Fly (feat. Young Buck & Eightball \& MJG) - Ex\ldots & rap\textsuperscript{*} & en & 0.907 & 0.932 \\
+    5 & Venom - Music From The Motion Pic\ldots & Eminem & rock\textsuperscript{*} & en & 0.896 & 0.975 \\
+    6 & W18 & Cassius & edm\textsuperscript{*} & en & 0.911 & 0.914 \\
+    7 & Feels Good & Tony! Toni! Toné! & r\&b\textsuperscript{*} & en & 0.934 & 0.819 \\
+    8 & Once In a While & Timeflies & pop\textsuperscript{*} & en & 0.919 & 0.877 \\
+    9 & I Miss My Homies & Master P & rap\textsuperscript{*} & en & 0.911 & 0.905 \\
+    10 & Dancing On The Ceiling & Lionel Richie & rock\textsuperscript{*} & en & 0.893 & 0.962 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Consulta: \emph{I Gotta Feeling} (latin, en). $s_{\text{sem}}$: similitud coseno semántica; $s_{\text{mus}}$: similitud musical (kernel gaussiano). \textsuperscript{*}: género distinto al de la consulta. La lista se deduplica: una sola grabación por canción (los duplicados exactos del catálogo se colapsan).
+    \item Tema con firma léxica concreta: el sistema recupera otros himnos de fiesta (\emph{Time of Our Lives}, \emph{This Is How We Do It}).
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}

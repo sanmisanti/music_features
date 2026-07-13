@@ -12,6 +12,8 @@ Metricas por espacio:
 """
 
 import logging
+import re
+import unicodedata
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
@@ -25,6 +27,11 @@ from src.config import (
 )
 
 logger = logging.getLogger(__name__)
+
+# Sobre-muestreo para deduplicacion: se recuperan mas candidatos que top_k
+# para poder colapsar duplicados y rellenar hasta top_k canciones unicas.
+DEDUP_OVERFETCH_FACTOR = 10
+DEDUP_OVERFETCH_MIN = 100
 
 
 @dataclass
@@ -105,6 +112,88 @@ def gaussian_kernel(distances: np.ndarray, sigma: float) -> np.ndarray:
     return np.exp(-distances ** 2 / (2 * sigma ** 2))
 
 
+def normalize_text(text: str) -> str:
+    """
+    Normaliza texto para comparacion (minusculas, sin acentos ni puntuacion).
+
+    Se usa para agrupar duplicados: dos entradas con el mismo nombre y artista
+    normalizados se consideran la misma grabacion.
+    """
+    text = str(text).lower().strip()
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def compute_duplicate_groups(
+    track_names: np.ndarray,
+    track_artists: np.ndarray,
+) -> np.ndarray:
+    """
+    Asigna un identificador de grupo a cada cancion, de modo que las entradas
+    con el mismo (nombre, artista) normalizados comparten identificador.
+
+    El dataset fuente contiene la misma grabacion con `track_id` distintos
+    (recolectada desde playlists diferentes). Agrupar por (nombre, artista)
+    permite deduplicar la salida del recomendador sin colapsar variantes
+    legitimas (versiones en vivo, remixes o traducciones tienen nombres
+    distintos y quedan en grupos separados).
+
+    Parameters
+    ----------
+    track_names : np.ndarray
+        Nombres de las canciones, shape [N].
+    track_artists : np.ndarray
+        Artistas, shape [N].
+
+    Returns
+    -------
+    groups : np.ndarray
+        Identificadores de grupo, shape [N], dtype int64.
+    """
+    keys: dict = {}
+    groups = np.empty(len(track_names), dtype=np.int64)
+    for i in range(len(track_names)):
+        key = normalize_text(track_names[i]) + "|" + normalize_text(track_artists[i])
+        gid = keys.get(key)
+        if gid is None:
+            gid = len(keys)
+            keys[key] = gid
+        groups[i] = gid
+    n_dupes = len(track_names) - len(keys)
+    logger.info(
+        "Grupos de duplicados: %d grabaciones unicas, %d entradas duplicadas "
+        "sobre %d canciones",
+        len(keys), n_dupes, len(track_names),
+    )
+    return groups
+
+
+def _build_result(
+    i: int,
+    sorted_candidates: np.ndarray,
+    fused: np.ndarray,
+    sim_semantic: np.ndarray,
+    sim_musical: np.ndarray,
+    track_ids: np.ndarray,
+    genre_labels: np.ndarray,
+) -> "RecommendationResult":
+    """Construye un RecommendationResult a partir de indices ya ordenados."""
+    return RecommendationResult(
+        query_idx=i,
+        query_track_id=str(track_ids[i]),
+        query_genre=str(genre_labels[i]),
+        recommended_indices=sorted_candidates,
+        recommended_track_ids=track_ids[sorted_candidates],
+        recommended_genres=genre_labels[sorted_candidates],
+        scores=fused[i, sorted_candidates],
+        scores_semantic=sim_semantic[i, sorted_candidates],
+        scores_musical=sim_musical[i, sorted_candidates],
+    )
+
+
 def precompute_similarities(
     semantic_embeddings: np.ndarray,
     musical_features: np.ndarray,
@@ -161,6 +250,7 @@ def recommend_all(
     top_k: int,
     track_ids: np.ndarray,
     genre_labels: np.ndarray,
+    dup_groups: Optional[np.ndarray] = None,
 ) -> List[RecommendationResult]:
     """
     Genera recomendaciones para todas las canciones del dataset.
@@ -179,6 +269,12 @@ def recommend_all(
         IDs de canciones, shape [N].
     genre_labels : np.ndarray
         Etiquetas de genero, shape [N].
+    dup_groups : np.ndarray, optional
+        Identificadores de grupo de duplicados por cancion (ver
+        `compute_duplicate_groups`). Si se provee, la lista de cada query se
+        deduplica en post-procesamiento: se conserva una sola grabacion por
+        grupo (la de mayor score) y se excluye el grupo de la propia query,
+        rellenando con los siguientes candidatos hasta completar top_k.
 
     Returns
     -------
@@ -192,30 +288,54 @@ def recommend_all(
     # Excluir self-recommendation: poner diagonal a -inf
     np.fill_diagonal(fused, -np.inf)
 
-    # Top-K por argpartition (O(N) per row, mas eficiente que argsort completo)
-    # argpartition devuelve indices de los top_k mayores, sin orden
-    top_k_indices = np.argpartition(fused, -top_k, axis=1)[:, -top_k:]
+    if dup_groups is None:
+        # Sin deduplicacion: top_k directo por argpartition
+        cand_indices = np.argpartition(fused, -top_k, axis=1)[:, -top_k:]
+        results = []
+        for i in range(n):
+            candidates = cand_indices[i]
+            sorted_candidates = candidates[np.argsort(-fused[i, candidates])]
+            results.append(_build_result(
+                i, sorted_candidates, fused, sim_semantic, sim_musical,
+                track_ids, genre_labels,
+            ))
+        return results
+
+    # Con deduplicacion: sobre-muestrear y colapsar por grupo
+    over_k = min(n - 1, max(top_k * DEDUP_OVERFETCH_FACTOR, DEDUP_OVERFETCH_MIN))
+    cand_indices = np.argpartition(fused, -over_k, axis=1)[:, -over_k:]
 
     results = []
     for i in range(n):
-        candidates = top_k_indices[i]
-        candidate_scores = fused[i, candidates]
-
-        # Ordenar los top_k candidatos por score descendente
-        order = np.argsort(-candidate_scores)
-        sorted_candidates = candidates[order]
-        sorted_scores = candidate_scores[order]
-
-        results.append(RecommendationResult(
-            query_idx=i,
-            query_track_id=str(track_ids[i]),
-            query_genre=str(genre_labels[i]),
-            recommended_indices=sorted_candidates,
-            recommended_track_ids=track_ids[sorted_candidates],
-            recommended_genres=genre_labels[sorted_candidates],
-            scores=sorted_scores,
-            scores_semantic=sim_semantic[i, sorted_candidates],
-            scores_musical=sim_musical[i, sorted_candidates],
+        candidates = cand_indices[i]
+        candidates = candidates[np.argsort(-fused[i, candidates])]  # desc
+        q_group = dup_groups[i]
+        seen_groups = set()
+        seen_sigs = set()
+        picked = []
+        for j in candidates:
+            # Misma grabacion que la consulta (letra identica y audio
+            # practicamente identico): excluir aunque tenga metadatos distintos.
+            if sim_semantic[i, j] >= 0.9999 and sim_musical[i, j] >= 0.999:
+                continue
+            g = dup_groups[j]
+            if g == q_group or g in seen_groups:
+                continue
+            # Grabacion identica con otro rotulo: misma firma de similitud en
+            # ambas modalidades. Una variante legitima difiere en lo musical.
+            sig = (round(float(sim_semantic[i, j]), 5),
+                   round(float(sim_musical[i, j]), 5))
+            if sig in seen_sigs:
+                continue
+            seen_groups.add(g)
+            seen_sigs.add(sig)
+            picked.append(j)
+            if len(picked) == top_k:
+                break
+        sorted_candidates = np.asarray(picked, dtype=np.int64)
+        results.append(_build_result(
+            i, sorted_candidates, fused, sim_semantic, sim_musical,
+            track_ids, genre_labels,
         ))
 
     return results

@@ -1,0 +1,29 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Recomendaciones para \emph{Lose Yourself} (Eminem) al peso óptimo}
+  \label{tab:qual_case_lose_yourself}
+  \small
+  \begin{tabular}{clllccc}
+    \toprule
+    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\
+    \midrule
+    1 & Future & DJ Khaled & rap & en & 0.941 & 0.934 \\
+    2 & ICONIC (ft. Jaden Smith) & Logic & rap & en & 0.939 & 0.885 \\
+    3 & APESHIT & The Carters & r\&b\textsuperscript{*} & en & 0.931 & 0.893 \\
+    4 & MotorSport & Migos & r\&b\textsuperscript{*} & en & 0.937 & 0.870 \\
+    5 & 'Till I Collapse & Eminem & rap & en & 0.934 & 0.876 \\
+    6 & Get Back & Ludacris & rap & en & 0.927 & 0.887 \\
+    7 & Mamacita & OutKast & rap & en & 0.934 & 0.858 \\
+    8 & SICKO MODE - Skrillex Remix & Travis Scott & rap & en & 0.934 & 0.857 \\
+    9 & Soul Food & Logic & rap & en & 0.935 & 0.847 \\
+    10 & Till The End & Logic & rap & en & 0.930 & 0.862 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Consulta: \emph{Lose Yourself - Soundtrack Version} (rap, en). $s_{\text{sem}}$: similitud coseno semántica; $s_{\text{mus}}$: similitud musical (kernel gaussiano). \textsuperscript{*}: género distinto al de la consulta. La lista se deduplica: una sola grabación por canción (los duplicados exactos del catálogo se colapsan).
+    \item El vecindario más cercano de la consulta contenía varias grabaciones repetidas de las mismas canciones (naturales en catálogos musicales); la lista final las colapsa y muestra diez canciones distintas de rap motivacional, con \emph{'Till I Collapse} entre ellas.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}

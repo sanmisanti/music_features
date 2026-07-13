@@ -1,0 +1,26 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Distribución de idiomas de las recomendaciones según el idioma de la consulta}
+  \label{tab:qual_crosslanguage}
+  \small
+  \begin{tabular}{llccc}
+    \toprule
+    Consulta & Idioma & \multicolumn{3}{c}{Idiomas del top-10} \\
+    \cmidrule(lr){3-5}
+     & consulta & inglés & español & otros \\
+    \midrule
+    Someone Like You & en & 10 & 0 & 0 \\
+    Perfect & en & 10 & 0 & 0 \\
+    I Gotta Feeling & en & 10 & 0 & 0 \\
+    Vuelve & es & 3 & 7 & 0 \\
+    Vivir Mi Vida & es & 0 & 10 & 0 \\
+    Bailando - English Version & es & 0 & 10 & 0 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Distribución de idiomas de las 10 recomendaciones al peso óptimo ($\alpha=0{,}80$). Las consultas en inglés no recuperan canciones en otros idiomas; las consultas en español recuperan mayoritariamente español.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}

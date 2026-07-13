@@ -1,0 +1,29 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Probe temático de protesta: \emph{Zombie} (The Cranberries)}
+  \label{tab:qual_probe_protesta}
+  \small
+  \begin{tabular}{clllccc}
+    \toprule
+    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\
+    \midrule
+    1 & 21 Guns & Green Day & pop\textsuperscript{*} & en & 0.914 & 0.841 \\
+    2 & This Is War & Thirty Seconds To Mars & rock & en & 0.893 & 0.914 \\
+    3 & Real Love - Anthology 2 Version & The Beatles & rock & en & 0.892 & 0.912 \\
+    4 & Radioactive - Live London Session\ldots & Imagine Dragons & latin\textsuperscript{*} & en & 0.894 & 0.896 \\
+    5 & Mind & Declan McKenna & pop\textsuperscript{*} & en & 0.892 & 0.869 \\
+    6 & Don't Damn Me & Guns N' Roses & rock & en & 0.896 & 0.850 \\
+    7 & Blue on Black & Kenny Wayne Shepherd & rap\textsuperscript{*} & en & 0.879 & 0.914 \\
+    8 & Carrie & Europe & rock & en & 0.879 & 0.907 \\
+    9 & Wanted Dead Or Alive & Bon Jovi & rock & en & 0.866 & 0.960 \\
+    10 & Knockin' On Heaven's Door & Guns N' Roses & rock & en & 0.894 & 0.844 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Consulta: \emph{Zombie} (rock, en). $s_{\text{sem}}$: similitud coseno semántica; $s_{\text{mus}}$: similitud musical (kernel gaussiano). \textsuperscript{*}: género distinto al de la consulta. La lista se deduplica: una sola grabación por canción (los duplicados exactos del catálogo se colapsan).
+    \item Para temas abstractos el sistema recupera principalmente el registro sonoro y de género; el acierto temático (\emph{21 Guns}, antibélica) es minoritario frente a vecinos de \textit{rock} genérico.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}

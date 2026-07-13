@@ -343,7 +343,7 @@ Esta observación determina la estrategia de recomendación para la Sección~\re
 
 El análisis de clustering de la sección anterior estableció que la granularidad natural de ambos espacios es demasiado baja para servir como mecanismo de recomendación: con apenas 3 grupos semánticos y 5 musicales, todos de gran tamaño, la pertenencia a un mismo cluster no discrimina con la finura que requiere la recomendación canción a canción. En contrapartida, la búsqueda directa de los $K$ vecinos más cercanos (k-NN) opera a nivel de canción individual, produciendo un ranking continuo de similitud sobre las 17\,963 canciones restantes del dataset. Esta sección describe el diseño del sistema de recomendación que combina los dos espacios mediante k-NN con fusión tardía de scores.
 
-El sistema resuelve cuatro decisiones concretas: qué métrica usar en cada espacio, cómo combinar los scores de ambas modalidades en uno solo, cómo elegir el peso relativo entre componentes, y cómo evaluar la calidad de las recomendaciones producidas. Las dos primeras se resuelven en la subsección de estrategia de fusión; la tercera, en la de optimización de pesos; la cuarta, en las subsecciones de evaluación y de métricas complementarias.
+El sistema resuelve cuatro decisiones concretas: qué métrica usar en cada espacio, cómo combinar los scores de ambas modalidades en uno solo, cómo elegir el peso relativo entre componentes, y cómo evaluar la calidad de las recomendaciones producidas. Las dos primeras se resuelven en la subsección de estrategia de fusión; la tercera, en la de optimización de pesos; la cuarta, en las subsecciones de evaluación y de métricas complementarias. Una decisión adicional, cómo se depura la lista final que se presenta al usuario, se aborda en la subsección de deduplicación.
 
 % ---------------------------------------------------------------------------
 % SUBSECCIÓN 5.7.1 — Estrategia de Fusión
@@ -422,7 +422,19 @@ El Cuadro~\ref{tab:recommendation_precision_per_genre} desglosa la Precision@10 
 \end{figure}
 
 % ---------------------------------------------------------------------------
-% SUBSECCIÓN 5.7.3 — Evaluación Complementaria
+% SUBSECCIÓN 5.7.3 — Deduplicación de la lista
+% ---------------------------------------------------------------------------
+\subsection{Deduplicación de la Lista de Recomendación}
+\label{subsec:deduplicacion}
+
+El catálogo contiene la misma grabación registrada más de una vez con identificadores distintos, un fenómeno habitual en las colecciones musicales, donde una canción figura simultáneamente en el álbum original, en ediciones posteriores y en discos recopilatorios, y que en este conjunto de datos se acentúa porque las canciones se recolectaron desde múltiples \textit{playlists}. De las 17\,964 canciones, 1\,901 son repeticiones de otra grabación ya presente, de modo que el catálogo comprende 16\,063 grabaciones únicas.
+
+Estas repeticiones no se eliminan del conjunto de datos ni de la evaluación, por una razón metodológica. Cuando el sistema sitúa una copia exacta de la consulta entre las canciones más similares, lo hace correctamente: una grabación idéntica es, por definición, lo más parecido posible a la consulta. Su aparición es, por tanto, una comprobación de que la medida de similitud opera como se espera, y no un defecto a corregir. En consecuencia, las métricas de las subsecciones anteriores se calculan sobre las listas de vecinos sin filtrar, que reflejan el comportamiento directo de la similitud.
+
+Recomendar dos veces la misma canción, en cambio, no aporta valor a un usuario. Por eso, al construir la lista final que este recibiría, se aplica un paso de deduplicación en post-procesamiento: se recuperan más candidatos que los $K$ requeridos, se descarta la propia grabación de la consulta y se conserva una sola entrada por grabación, completando la lista con los siguientes candidatos hasta reunir $K$ canciones distintas. Dos entradas se consideran la misma grabación cuando coinciden en título e intérprete normalizados, o cuando sus vectores son prácticamente idénticos en ambas modalidades (similitudes semántica y musical cercanas a la unidad), criterio que captura las copias registradas con títulos ligeramente distintos. Las piezas que no son la grabación original, como remasterizaciones, ediciones en vivo, versiones acústicas, \textit{covers} o traducciones, no se consideran duplicados y se conservan, ya que difieren de forma apreciable en el vector musical y constituyen grabaciones legítimamente distintas. El efecto de este paso sobre consultas concretas se ilustra en el Capítulo~\ref{ch:resultados}.
+
+% ---------------------------------------------------------------------------
+% SUBSECCIÓN 5.7.4 — Evaluación Complementaria
 % ---------------------------------------------------------------------------
 \subsection{Métricas Complementarias de Evaluación}
 \label{subsec:metricas-evaluacion}

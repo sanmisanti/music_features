@@ -1,0 +1,4955 @@
+{
+  "alpha_optimal": 0.8,
+  "top_k": 10,
+  "sigma": 4.763444,
+  "n_songs": 17964,
+  "seed": 42,
+  "case_studies": [
+    {
+      "spec": {
+        "name": "Vuelve",
+        "artist": "Ricky Martin"
+      },
+      "found": true,
+      "query_idx": 8323,
+      "query_name": "Vuelve",
+      "query_artist": "Ricky Martin",
+      "query_genre": "latin",
+      "query_language": "es",
+      "n_catalog_matches": 1,
+      "alpha": 0.8,
+      "recommendations": [
+        {
+          "rank": 1,
+          "idx": 11438,
+          "name": "Vuelve - MTV Unplugged Version",
+          "artist": "Ricky Martin",
+          "genre": "latin",
+          "language": "es",
+          "score": 0.9224,
+          "s_sem": 1.0,
+          "s_mus": 0.6119,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 2,
+          "idx": 15419,
+          "name": "No Te Olvidaré",
+          "artist": "Gloria Estefan",
+          "genre": "latin",
+          "language": "es",
+          "score": 0.9069,
+          "s_sem": 0.9094,
+          "s_mus": 0.8968,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 3,
+          "idx": 12665,
+          "name": "Cicatrices",
+          "artist": "Kalimba",
+          "genre": "latin",
+          "language": "es",
+          "score": 0.9049,
+          "s_sem": 0.9232,
+          "s_mus": 0.8318,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 4,
+          "idx": 3253,
+          "name": "Me Dediqué a Perderte",
+          "artist": "Alejandro Fernandez",
+          "genre": "latin",
+          "language": "es",
+          "score": 0.9031,
+          "s_sem": 0.9077,
+          "s_mus": 0.8848,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 5,
+          "idx": 9556,
+          "name": "Just the Way You Are",
+          "artist": "Billy Joel",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.9007,
+          "s_sem": 0.8862,
+          "s_mus": 0.9584,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 6,
+          "idx": 16302,
+          "name": "The Scientist",
+          "artist": "Coldplay",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.9004,
+          "s_sem": 0.8846,
+          "s_mus": 0.9638,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 7,
+          "idx": 4811,
+          "name": "At The Same Time",
+          "artist": "Eric Roberson",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.8999,
+          "s_sem": 0.8819,
+          "s_mus": 0.9718,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 8,
+          "idx": 13442,
+          "name": "Si Te Vas",
+          "artist": "Lit Killah",
+          "genre": "rap",
+          "language": "es",
+          "score": 0.8997,
+          "s_sem": 0.9166,
+          "s_mus": 0.8318,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 9,
+          "idx": 5055,
+          "name": "Flotando",
+          "artist": "Francisca Valenzuela",
+          "genre": "latin",
+          "language": "es",
+          "score": 0.8992,
+          "s_sem": 0.9212,
+          "s_mus": 0.811,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 10,
+          "idx": 10861,
+          "name": "No Te Cuesta Nada",
+          "artist": "Javiera Mena",
+          "genre": "pop",
+          "language": "es",
+          "score": 0.898,
+          "s_sem": 0.8998,
+          "s_mus": 0.8908,
+          "same_genre": false,
+          "is_duplicate": false
+        }
+      ],
+      "lang_distribution": {
+        "es": 7,
+        "en": 3
+      },
+      "genre_distribution": {
+        "latin": 5,
+        "rock": 1,
+        "pop": 2,
+        "r&b": 1,
+        "rap": 1
+      },
+      "n_duplicates": 0
+    },
+    {
+      "spec": {
+        "name": "Lose Yourself",
+        "artist": "Eminem"
+      },
+      "found": true,
+      "query_idx": 998,
+      "query_name": "Lose Yourself - Soundtrack Version",
+      "query_artist": "Eminem",
+      "query_genre": "rap",
+      "query_language": "en",
+      "n_catalog_matches": 3,
+      "alpha": 0.8,
+      "recommendations": [
+        {
+          "rank": 1,
+          "idx": 9088,
+          "name": "Future",
+          "artist": "DJ Khaled",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9398,
+          "s_sem": 0.9413,
+          "s_mus": 0.9341,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 2,
+          "idx": 3101,
+          "name": "ICONIC (ft. Jaden Smith)",
+          "artist": "Logic",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9278,
+          "s_sem": 0.9385,
+          "s_mus": 0.8851,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 3,
+          "idx": 656,
+          "name": "APESHIT",
+          "artist": "The Carters",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.9237,
+          "s_sem": 0.9315,
+          "s_mus": 0.8927,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 4,
+          "idx": 11232,
+          "name": "MotorSport",
+          "artist": "Migos",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.9235,
+          "s_sem": 0.9368,
+          "s_mus": 0.8704,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 5,
+          "idx": 16018,
+          "name": "'Till I Collapse",
+          "artist": "Eminem",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9224,
+          "s_sem": 0.9339,
+          "s_mus": 0.8764,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 6,
+          "idx": 8250,
+          "name": "Get Back",
+          "artist": "Ludacris",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9192,
+          "s_sem": 0.9271,
+          "s_mus": 0.8875,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 7,
+          "idx": 6991,
+          "name": "Mamacita",
+          "artist": "OutKast",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9191,
+          "s_sem": 0.9345,
+          "s_mus": 0.8575,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 8,
+          "idx": 1858,
+          "name": "SICKO MODE - Skrillex Remix",
+          "artist": "Travis Scott",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9187,
+          "s_sem": 0.934,
+          "s_mus": 0.8573,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 9,
+          "idx": 8144,
+          "name": "Soul Food",
+          "artist": "Logic",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9176,
+          "s_sem": 0.9354,
+          "s_mus": 0.8466,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 10,
+          "idx": 14026,
+          "name": "Till The End",
+          "artist": "Logic",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9165,
+          "s_sem": 0.9301,
+          "s_mus": 0.8619,
+          "same_genre": true,
+          "is_duplicate": false
+        }
+      ],
+      "lang_distribution": {
+        "en": 10
+      },
+      "genre_distribution": {
+        "rap": 8,
+        "r&b": 2
+      },
+      "n_duplicates": 0
+    },
+    {
+      "spec": {
+        "name": "Shape of You",
+        "artist": "Ed Sheeran"
+      },
+      "found": true,
+      "query_idx": 748,
+      "query_name": "Shape of You",
+      "query_artist": "Ed Sheeran",
+      "query_genre": "latin",
+      "query_language": "en",
+      "n_catalog_matches": 1,
+      "alpha": 0.8,
+      "recommendations": [
+        {
+          "rank": 1,
+          "idx": 12374,
+          "name": "Shape of You - Galantis Remix",
+          "artist": "Ed Sheeran",
+          "genre": "edm",
+          "language": "en",
+          "score": 0.966,
+          "s_sem": 0.9944,
+          "s_mus": 0.8523,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 2,
+          "idx": 1850,
+          "name": "Baby I'm Yours - feat. Irfane",
+          "artist": "Breakbot",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.9148,
+          "s_sem": 0.9096,
+          "s_mus": 0.9357,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 3,
+          "idx": 3904,
+          "name": "On The Low",
+          "artist": "Burna Boy",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.909,
+          "s_sem": 0.896,
+          "s_mus": 0.9612,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 4,
+          "idx": 6327,
+          "name": "in my miNd",
+          "artist": "Maty Noyes",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.9076,
+          "s_sem": 0.8957,
+          "s_mus": 0.9552,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 5,
+          "idx": 517,
+          "name": "Because Of You",
+          "artist": "Ne-Yo",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.9063,
+          "s_sem": 0.8982,
+          "s_mus": 0.9387,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 6,
+          "idx": 7532,
+          "name": "I Feel It Coming",
+          "artist": "The Weeknd",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.9059,
+          "s_sem": 0.9128,
+          "s_mus": 0.8782,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 7,
+          "idx": 12933,
+          "name": "Can't Stop Your Lovin'",
+          "artist": "Poolside",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.9043,
+          "s_sem": 0.8953,
+          "s_mus": 0.94,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 8,
+          "idx": 15356,
+          "name": "Rock Wit U (Awww Baby)",
+          "artist": "Ashanti",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.9038,
+          "s_sem": 0.9111,
+          "s_mus": 0.8743,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 9,
+          "idx": 6404,
+          "name": "Get Buck",
+          "artist": "Young Buck",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.9037,
+          "s_sem": 0.9021,
+          "s_mus": 0.9098,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 10,
+          "idx": 8658,
+          "name": "Dark Horse",
+          "artist": "The Beef Seeds",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.9033,
+          "s_sem": 0.9145,
+          "s_mus": 0.8588,
+          "same_genre": false,
+          "is_duplicate": false
+        }
+      ],
+      "lang_distribution": {
+        "en": 10
+      },
+      "genre_distribution": {
+        "edm": 1,
+        "pop": 4,
+        "r&b": 4,
+        "rap": 1
+      },
+      "n_duplicates": 0
+    },
+    {
+      "spec": {
+        "name": "Piano Man",
+        "artist": "Billy Joel"
+      },
+      "found": true,
+      "query_idx": 4919,
+      "query_name": "Piano Man",
+      "query_artist": "Billy Joel",
+      "query_genre": "rock",
+      "query_language": "en",
+      "n_catalog_matches": 3,
+      "alpha": 0.8,
+      "recommendations": [
+        {
+          "rank": 1,
+          "idx": 17406,
+          "name": "The Art of Suicide",
+          "artist": "Emilie Autumn",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.886,
+          "s_sem": 0.8799,
+          "s_mus": 0.9102,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 2,
+          "idx": 6458,
+          "name": "Tiny Dancer",
+          "artist": "Elton John",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8855,
+          "s_sem": 0.8906,
+          "s_mus": 0.8654,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 3,
+          "idx": 12801,
+          "name": "Dream On",
+          "artist": "Aerosmith",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.88,
+          "s_sem": 0.8838,
+          "s_mus": 0.8648,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 4,
+          "idx": 4675,
+          "name": "Ghetto Man",
+          "artist": "Marvin Sease",
+          "genre": "rap",
+          "language": "en",
+          "score": 0.8796,
+          "s_sem": 0.8885,
+          "s_mus": 0.8439,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 5,
+          "idx": 6291,
+          "name": "Mr. Blue Sky",
+          "artist": "Electric Light Orchestra",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8795,
+          "s_sem": 0.873,
+          "s_mus": 0.9057,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 6,
+          "idx": 7159,
+          "name": "Suite: Judy Blue Eyes - Remastered",
+          "artist": "\"Crosby",
+          "genre": "rock",
+          "language": "pt",
+          "score": 0.8782,
+          "s_sem": 0.9014,
+          "s_mus": 0.7858,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 7,
+          "idx": 17920,
+          "name": "Hallelujah",
+          "artist": "Leonard Cohen",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8779,
+          "s_sem": 0.8723,
+          "s_mus": 0.9002,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 8,
+          "idx": 2623,
+          "name": "Ironic - Acoustic",
+          "artist": "Alanis Morissette",
+          "genre": "latin",
+          "language": "en",
+          "score": 0.8752,
+          "s_sem": 0.8937,
+          "s_mus": 0.8015,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 9,
+          "idx": 2601,
+          "name": "In The Air Tonight - 2015 Remastered",
+          "artist": "Phil Collins",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8738,
+          "s_sem": 0.8692,
+          "s_mus": 0.8922,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 10,
+          "idx": 8198,
+          "name": "My Sacrifice - Live Acoustic",
+          "artist": "Creed",
+          "genre": "latin",
+          "language": "en",
+          "score": 0.8732,
+          "s_sem": 0.8683,
+          "s_mus": 0.8927,
+          "same_genre": false,
+          "is_duplicate": false
+        }
+      ],
+      "lang_distribution": {
+        "en": 9,
+        "pt": 1
+      },
+      "genre_distribution": {
+        "pop": 1,
+        "rock": 6,
+        "rap": 1,
+        "latin": 2
+      },
+      "n_duplicates": 0
+    },
+    {
+      "spec": {
+        "name": "Welcome To The Machine",
+        "artist": "Pink Floyd"
+      },
+      "found": true,
+      "query_idx": 2273,
+      "query_name": "Welcome To The Machine - 2011 Remastered Version",
+      "query_artist": "Pink Floyd",
+      "query_genre": "rock",
+      "query_language": "en",
+      "n_catalog_matches": 1,
+      "alpha": 0.8,
+      "recommendations": [
+        {
+          "rank": 1,
+          "idx": 902,
+          "name": "Mo Better",
+          "artist": "Raheem DeVaughn",
+          "genre": "r&b",
+          "language": "en",
+          "score": 0.8702,
+          "s_sem": 0.8619,
+          "s_mus": 0.9036,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 2,
+          "idx": 7159,
+          "name": "Suite: Judy Blue Eyes - Remastered",
+          "artist": "\"Crosby",
+          "genre": "rock",
+          "language": "pt",
+          "score": 0.8643,
+          "s_sem": 0.8724,
+          "s_mus": 0.832,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 3,
+          "idx": 5009,
+          "name": "Comfortably Numb - 2011 Remastered Version",
+          "artist": "Pink Floyd",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8603,
+          "s_sem": 0.8783,
+          "s_mus": 0.7881,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 4,
+          "idx": 8684,
+          "name": "Time",
+          "artist": "Pink Floyd",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8589,
+          "s_sem": 0.8696,
+          "s_mus": 0.8158,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 5,
+          "idx": 6458,
+          "name": "Tiny Dancer",
+          "artist": "Elton John",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8586,
+          "s_sem": 0.852,
+          "s_mus": 0.8854,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 6,
+          "idx": 9982,
+          "name": "Holocene",
+          "artist": "Bon Iver",
+          "genre": "pop",
+          "language": "en",
+          "score": 0.8563,
+          "s_sem": 0.8726,
+          "s_mus": 0.7912,
+          "same_genre": false,
+          "is_duplicate": false
+        },
+        {
+          "rank": 7,
+          "idx": 12415,
+          "name": "Comfortably Numb",
+          "artist": "Pink Floyd",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8562,
+          "s_sem": 0.8733,
+          "s_mus": 0.7881,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 8,
+          "idx": 10271,
+          "name": "Father To Son - Remastered 2011",
+          "artist": "Queen",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8556,
+          "s_sem": 0.8785,
+          "s_mus": 0.7638,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 9,
+          "idx": 8357,
+          "name": "Wind Of Change",
+          "artist": "Scorpions",
+          "genre": "rock",
+          "language": "en",
+          "score": 0.8529,
+          "s_sem": 0.8715,
+          "s_mus": 0.7786,
+          "same_genre": true,
+          "is_duplicate": false
+        },
+        {
+          "rank": 10,
+          "idx": 11441,
+          "name": "Hasta Las 6",
+          "artist": "Kodigo",
+          "genre": "rap",
+          "language": "es",
+          "score": 0.8522,
+          "s_sem": 0.889,
+          "s_mus": 0.7052,
+          "same_genre": false,
+          "is_duplicate": false
+        }
+      ],
+      "lang_distribution": {
+        "en": 8,
+        "pt": 1,
+        "es": 1
+      },
+      "genre_distribution": {
+        "r&b": 1,
+        "rock": 7,
+        "pop": 1,
+        "rap": 1
+      },
+      "n_duplicates": 0
+    }
+  ],
+  "ablation": [
+    {
+      "spec": {
+        "name": "Vuelve",
+        "artist": "Ricky Martin"
+      },
+      "by_alpha": {
+        "0.00": {
+          "spec": {
+            "name": "Vuelve",
+            "artist": "Ricky Martin"
+          },
+          "found": true,
+          "query_idx": 8323,
+          "query_name": "Vuelve",
+          "query_artist": "Ricky Martin",
+          "query_genre": "latin",
+          "query_language": "es",
+          "n_catalog_matches": 1,
+          "alpha": 0.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 4811,
+              "name": "At The Same Time",
+              "artist": "Eric Roberson",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9718,
+              "s_sem": 0.8819,
+              "s_mus": 0.9718,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 16302,
+              "name": "The Scientist",
+              "artist": "Coldplay",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9638,
+              "s_sem": 0.8846,
+              "s_mus": 0.9638,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 7400,
+              "name": "Remember the Rain",
+              "artist": "Kadhja Bonet",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9634,
+              "s_sem": 0.8686,
+              "s_mus": 0.9634,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 9556,
+              "name": "Just the Way You Are",
+              "artist": "Billy Joel",
+              "genre": "rock",
+              "language": "en",
+              "score": 0.9584,
+              "s_sem": 0.8862,
+              "s_mus": 0.9584,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 13490,
+              "name": "Glory",
+              "artist": "Bastille",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9533,
+              "s_sem": 0.8419,
+              "s_mus": 0.9533,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 3541,
+              "name": "My World",
+              "artist": "OSHUN",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9504,
+              "s_sem": 0.8726,
+              "s_mus": 0.9504,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 9833,
+              "name": "Have Yourself A Merry Little Christmas",
+              "artist": "Ledisi",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9499,
+              "s_sem": 0.8551,
+              "s_mus": 0.9499,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 10563,
+              "name": "Beggar's Song",
+              "artist": "Matt Maeson",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9491,
+              "s_sem": 0.8617,
+              "s_mus": 0.9491,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 3288,
+              "name": "Shine",
+              "artist": "Collective Soul",
+              "genre": "rock",
+              "language": "en",
+              "score": 0.9439,
+              "s_sem": 0.868,
+              "s_mus": 0.9439,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 11578,
+              "name": "Wild Horses",
+              "artist": "The Rolling Stones",
+              "genre": "rock",
+              "language": "en",
+              "score": 0.94,
+              "s_sem": 0.8541,
+              "s_mus": 0.94,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 10
+          },
+          "genre_distribution": {
+            "r&b": 4,
+            "pop": 3,
+            "rock": 3
+          },
+          "n_duplicates": 0
+        },
+        "0.80": {
+          "spec": {
+            "name": "Vuelve",
+            "artist": "Ricky Martin"
+          },
+          "found": true,
+          "query_idx": 8323,
+          "query_name": "Vuelve",
+          "query_artist": "Ricky Martin",
+          "query_genre": "latin",
+          "query_language": "es",
+          "n_catalog_matches": 1,
+          "alpha": 0.8,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 11438,
+              "name": "Vuelve - MTV Unplugged Version",
+              "artist": "Ricky Martin",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9224,
+              "s_sem": 1.0,
+              "s_mus": 0.6119,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 15419,
+              "name": "No Te Olvidaré",
+              "artist": "Gloria Estefan",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9069,
+              "s_sem": 0.9094,
+              "s_mus": 0.8968,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 12665,
+              "name": "Cicatrices",
+              "artist": "Kalimba",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9049,
+              "s_sem": 0.9232,
+              "s_mus": 0.8318,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 3253,
+              "name": "Me Dediqué a Perderte",
+              "artist": "Alejandro Fernandez",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9031,
+              "s_sem": 0.9077,
+              "s_mus": 0.8848,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 9556,
+              "name": "Just the Way You Are",
+              "artist": "Billy Joel",
+              "genre": "rock",
+              "language": "en",
+              "score": 0.9007,
+              "s_sem": 0.8862,
+              "s_mus": 0.9584,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 16302,
+              "name": "The Scientist",
+              "artist": "Coldplay",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9004,
+              "s_sem": 0.8846,
+              "s_mus": 0.9638,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 4811,
+              "name": "At The Same Time",
+              "artist": "Eric Roberson",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.8999,
+              "s_sem": 0.8819,
+              "s_mus": 0.9718,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 13442,
+              "name": "Si Te Vas",
+              "artist": "Lit Killah",
+              "genre": "rap",
+              "language": "es",
+              "score": 0.8997,
+              "s_sem": 0.9166,
+              "s_mus": 0.8318,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 5055,
+              "name": "Flotando",
+              "artist": "Francisca Valenzuela",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.8992,
+              "s_sem": 0.9212,
+              "s_mus": 0.811,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 10861,
+              "name": "No Te Cuesta Nada",
+              "artist": "Javiera Mena",
+              "genre": "pop",
+              "language": "es",
+              "score": 0.898,
+              "s_sem": 0.8998,
+              "s_mus": 0.8908,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "es": 7,
+            "en": 3
+          },
+          "genre_distribution": {
+            "latin": 5,
+            "rock": 1,
+            "pop": 2,
+            "r&b": 1,
+            "rap": 1
+          },
+          "n_duplicates": 0
+        },
+        "1.00": {
+          "spec": {
+            "name": "Vuelve",
+            "artist": "Ricky Martin"
+          },
+          "found": true,
+          "query_idx": 8323,
+          "query_name": "Vuelve",
+          "query_artist": "Ricky Martin",
+          "query_genre": "latin",
+          "query_language": "es",
+          "n_catalog_matches": 1,
+          "alpha": 1.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 11438,
+              "name": "Vuelve - MTV Unplugged Version",
+              "artist": "Ricky Martin",
+              "genre": "latin",
+              "language": "es",
+              "score": 1.0,
+              "s_sem": 1.0,
+              "s_mus": 0.6119,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 9199,
+              "name": "No Te Veo - Digital Single",
+              "artist": "Casa De Leones",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9375,
+              "s_sem": 0.9375,
+              "s_mus": 0.4807,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 5070,
+              "name": "Pensando en Ti",
+              "artist": "Canserbero",
+              "genre": "rock",
+              "language": "es",
+              "score": 0.9352,
+              "s_sem": 0.9352,
+              "s_mus": 0.5817,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 15602,
+              "name": "La Forma en Que Me Miras",
+              "artist": "Super Yei",
+              "genre": "rap",
+              "language": "es",
+              "score": 0.9289,
+              "s_sem": 0.9289,
+              "s_mus": 0.5847,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 11034,
+              "name": "Se Me Acaba",
+              "artist": "Morbo",
+              "genre": "pop",
+              "language": "es",
+              "score": 0.9287,
+              "s_sem": 0.9287,
+              "s_mus": 0.7667,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 11773,
+              "name": "La Marcha De Los Tristes",
+              "artist": "Lng Sht",
+              "genre": "rap",
+              "language": "es",
+              "score": 0.9284,
+              "s_sem": 0.9284,
+              "s_mus": 0.6283,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 1096,
+              "name": "El Toque del Amor",
+              "artist": "Dragon & Caballero",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9276,
+              "s_sem": 0.9276,
+              "s_mus": 0.5834,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 13967,
+              "name": "Obsesion",
+              "artist": "Aventura",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9274,
+              "s_sem": 0.9274,
+              "s_mus": 0.6532,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 14839,
+              "name": "Me Niego (feat. Ozuna & Wisin)",
+              "artist": "Reik",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9268,
+              "s_sem": 0.9268,
+              "s_mus": 0.3774,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 3799,
+              "name": "Te Vas Arrepentir - Remix",
+              "artist": "Chris Wandell",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9267,
+              "s_sem": 0.9267,
+              "s_mus": 0.6122,
+              "same_genre": true,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "es": 10
+          },
+          "genre_distribution": {
+            "latin": 6,
+            "rock": 1,
+            "rap": 2,
+            "pop": 1
+          },
+          "n_duplicates": 0
+        }
+      }
+    },
+    {
+      "spec": {
+        "name": "Lose Yourself",
+        "artist": "Eminem"
+      },
+      "by_alpha": {
+        "0.00": {
+          "spec": {
+            "name": "Lose Yourself",
+            "artist": "Eminem"
+          },
+          "found": true,
+          "query_idx": 998,
+          "query_name": "Lose Yourself - Soundtrack Version",
+          "query_artist": "Eminem",
+          "query_genre": "rap",
+          "query_language": "en",
+          "n_catalog_matches": 3,
+          "alpha": 0.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 9088,
+              "name": "Future",
+              "artist": "DJ Khaled",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9341,
+              "s_sem": 0.9413,
+              "s_mus": 0.9341,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 13516,
+              "name": "Carol City",
+              "artist": "Rick Ross",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.899,
+              "s_sem": 0.9102,
+              "s_mus": 0.899,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 16805,
+              "name": "Mama Always Told Me",
+              "artist": "Silkk The Shocker",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.895,
+              "s_sem": 0.9208,
+              "s_mus": 0.895,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 656,
+              "name": "APESHIT",
+              "artist": "The Carters",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.8927,
+              "s_sem": 0.9315,
+              "s_mus": 0.8927,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 8250,
+              "name": "Get Back",
+              "artist": "Ludacris",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.8875,
+              "s_sem": 0.9271,
+              "s_mus": 0.8875,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 3101,
+              "name": "ICONIC (ft. Jaden Smith)",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.8851,
+              "s_sem": 0.9385,
+              "s_mus": 0.8851,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 8957,
+              "name": "\"Trapstorno (feat. Natan El Profeta",
+              "artist": " Rubinsky Rbk & Philipe)\"",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.8835,
+              "s_sem": 0.9036,
+              "s_mus": 0.8835,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 16018,
+              "name": "'Till I Collapse",
+              "artist": "Eminem",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.8764,
+              "s_sem": 0.9339,
+              "s_mus": 0.8764,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 14659,
+              "name": "I'm So Juiced Up",
+              "artist": "DJ Paul",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.8756,
+              "s_sem": 0.916,
+              "s_mus": 0.8756,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 11232,
+              "name": "MotorSport",
+              "artist": "Migos",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.8704,
+              "s_sem": 0.9368,
+              "s_mus": 0.8704,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 9,
+            "es": 1
+          },
+          "genre_distribution": {
+            "rap": 7,
+            "r&b": 2,
+            "latin": 1
+          },
+          "n_duplicates": 0
+        },
+        "0.80": {
+          "spec": {
+            "name": "Lose Yourself",
+            "artist": "Eminem"
+          },
+          "found": true,
+          "query_idx": 998,
+          "query_name": "Lose Yourself - Soundtrack Version",
+          "query_artist": "Eminem",
+          "query_genre": "rap",
+          "query_language": "en",
+          "n_catalog_matches": 3,
+          "alpha": 0.8,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 9088,
+              "name": "Future",
+              "artist": "DJ Khaled",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9398,
+              "s_sem": 0.9413,
+              "s_mus": 0.9341,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 3101,
+              "name": "ICONIC (ft. Jaden Smith)",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9278,
+              "s_sem": 0.9385,
+              "s_mus": 0.8851,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 656,
+              "name": "APESHIT",
+              "artist": "The Carters",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9237,
+              "s_sem": 0.9315,
+              "s_mus": 0.8927,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 11232,
+              "name": "MotorSport",
+              "artist": "Migos",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9235,
+              "s_sem": 0.9368,
+              "s_mus": 0.8704,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 16018,
+              "name": "'Till I Collapse",
+              "artist": "Eminem",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9224,
+              "s_sem": 0.9339,
+              "s_mus": 0.8764,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 8250,
+              "name": "Get Back",
+              "artist": "Ludacris",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9192,
+              "s_sem": 0.9271,
+              "s_mus": 0.8875,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 6991,
+              "name": "Mamacita",
+              "artist": "OutKast",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9191,
+              "s_sem": 0.9345,
+              "s_mus": 0.8575,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 1858,
+              "name": "SICKO MODE - Skrillex Remix",
+              "artist": "Travis Scott",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9187,
+              "s_sem": 0.934,
+              "s_mus": 0.8573,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 8144,
+              "name": "Soul Food",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9176,
+              "s_sem": 0.9354,
+              "s_mus": 0.8466,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 14026,
+              "name": "Till The End",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9165,
+              "s_sem": 0.9301,
+              "s_mus": 0.8619,
+              "same_genre": true,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 10
+          },
+          "genre_distribution": {
+            "rap": 8,
+            "r&b": 2
+          },
+          "n_duplicates": 0
+        },
+        "1.00": {
+          "spec": {
+            "name": "Lose Yourself",
+            "artist": "Eminem"
+          },
+          "found": true,
+          "query_idx": 998,
+          "query_name": "Lose Yourself - Soundtrack Version",
+          "query_artist": "Eminem",
+          "query_genre": "rap",
+          "query_language": "en",
+          "n_catalog_matches": 3,
+          "alpha": 1.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 15530,
+              "name": "Rap God",
+              "artist": "Eminem",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9533,
+              "s_sem": 0.9533,
+              "s_mus": 0.5478,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 3647,
+              "name": "No Favors",
+              "artist": "Big Sean",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9506,
+              "s_sem": 0.9506,
+              "s_mus": 0.4615,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 2689,
+              "name": "We All Die One Day",
+              "artist": "Obie Trice",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9497,
+              "s_sem": 0.9497,
+              "s_mus": 0.7552,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 2186,
+              "name": "Sixteen",
+              "artist": "Rick Ross",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9472,
+              "s_sem": 0.9472,
+              "s_mus": 0.5978,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 8273,
+              "name": "Detroit Vs. Everybody",
+              "artist": "Eminem",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9462,
+              "s_sem": 0.9462,
+              "s_mus": 0.7452,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 9782,
+              "name": "100 Miles and Running (ft. Wale & John Lindahl)",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9461,
+              "s_sem": 0.9461,
+              "s_mus": 0.4184,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 9318,
+              "name": "Mama/Show Love (feat. YBN Cordae)",
+              "artist": "Logic",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9459,
+              "s_sem": 0.9459,
+              "s_mus": 0.7111,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 7681,
+              "name": "6 Minutes (feat. Lil' Wayne & Fabolous)",
+              "artist": "Cassidy",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9458,
+              "s_sem": 0.9458,
+              "s_mus": 0.737,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 3637,
+              "name": "Can It Be All So Simple / Intermission",
+              "artist": "Wu-Tang Clan",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9456,
+              "s_sem": 0.9456,
+              "s_mus": 0.2041,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 6946,
+              "name": "Used To",
+              "artist": "Drake",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.945,
+              "s_sem": 0.945,
+              "s_mus": 0.486,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 10
+          },
+          "genre_distribution": {
+            "rap": 9,
+            "r&b": 1
+          },
+          "n_duplicates": 0
+        }
+      }
+    },
+    {
+      "spec": {
+        "name": "Shape of You",
+        "artist": "Ed Sheeran"
+      },
+      "by_alpha": {
+        "0.00": {
+          "spec": {
+            "name": "Shape of You",
+            "artist": "Ed Sheeran"
+          },
+          "found": true,
+          "query_idx": 748,
+          "query_name": "Shape of You",
+          "query_artist": "Ed Sheeran",
+          "query_genre": "latin",
+          "query_language": "en",
+          "n_catalog_matches": 1,
+          "alpha": 0.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 3904,
+              "name": "On The Low",
+              "artist": "Burna Boy",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9612,
+              "s_sem": 0.896,
+              "s_mus": 0.9612,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 6327,
+              "name": "in my miNd",
+              "artist": "Maty Noyes",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9552,
+              "s_sem": 0.8957,
+              "s_mus": 0.9552,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 17633,
+              "name": "Hands All Over Mine",
+              "artist": "AMARI",
+              "genre": "edm",
+              "language": "en",
+              "score": 0.9487,
+              "s_sem": 0.8846,
+              "s_mus": 0.9487,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 12933,
+              "name": "Can't Stop Your Lovin'",
+              "artist": "Poolside",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.94,
+              "s_sem": 0.8953,
+              "s_mus": 0.94,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 517,
+              "name": "Because Of You",
+              "artist": "Ne-Yo",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9387,
+              "s_sem": 0.8982,
+              "s_mus": 0.9387,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 10963,
+              "name": "El Efecto",
+              "artist": "Rauw Alejandro",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9371,
+              "s_sem": 0.8834,
+              "s_mus": 0.9371,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 280,
+              "name": "Beast Of Burden - Remastered",
+              "artist": "The Rolling Stones",
+              "genre": "rock",
+              "language": "en",
+              "score": 0.9364,
+              "s_sem": 0.8895,
+              "s_mus": 0.9364,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 1850,
+              "name": "Baby I'm Yours - feat. Irfane",
+              "artist": "Breakbot",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9357,
+              "s_sem": 0.9096,
+              "s_mus": 0.9357,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 16382,
+              "name": "Peeping Tom - Original Mix",
+              "artist": "Jamie Berry",
+              "genre": "edm",
+              "language": "en",
+              "score": 0.9354,
+              "s_sem": 0.851,
+              "s_mus": 0.9354,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 14219,
+              "name": "Amor De Una Noche (feat. Julio Voltio) - Remix Version",
+              "artist": "N'Klabe",
+              "genre": "latin",
+              "language": "es",
+              "score": 0.9304,
+              "s_sem": 0.8595,
+              "s_mus": 0.9304,
+              "same_genre": true,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 8,
+            "es": 2
+          },
+          "genre_distribution": {
+            "r&b": 2,
+            "pop": 3,
+            "edm": 2,
+            "latin": 2,
+            "rock": 1
+          },
+          "n_duplicates": 0
+        },
+        "0.80": {
+          "spec": {
+            "name": "Shape of You",
+            "artist": "Ed Sheeran"
+          },
+          "found": true,
+          "query_idx": 748,
+          "query_name": "Shape of You",
+          "query_artist": "Ed Sheeran",
+          "query_genre": "latin",
+          "query_language": "en",
+          "n_catalog_matches": 1,
+          "alpha": 0.8,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 12374,
+              "name": "Shape of You - Galantis Remix",
+              "artist": "Ed Sheeran",
+              "genre": "edm",
+              "language": "en",
+              "score": 0.966,
+              "s_sem": 0.9944,
+              "s_mus": 0.8523,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 1850,
+              "name": "Baby I'm Yours - feat. Irfane",
+              "artist": "Breakbot",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9148,
+              "s_sem": 0.9096,
+              "s_mus": 0.9357,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 3904,
+              "name": "On The Low",
+              "artist": "Burna Boy",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.909,
+              "s_sem": 0.896,
+              "s_mus": 0.9612,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 6327,
+              "name": "in my miNd",
+              "artist": "Maty Noyes",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9076,
+              "s_sem": 0.8957,
+              "s_mus": 0.9552,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 517,
+              "name": "Because Of You",
+              "artist": "Ne-Yo",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9063,
+              "s_sem": 0.8982,
+              "s_mus": 0.9387,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 7532,
+              "name": "I Feel It Coming",
+              "artist": "The Weeknd",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9059,
+              "s_sem": 0.9128,
+              "s_mus": 0.8782,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 12933,
+              "name": "Can't Stop Your Lovin'",
+              "artist": "Poolside",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9043,
+              "s_sem": 0.8953,
+              "s_mus": 0.94,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 15356,
+              "name": "Rock Wit U (Awww Baby)",
+              "artist": "Ashanti",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9038,
+              "s_sem": 0.9111,
+              "s_mus": 0.8743,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 6404,
+              "name": "Get Buck",
+              "artist": "Young Buck",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9037,
+              "s_sem": 0.9021,
+              "s_mus": 0.9098,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 8658,
+              "name": "Dark Horse",
+              "artist": "The Beef Seeds",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9033,
+              "s_sem": 0.9145,
+              "s_mus": 0.8588,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 10
+          },
+          "genre_distribution": {
+            "edm": 1,
+            "pop": 4,
+            "r&b": 4,
+            "rap": 1
+          },
+          "n_duplicates": 0
+        },
+        "1.00": {
+          "spec": {
+            "name": "Shape of You",
+            "artist": "Ed Sheeran"
+          },
+          "found": true,
+          "query_idx": 748,
+          "query_name": "Shape of You",
+          "query_artist": "Ed Sheeran",
+          "query_genre": "latin",
+          "query_language": "en",
+          "n_catalog_matches": 1,
+          "alpha": 1.0,
+          "recommendations": [
+            {
+              "rank": 1,
+              "idx": 12374,
+              "name": "Shape of You - Galantis Remix",
+              "artist": "Ed Sheeran",
+              "genre": "edm",
+              "language": "en",
+              "score": 0.9944,
+              "s_sem": 0.9944,
+              "s_mus": 0.8523,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 2,
+              "idx": 13701,
+              "name": "Shape of You",
+              "artist": "EZA",
+              "genre": "pop",
+              "language": "en",
+              "score": 0.9897,
+              "s_sem": 0.9897,
+              "s_mus": 0.5129,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 3,
+              "idx": 6,
+              "name": "Satisfy You",
+              "artist": "Diddy",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9338,
+              "s_sem": 0.9338,
+              "s_mus": 0.6419,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 4,
+              "idx": 14170,
+              "name": "With Me",
+              "artist": "dvsn",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9315,
+              "s_sem": 0.9315,
+              "s_mus": 0.4301,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 5,
+              "idx": 2591,
+              "name": "Young Girl / I Really Like You",
+              "artist": "Pharrell Williams",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9286,
+              "s_sem": 0.9286,
+              "s_mus": 0.441,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 6,
+              "idx": 5739,
+              "name": "Mirrors",
+              "artist": "Justin Timberlake",
+              "genre": "latin",
+              "language": "en",
+              "score": 0.9276,
+              "s_sem": 0.9276,
+              "s_mus": 0.4488,
+              "same_genre": true,
+              "is_duplicate": false
+            },
+            {
+              "rank": 7,
+              "idx": 15359,
+              "name": "My Body",
+              "artist": "LSG",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.927,
+              "s_sem": 0.927,
+              "s_mus": 0.6703,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 8,
+              "idx": 15625,
+              "name": "Bed",
+              "artist": "J. Holiday",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9268,
+              "s_sem": 0.9268,
+              "s_mus": 0.7209,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 9,
+              "idx": 4962,
+              "name": "Toss It Up",
+              "artist": "2Pac",
+              "genre": "rap",
+              "language": "en",
+              "score": 0.9267,
+              "s_sem": 0.9267,
+              "s_mus": 0.5002,
+              "same_genre": false,
+              "is_duplicate": false
+            },
+            {
+              "rank": 10,
+              "idx": 602,
+              "name": "The Party & The After Party",
+              "artist": "The Weeknd",
+              "genre": "r&b",
+              "language": "en",
+              "score": 0.9261,
+              "s_sem": 0.9261,
+              "s_mus": 0.2826,
+              "same_genre": false,
+              "is_duplicate": false
+            }
+          ],
+          "lang_distribution": {
+            "en": 10
+          },
+          "genre_distribution": {
+            "edm": 1,
+            "pop": 1,
+            "r&b": 6,
+            "latin": 1,
+            "rap": 1
+          },
+          "n_duplicates": 0
+        }
+      }
+    }
+  ],
+  "thematic": {
+    "adiccion": [
+      {
+        "spec": {
+          "name": "When I'm Gone",
+          "artist": "Eminem"
+        },
+        "found": false
+      },
+      {
+        "spec": {
+          "name": "Rehab",
+          "artist": "Amy Winehouse"
+        },
+        "found": true,
+        "query_idx": 3543,
+        "query_name": "Rehab",
+        "query_artist": "Amy Winehouse",
+        "query_genre": "r&b",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 8888,
+            "name": "When I'm Gone",
+            "artist": "Dirty Honey",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9126,
+            "s_sem": 0.9165,
+            "s_mus": 0.8966,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 5496,
+            "name": "Country Song",
+            "artist": "Seether",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.907,
+            "s_sem": 0.912,
+            "s_mus": 0.8869,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 16843,
+            "name": "Looking Up",
+            "artist": "SafetySuit",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9065,
+            "s_sem": 0.9152,
+            "s_mus": 0.8719,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 6544,
+            "name": "Kiss And Tell",
+            "artist": "You Me At Six",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9035,
+            "s_sem": 0.8847,
+            "s_mus": 0.9784,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 2939,
+            "name": "See Through",
+            "artist": "The Band CAMINO",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9011,
+            "s_sem": 0.9175,
+            "s_mus": 0.8355,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 1734,
+            "name": "Don't Change Me",
+            "artist": "Kid Runner",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9011,
+            "s_sem": 0.9017,
+            "s_mus": 0.8986,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 3095,
+            "name": "Self Esteem",
+            "artist": "The Offspring",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9006,
+            "s_sem": 0.9011,
+            "s_mus": 0.8986,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 7882,
+            "name": "Scars",
+            "artist": "Papa Roach",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9,
+            "s_sem": 0.9001,
+            "s_mus": 0.8994,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 13609,
+            "name": "Honestly",
+            "artist": "Hot Chelle Rae",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8992,
+            "s_sem": 0.9108,
+            "s_mus": 0.8529,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 12637,
+            "name": "I'm Good",
+            "artist": "The Mowgli's",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8989,
+            "s_sem": 0.9043,
+            "s_mus": 0.877,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "rock": 4,
+          "pop": 6
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Otherside",
+          "artist": "Macklemore"
+        },
+        "found": false
+      },
+      {
+        "spec": {
+          "name": "Under the Bridge",
+          "artist": "Red Hot Chili Peppers"
+        },
+        "found": true,
+        "query_idx": 7512,
+        "query_name": "Under the Bridge",
+        "query_artist": "Red Hot Chili Peppers",
+        "query_genre": "rock",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 17710,
+            "name": "MILK",
+            "artist": "BROCKHAMPTON",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9024,
+            "s_sem": 0.9092,
+            "s_mus": 0.8753,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 12428,
+            "name": "On My Own",
+            "artist": "Patti LaBelle",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9023,
+            "s_sem": 0.8995,
+            "s_mus": 0.9136,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 12830,
+            "name": "Don't Wanna Lose You",
+            "artist": "Gloria Estefan",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.8966,
+            "s_sem": 0.889,
+            "s_mus": 0.9271,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 5974,
+            "name": "High And Dry",
+            "artist": "Radiohead",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8964,
+            "s_sem": 0.8797,
+            "s_mus": 0.9634,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 3421,
+            "name": "I Want to Know What Love Is - 1999 Remaster",
+            "artist": "Foreigner",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8948,
+            "s_sem": 0.8962,
+            "s_mus": 0.889,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 12572,
+            "name": "SWIM",
+            "artist": "BROCKHAMPTON",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8943,
+            "s_sem": 0.8915,
+            "s_mus": 0.9054,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 15541,
+            "name": "Rescue Me",
+            "artist": "Al B. Sure!",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.894,
+            "s_sem": 0.8952,
+            "s_mus": 0.8891,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 12213,
+            "name": "Feelin' Alright?",
+            "artist": "Traffic",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8933,
+            "s_sem": 0.8995,
+            "s_mus": 0.8686,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 6602,
+            "name": "To Be with You - 2010 Remastered Version",
+            "artist": "Mr. Big",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8926,
+            "s_sem": 0.8898,
+            "s_mus": 0.9037,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 17507,
+            "name": "All That I Am",
+            "artist": "Joe",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8923,
+            "s_sem": 0.8862,
+            "s_mus": 0.9167,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "r&b": 5,
+          "latin": 1,
+          "pop": 2,
+          "rock": 2
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Sober",
+          "artist": "P!nk"
+        },
+        "found": false
+      }
+    ],
+    "duelo_muerte": [
+      {
+        "spec": {
+          "name": "Tears in Heaven",
+          "artist": "Eric Clapton"
+        },
+        "found": false
+      },
+      {
+        "spec": {
+          "name": "See You Again",
+          "artist": "Wiz Khalifa"
+        },
+        "found": true,
+        "query_idx": 5740,
+        "query_name": "See You Again (feat. Charlie Puth)",
+        "query_artist": "Wiz Khalifa",
+        "query_genre": "pop",
+        "query_language": "en",
+        "n_catalog_matches": 2,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 7242,
+            "name": "Ladders",
+            "artist": "Mac Miller",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9076,
+            "s_sem": 0.9122,
+            "s_mus": 0.8891,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 13308,
+            "name": "Bad Idea (feat. Chance the Rapper)",
+            "artist": "YBN Cordae",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9061,
+            "s_sem": 0.9119,
+            "s_mus": 0.883,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 10042,
+            "name": "Thru These Tears",
+            "artist": "LANY",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9058,
+            "s_sem": 0.9052,
+            "s_mus": 0.9085,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 9242,
+            "name": "Precious",
+            "artist": "Kevin Garrett",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9035,
+            "s_sem": 0.9054,
+            "s_mus": 0.8958,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 8859,
+            "name": "Miss Her",
+            "artist": "Proleter",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9017,
+            "s_sem": 0.9032,
+            "s_mus": 0.8957,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 1587,
+            "name": "TheArtOfCremation",
+            "artist": "BONES",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9013,
+            "s_sem": 0.8996,
+            "s_mus": 0.908,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 8919,
+            "name": "Awake",
+            "artist": "ayokay",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9009,
+            "s_sem": 0.9053,
+            "s_mus": 0.8831,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 8066,
+            "name": "Think About You",
+            "artist": "Kygo",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9007,
+            "s_sem": 0.8992,
+            "s_mus": 0.9068,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 3728,
+            "name": "Twenty One",
+            "artist": "Khalid",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9006,
+            "s_sem": 0.8967,
+            "s_mus": 0.9162,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 11250,
+            "name": "\"fuck",
+            "artist": " i'm lonely (with Anne-Marie) - from “13 Reasons Why: Season 3”\"",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8997,
+            "s_sem": 0.9022,
+            "s_mus": 0.8895,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "r&b": 3,
+          "rap": 2,
+          "pop": 4,
+          "edm": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Hurt",
+          "artist": "Johnny Cash"
+        },
+        "found": false
+      },
+      {
+        "spec": {
+          "name": "Fire and Rain",
+          "artist": "James Taylor"
+        },
+        "found": false
+      }
+    ],
+    "protesta_politica": [
+      {
+        "spec": {
+          "name": "American Idiot",
+          "artist": "Green Day"
+        },
+        "found": true,
+        "query_idx": 15208,
+        "query_name": "American Idiot",
+        "query_artist": "Green Day",
+        "query_genre": "pop",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 4523,
+            "name": "Play My Music",
+            "artist": "Jonas Brothers",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9087,
+            "s_sem": 0.8996,
+            "s_mus": 0.9454,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 2821,
+            "name": "Who Will I Be",
+            "artist": "Demi Lovato",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9036,
+            "s_sem": 0.8966,
+            "s_mus": 0.9318,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 14427,
+            "name": "House On Fire",
+            "artist": "Rise Against",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9033,
+            "s_sem": 0.8971,
+            "s_mus": 0.9283,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 15570,
+            "name": "My Happy Ending",
+            "artist": "Avril Lavigne",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9032,
+            "s_sem": 0.8919,
+            "s_mus": 0.9482,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 16437,
+            "name": "Meant to Live",
+            "artist": "Switchfoot",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9006,
+            "s_sem": 0.8986,
+            "s_mus": 0.9087,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 6271,
+            "name": "Autumn",
+            "artist": "Sparks The Rescue",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8988,
+            "s_sem": 0.8941,
+            "s_mus": 0.9175,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 6369,
+            "name": "Weightless",
+            "artist": "All Time Low",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.898,
+            "s_sem": 0.9009,
+            "s_mus": 0.8864,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 16566,
+            "name": "Tounge Tied",
+            "artist": "Faber Drive",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8968,
+            "s_sem": 0.8942,
+            "s_mus": 0.9075,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 15429,
+            "name": "Five Minutes to Midnight",
+            "artist": "Boys Like Girls",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.896,
+            "s_sem": 0.8891,
+            "s_mus": 0.9237,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 15566,
+            "name": "Misery Business",
+            "artist": "Paramore",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8958,
+            "s_sem": 0.8947,
+            "s_mus": 0.9002,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "pop": 6,
+          "rock": 4
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Killing In The Name",
+          "artist": "Rage Against"
+        },
+        "found": true,
+        "query_idx": 7707,
+        "query_name": "Killing In the Name",
+        "query_artist": "Rage Against The Machine",
+        "query_genre": "rock",
+        "query_language": "en",
+        "n_catalog_matches": 2,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 16131,
+            "name": "Deliverance",
+            "artist": "Bubba Sparxxx",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9075,
+            "s_sem": 0.8906,
+            "s_mus": 0.9753,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 10137,
+            "name": "Ether",
+            "artist": "Nas",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9066,
+            "s_sem": 0.9067,
+            "s_mus": 0.9063,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 6047,
+            "name": "\"Bout It",
+            "artist": " Bout It II\"",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9044,
+            "s_sem": 0.8934,
+            "s_mus": 0.9482,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 3122,
+            "name": "Slow Down",
+            "artist": "Cam Meekins",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9044,
+            "s_sem": 0.9142,
+            "s_mus": 0.865,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 14231,
+            "name": "Over",
+            "artist": "Drake",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9043,
+            "s_sem": 0.9075,
+            "s_mus": 0.8916,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 17542,
+            "name": "Doggy Dogg World (feat. The Dramatics & Tha Dogg Pound)",
+            "artist": "Snoop Dogg",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9036,
+            "s_sem": 0.8967,
+            "s_mus": 0.9311,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 15945,
+            "name": "Lodi Dodi (feat. Nancy Fletcher)",
+            "artist": "Snoop Dogg",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9009,
+            "s_sem": 0.899,
+            "s_mus": 0.9085,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 10855,
+            "name": "Ban Drill",
+            "artist": "Krept & Konan",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9002,
+            "s_sem": 0.9149,
+            "s_mus": 0.8414,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 10506,
+            "name": "Through The Wire",
+            "artist": "Kanye West",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9001,
+            "s_sem": 0.8971,
+            "s_mus": 0.912,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 2428,
+            "name": "You Ain't a Killer",
+            "artist": "Big Pun",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.8972,
+            "s_sem": 0.9104,
+            "s_mus": 0.8445,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "rap": 9,
+          "r&b": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Fortunate Son",
+          "artist": "Creedence"
+        },
+        "found": true,
+        "query_idx": 244,
+        "query_name": "Fortunate Son",
+        "query_artist": "Creedence Clearwater Revival",
+        "query_genre": "rock",
+        "query_language": "en",
+        "n_catalog_matches": 6,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 12128,
+            "name": "Fortunate Son",
+            "artist": "The Dead Daisies",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9495,
+            "s_sem": 0.9898,
+            "s_mus": 0.7885,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 11741,
+            "name": "CASH COW",
+            "artist": "NGHTMRE",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.8786,
+            "s_sem": 0.8818,
+            "s_mus": 0.8658,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 10236,
+            "name": "Whatever It Takes",
+            "artist": "Imagine Dragons",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8747,
+            "s_sem": 0.8729,
+            "s_mus": 0.8819,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 15614,
+            "name": "\"You're Gonna Go Far",
+            "artist": " Kid\"",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.873,
+            "s_sem": 0.8684,
+            "s_mus": 0.8914,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 17892,
+            "name": "Bad At Love",
+            "artist": "Halsey",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8726,
+            "s_sem": 0.8663,
+            "s_mus": 0.8976,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 7924,
+            "name": "Warpaint",
+            "artist": "88rising",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8719,
+            "s_sem": 0.8707,
+            "s_mus": 0.8768,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 12730,
+            "name": "Shook Ones - Freestyle",
+            "artist": "Mobb Deep",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.8717,
+            "s_sem": 0.8895,
+            "s_mus": 0.8006,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 9917,
+            "name": "W18",
+            "artist": "Cassius",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.8703,
+            "s_sem": 0.8823,
+            "s_mus": 0.8224,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 16987,
+            "name": "Drive",
+            "artist": "Glades",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8698,
+            "s_sem": 0.8655,
+            "s_mus": 0.8872,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 7819,
+            "name": "Live for the Drop",
+            "artist": "Capital Kings",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.8696,
+            "s_sem": 0.8698,
+            "s_mus": 0.8689,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "rock": 1,
+          "rap": 2,
+          "pop": 4,
+          "r&b": 1,
+          "edm": 2
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Zombie",
+          "artist": "Cranberries"
+        },
+        "found": true,
+        "query_idx": 5669,
+        "query_name": "Zombie",
+        "query_artist": "The Cranberries",
+        "query_genre": "rock",
+        "query_language": "en",
+        "n_catalog_matches": 2,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 13952,
+            "name": "21 Guns",
+            "artist": "Green Day",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8993,
+            "s_sem": 0.914,
+            "s_mus": 0.8406,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 5242,
+            "name": "This Is War",
+            "artist": "Thirty Seconds To Mars",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8977,
+            "s_sem": 0.8935,
+            "s_mus": 0.9144,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 10363,
+            "name": "Real Love - Anthology 2 Version",
+            "artist": "The Beatles",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8963,
+            "s_sem": 0.8922,
+            "s_mus": 0.9123,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 17741,
+            "name": "Radioactive - Live London Sessions / 2013",
+            "artist": "Imagine Dragons",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.8945,
+            "s_sem": 0.8942,
+            "s_mus": 0.8958,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 10692,
+            "name": "Mind",
+            "artist": "Declan McKenna",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8876,
+            "s_sem": 0.8922,
+            "s_mus": 0.8692,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 9718,
+            "name": "Don't Damn Me",
+            "artist": "Guns N' Roses",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8872,
+            "s_sem": 0.8964,
+            "s_mus": 0.8503,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 16974,
+            "name": "Blue on Black",
+            "artist": "Kenny Wayne Shepherd",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.886,
+            "s_sem": 0.8791,
+            "s_mus": 0.9138,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 5007,
+            "name": "Carrie",
+            "artist": "Europe",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.885,
+            "s_sem": 0.8794,
+            "s_mus": 0.9075,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 9434,
+            "name": "Wanted Dead Or Alive",
+            "artist": "Bon Jovi",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8847,
+            "s_sem": 0.8658,
+            "s_mus": 0.9603,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 10274,
+            "name": "Knockin' On Heaven's Door",
+            "artist": "Guns N' Roses",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.884,
+            "s_sem": 0.894,
+            "s_mus": 0.8439,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "pop": 2,
+          "rock": 6,
+          "latin": 1,
+          "rap": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Sunday Bloody Sunday",
+          "artist": "U2"
+        },
+        "found": true,
+        "query_idx": 13335,
+        "query_name": "Sunday Bloody Sunday",
+        "query_artist": "U2",
+        "query_genre": "rock",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 14286,
+            "name": "Sunday Bloody Sunday - Remastered 2008",
+            "artist": "U2",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9981,
+            "s_sem": 1.0,
+            "s_mus": 0.9903,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 3227,
+            "name": "Miracle",
+            "artist": "Caravan Palace",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.8957,
+            "s_sem": 0.8985,
+            "s_mus": 0.8849,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 10436,
+            "name": "Don't Want You Back",
+            "artist": "Bakermat",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.8954,
+            "s_sem": 0.9013,
+            "s_mus": 0.8717,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 12728,
+            "name": "\"Head Over Heels - Dave Bascombe 7\"\" N.Mix\"",
+            "artist": "Tears For Fears",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8953,
+            "s_sem": 0.8904,
+            "s_mus": 0.9146,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 6938,
+            "name": "Shot in the Dark",
+            "artist": "Ozzy Osbourne",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8949,
+            "s_sem": 0.9022,
+            "s_mus": 0.8656,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 16512,
+            "name": "Real Life - Ossian Remix",
+            "artist": "Mako",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.8943,
+            "s_sem": 0.8987,
+            "s_mus": 0.8767,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 11050,
+            "name": "Walkin' On The Sun",
+            "artist": "Smash Mouth",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8942,
+            "s_sem": 0.8955,
+            "s_mus": 0.8888,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 15434,
+            "name": "My Fantasy",
+            "artist": "Teddy Riley",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8932,
+            "s_sem": 0.8856,
+            "s_mus": 0.9235,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 2163,
+            "name": "State Of The World",
+            "artist": "Janet Jackson",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8921,
+            "s_sem": 0.8863,
+            "s_mus": 0.9152,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 7080,
+            "name": "The Killing Moon",
+            "artist": "Echo & the Bunnymen",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.8916,
+            "s_sem": 0.8885,
+            "s_mus": 0.904,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "rock": 5,
+          "edm": 2,
+          "pop": 1,
+          "r&b": 2
+        },
+        "n_duplicates": 0
+      }
+    ],
+    "celebracion_fiesta": [
+      {
+        "spec": {
+          "name": "I Gotta Feeling",
+          "artist": "Black Eyed Peas"
+        },
+        "found": true,
+        "query_idx": 11192,
+        "query_name": "I Gotta Feeling",
+        "query_artist": "The Black Eyed Peas",
+        "query_genre": "latin",
+        "query_language": "en",
+        "n_catalog_matches": 2,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 1304,
+            "name": "I Gotta Feeling - Edit",
+            "artist": "The Black Eyed Peas",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.9674,
+            "s_sem": 1.0,
+            "s_mus": 0.8372,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 5119,
+            "name": "Time of Our Lives",
+            "artist": "Pitbull",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9289,
+            "s_sem": 0.9304,
+            "s_mus": 0.9231,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 9347,
+            "name": "This Is How We Do It",
+            "artist": "Montell Jordan",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9215,
+            "s_sem": 0.9211,
+            "s_mus": 0.9232,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 12260,
+            "name": "\"Stay Fly (feat. Young Buck",
+            "artist": " Eightball & MJG) - Explicit Album Version\"",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9121,
+            "s_sem": 0.9072,
+            "s_mus": 0.9316,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 6362,
+            "name": "Venom - Music From The Motion Picture",
+            "artist": "Eminem",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9118,
+            "s_sem": 0.8961,
+            "s_mus": 0.9749,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 9917,
+            "name": "W18",
+            "artist": "Cassius",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9115,
+            "s_sem": 0.9109,
+            "s_mus": 0.9137,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 9781,
+            "name": "Feels Good",
+            "artist": "Tony! Toni! Toné!",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9113,
+            "s_sem": 0.9343,
+            "s_mus": 0.8191,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 14334,
+            "name": "Once In a While",
+            "artist": "Timeflies",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9106,
+            "s_sem": 0.919,
+            "s_mus": 0.877,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 11628,
+            "name": "I Miss My Homies",
+            "artist": "Master P",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9098,
+            "s_sem": 0.9109,
+            "s_mus": 0.9055,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 1735,
+            "name": "Dancing On The Ceiling",
+            "artist": "Lionel Richie",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9071,
+            "s_sem": 0.8933,
+            "s_mus": 0.962,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "latin": 1,
+          "pop": 2,
+          "r&b": 2,
+          "rap": 2,
+          "rock": 2,
+          "edm": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Party Rock Anthem",
+          "artist": "LMFAO"
+        },
+        "found": true,
+        "query_idx": 968,
+        "query_name": "Party Rock Anthem",
+        "query_artist": "LMFAO",
+        "query_genre": "pop",
+        "query_language": "en",
+        "n_catalog_matches": 3,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 2781,
+            "name": "OMG (feat. will.i.am)",
+            "artist": "Usher",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9236,
+            "s_sem": 0.9211,
+            "s_mus": 0.9332,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 674,
+            "name": "Lemme Freak",
+            "artist": "Lil Dicky",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9224,
+            "s_sem": 0.9107,
+            "s_mus": 0.9691,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 5167,
+            "name": "Hanh!",
+            "artist": "Ying Yang Twins",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9209,
+            "s_sem": 0.9245,
+            "s_mus": 0.9065,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 8675,
+            "name": "I Wanna Rock",
+            "artist": "Luke",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9197,
+            "s_sem": 0.9351,
+            "s_mus": 0.8582,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 6217,
+            "name": "Go Hard or Go Home",
+            "artist": "Wiz Khalifa",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9146,
+            "s_sem": 0.916,
+            "s_mus": 0.9089,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 4602,
+            "name": "Toss It Up",
+            "artist": "2Pac",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9139,
+            "s_sem": 0.9273,
+            "s_mus": 0.8602,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 5502,
+            "name": "Hold Your Hand",
+            "artist": "NAV",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9134,
+            "s_sem": 0.9072,
+            "s_mus": 0.9385,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 9880,
+            "name": "Rump Shaker",
+            "artist": "Wreckx-N-Effect",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9129,
+            "s_sem": 0.9155,
+            "s_mus": 0.9023,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 3354,
+            "name": "Wiley Flow",
+            "artist": "Stormzy",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9124,
+            "s_sem": 0.9185,
+            "s_mus": 0.8881,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 3757,
+            "name": "24K Magic - R3hab Remix",
+            "artist": "Bruno Mars",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9118,
+            "s_sem": 0.9213,
+            "s_mus": 0.8736,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "edm": 2,
+          "rap": 4,
+          "r&b": 4
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Uptown Funk",
+          "artist": "Mark Ronson"
+        },
+        "found": true,
+        "query_idx": 6989,
+        "query_name": "Uptown Funk",
+        "query_artist": "Mark Ronson",
+        "query_genre": "pop",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 13977,
+            "name": "Uptown Funk - Radio Edit",
+            "artist": "Mark Ronson",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.9952,
+            "s_sem": 0.9993,
+            "s_mus": 0.9785,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 2472,
+            "name": "Wood Wheel",
+            "artist": "UGK",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9225,
+            "s_sem": 0.9226,
+            "s_mus": 0.9221,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 14276,
+            "name": "Top of the World (feat. Mase)",
+            "artist": "Brandy",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9207,
+            "s_sem": 0.9111,
+            "s_mus": 0.9591,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 17340,
+            "name": "\"Money",
+            "artist": " Hoes & Power (feat. Jermaine Dupri)\"",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.919,
+            "s_sem": 0.9232,
+            "s_mus": 0.9023,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 9839,
+            "name": "10 Bands",
+            "artist": "Joyner Lucas",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9188,
+            "s_sem": 0.9212,
+            "s_mus": 0.9091,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 1298,
+            "name": "Good Stuff",
+            "artist": "Kelis",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9158,
+            "s_sem": 0.9137,
+            "s_mus": 0.9241,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 17258,
+            "name": "Loyal",
+            "artist": "Chris Brown",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9152,
+            "s_sem": 0.9115,
+            "s_mus": 0.9303,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 1964,
+            "name": "Bitch Please II",
+            "artist": "Eminem",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9152,
+            "s_sem": 0.9197,
+            "s_mus": 0.8971,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 7934,
+            "name": "\"This Is for the Lover In You (feat. LL Cool J",
+            "artist": " Howard Hewett",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9152,
+            "s_sem": 0.9117,
+            "s_mus": 0.9292,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 15880,
+            "name": "Shout Out to My Ex",
+            "artist": "Little Mix",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9144,
+            "s_sem": 0.9086,
+            "s_mus": 0.9376,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "latin": 1,
+          "rap": 5,
+          "r&b": 3,
+          "pop": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Celebration",
+          "artist": "Kool"
+        },
+        "found": false
+      }
+    ]
+  },
+  "cross_language": {
+    "en_desamor": [
+      {
+        "spec": {
+          "name": "Someone Like You",
+          "artist": "Adele"
+        },
+        "found": true,
+        "query_idx": 15415,
+        "query_name": "Someone Like You",
+        "query_artist": "Adele",
+        "query_genre": "pop",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 3872,
+            "name": "Don't Miss It",
+            "artist": "James Blake",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9207,
+            "s_sem": 0.9204,
+            "s_mus": 0.9216,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 2661,
+            "name": "Nikes",
+            "artist": "Frank Ocean",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9194,
+            "s_sem": 0.9147,
+            "s_mus": 0.9383,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 9556,
+            "name": "Just the Way You Are",
+            "artist": "Billy Joel",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9184,
+            "s_sem": 0.9212,
+            "s_mus": 0.9071,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 13472,
+            "name": "Years",
+            "artist": "Astrid S",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.918,
+            "s_sem": 0.9166,
+            "s_mus": 0.9236,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 10991,
+            "name": "In Case You Don't Live Forever",
+            "artist": "Ben Platt",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9178,
+            "s_sem": 0.9056,
+            "s_mus": 0.9668,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 17569,
+            "name": "Think I'm In Love Again",
+            "artist": "Paul Anka",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.9137,
+            "s_sem": 0.9201,
+            "s_mus": 0.8881,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 1526,
+            "name": "Suburbia",
+            "artist": "Muskoka",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9127,
+            "s_sem": 0.8999,
+            "s_mus": 0.964,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 6598,
+            "name": "Crossfire / So Into You",
+            "artist": "Nai Palm",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9109,
+            "s_sem": 0.9116,
+            "s_mus": 0.908,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 12421,
+            "name": "Long Gone",
+            "artist": "Akon",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.9108,
+            "s_sem": 0.9097,
+            "s_mus": 0.9151,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 8416,
+            "name": "My Immortal - Band Version",
+            "artist": "Evanescence",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9106,
+            "s_sem": 0.9054,
+            "s_mus": 0.9311,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "r&b": 5,
+          "rock": 1,
+          "pop": 2,
+          "latin": 2
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Nothing Compares",
+          "artist": "Sinead"
+        },
+        "found": false
+      }
+    ],
+    "en_fiesta": [
+      {
+        "spec": {
+          "name": "I Gotta Feeling",
+          "artist": "Black Eyed Peas"
+        },
+        "found": true,
+        "query_idx": 11192,
+        "query_name": "I Gotta Feeling",
+        "query_artist": "The Black Eyed Peas",
+        "query_genre": "latin",
+        "query_language": "en",
+        "n_catalog_matches": 2,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 1304,
+            "name": "I Gotta Feeling - Edit",
+            "artist": "The Black Eyed Peas",
+            "genre": "latin",
+            "language": "en",
+            "score": 0.9674,
+            "s_sem": 1.0,
+            "s_mus": 0.8372,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 5119,
+            "name": "Time of Our Lives",
+            "artist": "Pitbull",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9289,
+            "s_sem": 0.9304,
+            "s_mus": 0.9231,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 9347,
+            "name": "This Is How We Do It",
+            "artist": "Montell Jordan",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9215,
+            "s_sem": 0.9211,
+            "s_mus": 0.9232,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 12260,
+            "name": "\"Stay Fly (feat. Young Buck",
+            "artist": " Eightball & MJG) - Explicit Album Version\"",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9121,
+            "s_sem": 0.9072,
+            "s_mus": 0.9316,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 6362,
+            "name": "Venom - Music From The Motion Picture",
+            "artist": "Eminem",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9118,
+            "s_sem": 0.8961,
+            "s_mus": 0.9749,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 9917,
+            "name": "W18",
+            "artist": "Cassius",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9115,
+            "s_sem": 0.9109,
+            "s_mus": 0.9137,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 9781,
+            "name": "Feels Good",
+            "artist": "Tony! Toni! Toné!",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9113,
+            "s_sem": 0.9343,
+            "s_mus": 0.8191,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 14334,
+            "name": "Once In a While",
+            "artist": "Timeflies",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9106,
+            "s_sem": 0.919,
+            "s_mus": 0.877,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 11628,
+            "name": "I Miss My Homies",
+            "artist": "Master P",
+            "genre": "rap",
+            "language": "en",
+            "score": 0.9098,
+            "s_sem": 0.9109,
+            "s_mus": 0.9055,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 1735,
+            "name": "Dancing On The Ceiling",
+            "artist": "Lionel Richie",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9071,
+            "s_sem": 0.8933,
+            "s_mus": 0.962,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "latin": 1,
+          "pop": 2,
+          "r&b": 2,
+          "rap": 2,
+          "rock": 2,
+          "edm": 1
+        },
+        "n_duplicates": 0
+      }
+    ],
+    "en_amor": [
+      {
+        "spec": {
+          "name": "Perfect",
+          "artist": "Ed Sheeran"
+        },
+        "found": true,
+        "query_idx": 1812,
+        "query_name": "Perfect",
+        "query_artist": "Ed Sheeran",
+        "query_genre": "latin",
+        "query_language": "en",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 2770,
+            "name": "Perfect Duet (Ed Sheeran & Beyoncé)",
+            "artist": "Ed Sheeran",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.959,
+            "s_sem": 0.9967,
+            "s_mus": 0.8084,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 11904,
+            "name": "Perfect - Mike Perry Remix",
+            "artist": "Ed Sheeran",
+            "genre": "edm",
+            "language": "en",
+            "score": 0.9449,
+            "s_sem": 1.0,
+            "s_mus": 0.7246,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 8208,
+            "name": "Loving Me 4 Me",
+            "artist": "Christina Aguilera",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9108,
+            "s_sem": 0.8923,
+            "s_mus": 0.9845,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 9242,
+            "name": "Precious",
+            "artist": "Kevin Garrett",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9051,
+            "s_sem": 0.8958,
+            "s_mus": 0.9423,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 7288,
+            "name": "4 Seasons",
+            "artist": "Rex Orange County",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9034,
+            "s_sem": 0.8946,
+            "s_mus": 0.9387,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 7242,
+            "name": "Ladders",
+            "artist": "Mac Miller",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9011,
+            "s_sem": 0.9018,
+            "s_mus": 0.8982,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 6412,
+            "name": "When I Need You - Remastered",
+            "artist": "Leo Sayer",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9011,
+            "s_sem": 0.8883,
+            "s_mus": 0.9519,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 13985,
+            "name": "Somebody to Love",
+            "artist": "Branches",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9006,
+            "s_sem": 0.8937,
+            "s_mus": 0.928,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 6626,
+            "name": "Dear Mama",
+            "artist": "2Pac",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.9005,
+            "s_sem": 0.9069,
+            "s_mus": 0.8751,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 5158,
+            "name": "Broken Arrows",
+            "artist": "Avicii",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9003,
+            "s_sem": 0.8954,
+            "s_mus": 0.9198,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "en": 10
+        },
+        "genre_distribution": {
+          "r&b": 6,
+          "edm": 1,
+          "pop": 2,
+          "rock": 1
+        },
+        "n_duplicates": 0
+      }
+    ],
+    "es_query": [
+      {
+        "spec": {
+          "name": "Vuelve",
+          "artist": "Ricky Martin"
+        },
+        "found": true,
+        "query_idx": 8323,
+        "query_name": "Vuelve",
+        "query_artist": "Ricky Martin",
+        "query_genre": "latin",
+        "query_language": "es",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 11438,
+            "name": "Vuelve - MTV Unplugged Version",
+            "artist": "Ricky Martin",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9224,
+            "s_sem": 1.0,
+            "s_mus": 0.6119,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 15419,
+            "name": "No Te Olvidaré",
+            "artist": "Gloria Estefan",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9069,
+            "s_sem": 0.9094,
+            "s_mus": 0.8968,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 12665,
+            "name": "Cicatrices",
+            "artist": "Kalimba",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9049,
+            "s_sem": 0.9232,
+            "s_mus": 0.8318,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 3253,
+            "name": "Me Dediqué a Perderte",
+            "artist": "Alejandro Fernandez",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9031,
+            "s_sem": 0.9077,
+            "s_mus": 0.8848,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 9556,
+            "name": "Just the Way You Are",
+            "artist": "Billy Joel",
+            "genre": "rock",
+            "language": "en",
+            "score": 0.9007,
+            "s_sem": 0.8862,
+            "s_mus": 0.9584,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 16302,
+            "name": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "pop",
+            "language": "en",
+            "score": 0.9004,
+            "s_sem": 0.8846,
+            "s_mus": 0.9638,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 4811,
+            "name": "At The Same Time",
+            "artist": "Eric Roberson",
+            "genre": "r&b",
+            "language": "en",
+            "score": 0.8999,
+            "s_sem": 0.8819,
+            "s_mus": 0.9718,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 13442,
+            "name": "Si Te Vas",
+            "artist": "Lit Killah",
+            "genre": "rap",
+            "language": "es",
+            "score": 0.8997,
+            "s_sem": 0.9166,
+            "s_mus": 0.8318,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 5055,
+            "name": "Flotando",
+            "artist": "Francisca Valenzuela",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.8992,
+            "s_sem": 0.9212,
+            "s_mus": 0.811,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 10861,
+            "name": "No Te Cuesta Nada",
+            "artist": "Javiera Mena",
+            "genre": "pop",
+            "language": "es",
+            "score": 0.898,
+            "s_sem": 0.8998,
+            "s_mus": 0.8908,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "es": 7,
+          "en": 3
+        },
+        "genre_distribution": {
+          "latin": 5,
+          "rock": 1,
+          "pop": 2,
+          "r&b": 1,
+          "rap": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "Vivir Mi Vida",
+          "artist": "Marc Anthony"
+        },
+        "found": true,
+        "query_idx": 8464,
+        "query_name": "Vivir Mi Vida",
+        "query_artist": "Marc Anthony",
+        "query_genre": "latin",
+        "query_language": "es",
+        "n_catalog_matches": 1,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 5337,
+            "name": "La Boca - Remix",
+            "artist": "Mau y Ricky",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9185,
+            "s_sem": 0.913,
+            "s_mus": 0.9404,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 9155,
+            "name": "La Vida Es Un Carnaval",
+            "artist": "Celia Cruz",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9121,
+            "s_sem": 0.9065,
+            "s_mus": 0.9343,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 15947,
+            "name": "Me Quedaré Contigo",
+            "artist": "Pitbull",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9118,
+            "s_sem": 0.9134,
+            "s_mus": 0.9054,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 13332,
+            "name": "Ay Mi Dios",
+            "artist": "IAmChino",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9096,
+            "s_sem": 0.9018,
+            "s_mus": 0.9405,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 13616,
+            "name": "Pa' Que Retozen",
+            "artist": "Tego Calderon",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.909,
+            "s_sem": 0.9193,
+            "s_mus": 0.8677,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 14820,
+            "name": "\"Ay MI Dios (feat. Pitbull",
+            "artist": " Yandel & Chacal)\"",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9078,
+            "s_sem": 0.8996,
+            "s_mus": 0.9405,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 13892,
+            "name": "Rie y Llora",
+            "artist": "Celia Cruz",
+            "genre": "r&b",
+            "language": "es",
+            "score": 0.9054,
+            "s_sem": 0.9221,
+            "s_mus": 0.839,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 1374,
+            "name": "¿Qué Tengo Que Hacer?",
+            "artist": "Daddy Yankee",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9019,
+            "s_sem": 0.9023,
+            "s_mus": 0.9001,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 12495,
+            "name": "No Es Una Gial (feat. De La Ghetto)",
+            "artist": "Farruko",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.8996,
+            "s_sem": 0.8941,
+            "s_mus": 0.9214,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 17036,
+            "name": "Semillas",
+            "artist": "La Banda Baston",
+            "genre": "rap",
+            "language": "es",
+            "score": 0.8987,
+            "s_sem": 0.9118,
+            "s_mus": 0.8466,
+            "same_genre": false,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "es": 10
+        },
+        "genre_distribution": {
+          "latin": 8,
+          "r&b": 1,
+          "rap": 1
+        },
+        "n_duplicates": 0
+      },
+      {
+        "spec": {
+          "name": "La Camisa Negra",
+          "artist": "Juanes"
+        },
+        "found": false
+      },
+      {
+        "spec": {
+          "name": "Bailando",
+          "artist": "Enrique Iglesias"
+        },
+        "found": true,
+        "query_idx": 4544,
+        "query_name": "Bailando - English Version",
+        "query_artist": "Enrique Iglesias",
+        "query_genre": "latin",
+        "query_language": "es",
+        "n_catalog_matches": 6,
+        "alpha": 0.8,
+        "recommendations": [
+          {
+            "rank": 1,
+            "idx": 12745,
+            "name": "Bailando - Spanish Version",
+            "artist": "Enrique Iglesias",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9995,
+            "s_sem": 1.0,
+            "s_mus": 0.9973,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 2,
+            "idx": 5346,
+            "name": "Bailando - Matoma Remix",
+            "artist": "Enrique Iglesias",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9678,
+            "s_sem": 1.0,
+            "s_mus": 0.8389,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 3,
+            "idx": 3141,
+            "name": "No Se Me Quita (feat. Ricky Martin)",
+            "artist": "Maluma",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9232,
+            "s_sem": 0.9128,
+            "s_mus": 0.9645,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 4,
+            "idx": 4315,
+            "name": "Loco Loco (feat. Kelvis Ochoa & Gilberto Santa Rosa)",
+            "artist": "Gente De Zona",
+            "genre": "r&b",
+            "language": "es",
+            "score": 0.923,
+            "s_sem": 0.9244,
+            "s_mus": 0.9174,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 5,
+            "idx": 1096,
+            "name": "El Toque del Amor",
+            "artist": "Dragon & Caballero",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9226,
+            "s_sem": 0.9093,
+            "s_mus": 0.9757,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 6,
+            "idx": 8183,
+            "name": "Déjate Querer",
+            "artist": "Lalo Ebratt",
+            "genre": "pop",
+            "language": "es",
+            "score": 0.9218,
+            "s_sem": 0.9138,
+            "s_mus": 0.9539,
+            "same_genre": false,
+            "is_duplicate": false
+          },
+          {
+            "rank": 7,
+            "idx": 13034,
+            "name": "No Es Justo",
+            "artist": "J Balvin",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9201,
+            "s_sem": 0.9079,
+            "s_mus": 0.9686,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 8,
+            "idx": 8381,
+            "name": "Limbo",
+            "artist": "Daddy Yankee",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9196,
+            "s_sem": 0.9105,
+            "s_mus": 0.956,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 9,
+            "idx": 16479,
+            "name": "Mona Lisa",
+            "artist": "Nacho",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9188,
+            "s_sem": 0.92,
+            "s_mus": 0.9138,
+            "same_genre": true,
+            "is_duplicate": false
+          },
+          {
+            "rank": 10,
+            "idx": 5368,
+            "name": "Adrenalina",
+            "artist": "Wisin",
+            "genre": "latin",
+            "language": "es",
+            "score": 0.9167,
+            "s_sem": 0.9225,
+            "s_mus": 0.8938,
+            "same_genre": true,
+            "is_duplicate": false
+          }
+        ],
+        "lang_distribution": {
+          "es": 10
+        },
+        "genre_distribution": {
+          "latin": 8,
+          "r&b": 1,
+          "pop": 1
+        },
+        "n_duplicates": 0
+      }
+    ]
+  }
+}

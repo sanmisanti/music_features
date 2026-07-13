@@ -1,0 +1,29 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Recomendaciones para \emph{Vuelve} (Ricky Martin) al peso óptimo}
+  \label{tab:qual_case_vuelve}
+  \small
+  \begin{tabular}{clllccc}
+    \toprule
+    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\
+    \midrule
+    1 & Vuelve - MTV Unplugged Version & Ricky Martin & latin & es & 1.000 & 0.612 \\
+    2 & No Te Olvidaré & Gloria Estefan & latin & es & 0.909 & 0.897 \\
+    3 & Cicatrices & Kalimba & latin & es & 0.923 & 0.832 \\
+    4 & Me Dediqué a Perderte & Alejandro Fernandez & latin & es & 0.908 & 0.885 \\
+    5 & Just the Way You Are & Billy Joel & rock\textsuperscript{*} & en & 0.886 & 0.958 \\
+    6 & The Scientist & Coldplay & pop\textsuperscript{*} & en & 0.885 & 0.964 \\
+    7 & At The Same Time & Eric Roberson & r\&b\textsuperscript{*} & en & 0.882 & 0.972 \\
+    8 & Si Te Vas & Lit Killah & rap\textsuperscript{*} & es & 0.917 & 0.832 \\
+    9 & Flotando & Francisca Valenzuela & latin & es & 0.921 & 0.811 \\
+    10 & No Te Cuesta Nada & Javiera Mena & pop\textsuperscript{*} & es & 0.900 & 0.891 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Consulta: \emph{Vuelve} (latin, es). $s_{\text{sem}}$: similitud coseno semántica; $s_{\text{mus}}$: similitud musical (kernel gaussiano). \textsuperscript{*}: género distinto al de la consulta. La lista se deduplica: una sola grabación por canción (los duplicados exactos del catálogo se colapsan).
+    \item El sistema recupera baladas de pérdida amorosa en español (Gloria Estefan, Alejandro Fernández) y en inglés (\emph{The Scientist}), evidenciando la fusión de ambas modalidades.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}

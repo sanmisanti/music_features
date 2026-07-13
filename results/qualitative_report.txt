@@ -1,0 +1,488 @@
+==========================================================================================
+SECCION 1 — ESTUDIOS DE CASO (alpha = 0.80)
+==========================================================================================
+  Query [8323] "Vuelve" - Ricky Martin (genero=latin, idioma=es, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9224  1.0000  0.6119  latin  es    OK       Vuelve - MTV Unplugged Version          Ricky Martin
+  2  0.9069  0.9094  0.8968  latin  es    OK       No Te Olvidaré                          Gloria Estefan
+  3  0.9049  0.9232  0.8318  latin  es    OK       Cicatrices                              Kalimba
+  4  0.9031  0.9077  0.8848  latin  es    OK       Me Dediqué a Perderte                   Alejandro Fernandez
+  5  0.9007  0.8862  0.9584  rock   en    --       Just the Way You Are                    Billy Joel
+  6  0.9004  0.8846  0.9638  pop    en    --       The Scientist                           Coldplay
+  7  0.8999  0.8819  0.9718  r&b    en    --       At The Same Time                        Eric Roberson
+  8  0.8997  0.9166  0.8318  rap    es    --       Si Te Vas                               Lit Killah
+  9  0.8992  0.9212  0.8110  latin  es    OK       Flotando                                Francisca Valenzuela
+  10 0.8980  0.8998  0.8908  pop    es    --       No Te Cuesta Nada                       Javiera Mena
+  -> idiomas: {'es': 7, 'en': 3} | generos: {'latin': 5, 'rock': 1, 'pop': 2, 'r&b': 1, 'rap': 1} | duplicados: 0
+
+  Query [998] "Lose Yourself - Soundtrack Version" - Eminem (genero=rap, idioma=en, alpha=0.80, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9398  0.9413  0.9341  rap    en    OK       Future                                  DJ Khaled
+  2  0.9278  0.9385  0.8851  rap    en    OK       ICONIC (ft. Jaden Smith)                Logic
+  3  0.9237  0.9315  0.8927  r&b    en    --       APESHIT                                 The Carters
+  4  0.9235  0.9368  0.8704  r&b    en    --       MotorSport                              Migos
+  5  0.9224  0.9339  0.8764  rap    en    OK       'Till I Collapse                        Eminem
+  6  0.9192  0.9271  0.8875  rap    en    OK       Get Back                                Ludacris
+  7  0.9191  0.9345  0.8575  rap    en    OK       Mamacita                                OutKast
+  8  0.9187  0.9340  0.8573  rap    en    OK       SICKO MODE - Skrillex Remix             Travis Scott
+  9  0.9176  0.9354  0.8466  rap    en    OK       Soul Food                               Logic
+  10 0.9165  0.9301  0.8619  rap    en    OK       Till The End                            Logic
+  -> idiomas: {'en': 10} | generos: {'rap': 8, 'r&b': 2} | duplicados: 0
+
+  Query [748] "Shape of You" - Ed Sheeran (genero=latin, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9660  0.9944  0.8523  edm    en    --       Shape of You - Galantis Remix           Ed Sheeran
+  2  0.9148  0.9096  0.9357  pop    en    --       Baby I'm Yours - feat. Irfane           Breakbot
+  3  0.9090  0.8960  0.9612  r&b    en    --       On The Low                              Burna Boy
+  4  0.9076  0.8957  0.9552  pop    en    --       in my miNd                              Maty Noyes
+  5  0.9063  0.8982  0.9387  r&b    en    --       Because Of You                          Ne-Yo
+  6  0.9059  0.9128  0.8782  pop    en    --       I Feel It Coming                        The Weeknd
+  7  0.9043  0.8953  0.9400  pop    en    --       Can't Stop Your Lovin'                  Poolside
+  8  0.9038  0.9111  0.8743  r&b    en    --       Rock Wit U (Awww Baby)                  Ashanti
+  9  0.9037  0.9021  0.9098  rap    en    --       Get Buck                                Young Buck
+  10 0.9033  0.9145  0.8588  r&b    en    --       Dark Horse                              The Beef Seeds
+  -> idiomas: {'en': 10} | generos: {'edm': 1, 'pop': 4, 'r&b': 4, 'rap': 1} | duplicados: 0
+
+  Query [4919] "Piano Man" - Billy Joel (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.8860  0.8799  0.9102  pop    en    --       The Art of Suicide                      Emilie Autumn
+  2  0.8855  0.8906  0.8654  rock   en    OK       Tiny Dancer                             Elton John
+  3  0.8800  0.8838  0.8648  rock   en    OK       Dream On                                Aerosmith
+  4  0.8796  0.8885  0.8439  rap    en    --       Ghetto Man                              Marvin Sease
+  5  0.8795  0.8730  0.9057  rock   en    OK       Mr. Blue Sky                            Electric Light Orchestra
+  6  0.8782  0.9014  0.7858  rock   pt    OK       Suite: Judy Blue Eyes - Remastered      "Crosby
+  7  0.8779  0.8723  0.9002  rock   en    OK       Hallelujah                              Leonard Cohen
+  8  0.8752  0.8937  0.8015  latin  en    --       Ironic - Acoustic                       Alanis Morissette
+  9  0.8738  0.8692  0.8922  rock   en    OK       In The Air Tonight - 2015 Remastered    Phil Collins
+  10 0.8732  0.8683  0.8927  latin  en    --       My Sacrifice - Live Acoustic            Creed
+  -> idiomas: {'en': 9, 'pt': 1} | generos: {'pop': 1, 'rock': 6, 'rap': 1, 'latin': 2} | duplicados: 0
+
+  Query [2273] "Welcome To The Machine - 2011 Remastered Version" - Pink Floyd (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.8702  0.8619  0.9036  r&b    en    --       Mo Better                               Raheem DeVaughn
+  2  0.8643  0.8724  0.8320  rock   pt    OK       Suite: Judy Blue Eyes - Remastered      "Crosby
+  3  0.8603  0.8783  0.7881  rock   en    OK       Comfortably Numb - 2011 Remastered Ver  Pink Floyd
+  4  0.8589  0.8696  0.8158  rock   en    OK       Time                                    Pink Floyd
+  5  0.8586  0.8520  0.8854  rock   en    OK       Tiny Dancer                             Elton John
+  6  0.8563  0.8726  0.7912  pop    en    --       Holocene                                Bon Iver
+  7  0.8562  0.8733  0.7881  rock   en    OK       Comfortably Numb                        Pink Floyd
+  8  0.8556  0.8785  0.7638  rock   en    OK       Father To Son - Remastered 2011         Queen
+  9  0.8529  0.8715  0.7786  rock   en    OK       Wind Of Change                          Scorpions
+  10 0.8522  0.8890  0.7052  rap    es    --       Hasta Las 6                             Kodigo
+  -> idiomas: {'en': 8, 'pt': 1, 'es': 1} | generos: {'r&b': 1, 'rock': 7, 'pop': 1, 'rap': 1} | duplicados: 0
+
+==========================================================================================
+SECCION 2 — ABLACION POR ALPHA (0.00 solo musical | 0.80 hibrido | 1.00 solo semantico)
+==========================================================================================
+--- alpha = 0.00 ---
+  Query [8323] "Vuelve" - Ricky Martin (genero=latin, idioma=es, alpha=0.00, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9718  0.8819  0.9718  r&b    en    --       At The Same Time                        Eric Roberson
+  2  0.9638  0.8846  0.9638  pop    en    --       The Scientist                           Coldplay
+  3  0.9634  0.8686  0.9634  r&b    en    --       Remember the Rain                       Kadhja Bonet
+  4  0.9584  0.8862  0.9584  rock   en    --       Just the Way You Are                    Billy Joel
+  5  0.9533  0.8419  0.9533  pop    en    --       Glory                                   Bastille
+  6  0.9504  0.8726  0.9504  r&b    en    --       My World                                OSHUN
+  7  0.9499  0.8551  0.9499  r&b    en    --       Have Yourself A Merry Little Christmas  Ledisi
+  8  0.9491  0.8617  0.9491  pop    en    --       Beggar's Song                           Matt Maeson
+  9  0.9439  0.8680  0.9439  rock   en    --       Shine                                   Collective Soul
+  10 0.9400  0.8541  0.9400  rock   en    --       Wild Horses                             The Rolling Stones
+  -> idiomas: {'en': 10} | generos: {'r&b': 4, 'pop': 3, 'rock': 3} | duplicados: 0
+
+--- alpha = 0.80 ---
+  Query [8323] "Vuelve" - Ricky Martin (genero=latin, idioma=es, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9224  1.0000  0.6119  latin  es    OK       Vuelve - MTV Unplugged Version          Ricky Martin
+  2  0.9069  0.9094  0.8968  latin  es    OK       No Te Olvidaré                          Gloria Estefan
+  3  0.9049  0.9232  0.8318  latin  es    OK       Cicatrices                              Kalimba
+  4  0.9031  0.9077  0.8848  latin  es    OK       Me Dediqué a Perderte                   Alejandro Fernandez
+  5  0.9007  0.8862  0.9584  rock   en    --       Just the Way You Are                    Billy Joel
+  6  0.9004  0.8846  0.9638  pop    en    --       The Scientist                           Coldplay
+  7  0.8999  0.8819  0.9718  r&b    en    --       At The Same Time                        Eric Roberson
+  8  0.8997  0.9166  0.8318  rap    es    --       Si Te Vas                               Lit Killah
+  9  0.8992  0.9212  0.8110  latin  es    OK       Flotando                                Francisca Valenzuela
+  10 0.8980  0.8998  0.8908  pop    es    --       No Te Cuesta Nada                       Javiera Mena
+  -> idiomas: {'es': 7, 'en': 3} | generos: {'latin': 5, 'rock': 1, 'pop': 2, 'r&b': 1, 'rap': 1} | duplicados: 0
+
+--- alpha = 1.00 ---
+  Query [8323] "Vuelve" - Ricky Martin (genero=latin, idioma=es, alpha=1.00, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  1.0000  1.0000  0.6119  latin  es    OK       Vuelve - MTV Unplugged Version          Ricky Martin
+  2  0.9375  0.9375  0.4807  latin  es    OK       No Te Veo - Digital Single              Casa De Leones
+  3  0.9352  0.9352  0.5817  rock   es    --       Pensando en Ti                          Canserbero
+  4  0.9289  0.9289  0.5847  rap    es    --       La Forma en Que Me Miras                Super Yei
+  5  0.9287  0.9287  0.7667  pop    es    --       Se Me Acaba                             Morbo
+  6  0.9284  0.9284  0.6283  rap    es    --       La Marcha De Los Tristes                Lng Sht
+  7  0.9276  0.9276  0.5834  latin  es    OK       El Toque del Amor                       Dragon & Caballero
+  8  0.9274  0.9274  0.6532  latin  es    OK       Obsesion                                Aventura
+  9  0.9268  0.9268  0.3774  latin  es    OK       Me Niego (feat. Ozuna & Wisin)          Reik
+  10 0.9267  0.9267  0.6122  latin  es    OK       Te Vas Arrepentir - Remix               Chris Wandell
+  -> idiomas: {'es': 10} | generos: {'latin': 6, 'rock': 1, 'rap': 2, 'pop': 1} | duplicados: 0
+
+--- alpha = 0.00 ---
+  Query [998] "Lose Yourself - Soundtrack Version" - Eminem (genero=rap, idioma=en, alpha=0.00, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9341  0.9413  0.9341  rap    en    OK       Future                                  DJ Khaled
+  2  0.8990  0.9102  0.8990  rap    en    OK       Carol City                              Rick Ross
+  3  0.8950  0.9208  0.8950  rap    en    OK       Mama Always Told Me                     Silkk The Shocker
+  4  0.8927  0.9315  0.8927  r&b    en    --       APESHIT                                 The Carters
+  5  0.8875  0.9271  0.8875  rap    en    OK       Get Back                                Ludacris
+  6  0.8851  0.9385  0.8851  rap    en    OK       ICONIC (ft. Jaden Smith)                Logic
+  7  0.8835  0.9036  0.8835  latin  es    --       "Trapstorno (feat. Natan El Profeta      Rubinsky Rbk & Philipe)
+  8  0.8764  0.9339  0.8764  rap    en    OK       'Till I Collapse                        Eminem
+  9  0.8756  0.9160  0.8756  rap    en    OK       I'm So Juiced Up                        DJ Paul
+  10 0.8704  0.9368  0.8704  r&b    en    --       MotorSport                              Migos
+  -> idiomas: {'en': 9, 'es': 1} | generos: {'rap': 7, 'r&b': 2, 'latin': 1} | duplicados: 0
+
+--- alpha = 0.80 ---
+  Query [998] "Lose Yourself - Soundtrack Version" - Eminem (genero=rap, idioma=en, alpha=0.80, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9398  0.9413  0.9341  rap    en    OK       Future                                  DJ Khaled
+  2  0.9278  0.9385  0.8851  rap    en    OK       ICONIC (ft. Jaden Smith)                Logic
+  3  0.9237  0.9315  0.8927  r&b    en    --       APESHIT                                 The Carters
+  4  0.9235  0.9368  0.8704  r&b    en    --       MotorSport                              Migos
+  5  0.9224  0.9339  0.8764  rap    en    OK       'Till I Collapse                        Eminem
+  6  0.9192  0.9271  0.8875  rap    en    OK       Get Back                                Ludacris
+  7  0.9191  0.9345  0.8575  rap    en    OK       Mamacita                                OutKast
+  8  0.9187  0.9340  0.8573  rap    en    OK       SICKO MODE - Skrillex Remix             Travis Scott
+  9  0.9176  0.9354  0.8466  rap    en    OK       Soul Food                               Logic
+  10 0.9165  0.9301  0.8619  rap    en    OK       Till The End                            Logic
+  -> idiomas: {'en': 10} | generos: {'rap': 8, 'r&b': 2} | duplicados: 0
+
+--- alpha = 1.00 ---
+  Query [998] "Lose Yourself - Soundtrack Version" - Eminem (genero=rap, idioma=en, alpha=1.00, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9533  0.9533  0.5478  rap    en    OK       Rap God                                 Eminem
+  2  0.9506  0.9506  0.4615  rap    en    OK       No Favors                               Big Sean
+  3  0.9497  0.9497  0.7552  rap    en    OK       We All Die One Day                      Obie Trice
+  4  0.9472  0.9472  0.5978  rap    en    OK       Sixteen                                 Rick Ross
+  5  0.9462  0.9462  0.7452  rap    en    OK       Detroit Vs. Everybody                   Eminem
+  6  0.9461  0.9461  0.4184  rap    en    OK       100 Miles and Running (ft. Wale & John  Logic
+  7  0.9459  0.9459  0.7111  rap    en    OK       Mama/Show Love (feat. YBN Cordae)       Logic
+  8  0.9458  0.9458  0.7370  rap    en    OK       6 Minutes (feat. Lil' Wayne & Fabolous  Cassidy
+  9  0.9456  0.9456  0.2041  rap    en    OK       Can It Be All So Simple / Intermission  Wu-Tang Clan
+  10 0.9450  0.9450  0.4860  r&b    en    --       Used To                                 Drake
+  -> idiomas: {'en': 10} | generos: {'rap': 9, 'r&b': 1} | duplicados: 0
+
+--- alpha = 0.00 ---
+  Query [748] "Shape of You" - Ed Sheeran (genero=latin, idioma=en, alpha=0.00, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9612  0.8960  0.9612  r&b    en    --       On The Low                              Burna Boy
+  2  0.9552  0.8957  0.9552  pop    en    --       in my miNd                              Maty Noyes
+  3  0.9487  0.8846  0.9487  edm    en    --       Hands All Over Mine                     AMARI
+  4  0.9400  0.8953  0.9400  pop    en    --       Can't Stop Your Lovin'                  Poolside
+  5  0.9387  0.8982  0.9387  r&b    en    --       Because Of You                          Ne-Yo
+  6  0.9371  0.8834  0.9371  latin  es    OK       El Efecto                               Rauw Alejandro
+  7  0.9364  0.8895  0.9364  rock   en    --       Beast Of Burden - Remastered            The Rolling Stones
+  8  0.9357  0.9096  0.9357  pop    en    --       Baby I'm Yours - feat. Irfane           Breakbot
+  9  0.9354  0.8510  0.9354  edm    en    --       Peeping Tom - Original Mix              Jamie Berry
+  10 0.9304  0.8595  0.9304  latin  es    OK       Amor De Una Noche (feat. Julio Voltio)  N'Klabe
+  -> idiomas: {'en': 8, 'es': 2} | generos: {'r&b': 2, 'pop': 3, 'edm': 2, 'latin': 2, 'rock': 1} | duplicados: 0
+
+--- alpha = 0.80 ---
+  Query [748] "Shape of You" - Ed Sheeran (genero=latin, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9660  0.9944  0.8523  edm    en    --       Shape of You - Galantis Remix           Ed Sheeran
+  2  0.9148  0.9096  0.9357  pop    en    --       Baby I'm Yours - feat. Irfane           Breakbot
+  3  0.9090  0.8960  0.9612  r&b    en    --       On The Low                              Burna Boy
+  4  0.9076  0.8957  0.9552  pop    en    --       in my miNd                              Maty Noyes
+  5  0.9063  0.8982  0.9387  r&b    en    --       Because Of You                          Ne-Yo
+  6  0.9059  0.9128  0.8782  pop    en    --       I Feel It Coming                        The Weeknd
+  7  0.9043  0.8953  0.9400  pop    en    --       Can't Stop Your Lovin'                  Poolside
+  8  0.9038  0.9111  0.8743  r&b    en    --       Rock Wit U (Awww Baby)                  Ashanti
+  9  0.9037  0.9021  0.9098  rap    en    --       Get Buck                                Young Buck
+  10 0.9033  0.9145  0.8588  r&b    en    --       Dark Horse                              The Beef Seeds
+  -> idiomas: {'en': 10} | generos: {'edm': 1, 'pop': 4, 'r&b': 4, 'rap': 1} | duplicados: 0
+
+--- alpha = 1.00 ---
+  Query [748] "Shape of You" - Ed Sheeran (genero=latin, idioma=en, alpha=1.00, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9944  0.9944  0.8523  edm    en    --       Shape of You - Galantis Remix           Ed Sheeran
+  2  0.9897  0.9897  0.5129  pop    en    --       Shape of You                            EZA
+  3  0.9338  0.9338  0.6419  r&b    en    --       Satisfy You                             Diddy
+  4  0.9315  0.9315  0.4301  r&b    en    --       With Me                                 dvsn
+  5  0.9286  0.9286  0.4410  r&b    en    --       Young Girl / I Really Like You          Pharrell Williams
+  6  0.9276  0.9276  0.4488  latin  en    OK       Mirrors                                 Justin Timberlake
+  7  0.9270  0.9270  0.6703  r&b    en    --       My Body                                 LSG
+  8  0.9268  0.9268  0.7209  r&b    en    --       Bed                                     J. Holiday
+  9  0.9267  0.9267  0.5002  rap    en    --       Toss It Up                              2Pac
+  10 0.9261  0.9261  0.2826  r&b    en    --       The Party & The After Party             The Weeknd
+  -> idiomas: {'en': 10} | generos: {'edm': 1, 'pop': 1, 'r&b': 6, 'latin': 1, 'rap': 1} | duplicados: 0
+
+==========================================================================================
+SECCION 3 — PROBES TEMATICOS
+==========================================================================================
+
+### TEMA: adiccion ###
+  [NO ENCONTRADA] When I'm Gone - Eminem
+
+  Query [3543] "Rehab" - Amy Winehouse (genero=r&b, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9126  0.9165  0.8966  rock   en    --       When I'm Gone                           Dirty Honey
+  2  0.9070  0.9120  0.8869  rock   en    --       Country Song                            Seether
+  3  0.9065  0.9152  0.8719  pop    en    --       Looking Up                              SafetySuit
+  4  0.9035  0.8847  0.9784  pop    en    --       Kiss And Tell                           You Me At Six
+  5  0.9011  0.9175  0.8355  pop    en    --       See Through                             The Band CAMINO
+  6  0.9011  0.9017  0.8986  pop    en    --       Don't Change Me                         Kid Runner
+  7  0.9006  0.9011  0.8986  rock   en    --       Self Esteem                             The Offspring
+  8  0.9000  0.9001  0.8994  rock   en    --       Scars                                   Papa Roach
+  9  0.8992  0.9108  0.8529  pop    en    --       Honestly                                Hot Chelle Rae
+  10 0.8989  0.9043  0.8770  pop    en    --       I'm Good                                The Mowgli's
+  -> idiomas: {'en': 10} | generos: {'rock': 4, 'pop': 6} | duplicados: 0
+
+  [NO ENCONTRADA] Otherside - Macklemore
+
+  Query [7512] "Under the Bridge" - Red Hot Chili Peppers (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9024  0.9092  0.8753  r&b    en    --       MILK                                    BROCKHAMPTON
+  2  0.9023  0.8995  0.9136  r&b    en    --       On My Own                               Patti LaBelle
+  3  0.8966  0.8890  0.9271  latin  en    --       Don't Wanna Lose You                    Gloria Estefan
+  4  0.8964  0.8797  0.9634  pop    en    --       High And Dry                            Radiohead
+  5  0.8948  0.8962  0.8890  pop    en    --       I Want to Know What Love Is - 1999 Rem  Foreigner
+  6  0.8943  0.8915  0.9054  r&b    en    --       SWIM                                    BROCKHAMPTON
+  7  0.8940  0.8952  0.8891  r&b    en    --       Rescue Me                               Al B. Sure!
+  8  0.8933  0.8995  0.8686  rock   en    OK       Feelin' Alright?                        Traffic
+  9  0.8926  0.8898  0.9037  rock   en    OK       To Be with You - 2010 Remastered Versi  Mr. Big
+  10 0.8923  0.8862  0.9167  r&b    en    --       All That I Am                           Joe
+  -> idiomas: {'en': 10} | generos: {'r&b': 5, 'latin': 1, 'pop': 2, 'rock': 2} | duplicados: 0
+
+  [NO ENCONTRADA] Sober - P!nk
+
+
+### TEMA: duelo_muerte ###
+  [NO ENCONTRADA] Tears in Heaven - Eric Clapton
+
+  Query [5740] "See You Again (feat. Charlie Puth)" - Wiz Khalifa (genero=pop, idioma=en, alpha=0.80, coincidencias_catalogo=2)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9076  0.9122  0.8891  r&b    en    --       Ladders                                 Mac Miller
+  2  0.9061  0.9119  0.8830  rap    en    --       Bad Idea (feat. Chance the Rapper)      YBN Cordae
+  3  0.9058  0.9052  0.9085  pop    en    OK       Thru These Tears                        LANY
+  4  0.9035  0.9054  0.8958  r&b    en    --       Precious                                Kevin Garrett
+  5  0.9017  0.9032  0.8957  edm    en    --       Miss Her                                Proleter
+  6  0.9013  0.8996  0.9080  rap    en    --       TheArtOfCremation                       BONES
+  7  0.9009  0.9053  0.8831  pop    en    OK       Awake                                   ayokay
+  8  0.9007  0.8992  0.9068  pop    en    OK       Think About You                         Kygo
+  9  0.9006  0.8967  0.9162  r&b    en    --       Twenty One                              Khalid
+  10 0.8997  0.9022  0.8895  pop    en    OK       "fuck                                    i'm lonely (with Anne-M
+  -> idiomas: {'en': 10} | generos: {'r&b': 3, 'rap': 2, 'pop': 4, 'edm': 1} | duplicados: 0
+
+  [NO ENCONTRADA] Hurt - Johnny Cash
+
+  [NO ENCONTRADA] Fire and Rain - James Taylor
+
+
+### TEMA: protesta_politica ###
+  Query [15208] "American Idiot" - Green Day (genero=pop, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9087  0.8996  0.9454  pop    en    OK       Play My Music                           Jonas Brothers
+  2  0.9036  0.8966  0.9318  pop    en    OK       Who Will I Be                           Demi Lovato
+  3  0.9033  0.8971  0.9283  rock   en    --       House On Fire                           Rise Against
+  4  0.9032  0.8919  0.9482  rock   en    --       My Happy Ending                         Avril Lavigne
+  5  0.9006  0.8986  0.9087  rock   en    --       Meant to Live                           Switchfoot
+  6  0.8988  0.8941  0.9175  pop    en    OK       Autumn                                  Sparks The Rescue
+  7  0.8980  0.9009  0.8864  pop    en    OK       Weightless                              All Time Low
+  8  0.8968  0.8942  0.9075  rock   en    --       Tounge Tied                             Faber Drive
+  9  0.8960  0.8891  0.9237  pop    en    OK       Five Minutes to Midnight                Boys Like Girls
+  10 0.8958  0.8947  0.9002  pop    en    OK       Misery Business                         Paramore
+  -> idiomas: {'en': 10} | generos: {'pop': 6, 'rock': 4} | duplicados: 0
+
+  Query [7707] "Killing In the Name" - Rage Against The Machine (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=2)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9075  0.8906  0.9753  rap    en    --       Deliverance                             Bubba Sparxxx
+  2  0.9066  0.9067  0.9063  rap    en    --       Ether                                   Nas
+  3  0.9044  0.8934  0.9482  rap    en    --       "Bout It                                 Bout It II"
+  4  0.9044  0.9142  0.8650  r&b    en    --       Slow Down                               Cam Meekins
+  5  0.9043  0.9075  0.8916  rap    en    --       Over                                    Drake
+  6  0.9036  0.8967  0.9311  rap    en    --       Doggy Dogg World (feat. The Dramatics   Snoop Dogg
+  7  0.9009  0.8990  0.9085  rap    en    --       Lodi Dodi (feat. Nancy Fletcher)        Snoop Dogg
+  8  0.9002  0.9149  0.8414  rap    en    --       Ban Drill                               Krept & Konan
+  9  0.9001  0.8971  0.9120  rap    en    --       Through The Wire                        Kanye West
+  10 0.8972  0.9104  0.8445  rap    en    --       You Ain't a Killer                      Big Pun
+  -> idiomas: {'en': 10} | generos: {'rap': 9, 'r&b': 1} | duplicados: 0
+
+  Query [244] "Fortunate Son" - Creedence Clearwater Revival (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=6)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9495  0.9898  0.7885  rock   en    OK       Fortunate Son                           The Dead Daisies
+  2  0.8786  0.8818  0.8658  rap    en    --       CASH COW                                NGHTMRE
+  3  0.8747  0.8729  0.8819  pop    en    --       Whatever It Takes                       Imagine Dragons
+  4  0.8730  0.8684  0.8914  pop    en    --       "You're Gonna Go Far                     Kid"
+  5  0.8726  0.8663  0.8976  pop    en    --       Bad At Love                             Halsey
+  6  0.8719  0.8707  0.8768  r&b    en    --       Warpaint                                88rising
+  7  0.8717  0.8895  0.8006  rap    en    --       Shook Ones - Freestyle                  Mobb Deep
+  8  0.8703  0.8823  0.8224  edm    en    --       W18                                     Cassius
+  9  0.8698  0.8655  0.8872  pop    en    --       Drive                                   Glades
+  10 0.8696  0.8698  0.8689  edm    en    --       Live for the Drop                       Capital Kings
+  -> idiomas: {'en': 10} | generos: {'rock': 1, 'rap': 2, 'pop': 4, 'r&b': 1, 'edm': 2} | duplicados: 0
+
+  Query [5669] "Zombie" - The Cranberries (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=2)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.8993  0.9140  0.8406  pop    en    --       21 Guns                                 Green Day
+  2  0.8977  0.8935  0.9144  rock   en    OK       This Is War                             Thirty Seconds To Mars
+  3  0.8963  0.8922  0.9123  rock   en    OK       Real Love - Anthology 2 Version         The Beatles
+  4  0.8945  0.8942  0.8958  latin  en    --       Radioactive - Live London Sessions / 2  Imagine Dragons
+  5  0.8876  0.8922  0.8692  pop    en    --       Mind                                    Declan McKenna
+  6  0.8872  0.8964  0.8503  rock   en    OK       Don't Damn Me                           Guns N' Roses
+  7  0.8860  0.8791  0.9138  rap    en    --       Blue on Black                           Kenny Wayne Shepherd
+  8  0.8850  0.8794  0.9075  rock   en    OK       Carrie                                  Europe
+  9  0.8847  0.8658  0.9603  rock   en    OK       Wanted Dead Or Alive                    Bon Jovi
+  10 0.8840  0.8940  0.8439  rock   en    OK       Knockin' On Heaven's Door               Guns N' Roses
+  -> idiomas: {'en': 10} | generos: {'pop': 2, 'rock': 6, 'latin': 1, 'rap': 1} | duplicados: 0
+
+  Query [13335] "Sunday Bloody Sunday" - U2 (genero=rock, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9981  1.0000  0.9903  rock   en    OK       Sunday Bloody Sunday - Remastered 2008  U2
+  2  0.8957  0.8985  0.8849  edm    en    --       Miracle                                 Caravan Palace
+  3  0.8954  0.9013  0.8717  edm    en    --       Don't Want You Back                     Bakermat
+  4  0.8953  0.8904  0.9146  rock   en    OK       "Head Over Heels - Dave Bascombe 7"" N  Tears For Fears
+  5  0.8949  0.9022  0.8656  rock   en    OK       Shot in the Dark                        Ozzy Osbourne
+  6  0.8943  0.8987  0.8767  pop    en    --       Real Life - Ossian Remix                Mako
+  7  0.8942  0.8955  0.8888  rock   en    OK       Walkin' On The Sun                      Smash Mouth
+  8  0.8932  0.8856  0.9235  r&b    en    --       My Fantasy                              Teddy Riley
+  9  0.8921  0.8863  0.9152  r&b    en    --       State Of The World                      Janet Jackson
+  10 0.8916  0.8885  0.9040  rock   en    OK       The Killing Moon                        Echo & the Bunnymen
+  -> idiomas: {'en': 10} | generos: {'rock': 5, 'edm': 2, 'pop': 1, 'r&b': 2} | duplicados: 0
+
+
+### TEMA: celebracion_fiesta ###
+  Query [11192] "I Gotta Feeling" - The Black Eyed Peas (genero=latin, idioma=en, alpha=0.80, coincidencias_catalogo=2)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9674  1.0000  0.8372  latin  en    OK       I Gotta Feeling - Edit                  The Black Eyed Peas
+  2  0.9289  0.9304  0.9231  pop    en    --       Time of Our Lives                       Pitbull
+  3  0.9215  0.9211  0.9232  r&b    en    --       This Is How We Do It                    Montell Jordan
+  4  0.9121  0.9072  0.9316  rap    en    --       "Stay Fly (feat. Young Buck              Eightball & MJG) - Expl
+  5  0.9118  0.8961  0.9749  rock   en    --       Venom - Music From The Motion Picture   Eminem
+  6  0.9115  0.9109  0.9137  edm    en    --       W18                                     Cassius
+  7  0.9113  0.9343  0.8191  r&b    en    --       Feels Good                              Tony! Toni! Toné!
+  8  0.9106  0.9190  0.8770  pop    en    --       Once In a While                         Timeflies
+  9  0.9098  0.9109  0.9055  rap    en    --       I Miss My Homies                        Master P
+  10 0.9071  0.8933  0.9620  rock   en    --       Dancing On The Ceiling                  Lionel Richie
+  -> idiomas: {'en': 10} | generos: {'latin': 1, 'pop': 2, 'r&b': 2, 'rap': 2, 'rock': 2, 'edm': 1} | duplicados: 0
+
+  Query [968] "Party Rock Anthem" - LMFAO (genero=pop, idioma=en, alpha=0.80, coincidencias_catalogo=3)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9236  0.9211  0.9332  edm    en    --       OMG (feat. will.i.am)                   Usher
+  2  0.9224  0.9107  0.9691  rap    en    --       Lemme Freak                             Lil Dicky
+  3  0.9209  0.9245  0.9065  rap    en    --       Hanh!                                   Ying Yang Twins
+  4  0.9197  0.9351  0.8582  r&b    en    --       I Wanna Rock                            Luke
+  5  0.9146  0.9160  0.9089  rap    en    --       Go Hard or Go Home                      Wiz Khalifa
+  6  0.9139  0.9273  0.8602  r&b    en    --       Toss It Up                              2Pac
+  7  0.9134  0.9072  0.9385  r&b    en    --       Hold Your Hand                          NAV
+  8  0.9129  0.9155  0.9023  r&b    en    --       Rump Shaker                             Wreckx-N-Effect
+  9  0.9124  0.9185  0.8881  rap    en    --       Wiley Flow                              Stormzy
+  10 0.9118  0.9213  0.8736  edm    en    --       24K Magic - R3hab Remix                 Bruno Mars
+  -> idiomas: {'en': 10} | generos: {'edm': 2, 'rap': 4, 'r&b': 4} | duplicados: 0
+
+  Query [6989] "Uptown Funk" - Mark Ronson (genero=pop, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9952  0.9993  0.9785  latin  en    --       Uptown Funk - Radio Edit                Mark Ronson
+  2  0.9225  0.9226  0.9221  rap    en    --       Wood Wheel                              UGK
+  3  0.9207  0.9111  0.9591  r&b    en    --       Top of the World (feat. Mase)           Brandy
+  4  0.9190  0.9232  0.9023  rap    en    --       "Money                                   Hoes & Power (feat. Jer
+  5  0.9188  0.9212  0.9091  rap    en    --       10 Bands                                Joyner Lucas
+  6  0.9158  0.9137  0.9241  r&b    en    --       Good Stuff                              Kelis
+  7  0.9152  0.9115  0.9303  rap    en    --       Loyal                                   Chris Brown
+  8  0.9152  0.9197  0.8971  rap    en    --       Bitch Please II                         Eminem
+  9  0.9152  0.9117  0.9292  r&b    en    --       "This Is for the Lover In You (feat. L   Howard Hewett
+  10 0.9144  0.9086  0.9376  pop    en    OK       Shout Out to My Ex                      Little Mix
+  -> idiomas: {'en': 10} | generos: {'latin': 1, 'rap': 5, 'r&b': 3, 'pop': 1} | duplicados: 0
+
+  [NO ENCONTRADA] Celebration - Kool
+
+==========================================================================================
+SECCION 4 — CROSS-LANGUAGE (distribucion de idiomas en top-10)
+==========================================================================================
+
+### GRUPO: en_desamor ###
+  Query [15415] "Someone Like You" - Adele (genero=pop, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9207  0.9204  0.9216  r&b    en    --       Don't Miss It                           James Blake
+  2  0.9194  0.9147  0.9383  r&b    en    --       Nikes                                   Frank Ocean
+  3  0.9184  0.9212  0.9071  rock   en    --       Just the Way You Are                    Billy Joel
+  4  0.9180  0.9166  0.9236  pop    en    OK       Years                                   Astrid S
+  5  0.9178  0.9056  0.9668  r&b    en    --       In Case You Don't Live Forever          Ben Platt
+  6  0.9137  0.9201  0.8881  latin  en    --       Think I'm In Love Again                 Paul Anka
+  7  0.9127  0.8999  0.9640  pop    en    OK       Suburbia                                Muskoka
+  8  0.9109  0.9116  0.9080  r&b    en    --       Crossfire / So Into You                 Nai Palm
+  9  0.9108  0.9097  0.9151  latin  en    --       Long Gone                               Akon
+  10 0.9106  0.9054  0.9311  r&b    en    --       My Immortal - Band Version              Evanescence
+  -> idiomas: {'en': 10} | generos: {'r&b': 5, 'rock': 1, 'pop': 2, 'latin': 2} | duplicados: 0
+
+  [NO ENCONTRADA] Nothing Compares - Sinead
+
+
+### GRUPO: en_fiesta ###
+  Query [11192] "I Gotta Feeling" - The Black Eyed Peas (genero=latin, idioma=en, alpha=0.80, coincidencias_catalogo=2)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9674  1.0000  0.8372  latin  en    OK       I Gotta Feeling - Edit                  The Black Eyed Peas
+  2  0.9289  0.9304  0.9231  pop    en    --       Time of Our Lives                       Pitbull
+  3  0.9215  0.9211  0.9232  r&b    en    --       This Is How We Do It                    Montell Jordan
+  4  0.9121  0.9072  0.9316  rap    en    --       "Stay Fly (feat. Young Buck              Eightball & MJG) - Expl
+  5  0.9118  0.8961  0.9749  rock   en    --       Venom - Music From The Motion Picture   Eminem
+  6  0.9115  0.9109  0.9137  edm    en    --       W18                                     Cassius
+  7  0.9113  0.9343  0.8191  r&b    en    --       Feels Good                              Tony! Toni! Toné!
+  8  0.9106  0.9190  0.8770  pop    en    --       Once In a While                         Timeflies
+  9  0.9098  0.9109  0.9055  rap    en    --       I Miss My Homies                        Master P
+  10 0.9071  0.8933  0.9620  rock   en    --       Dancing On The Ceiling                  Lionel Richie
+  -> idiomas: {'en': 10} | generos: {'latin': 1, 'pop': 2, 'r&b': 2, 'rap': 2, 'rock': 2, 'edm': 1} | duplicados: 0
+
+
+### GRUPO: en_amor ###
+  Query [1812] "Perfect" - Ed Sheeran (genero=latin, idioma=en, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9590  0.9967  0.8084  r&b    en    --       Perfect Duet (Ed Sheeran & Beyoncé)     Ed Sheeran
+  2  0.9449  1.0000  0.7246  edm    en    --       Perfect - Mike Perry Remix              Ed Sheeran
+  3  0.9108  0.8923  0.9845  r&b    en    --       Loving Me 4 Me                          Christina Aguilera
+  4  0.9051  0.8958  0.9423  r&b    en    --       Precious                                Kevin Garrett
+  5  0.9034  0.8946  0.9387  pop    en    --       4 Seasons                               Rex Orange County
+  6  0.9011  0.9018  0.8982  r&b    en    --       Ladders                                 Mac Miller
+  7  0.9011  0.8883  0.9519  rock   en    --       When I Need You - Remastered            Leo Sayer
+  8  0.9006  0.8937  0.9280  r&b    en    --       Somebody to Love                        Branches
+  9  0.9005  0.9069  0.8751  r&b    en    --       Dear Mama                               2Pac
+  10 0.9003  0.8954  0.9198  pop    en    --       Broken Arrows                           Avicii
+  -> idiomas: {'en': 10} | generos: {'r&b': 6, 'edm': 1, 'pop': 2, 'rock': 1} | duplicados: 0
+
+
+### GRUPO: es_query ###
+  Query [8323] "Vuelve" - Ricky Martin (genero=latin, idioma=es, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9224  1.0000  0.6119  latin  es    OK       Vuelve - MTV Unplugged Version          Ricky Martin
+  2  0.9069  0.9094  0.8968  latin  es    OK       No Te Olvidaré                          Gloria Estefan
+  3  0.9049  0.9232  0.8318  latin  es    OK       Cicatrices                              Kalimba
+  4  0.9031  0.9077  0.8848  latin  es    OK       Me Dediqué a Perderte                   Alejandro Fernandez
+  5  0.9007  0.8862  0.9584  rock   en    --       Just the Way You Are                    Billy Joel
+  6  0.9004  0.8846  0.9638  pop    en    --       The Scientist                           Coldplay
+  7  0.8999  0.8819  0.9718  r&b    en    --       At The Same Time                        Eric Roberson
+  8  0.8997  0.9166  0.8318  rap    es    --       Si Te Vas                               Lit Killah
+  9  0.8992  0.9212  0.8110  latin  es    OK       Flotando                                Francisca Valenzuela
+  10 0.8980  0.8998  0.8908  pop    es    --       No Te Cuesta Nada                       Javiera Mena
+  -> idiomas: {'es': 7, 'en': 3} | generos: {'latin': 5, 'rock': 1, 'pop': 2, 'r&b': 1, 'rap': 1} | duplicados: 0
+
+  Query [8464] "Vivir Mi Vida" - Marc Anthony (genero=latin, idioma=es, alpha=0.80, coincidencias_catalogo=1)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9185  0.9130  0.9404  latin  es    OK       La Boca - Remix                         Mau y Ricky
+  2  0.9121  0.9065  0.9343  latin  es    OK       La Vida Es Un Carnaval                  Celia Cruz
+  3  0.9118  0.9134  0.9054  latin  es    OK       Me Quedaré Contigo                      Pitbull
+  4  0.9096  0.9018  0.9405  latin  es    OK       Ay Mi Dios                              IAmChino
+  5  0.9090  0.9193  0.8677  latin  es    OK       Pa' Que Retozen                         Tego Calderon
+  6  0.9078  0.8996  0.9405  latin  es    OK       "Ay MI Dios (feat. Pitbull               Yandel & Chacal)"
+  7  0.9054  0.9221  0.8390  r&b    es    --       Rie y Llora                             Celia Cruz
+  8  0.9019  0.9023  0.9001  latin  es    OK       ¿Qué Tengo Que Hacer?                   Daddy Yankee
+  9  0.8996  0.8941  0.9214  latin  es    OK       No Es Una Gial (feat. De La Ghetto)     Farruko
+  10 0.8987  0.9118  0.8466  rap    es    --       Semillas                                La Banda Baston
+  -> idiomas: {'es': 10} | generos: {'latin': 8, 'r&b': 1, 'rap': 1} | duplicados: 0
+
+  [NO ENCONTRADA] La Camisa Negra - Juanes
+
+  Query [4544] "Bailando - English Version" - Enrique Iglesias (genero=latin, idioma=es, alpha=0.80, coincidencias_catalogo=6)
+  #  score   sem     mus     gen    idm   =g  dup  cancion                                 artista
+  1  0.9995  1.0000  0.9973  latin  es    OK       Bailando - Spanish Version              Enrique Iglesias
+  2  0.9678  1.0000  0.8389  latin  es    OK       Bailando - Matoma Remix                 Enrique Iglesias
+  3  0.9232  0.9128  0.9645  latin  es    OK       No Se Me Quita (feat. Ricky Martin)     Maluma
+  4  0.9230  0.9244  0.9174  r&b    es    --       Loco Loco (feat. Kelvis Ochoa & Gilber  Gente De Zona
+  5  0.9226  0.9093  0.9757  latin  es    OK       El Toque del Amor                       Dragon & Caballero
+  6  0.9218  0.9138  0.9539  pop    es    --       Déjate Querer                           Lalo Ebratt
+  7  0.9201  0.9079  0.9686  latin  es    OK       No Es Justo                             J Balvin
+  8  0.9196  0.9105  0.9560  latin  es    OK       Limbo                                   Daddy Yankee
+  9  0.9188  0.9200  0.9138  latin  es    OK       Mona Lisa                               Nacho
+  10 0.9167  0.9225  0.8938  latin  es    OK       Adrenalina                              Wisin
+  -> idiomas: {'es': 10} | generos: {'latin': 8, 'r&b': 1, 'pop': 1} | duplicados: 0

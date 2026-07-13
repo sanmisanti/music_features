@@ -1,34 +1,84 @@
 \chapter{Resultados Experimentales}
 \label{ch:resultados}
 
-Este capítulo presenta los resultados a nivel de sistema completo del pipeline descrito en el Capítulo~\ref{ch:solucion-propuesta}. Los resultados de cada componente (cobertura de la vectorización, estructura de las representaciones, calidad del clustering y calibración del sistema de recomendación) se reportan junto a su desarrollo en el Capítulo~\ref{ch:solucion-propuesta}, de modo que cada mecanismo se presenta con su resultado inmediato. Este capítulo se organiza en dos secciones: el costo computacional del pipeline y el plan de pruebas de calidad. Todos los valores reportados son exactamente reproducibles: el comportamiento estocástico del pipeline (muestreos aleatorios y procedimientos de inicialización) está fijado mediante semillas aleatorias constantes centralizadas en la configuración del proyecto.
+Las métricas del sistema emplean el género musical como \textit{ground truth} aproximado, por lo que ofrecen una evaluación rigurosa, una recomendación puede ser excelente aunque cruce géneros, y una del mismo género puede ser pobre. Este capítulo complementa esa evaluación mostrando el sistema en funcionamiento sobre consultas concretas, e inspeccionando si las recomendaciones resultan coherentes cuando se leen una a una.
+
+Conviene, antes de examinar los casos, distinguir los tipos de similitud que una recomendación puede reflejar, dado que no todas responden al mismo criterio: similitud \emph{sonora} (instrumentación, tempo, producción comparables), \emph{temática} (letras sobre el mismo tipo de situación), de \emph{registro lírico} (estilo narrativo, vocabulario, tono) y de \emph{género} (pertenencia al mismo conglomerado industrial). El sistema combina estas dimensiones a través de la fusión de la similitud semántica (letras vectorizadas) y la musical (características acústicas), y parte del interés del análisis consiste precisamente en atribuir cada recomendación a la dimensión que la explica.
 
 % ---------------------------------------------------------------------------
-% SECCIÓN 6.1 — Costo Computacional
+% 6.1 — Estudios de caso
 % ---------------------------------------------------------------------------
-\section{Costo Computacional}
-\label{sec:costo-computacional}
+\section{Estudios de Caso}
+\label{sec:estudios-caso}
 
-Los tiempos de ejecución del pipeline completo sobre las 17\,964 canciones se midieron en una máquina con hardware estándar (CPU, sin aceleración por GPU). El Cuadro~\ref{tab:tiempos_ejecucion} los resume por etapa. La ejecución \textit{end-to-end} requiere aproximadamente dos horas y media, dominada casi por completo por la vectorización semántica, que a una tasa de $2{,}4$ canciones por segundo concentra alrededor del 70\% del tiempo total. Esta etapa es paralelizable por GPU: en hardware con una GPU moderna su tiempo baja de las dos horas a pocos minutos, lo que reduce el pipeline completo a menos de una hora.
+Se seleccionaron consultas representativas de distintos géneros e idiomas y se generó, para cada una, la lista de las diez canciones más similares al peso de fusión óptimo ($\alpha = 0{,}80$, determinado por la búsqueda en malla de la Sección~\ref{sec:sistema-hibrido}). El caso más ilustrativo es la balada latina \emph{Vuelve} de Ricky Martin, cuyo resultado se muestra en el Cuadro~\ref{tab:qual_case_vuelve}.
 
-\input{tables/pipeline_timing}
+\input{tables/qual_case_vuelve}
+
+El resultado combina las dos modalidades de forma nítida. Las primeras posiciones recuperan baladas de pérdida amorosa en español: \emph{No Te Olvidaré} de Gloria Estefan, \emph{Cicatrices} de Kalimba y \emph{Me Dediqué a Perderte} de Alejandro Fernández, todas ellas del mismo registro temático y con alta similitud semántica. A continuación aparecen canciones en inglés con similitud musical elevada, entre las que destaca \emph{The Scientist} de Coldplay, que trata precisamente sobre pérdida y arrepentimiento amoroso: un acierto temático que cruza la barrera del idioma. La lista también incluye \emph{Si Te Vas} de Lit Killah, rap en español temáticamente alineado, lo que muestra que la afinidad detectada no se reduce al género. Este caso constituye la evidencia más clara de recomendación multimodal: el sistema reúne baladas de desamor en dos idiomas y varios géneros, que es exactamente el producto esperado de fusionar la dimensión lírica con la acústica.
+
+El Cuadro~\ref{tab:qual_case_lose_yourself} presenta el resultado para \emph{Lose Yourself} de Eminem, un caso que ilustra la deduplicación descrita en la Sección~\ref{subsec:deduplicacion}. La coherencia temática es fuerte: el sistema recupera un conglomerado de rap motivacional y aspiracional, con \emph{'Till I Collapse}, otra pieza icónica de superación del mismo artista, como match especialmente pertinente. El vecindario más cercano de esta consulta contenía varias grabaciones repetidas de las mismas canciones, incluida una copia de la propia consulta registrada con otro rótulo de catálogo; la lista mostrada las colapsa y presenta diez canciones distintas. Las métricas cuantitativas de la Sección~\ref{sec:sistema-hibrido}, en cambio, se calculan sobre las listas sin deduplicar, donde la aparición de esas copias confirma que la similitud opera como se espera.
+
+\input{tables/qual_case_lose_yourself}
+
+Los restantes casos confirman el patrón. \emph{Shape of You} de Ed Sheeran recupera un conglomerado de pop y \textit{r\&b} romántico contemporáneo, coherente en registro y sonoridad aunque no en temática profunda. \emph{Piano Man} de Billy Joel reúne baladas narrativas con piano y vocación de relato (\emph{Tiny Dancer} de Elton John, \emph{Hallelujah} de Leonard Cohen), un match dominado por el registro lírico. \emph{Welcome To The Machine} de Pink Floyd recupera piezas del mismo período y atmósfera del grupo (\emph{Comfortably Numb}, \emph{Time}), donde la afinidad es principalmente sonora y de textura. La lectura conjunta sugiere que el sistema captura de manera robusta la similitud sonora y de registro, y de manera más selectiva la similitud temática fina, cuestión que la ablación y los probes temáticos precisan a continuación.
 
 % ---------------------------------------------------------------------------
-% SECCIÓN 6.2 — Plan de pruebas de calidad
+% 6.2 — Ablacion por alpha
 % ---------------------------------------------------------------------------
-\section{Plan de Pruebas de Calidad}
-\label{sec:plan-pruebas}
+\section{Ablación del Peso de Fusión}
+\label{sec:ablacion-alpha}
 
-El sistema implementado se evalúa mediante métricas cuantitativas (Precision@10, diversidad intra-lista, cobertura del catálogo) que se reportan junto al desarrollo del sistema de recomendación en la Sección~\ref{sec:sistema-hibrido}. Estas métricas, calculadas sobre el género musical como \textit{ground truth} proxy, ofrecen una evaluación rigurosa pero parcial: pueden ocultar comportamientos cualitativos relevantes que las cifras agregadas no reflejan. Por esta razón, el plan de validación incluye un conjunto de \textbf{pruebas de calidad externas} que complementan la evaluación cuantitativa con análisis específicos sobre dimensiones que las métricas globales no capturan adecuadamente.
+Para aislar el aporte de cada modalidad se generó la misma consulta bajo tres pesos de fusión: $\alpha = 0{,}00$ (solo la similitud musical), $\alpha = 0{,}80$ (el híbrido óptimo) y $\alpha = 1{,}00$ (solo la similitud semántica de las letras). El Cuadro~\ref{tab:qual_ablation_vuelve} contrasta las tres listas para \emph{Vuelve}.
 
-Las cuatro pruebas planificadas se ejecutan como parte de la Etapa 6 del proyecto. Esta sección formaliza su definición y criterios de aceptación.
+\input{tables/qual_ablation_vuelve}
 
-\textbf{Prueba A: Ablación visual cualitativa.} Su objetivo es verificar la coherencia musical y temática de las recomendaciones generadas por el sistema híbrido frente a las generadas por sus dos componentes individuales (sólo musical y sólo semántico). El protocolo selecciona un conjunto de canciones de prueba cubriendo los seis géneros del catálogo y, para cada una, genera tres listas de recomendaciones top-10: la híbrida con $\alpha$ óptimo, la puramente musical y la puramente semántica. Las listas se inspeccionan manualmente para identificar diferencias cualitativas: la presencia de canciones temáticamente afines en la lista semántica, la presencia de canciones acústicamente similares en la lista musical y la combinación esperada en la lista híbrida. El criterio de aceptación es la observación de aportes diferenciados de cada componente coherentes con su naturaleza, lo que sustentaría empíricamente la complementariedad entre modalidades verificada cuantitativamente en la Sección~\ref{subsec:seleccion-algoritmo}.
+Con solo la componente musical, las diez recomendaciones están en inglés: son baladas de piano acústicamente próximas a \emph{Vuelve}, sin relación con su idioma ni su contenido, porque las características musicales de Spotify son agnósticas al idioma y al tema. Con solo la componente semántica, las diez recomendaciones están en español, pero musicalmente heterogéneas (géneros variados). El híbrido óptimo equilibra ambos ejes: retiene el núcleo de baladas de pérdida en español y admite unas pocas canciones en inglés acústicamente afines. Esta prueba evidencia que las dos modalidades aportan información complementaria y no redundante y explica por qué un peso intermedio supera a cualquiera de los extremos.
 
-\textbf{Prueba B: Comparación con baselines numéricos.} Su objetivo es contextualizar la magnitud del Precision@10 obtenido por el sistema frente a recomendadores triviales que sirven como cota inferior. Se implementan tres baselines: recomendación aleatoria (cota inferior absoluta), recomendación por género mayoritario (cota inferior contextual) y recomendación por similitud sobre features acústicas crudas sin normalización (sistema mínimo razonable). El criterio de aceptación es que el sistema híbrido supere significativamente a cada baseline en Precision@10, demostrando que la sofisticación metodológica adoptada produce mejoras mensurables sobre alternativas más simples.
+El mismo patrón se observa en las otras consultas. El Cuadro~\ref{tab:qual_ablation_lose_yourself} muestra la ablación para \emph{Lose Yourself}: la componente puramente semántica devuelve diez canciones de rap del mismo registro lírico, mientras que el híbrido incorpora la afinidad sonora. El Cuadro~\ref{tab:qual_ablation_shape_of_you} hace lo propio para \emph{Shape of You}, donde el extremo semántico se concentra en \textit{r\&b} romántico por similitud de vocabulario, y el musical en canciones de tempo y producción comparables. En todos los casos, la componente semántica fija el idioma y el registro temático, y la musical aporta la proximidad acústica.
 
-\textbf{Prueba C: Probes temáticos.} Su objetivo es verificar la capacidad del componente semántico para capturar similitud temática genuina más allá de la similitud por género musical. Se construye un conjunto reducido de queries temáticas dirigidas (canciones sobre desamor, canciones políticas, canciones sobre celebración, canciones narrativas) y se inspecciona si las recomendaciones recuperan otras canciones del mismo tema, incluso cuando pertenecen a géneros distintos. El criterio de aceptación es la recuperación efectiva de canciones temáticamente afines a través de fronteras de género, lo que validaría que el componente semántico aporta una dimensión de similitud no reducible a la afinidad acústica.
+\input{tables/qual_ablation_lose_yourself}
 
-\textbf{Prueba D: Consistencia cross-language.} Su objetivo es verificar que el modelo \texttt{multilingual-}\allowbreak\texttt{e5-}\allowbreak\texttt{small} produce representaciones semánticamente coherentes para letras en idiomas distintos al inglés, dado el sesgo lingüístico del catálogo (83.5\% inglés). Se identifican canciones en español, portugués y otros idiomas con temáticas claramente reconocibles y se verifica si sus recomendaciones top-10 incluyen canciones de la misma temática, sin restringirse al mismo idioma. El criterio de aceptación es la observación de recuperación temática cross-lingual coherente, lo que respaldaría la decisión de adoptar un modelo multilingüe en lugar de uno monolingüe inglés con traducción previa.
+\input{tables/qual_ablation_shape_of_you}
 
-El resultado de cada prueba se documentará en el informe junto con las métricas cuantitativas presentadas en la Sección~\ref{sec:sistema-hibrido}, sustentando o matizando las conclusiones que las cifras por sí solas permitirían establecer.
+% ---------------------------------------------------------------------------
+% 6.3 — Probes tematicos
+% ---------------------------------------------------------------------------
+\section{Probes Temáticos}
+\label{sec:probes-tematicos}
+
+Los estudios de caso sugieren que el sistema capta bien el registro y el género, y de forma más desigual la temática fina. Para examinar esta cuestión de manera dirigida se construyeron consultas ancladas en temas específicos y se inspeccionó si las recomendaciones recuperaban otras canciones del mismo tema, incluso a través de fronteras de género.
+
+Los temas con una firma léxica concreta y recurrente se recuperan con claridad. El Cuadro~\ref{tab:qual_probe_celebracion} muestra el resultado para \emph{I Gotta Feeling} de The Black Eyed Peas, un himno de celebración: el sistema recupera otros himnos de fiesta como \emph{Time of Our Lives} de Pitbull y \emph{This Is How We Do It} de Montell Jordan, que comparten un vocabulario explícito de festejo. El tema, al estar codificado en un léxico consistente, deja una huella que la vectorización semántica captura de forma directa.
+
+\input{tables/qual_probe_celebracion}
+
+Un caso intermedio lo ofrecen los temas que carecen de una firma léxica tan explícita pero poseen un registro afectivo marcado. La consulta \emph{See You Again} de Wiz Khalifa, un tributo a una persona fallecida, recupera un conglomerado emocionalmente coherente de canciones sobre pérdida y ausencia: \emph{Thru These Tears} de LANY, \emph{Miss Her} de Proleter, \emph{Twenty One} de Khalid e incluso \emph{TheArtOfCremation} de BONES, explícitamente sobre la muerte. No se trata del vocabulario uniforme de un himno de fiesta, pero la carga emocional compartida (la nostalgia, la pérdida, el recuerdo) deja una huella que la representación semántica recupera de forma apreciable. El sistema capta, entonces, no solo el vocabulario literal sino también el registro emocional cuando este es suficientemente consistente.
+
+Los temas abstractos o ideológicos, en el extremo opuesto, se recuperan de manera sólo marginal. El Cuadro~\ref{tab:qual_probe_protesta} muestra el resultado para \emph{Zombie} de The Cranberries, una canción de protesta antibélica. La lista está dominada por vecinos de \textit{rock} genérico afines en sonoridad y energía, y solo una recomendación, \emph{21 Guns} de Green Day (también antibélica), constituye un acierto temático inequívoco. El patrón se repite en otras consultas de la misma naturaleza: \emph{American Idiot} de Green Day recupera un conglomerado de \textit{pop-punk} coherente en sonido pero no en el contenido de protesta, y \emph{Killing In The Name} de Rage Against the Machine recupera rap de registro agresivo antes que otras canciones de crítica social. Las consultas sobre adicción arrojan resultados igualmente mezclados, con la dificultad adicional de que varias canciones canónicas de ese tema no están presentes en el catálogo.
+
+\input{tables/qual_probe_protesta}
+
+La conclusión es matizada y consistente con la naturaleza de la representación empleada, y puede resumirse como un gradiente. El sistema recupera con fiabilidad la similitud de registro, vocabulario y sonoridad; sobre esa base, recupera bien la temática cuando se expresa en un léxico concreto y repetido (fiesta, desamor), y de forma apreciable cuando, sin un léxico tan uniforme, existe un registro afectivo compartido (duelo). En cambio, los temas abstractos o ideológicos (la protesta política), cuya identificación requeriría inferir la intención o el contexto de la letra más allá de las palabras que la componen, quedan capturados de forma sólo marginal. Esta gradación no contradice la utilidad del componente semántico, sino que delimita su alcance: aporta una dimensión de similitud no reducible al género, pero no equivale a una comprensión temática profunda de la letra.
+
+% ---------------------------------------------------------------------------
+% 6.4 — Cross-language
+% ---------------------------------------------------------------------------
+\section{Comportamiento entre Idiomas}
+\label{sec:cross-language}
+
+El sistema emplea un modelo de \textit{embeddings} multilingüe (\texttt{multilingual-e5-small}), elegido para representar en un mismo espacio letras de los treinta y cinco idiomas del catálogo. Cabe preguntarse si esa capacidad multilingüe se traduce en recuperación temática entre idiomas: si una consulta en un idioma recupera canciones de otro con la misma temática. El Cuadro~\ref{tab:qual_crosslanguage} resume la distribución de idiomas de las recomendaciones según el idioma de la consulta.
+
+\input{tables/qual_crosslanguage}
+
+Los datos muestran un comportamiento marcadamente asimétrico y agrupado por idioma. Las consultas en inglés (\emph{Someone Like You}, \emph{Perfect}, \emph{I Gotta Feeling}) recuperan exclusivamente canciones en inglés, sin excepción. Las consultas en español recuperan mayoritariamente español, con alguna incursión en inglés únicamente en el caso de \emph{Vuelve}. La ablación de la Sección~\ref{sec:ablacion-alpha} aclara el origen de esas pocas incursiones: bajo el peso puramente semántico, \emph{Vuelve} recupera diez canciones en español, y las entradas en inglés de la lista híbrida provienen del componente musical, agnóstico al idioma. Es decir, el cruce de idiomas que se observa no lo produce la comprensión semántica multilingüe, sino la proximidad acústica.
+
+La interpretación es que el idioma constituye un eje dominante del espacio semántico: las letras se agrupan primero por idioma y solo dentro de cada idioma por temática y registro. El predominio del inglés en el catálogo (un 84,9\% de las canciones) refuerza este efecto, al poblar densamente el vecindario de cualquier consulta en inglés con otras canciones en inglés. En consecuencia, la capacidad multilingüe del modelo permite representar letras de idiomas diversos en un espacio común, pero no se traduce, en la práctica y con esta distribución de datos, en recuperación temática cruzada entre idiomas. Este matiz se recoge entre las limitaciones del sistema en la Sección~\ref{sec:limitaciones}.
+
+% ---------------------------------------------------------------------------
+% Sintesis
+% ---------------------------------------------------------------------------
+\section{Síntesis}
+\label{sec:sintesis-cualitativa}
+
+La inspección cualitativa confirma que el sistema produce recomendaciones sensatas y sustenta el diseño multimodal, a la vez que delimita su alcance con honestidad. El caso \emph{Vuelve} y la ablación demuestran que las modalidades semántica y musical aportan información complementaria, y que el peso intermedio adoptado explota esa complementariedad de forma observable. Al mismo tiempo, la evidencia acota tres aspectos del comportamiento del sistema: la similitud recuperada es predominantemente de registro y sonoridad, y solo temática cuando el tema tiene una firma léxica concreta; la recuperación entre idiomas está mediada por la modalidad musical y no por la comprensión multilingüe; y la utilidad de las listas finales, ya deduplicadas, queda condicionada por las etiquetas de género e idioma del conjunto de datos, que presentan algunas inconsistencias. Estas tres observaciones, surgidas del comportamiento concreto y no de las cifras agregadas, alimentan directamente la discusión de limitaciones y las futuras líneas de trabajo de las Secciones~\ref{sec:limitaciones} y siguientes.
