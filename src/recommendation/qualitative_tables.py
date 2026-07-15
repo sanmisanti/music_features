@@ -91,7 +91,8 @@ def recommendation_table(block, name, caption, label, note=None):
         f"  \\caption{{{caption}}}",
         f"  \\label{{{label}}}",
         r"  \small",
-        r"  \begin{tabular}{clllccc}",
+        r"  \begin{tabular}{c >{\raggedright\arraybackslash}p{4.5cm} "
+        r">{\raggedright\arraybackslash}p{3.4cm} l c c c}",
         r"    \toprule",
         r"    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\",
         r"    \midrule",
@@ -297,6 +298,20 @@ def main():
         note=r"Tema con firma léxica concreta: el sistema recupera otros himnos "
              r"de fiesta (\emph{Time of Our Lives}, \emph{This Is How We Do It}).",
     )
+    duelo = data["thematic"]["duelo_muerte"]
+    syg = next((b for b in duelo if b.get("found") and "see you again" in _clean_raw(b["query_name"]).lower()), None)
+    if syg:
+        recommendation_table(
+            syg,
+            "qual_probe_duelo",
+            "Probe temático de duelo: \\emph{See You Again} (Wiz Khalifa)",
+            "tab:qual_probe_duelo",
+            note=r"Tema de registro afectivo sin firma léxica única: el sistema "
+                 r"recupera un conglomerado emocional de pérdida y ausencia "
+                 r"(\emph{Thru These Tears}, \emph{Twenty One}), con más cruce de "
+                 r"género que un tema de léxico explícito.",
+        )
+
     protesta = data["thematic"]["protesta_politica"]
     zombie = next((b for b in protesta if b.get("found") and "zombie" in _clean_raw(b["query_name"]).lower()), None)
     if zombie:

@@ -1,0 +1,30 @@
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}
+  \caption{Probe temático de duelo: \emph{See You Again} (Wiz Khalifa)}
+  \label{tab:qual_probe_duelo}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}c >{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{2.8cm} l c c c@{}}
+    \toprule
+    \# & Canción & Artista & Gén. & Idm. & $s_{\text{sem}}$ & $s_{\text{mus}}$ \\
+    \midrule
+    1 & Ladders & Mac Miller & r\&b\textsuperscript{*} & en & 0.912 & 0.889 \\
+    2 & Bad Idea (feat. Chance the Rapper) & YBN Cordae & rap\textsuperscript{*} & en & 0.912 & 0.883 \\
+    3 & Thru These Tears & LANY & pop & en & 0.905 & 0.908 \\
+    4 & Precious & Kevin Garrett & r\&b\textsuperscript{*} & en & 0.905 & 0.896 \\
+    5 & Miss Her & Proleter & edm\textsuperscript{*} & en & 0.903 & 0.896 \\
+    6 & TheArtOfCremation & BONES & rap\textsuperscript{*} & en & 0.900 & 0.908 \\
+    7 & Awake & ayokay & pop & en & 0.905 & 0.883 \\
+    8 & Think About You & Kygo & pop & en & 0.899 & 0.907 \\
+    9 & Twenty One & Khalid & r\&b\textsuperscript{*} & en & 0.897 & 0.916 \\
+    10 & fuck & i'm lonely (with Anne\ldots & pop & en & 0.902 & 0.889 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \small
+    \item Consulta: \emph{See You Again (feat. Charlie Puth)} (pop, en). $s_{\text{sem}}$: similitud coseno semántica; $s_{\text{mus}}$: similitud musical (kernel gaussiano). \textsuperscript{*}: género distinto al de la consulta. La lista se deduplica: una sola grabación por canción (los duplicados exactos del catálogo se colapsan).
+    \item Tema de registro afectivo sin firma léxica única: el sistema recupera un conglomerado emocional de pérdida y ausencia (\emph{Thru These Tears}, \emph{Twenty One}), con más cruce de género que un tema de léxico explícito.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
