@@ -28,7 +28,10 @@ def _fmt(value, decimals=2) -> str:
     if isinstance(value, int):
         return f"{value:,}".replace(",", "\\,")
     if isinstance(value, float):
-        return f"{value:,.{decimals}f}".replace(",", "\\,")
+        # Redondear y sumar 0.0 colapsa el cero con signo (-0.0) a 0.0, evitando
+        # que residuos de punto flotante casi nulos se impriman como "-0.0000".
+        rounded = round(value, decimals) + 0.0
+        return f"{rounded:,.{decimals}f}".replace(",", "\\,")
     return str(value)
 
 
