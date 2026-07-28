@@ -92,7 +92,7 @@
     citecolor=blue!70!black,
     urlcolor=blue!70!black,
     pdftitle={Sistema de Recomendación Musical Multimodal basado en Clustering y Embeddings BERT},
-    pdfauthor={},
+    pdfauthor={Santiago San Miguel, Thiago Cordoba},
     pdfsubject={Tesis de Ingeniería Informática},
 }
 
@@ -131,24 +131,27 @@
 % --- Portada ---
 \begin{titlepage}
 \centering
-\vspace*{2cm}
+\vspace*{1cm}
 
-{\large\textbf{UNIVERSIDAD}}\\ % Completar con nombre de la universidad
+\includegraphics[height=3.5cm]{../images/ucasal.png}\\
+\vspace{1cm}
+
+{\large\textbf{UNIVERSIDAD CATÓLICA DE SALTA}}\\ % Completar con nombre de la universidad
 \vspace{0.3cm}
 {\large Facultad de Ingeniería}\\ % Completar
 \vspace{0.3cm}
 {\large Carrera de Ingeniería Informática}\\ % Completar
 \vspace{3cm}
 
-{\LARGE\textbf{Sistema de Recomendación Musical Multimodal\\basado en Clustering Optimizado\\y Embeddings Semánticos BERT}}\\
+{\LARGE\textbf{Sistema de Recomendación Musical Multimodal}}\\
 \vspace{2cm}
 
 {\large Proyecto de Grado}\\
 \vspace{1.5cm}
 
-{\large\textbf{Autores:} Santiago San Miguel \quad Thiago [Apellido]}\\  % Completar apellido
+{\large\textbf{Autores:} San Miguel, Santiago -  Cordoba, Thiago Omar}\\
 \vspace{0.5cm}
-{\large\textbf{Director:} }\\ % Completar
+{\large\textbf{Director:} Mg. Ing. Rivera Bernsddorff, Fernando Lucas}\\
 \vspace{\fill}
 
 {\large 2026}
@@ -157,13 +160,71 @@
 % --- Paginas preliminares ---
 \pagenumbering{roman}
 
+% --- Pagina de firmas (defensa) ---
+\newcommand{\lineafirma}{\underline{\hspace{6cm}}}
+\thispagestyle{empty}
+
+\noindent\textbf{Título:} ``Sistema de Recomendación Musical Multimodal''
+
+\vspace{0.6cm}
+\noindent\textbf{Carrera:} Ingeniería Informática
+
+\vspace{1.8cm}
+\noindent\textbf{Director:}
+
+\vspace{0.6cm}
+\noindent\begin{tabular}{@{}p{7.5cm}l@{}}
+\textbf{Nombre:} Mg. Ing. Rivera Bernsddorff, Fernando Lucas & \textbf{Firma:} \lineafirma \\
+\end{tabular}
+
+\vspace{1.8cm}
+\noindent\textbf{Tribunal Evaluador:}
+
+\vspace{0.6cm}
+\noindent\begin{tabular}{@{}p{7.5cm}l@{}}
+\textbf{Nombre:} \underline{\hspace{4.5cm}} & \textbf{Firma:} \lineafirma \\[1.2cm]
+\textbf{Nombre:} \underline{\hspace{4.5cm}} & \textbf{Firma:} \lineafirma \\[1.2cm]
+\textbf{Nombre:} \underline{\hspace{4.5cm}} & \textbf{Firma:} \lineafirma \\
+\end{tabular}
+
+\vspace{1.8cm}
+\noindent\textbf{Alumnos:}
+
+\vspace{0.6cm}
+\noindent\begin{tabular}{@{}p{7.5cm}l@{}}
+\textbf{Nombre:} San Miguel, Santiago & \textbf{Firma:} \lineafirma \\[1.2cm]
+\textbf{Nombre:} Cordoba, Thiago Omar & \textbf{Firma:} \lineafirma \\
+\end{tabular}
+
+\vspace{\fill}
+
+\noindent\textbf{Fecha de Exposición:} \underline{\hspace{5cm}}
+
+\clearpage
+
 \chapter*{Resumen}
 \addcontentsline{toc}{chapter}{Resumen}
-% TODO: Escribir al final del proyecto, cuando todos los resultados estén disponibles.
+
+Este trabajo desarrolla un sistema de recomendación musical que integra dos fuentes de información complementarias sobre una misma canción: los descriptores acústicos de la grabación y el contenido semántico de su letra. El punto de partida es una carencia observada en los sistemas de uso masivo, que operan principalmente sobre el comportamiento de los usuarios y las propiedades del audio, mientras que la letra, portadora de temáticas, emociones y narrativas no accesibles desde la señal sonora, permanece como una modalidad subexplorada.
+
+Partiendo de un corpus de 18\,454 canciones con features acústicas de Spotify y letras obtenidas de Genius, se aplicaron filtros de calidad documentados que preservaron 17\,964 registros, con una pérdida total del 2{,}66\% justificada caso por caso. Cada canción se representó mediante dos vectores: uno semántico de 384 dimensiones, generado con el modelo preentrenado \texttt{multilingual-e5-small} sobre la letra completa (con segmentación en fragmentos y agregación por promedio para los textos que exceden la ventana de 512 tokens, lo que evita el sesgo por longitud que introduce el truncamiento), y uno musical de 13 dimensiones, obtenido tras codificar circularmente la tonalidad y estandarizar las features mediante z-score. Un análisis de clustering validó la existencia de estructura en ambos espacios (estadístico de Hopkins de $0{,}9472$ y $0{,}8298$ respectivamente) y cuantificó su complementariedad mediante la información mutua normalizada entre particiones ($0{,}0298$, próxima a la independencia estadística), lo que justifica empíricamente la fusión. La recomendación se resuelve por búsqueda de vecinos más cercanos con fusión tardía de similitudes, ponderadas por un parámetro $\alpha$ ajustado por grid search.
+
+El sistema alcanza su mejor desempeño en $\alpha = 0{,}80$, con una Precision@10 de $0{,}4447$ frente a $0{,}3648$ y $0{,}3613$ de las variantes unimodales musical y semántica, y una cobertura del catálogo del $95{,}54\%$. El análisis cualitativo de recomendaciones reales muestra que la modalidad musical aporta proximidad acústica agnóstica al idioma, mientras que la semántica fija el idioma y el registro expresivo. La evaluación emplea el género musical como proxy de relevancia, decisión declarada desde el diseño experimental y cuyas limitaciones se discuten explícitamente.
+
+\vspace{0.5cm}
+\noindent\textbf{Palabras clave:} sistemas de recomendación, recuperación de información musical, embeddings semánticos, fusión multimodal, clustering, procesamiento de lenguaje natural.
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
-% TODO: Versión en inglés del resumen.
+
+This work develops a music recommendation system that integrates two complementary sources of information about a single song: the acoustic descriptors of the recording and the semantic content of its lyrics. The starting point is a gap observed in widely deployed systems, which operate mainly on user behaviour and audio properties, while lyrics, which carry topics, emotions and narratives that are not accessible from the audio signal, remain an underexplored modality.
+
+Starting from a corpus of 18,454 songs with Spotify acoustic features and lyrics retrieved from Genius, documented quality filters preserved 17,964 records, with a total loss of 2.66\% justified on a case-by-case basis. Each song was represented by two vectors: a 384-dimensional semantic vector, produced by the pretrained \texttt{multilingual-e5-small} model over the full lyrics (with chunking and mean aggregation for texts exceeding the 512-token window, which avoids the length bias introduced by truncation), and a 13-dimensional musical vector, obtained after circularly encoding the musical key and standardising the features through z-score. A clustering analysis validated the presence of structure in both spaces (Hopkins statistic of 0.9472 and 0.8298 respectively) and quantified their complementarity through the normalised mutual information between partitions (0.0298, close to statistical independence), which empirically justifies the fusion. Recommendation is solved by nearest-neighbour search with late fusion of similarities, weighted by a parameter $\alpha$ tuned via grid search.
+
+The system reaches its best performance at $\alpha = 0.80$, with a Precision@10 of 0.4447 against 0.3648 and 0.3613 for the musical and semantic unimodal variants, and a catalogue coverage of 95.54\%. The qualitative analysis of actual recommendations shows that the musical modality contributes language-agnostic acoustic proximity, whereas the semantic one fixes the language and the expressive register. The evaluation uses musical genre as a relevance proxy, a decision stated upfront in the experimental design and whose limitations are discussed explicitly.
+
+\vspace{0.5cm}
+\noindent\textbf{Keywords:} recommender systems, music information retrieval, semantic embeddings, multimodal fusion, clustering, natural language processing.
 
 \tableofcontents
 \listoffigures
