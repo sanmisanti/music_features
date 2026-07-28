@@ -101,6 +101,13 @@
 \DeclareLanguageMapping{spanish}{spanish-apa}
 \addbibresource{bibliography.bib}
 
+% Compactado de la lista de referencias: cuerpo menor e interlineado simple
+% dentro de cada entrada, con separacion reducida entre entradas.
+% Conserva la sangria francesa y el formato APA 7 de biblatex-apa.
+\setlength{\bibitemsep}{2pt}
+\setlength{\bibparsep}{0pt}
+\renewcommand*{\bibfont}{\footnotesize\setstretch{1.0}}
+
 % --- Simbolos unicode ---
 \DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
 \DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma}}
@@ -203,31 +210,44 @@
 \clearpage
 
 \chapter*{Resumen}
+\phantomsection
 \addcontentsline{toc}{chapter}{Resumen}
 
-Este trabajo desarrolla un sistema de recomendación musical que integra dos fuentes de información complementarias sobre una misma canción: los descriptores acústicos de la grabación y el contenido semántico de su letra. El punto de partida es una carencia observada en los sistemas de uso masivo, que operan principalmente sobre el comportamiento de los usuarios y las propiedades del audio, mientras que la letra, portadora de temáticas, emociones y narrativas no accesibles desde la señal sonora, permanece como una modalidad subexplorada.
+El presente trabajo aborda el desarrollo de un sistema de recomendación musical que integra dos dimensiones complementarias de una misma canción: sus propiedades sonoras y el contenido de su letra. Los sistemas de uso extendido fundamentan sus sugerencias en el comportamiento de los oyentes y en descriptores del audio, de modo que la dimensión lírica, portadora de la temática, la carga emocional y la narrativa de la canción, permanece escasamente aprovechada como criterio de recomendación.
 
-Partiendo de un corpus de 18\,454 canciones con features acústicas de Spotify y letras obtenidas de Genius, se aplicaron filtros de calidad documentados que preservaron 17\,964 registros, con una pérdida total del 2{,}66\% justificada caso por caso. Cada canción se representó mediante dos vectores: uno semántico de 384 dimensiones, generado con el modelo preentrenado \texttt{multilingual-e5-small} sobre la letra completa (con segmentación en fragmentos y agregación por promedio para los textos que exceden la ventana de 512 tokens, lo que evita el sesgo por longitud que introduce el truncamiento), y uno musical de 13 dimensiones, obtenido tras codificar circularmente la tonalidad y estandarizar las features mediante z-score. Un análisis de clustering validó la existencia de estructura en ambos espacios (estadístico de Hopkins de $0{,}9472$ y $0{,}8298$ respectivamente) y cuantificó su complementariedad mediante la información mutua normalizada entre particiones ($0{,}0298$, próxima a la independencia estadística), lo que justifica empíricamente la fusión. La recomendación se resuelve por búsqueda de vecinos más cercanos con fusión tardía de similitudes, ponderadas por un parámetro $\alpha$ ajustado por grid search.
+Sobre un conjunto de datos que reúne descriptores musicales y letras de un catálogo de canciones populares, cada obra se caracteriza mediante dos representaciones, una construida a partir de sus atributos musicales y otra derivada de la letra mediante un modelo de lenguaje preentrenado, que permite comparar textos escritos en distintos idiomas bajo un mismo criterio de significado. Dada una canción de referencia, el sistema identifica las obras más afines en cada representación y las integra en una recomendación única, ponderando la contribución de cada dimensión.
 
-El sistema alcanza su mejor desempeño en $\alpha = 0{,}80$, con una Precision@10 de $0{,}4447$ frente a $0{,}3648$ y $0{,}3613$ de las variantes unimodales musical y semántica, y una cobertura del catálogo del $95{,}54\%$. El análisis cualitativo de recomendaciones reales muestra que la modalidad musical aporta proximidad acústica agnóstica al idioma, mientras que la semántica fija el idioma y el registro expresivo. La evaluación emplea el género musical como proxy de relevancia, decisión declarada desde el diseño experimental y cuyas limitaciones se discuten explícitamente.
+Los resultados obtenidos indican que la integración de ambas dimensiones supera el desempeño de cada una considerada de forma aislada, con predominio del contenido lírico en la combinación, y que las recomendaciones abarcan casi la totalidad del catálogo sin concentrarse en un subconjunto reducido de obras. El análisis de casos particulares evidencia una división de funciones entre ambas dimensiones: la musical determina la afinidad sonora, mientras que la lírica establece la correspondencia temática e idiomática. El sistema desarrollado muestra así que el contenido lírico constituye una señal de recomendación aprovechable, capaz de complementar a la descripción sonora en la caracterización de la afinidad entre canciones.
 
 \vspace{0.5cm}
-\noindent\textbf{Palabras clave:} sistemas de recomendación, recuperación de información musical, embeddings semánticos, fusión multimodal, clustering, procesamiento de lenguaje natural.
+\noindent\textbf{Palabras clave:} sistemas de recomendación, recuperación de información musical, análisis de letras, embeddings semánticos, fusión multimodal.
+
+\clearpage
 
 \chapter*{Abstract}
+\phantomsection
 \addcontentsline{toc}{chapter}{Abstract}
 
-This work develops a music recommendation system that integrates two complementary sources of information about a single song: the acoustic descriptors of the recording and the semantic content of its lyrics. The starting point is a gap observed in widely deployed systems, which operate mainly on user behaviour and audio properties, while lyrics, which carry topics, emotions and narratives that are not accessible from the audio signal, remain an underexplored modality.
+This work addresses the development of a music recommendation system that integrates two complementary dimensions of a single song: its sonic properties and the content of its lyrics. Widely adopted systems ground their suggestions in listener behaviour and audio descriptors, so that the lyrical dimension, which carries the themes, the emotional charge and the narrative of a song, remains scarcely exploited as a recommendation criterion.
 
-Starting from a corpus of 18,454 songs with Spotify acoustic features and lyrics retrieved from Genius, documented quality filters preserved 17,964 records, with a total loss of 2.66\% justified on a case-by-case basis. Each song was represented by two vectors: a 384-dimensional semantic vector, produced by the pretrained \texttt{multilingual-e5-small} model over the full lyrics (with chunking and mean aggregation for texts exceeding the 512-token window, which avoids the length bias introduced by truncation), and a 13-dimensional musical vector, obtained after circularly encoding the musical key and standardising the features through z-score. A clustering analysis validated the presence of structure in both spaces (Hopkins statistic of 0.9472 and 0.8298 respectively) and quantified their complementarity through the normalised mutual information between partitions (0.0298, close to statistical independence), which empirically justifies the fusion. Recommendation is solved by nearest-neighbour search with late fusion of similarities, weighted by a parameter $\alpha$ tuned via grid search.
+Drawing on a dataset that brings together musical descriptors and lyrics from a catalogue of popular songs, each song is characterised through two representations, one built from its musical attributes and another derived from the lyrics by means of a pretrained language model, which allows texts written in different languages to be compared under a common criterion of meaning. Given a reference song, the system identifies the most closely related songs in each representation and integrates them into a single recommendation, weighting the contribution of each dimension.
 
-The system reaches its best performance at $\alpha = 0.80$, with a Precision@10 of 0.4447 against 0.3648 and 0.3613 for the musical and semantic unimodal variants, and a catalogue coverage of 95.54\%. The qualitative analysis of actual recommendations shows that the musical modality contributes language-agnostic acoustic proximity, whereas the semantic one fixes the language and the expressive register. The evaluation uses musical genre as a relevance proxy, a decision stated upfront in the experimental design and whose limitations are discussed explicitly.
+The results obtained indicate that integrating both dimensions outperforms either one considered in isolation, with the lyrical content predominating in the combination, and that the recommendations span almost the entire catalogue rather than concentrating on a reduced subset of songs. The analysis of individual cases reveals a division of roles between the two dimensions: the musical one determines sonic affinity, whereas the lyrical one establishes thematic and linguistic correspondence. The system thus shows that lyrical content constitutes a usable recommendation signal, able to complement the sonic description in characterising the affinity between songs.
 
 \vspace{0.5cm}
-\noindent\textbf{Keywords:} recommender systems, music information retrieval, semantic embeddings, multimodal fusion, clustering, natural language processing.
+\noindent\textbf{Keywords:} recommender systems, music information retrieval, lyrics analysis, semantic embeddings, multimodal fusion.
 
+\clearpage
 \tableofcontents
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
 
 % --- Cuerpo principal ---
