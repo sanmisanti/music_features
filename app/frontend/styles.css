@@ -227,6 +227,10 @@ em.mus { color: var(--mus); font-style: italic; }
   gap: 2.4rem;
   align-items: start;
 }
+/* `display: grid` gana sobre el `display: none` que el navegador aplica al
+   atributo `hidden`: sin esta regla el tablero vacio se ve antes de elegir
+   semilla. */
+.board[hidden] { display: none; }
 
 /* panel de consulta */
 .query-panel {

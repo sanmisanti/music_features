@@ -63,3 +63,9 @@ El arranque tarda unos segundos: carga el NPZ (~28 MB) y calcula `sigma`.
   (acordeón: uno a la vez) para escucharla sin alterar la semilla ni la lista.
 - El botón `↻ similares` de cada fila la usa como nueva semilla, permitiendo
   navegar el grafo de similitudes.
+- La lista servida se **deduplica** (`RecommenderService.recommend(deduplicate=True)`,
+  valor por defecto): el catálogo contiene la misma grabación con `track_id`
+  distintos y no tiene sentido ofrecerla dos veces. Se colapsa por
+  (título, artista) normalizados y por identidad de vector; las variantes
+  legítimas (en vivo, remaster, cover) se conservan. La evaluación cuantitativa
+  de la Etapa 5 opera sobre listas **sin** deduplicar y no se ve afectada.

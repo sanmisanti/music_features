@@ -18,12 +18,24 @@ import numpy as np
 from scipy.spatial.distance import cdist
 
 from src.config import RECOMMENDATION_TOP_K, UNIFIED_DATASET
-from src.recommendation.engine import compute_sigma, gaussian_kernel
+from src.recommendation.engine import (
+    DEDUP_OVERFETCH_FACTOR,
+    DEDUP_OVERFETCH_MIN,
+    compute_duplicate_groups,
+    compute_sigma,
+    gaussian_kernel,
+)
 
 logger = logging.getLogger(__name__)
 
 # Peso de fusion optimo hallado por grid search en la Etapa 5 (peso semantico).
 DEFAULT_ALPHA = 0.80
+
+# Umbrales de identidad de grabacion: dos entradas con letra identica y audio
+# practicamente identico son la misma grabacion aunque sus metadatos difieran.
+# Replican los de `engine.recommend_all` para mantener un unico criterio.
+IDENTICAL_SEMANTIC = 0.9999
+IDENTICAL_MUSICAL = 0.999
 
 
 class RecommenderService:
@@ -59,6 +71,12 @@ class RecommenderService:
         # garantizando que las similitudes musicales sean identicas a la Etapa 5.
         logger.info("Calculando sigma del kernel gaussiano (muestra reproducible)...")
         self.sigma: float = compute_sigma(self.musical)
+
+        # Grupos de duplicados para depurar la lista servida al usuario. La
+        # evaluacion de la Etapa 5 opera sobre listas sin deduplicar (los
+        # duplicados validan la medida de similitud); aqui se aplica porque no
+        # tiene sentido ofrecer dos veces la misma grabacion.
+        self.dup_groups: np.ndarray = compute_duplicate_groups(self.names, self.artists)
 
         logger.info(
             "Servicio listo: %d canciones, dim semantica=%d, dim musical=%d, sigma=%.4f",
@@ -128,6 +146,7 @@ class RecommenderService:
         idx: int,
         alpha: float = DEFAULT_ALPHA,
         k: int = RECOMMENDATION_TOP_K,
+        deduplicate: bool = True,
     ) -> Dict:
         """
         Genera las top-k recomendaciones para la cancion `idx` aplicando
@@ -135,6 +154,11 @@ class RecommenderService:
 
         Replica `recommend_all` del motor para una unica fila, sin construir
         matrices N x N.
+
+        Con `deduplicate=True` la lista servida se depura: una sola grabacion
+        por grupo de duplicados, excluyendo el grupo de la propia consulta.
+        Las variantes legitimas (version en vivo, remaster, cover) difieren en
+        el vector musical y se conservan.
         """
         if not 0 <= idx < self.n:
             raise IndexError(f"Indice fuera de rango: {idx}")
@@ -154,9 +178,46 @@ class RecommenderService:
         fused = alpha * sim_semantic + (1.0 - alpha) * sim_musical
         fused[idx] = -np.inf  # excluir self-recommendation
 
-        # Top-k eficiente (O(N)) y orden descendente sobre los candidatos.
-        top = np.argpartition(fused, -k)[-k:]
-        top = top[np.argsort(-fused[top])]
+        if not deduplicate:
+            # Top-k eficiente (O(N)) y orden descendente sobre los candidatos.
+            top = np.argpartition(fused, -k)[-k:]
+            top = top[np.argsort(-fused[top])]
+        else:
+            # Se sobre-muestrea para poder colapsar duplicados y aun completar
+            # k recomendaciones distintas.
+            over_k = min(
+                self.n - 1, max(k * DEDUP_OVERFETCH_FACTOR, DEDUP_OVERFETCH_MIN)
+            )
+            candidates = np.argpartition(fused, -over_k)[-over_k:]
+            candidates = candidates[np.argsort(-fused[candidates])]
+
+            q_group = self.dup_groups[idx]
+            seen_groups: set = set()
+            seen_sigs: set = set()
+            picked: List[int] = []
+
+            for j in candidates:
+                # Misma grabacion que la consulta con metadatos distintos: el
+                # nombre no la agrupa, pero el par de similitudes la delata.
+                if (sim_semantic[j] >= IDENTICAL_SEMANTIC
+                        and sim_musical[j] >= IDENTICAL_MUSICAL):
+                    continue
+                g = self.dup_groups[j]
+                if g == q_group or g in seen_groups:
+                    continue
+                # Copias entre si (no de la consulta): comparten firma exacta
+                # de similitud en ambas modalidades. Una variante legitima no.
+                sig = (round(float(sim_semantic[j]), 5),
+                       round(float(sim_musical[j]), 5))
+                if sig in seen_sigs:
+                    continue
+                seen_groups.add(g)
+                seen_sigs.add(sig)
+                picked.append(int(j))
+                if len(picked) == k:
+                    break
+
+            top = np.asarray(picked, dtype=np.int64)
 
         recommendations = []
         for rank, j in enumerate(top, start=1):

@@ -1,0 +1,578 @@
+{
+  "generated_at": "2026-08-02T20:18:57",
+  "base_url": "http://127.0.0.1:8000",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "device_scale_factor": 2,
+  "output_dir": "thesis\\figures\\app",
+  "captures": [
+    {
+      "figure": "app_01_estado_inicial",
+      "description": "Pantalla inicial con los metadatos del catalogo."
+    },
+    {
+      "figure": "app_02_busqueda",
+      "description": "Autocompletado para la consulta 'Vuelve'.",
+      "state": {
+        "query_text": "Vuelve",
+        "results": [
+          {
+            "name": "Vuelve",
+            "artist": "Ricky Martin",
+            "genre": "latin"
+          },
+          {
+            "name": "Vuelve a Mi",
+            "artist": "Micro Tdh",
+            "genre": "rap"
+          },
+          {
+            "name": "Vuelve - MTV Unplugged Version",
+            "artist": "Ricky Martin",
+            "genre": "latin"
+          },
+          {
+            "name": "Devuelveme",
+            "artist": "Ozuna",
+            "genre": "latin"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_03_tablero_alpha080",
+      "description": "Tablero de recomendacion para la semilla latina al alpha optimo.",
+      "state": {
+        "name": "Vuelve",
+        "artist": "Ricky Martin",
+        "genre": "latin",
+        "alpha": "0.80",
+        "k": "10",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "Vuelve - MTV Unplugged Version",
+            "artist": "Ricky Martin",
+            "genre": "latin",
+            "score": "0.922"
+          },
+          {
+            "rank": "2",
+            "name": "No Te Olvidaré",
+            "artist": "Gloria Estefan",
+            "genre": "latin",
+            "score": "0.907"
+          },
+          {
+            "rank": "3",
+            "name": "Cicatrices",
+            "artist": "Kalimba",
+            "genre": "latin",
+            "score": "0.905"
+          },
+          {
+            "rank": "4",
+            "name": "Me Dediqué a Perderte",
+            "artist": "Alejandro Fernandez",
+            "genre": "latin",
+            "score": "0.903"
+          },
+          {
+            "rank": "5",
+            "name": "Just the Way You Are",
+            "artist": "Billy Joel",
+            "genre": "rock",
+            "score": "0.901"
+          },
+          {
+            "rank": "6",
+            "name": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "pop",
+            "score": "0.900"
+          },
+          {
+            "rank": "7",
+            "name": "At The Same Time",
+            "artist": "Eric Roberson",
+            "genre": "r&b",
+            "score": "0.900"
+          },
+          {
+            "rank": "8",
+            "name": "Si Te Vas",
+            "artist": "Lit Killah",
+            "genre": "rap",
+            "score": "0.900"
+          },
+          {
+            "rank": "9",
+            "name": "Flotando",
+            "artist": "Francisca Valenzuela",
+            "genre": "latin",
+            "score": "0.899"
+          },
+          {
+            "rank": "10",
+            "name": "No Te Cuesta Nada",
+            "artist": "Javiera Mena",
+            "genre": "pop",
+            "score": "0.898"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_04_ablacion_alpha000",
+      "description": "Misma semilla con alpha = 0,00: recomendacion puramente musical.",
+      "state": {
+        "name": "Vuelve",
+        "artist": "Ricky Martin",
+        "genre": "latin",
+        "alpha": "0.00",
+        "k": "10",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "At The Same Time",
+            "artist": "Eric Roberson",
+            "genre": "r&b",
+            "score": "0.972"
+          },
+          {
+            "rank": "2",
+            "name": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "pop",
+            "score": "0.964"
+          },
+          {
+            "rank": "3",
+            "name": "Remember the Rain",
+            "artist": "Kadhja Bonet",
+            "genre": "r&b",
+            "score": "0.963"
+          },
+          {
+            "rank": "4",
+            "name": "Just the Way You Are",
+            "artist": "Billy Joel",
+            "genre": "rock",
+            "score": "0.958"
+          },
+          {
+            "rank": "5",
+            "name": "Glory",
+            "artist": "Bastille",
+            "genre": "pop",
+            "score": "0.953"
+          },
+          {
+            "rank": "6",
+            "name": "My World",
+            "artist": "OSHUN",
+            "genre": "r&b",
+            "score": "0.950"
+          },
+          {
+            "rank": "7",
+            "name": "Have Yourself A Merry Little Christmas",
+            "artist": "Ledisi",
+            "genre": "r&b",
+            "score": "0.950"
+          },
+          {
+            "rank": "8",
+            "name": "Beggar's Song",
+            "artist": "Matt Maeson",
+            "genre": "pop",
+            "score": "0.949"
+          },
+          {
+            "rank": "9",
+            "name": "Shine",
+            "artist": "Collective Soul",
+            "genre": "rock",
+            "score": "0.944"
+          },
+          {
+            "rank": "10",
+            "name": "Wild Horses",
+            "artist": "The Rolling Stones",
+            "genre": "rock",
+            "score": "0.940"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_05_ablacion_alpha100",
+      "description": "Misma semilla con alpha = 1,00: recomendacion puramente semantica.",
+      "state": {
+        "name": "Vuelve",
+        "artist": "Ricky Martin",
+        "genre": "latin",
+        "alpha": "1.00",
+        "k": "10",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "Vuelve - MTV Unplugged Version",
+            "artist": "Ricky Martin",
+            "genre": "latin",
+            "score": "1.000"
+          },
+          {
+            "rank": "2",
+            "name": "No Te Veo - Digital Single",
+            "artist": "Casa De Leones",
+            "genre": "latin",
+            "score": "0.937"
+          },
+          {
+            "rank": "3",
+            "name": "Pensando en Ti",
+            "artist": "Canserbero",
+            "genre": "rock",
+            "score": "0.935"
+          },
+          {
+            "rank": "4",
+            "name": "La Forma en Que Me Miras",
+            "artist": "Super Yei",
+            "genre": "rap",
+            "score": "0.929"
+          },
+          {
+            "rank": "5",
+            "name": "Se Me Acaba",
+            "artist": "Morbo",
+            "genre": "pop",
+            "score": "0.929"
+          },
+          {
+            "rank": "6",
+            "name": "La Marcha De Los Tristes",
+            "artist": "Lng Sht",
+            "genre": "rap",
+            "score": "0.928"
+          },
+          {
+            "rank": "7",
+            "name": "El Toque del Amor",
+            "artist": "Dragon & Caballero",
+            "genre": "latin",
+            "score": "0.928"
+          },
+          {
+            "rank": "8",
+            "name": "Obsesion",
+            "artist": "Aventura",
+            "genre": "latin",
+            "score": "0.927"
+          },
+          {
+            "rank": "9",
+            "name": "Me Niego (feat. Ozuna & Wisin)",
+            "artist": "Reik",
+            "genre": "latin",
+            "score": "0.927"
+          },
+          {
+            "rank": "10",
+            "name": "Te Vas Arrepentir - Remix",
+            "artist": "Chris Wandell",
+            "genre": "latin",
+            "score": "0.927"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_06_k5",
+      "description": "Semilla de rap con lista corta (k = 5).",
+      "state": {
+        "name": "Lose Yourself - Soundtrack Version",
+        "artist": "Eminem",
+        "genre": "rap",
+        "alpha": "0.80",
+        "k": "5",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "Future",
+            "artist": "DJ Khaled",
+            "genre": "rap",
+            "score": "0.940"
+          },
+          {
+            "rank": "2",
+            "name": "ICONIC (ft. Jaden Smith)",
+            "artist": "Logic",
+            "genre": "rap",
+            "score": "0.928"
+          },
+          {
+            "rank": "3",
+            "name": "APESHIT",
+            "artist": "The Carters",
+            "genre": "r&b",
+            "score": "0.924"
+          },
+          {
+            "rank": "4",
+            "name": "MotorSport",
+            "artist": "Migos",
+            "genre": "r&b",
+            "score": "0.924"
+          },
+          {
+            "rank": "5",
+            "name": "'Till I Collapse",
+            "artist": "Eminem",
+            "genre": "rap",
+            "score": "0.922"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_07_k20",
+      "description": "Misma semilla con lista extendida (k = 20).",
+      "state": {
+        "name": "Lose Yourself - Soundtrack Version",
+        "artist": "Eminem",
+        "genre": "rap",
+        "alpha": "0.80",
+        "k": "20",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "Future",
+            "artist": "DJ Khaled",
+            "genre": "rap",
+            "score": "0.940"
+          },
+          {
+            "rank": "2",
+            "name": "ICONIC (ft. Jaden Smith)",
+            "artist": "Logic",
+            "genre": "rap",
+            "score": "0.928"
+          },
+          {
+            "rank": "3",
+            "name": "APESHIT",
+            "artist": "The Carters",
+            "genre": "r&b",
+            "score": "0.924"
+          },
+          {
+            "rank": "4",
+            "name": "MotorSport",
+            "artist": "Migos",
+            "genre": "r&b",
+            "score": "0.924"
+          },
+          {
+            "rank": "5",
+            "name": "'Till I Collapse",
+            "artist": "Eminem",
+            "genre": "rap",
+            "score": "0.922"
+          },
+          {
+            "rank": "6",
+            "name": "Get Back",
+            "artist": "Ludacris",
+            "genre": "rap",
+            "score": "0.919"
+          },
+          {
+            "rank": "7",
+            "name": "Mamacita",
+            "artist": "OutKast",
+            "genre": "rap",
+            "score": "0.919"
+          },
+          {
+            "rank": "8",
+            "name": "SICKO MODE - Skrillex Remix",
+            "artist": "Travis Scott",
+            "genre": "rap",
+            "score": "0.919"
+          },
+          {
+            "rank": "9",
+            "name": "Soul Food",
+            "artist": "Logic",
+            "genre": "rap",
+            "score": "0.918"
+          },
+          {
+            "rank": "10",
+            "name": "Till The End",
+            "artist": "Logic",
+            "genre": "rap",
+            "score": "0.916"
+          },
+          {
+            "rank": "11",
+            "name": "Fast Lane",
+            "artist": "Bad Meets Evil",
+            "genre": "rap",
+            "score": "0.916"
+          },
+          {
+            "rank": "12",
+            "name": "Emotionless",
+            "artist": "Drake",
+            "genre": "r&b",
+            "score": "0.916"
+          },
+          {
+            "rank": "13",
+            "name": "Mama Always Told Me",
+            "artist": "Silkk The Shocker",
+            "genre": "rap",
+            "score": "0.916"
+          },
+          {
+            "rank": "14",
+            "name": "Deuces Remix",
+            "artist": "Chris Brown",
+            "genre": "r&b",
+            "score": "0.915"
+          },
+          {
+            "rank": "15",
+            "name": "\"Work REMIX (feat. A$AP Rocky",
+            "artist": " French Montana",
+            "genre": "rap",
+            "score": "0.915"
+          },
+          {
+            "rank": "16",
+            "name": "Sweet Life",
+            "artist": "Jeezy",
+            "genre": "pop",
+            "score": "0.912"
+          },
+          {
+            "rank": "17",
+            "name": "We All Die One Day",
+            "artist": "Obie Trice",
+            "genre": "rap",
+            "score": "0.911"
+          },
+          {
+            "rank": "18",
+            "name": "Kings & Queens (feat. Run The Jewels)",
+            "artist": "DJ Shadow",
+            "genre": "rap",
+            "score": "0.910"
+          },
+          {
+            "rank": "19",
+            "name": "PAID MY DUES",
+            "artist": "NF",
+            "genre": "rap",
+            "score": "0.909"
+          },
+          {
+            "rank": "20",
+            "name": "Red Eye (feat. WSTRN & Lil Baby)",
+            "artist": "The Plug",
+            "genre": "r&b",
+            "score": "0.908"
+          }
+        ]
+      }
+    },
+    {
+      "figure": "app_08_aleatoria",
+      "description": "Semilla obtenida con el boton de seleccion aleatoria.",
+      "state": {
+        "name": "Rude Boy",
+        "artist": "Rihanna",
+        "genre": "rap",
+        "alpha": "0.80",
+        "k": "10",
+        "recommendations": [
+          {
+            "rank": "1",
+            "name": "Already Love",
+            "artist": "Great Good Fine Ok",
+            "genre": "pop",
+            "score": "0.922"
+          },
+          {
+            "rank": "2",
+            "name": "Get Weird",
+            "artist": "Liimo",
+            "genre": "pop",
+            "score": "0.918"
+          },
+          {
+            "rank": "3",
+            "name": "Whatcha Say",
+            "artist": "Jason Derulo",
+            "genre": "pop",
+            "score": "0.918"
+          },
+          {
+            "rank": "4",
+            "name": "Genie In a Bottle",
+            "artist": "Christina Aguilera",
+            "genre": "pop",
+            "score": "0.917"
+          },
+          {
+            "rank": "5",
+            "name": "Meant to Be (feat. Florida Georgia Line)",
+            "artist": "Bebe Rexha",
+            "genre": "latin",
+            "score": "0.911"
+          },
+          {
+            "rank": "6",
+            "name": "Hurtin' Me",
+            "artist": "Stefflon Don",
+            "genre": "pop",
+            "score": "0.911"
+          },
+          {
+            "rank": "7",
+            "name": "Black Widow",
+            "artist": "Iggy Azalea",
+            "genre": "pop",
+            "score": "0.911"
+          },
+          {
+            "rank": "8",
+            "name": "All I Ever Need",
+            "artist": "Austin Mahone",
+            "genre": "pop",
+            "score": "0.909"
+          },
+          {
+            "rank": "9",
+            "name": "Something's Got To Give",
+            "artist": "Labrinth",
+            "genre": "r&b",
+            "score": "0.906"
+          },
+          {
+            "rank": "10",
+            "name": "Boyfriend",
+            "artist": "Big Time Rush",
+            "genre": "pop",
+            "score": "0.903"
+          }
+        ]
+      }
+    }
+  ]
+}
